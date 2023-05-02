@@ -80,8 +80,6 @@ Convention 3: In the event that a team member misses a deadline, they will commu
 Convention 4: The team will keep track of all deadlines and progress using a shared project management tool or platform (Notion).
 Convention 5: All team members will be responsible for reviewing and submitting final deliverables by the designated deadlines.
 
-*N.B. 
-
 ## Git Workflow
 
 There are many git workflows possible when working on a team project with many moving parts.
