@@ -46,4 +46,5 @@ vignettes/*.pdf
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
 
-
+# CSV
+*.csv
