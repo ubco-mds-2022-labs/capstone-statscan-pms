@@ -52,11 +52,11 @@ To accomplish this goal, below are five concrete ideas that we all agree to rega
 The code of conduct we have chosen is in the [Code of Conduct](./CODE_OF_CONDUCT.md) document.
 All team members agree to following the code of conduct, and below are five concrete escalation steps that we all agree to follow in the event that the code of conduct is violated by any member of the group (Step 1 is the first thing you will do, and Step 5 is the last thing you will do).
 
-Step 1: The team member who is affected by the violation should speak privately with the member who has violated the code of conduct and try to resolve the issue.
-Step 2: If the issue cannot be resolved, or if it is too difficult for the team member to confront the violator, they should escalate the issue to a neutral third party who can mediate the situation.
-Step 3: If the issue is still unresolved, the team member should report the violation to the team leader or project manager, who can take further action.
-Step 4: If the violation persists or if it is serious enough, the team leader or project manager may escalate the issue to the course instructor or supervisor.
-Step 5: In the event that none of the previous steps have resolved the issue, the team members may agree to leave the matter to the discretion of the course instructor or supervisor to mediate the conflict and determine the best course of action for the team.
+1. The team member who is affected by the violation should speak privately with the member who has violated the code of conduct and try to resolve the issue.
+2. If the issue cannot be resolved, or if it is too difficult for the team member to confront the violator, they should escalate the issue to a neutral third party who can mediate the situation.
+3. If the issue is still unresolved, the team member should report the violation to the team leader or project manager, who can take further action.
+4. If the violation persists or if it is serious enough, the team leader or project manager may escalate the issue to the course instructor or supervisor.
+5. In the event that none of the previous steps have resolved the issue, the team members may agree to leave the matter to the discretion of the course instructor or supervisor to mediate the conflict and determine the best course of action for the team.
 
 ## Conflict Management
 
@@ -73,12 +73,11 @@ You may also include things you will NOT do in the event a conflict arises.
 ## Deadlines
 
 All team members agree to the following conventions around course deadlines:
-
-Convention 1: All team members will prioritize meeting deadlines and will inform the rest of the team as soon as possible if they are unable to meet a deadline.
-Convention 2: The team will work together to set realistic deadlines for each project milestone and will adjust them as needed based on progress and unforeseen circumstances.
-Convention 3: In the event that a team member misses a deadline, they will communicate with the rest of the team to discuss the impact and any necessary adjustments to the project plan.
-Convention 4: The team will keep track of all deadlines and progress using a shared project management tool or platform (Notion).
-Convention 5: All team members will be responsible for reviewing and submitting final deliverables by the designated deadlines.
+1. Convention 1: All team members will prioritize meeting deadlines and will inform the rest of the team as soon as possible if they are unable to meet a deadline.
+2. Convention 2: The team will work together to set realistic deadlines for each project milestone and will adjust them as needed based on progress and unforeseen circumstances.
+3. Convention 3: In the event that a team member misses a deadline, they will communicate with the rest of the team to discuss the impact and any necessary adjustments to the project plan.
+4. Convention 4: The team will keep track of all deadlines and progress using a shared project management tool or platform (Notion).
+5. Convention 5: All team members will be responsible for reviewing and submitting final deliverables by the designated deadlines.
 
 ## Git Workflow
 
