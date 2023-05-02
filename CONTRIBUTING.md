@@ -30,7 +30,7 @@ Communication Channels
 We use the following communication channels to discuss the project:
 
 
--   [GitHub Issues](https://github.com/ubco-mds-2022-labs/capstone-statscan-pms/): This is where we keep track of bugs, enhancements, and other issues related to the project.
+-   [GitHub Discussions](https://github.com/ubco-mds-2022-labs/capstone-statscan-pms/discussions/): This is where we keep track of bugs, enhancements, and other issues related to the project.
 
 
 How to Submit Changes
@@ -46,9 +46,9 @@ If you're new to the project, we recommend starting with some of our Good First 
 How to Report a Bug
 -------------------
 
-If you come across a bug while using the dashboard, please report it by opening an issue in our GitHub repository. Be sure to include as much detail as possible so that we can identify and fix the issue as quickly as possible.
+If you come across a bug, please report it by opening an issue in our GitHub repository. Be sure to include as much detail as possible so that we can identify and fix the issue as quickly as possible.
 
 Getting Help
 ------------
 
-If you have any questions or need help with the project, please don't hesitate to reach out. You can contact us by emailing noman0786@hotmail.com.
+If you have any questions or need help with the project, please don't hesitate to reach out. You can contact us [here](https://github.com/ubco-mds-2022-labs/capstone-statscan-pms/discussions/).
