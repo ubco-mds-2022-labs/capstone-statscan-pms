@@ -46,23 +46,23 @@ mylog <- data.frame(week = 1,
 
 ```{r}
 current.week = 0
-
-mylog <- mylog %>% add_row(week = current.week,
-                       day=as.Date("2023-05-02"), 
-                       hours=2,
-                       description="Activity during class to figure this out",
-                       comments="Refreshed memory on RMarkdown"
-                       )
-
-mylog <- mylog %>% add_row(week = current.week,
-                       day=as.Date("2023-05-02"), 
-                       hours=3,
-                       description="Troubleshooted RStudio and my R installation",
-                       comments=""
-                       )
-
-
-kable(mylog)
+# 
+# mylog <- mylog %>% add_row(week = current.week,
+#                        day=as.Date("2023-05-02"), 
+#                        hours=2,
+#                        description="Activity during class to figure this out",
+#                        comments="Refreshed memory on RMarkdown"
+#                        )
+# 
+# mylog <- mylog %>% add_row(week = current.week,
+#                        day=as.Date("2023-05-02"), 
+#                        hours=3,
+#                        description="Troubleshooted RStudio and my R installation",
+#                        comments=""
+#                        )
+# 
+# 
+# kable(mylog)
 ```
 My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
 
@@ -84,18 +84,24 @@ Add individual contributions here (be sure to call the **tidyverse** and **knitr
 current.week = current.week + 1
 
 mylog <- mylog %>% add_row(week = current.week,
-                       day=as.Date("2023-04-16"), 
-                       hours=2,
-                       description="Brainstorming meeting with Firas",
-                       comments="Changed marking schemes and edited rubrics"
+                       day=as.Date("2023-05-01"), 
+                       hours=4,
+                       description="Project prep",
+                       comments="Reading papers, getting oriented on project, etc."
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-02"), 
+                       hours=1.5,
+                       description="Team meeting",
+                       comments="Team meeting: code of conduct, README, contributing, team conduct documents."
                        )
 
 
-mylog <- mylog %>% add_row(week = current.week,
-                       day=as.Date("2023-04-27"), # for today's date
-                       hours=4,
-                       description="Populating the DATA 599 repo")
-# I don't have any comments to me
+# mylog <- mylog %>% add_row(week = current.week,
+#                        day=as.Date("2023-04-27"), # for today's date
+#                        hours=4,
+#                        description="Populating the DATA 599 repo")
 
 
 kable(mylog)
