@@ -1,0 +1,129 @@
+---
+title: "data_analysis"
+output: pdf_document
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(factoextra)
+```
+
+## Import data
+
+```{r}
+pmd <- read.csv("../../data/pmd-en.csv")
+head(pmd, 3)
+```
+
+```{r}
+# no. of rows and columns
+dim(pmd)
+```
+
+489676 rows and 41 columns
+
+```{r}
+# dataset summary
+str(pmd)
+```
+
+```{r}
+
+
+# Convert columns that start with "prox_idx" to numeric
+pmd <- pmd %>%
+  mutate_at(vars(starts_with("prox_idx")), as.numeric)
+
+
+```
+
+
+```{r}
+# percentage of missing values in each column in dataset
+p <- function(x) {sum(is.na(x))/length(x)*100}
+sort(apply(pmd, 2, p), decreasing = TRUE) # marmin = 2 means function will be applied in each column 
+```
+
+In head of dataset we saw there were missing values in `prox_idx_lib` but the above output suggest there is no missing values. Because Statistics Canada use some specific notation for missing values. The following standard symbols are used in Statistics Canada publications:  
+$.. ->$ not available for a specific reference period  
+$F ->$ to unreliable to be published
+
+```{r}
+# percentage of missing values in each column
+p <- function(x) {sum(x == ".." | x == "F")/length(x)*100}
+sort(apply(pmd, 2, p), decreasing = TRUE)
+```
+
+```{r}
+# Remove rows with ".." or "F" values in proximity columns
+pmd_filtered <- pmd %>%
+  filter_at(vars(starts_with("prox_idx")), all_vars(. != ".." & . != "F"))
+```
+
+```{r}
+# no. of rows and columns in filtered dataset
+dim(pmd_filtered)
+```
+
+
+```{r}
+p <- function(x) {sum(x == ".." | x == "F")/length(x)*100}
+sort(apply(pmd_filtered, 2, p), decreasing = TRUE)
+```
+
+```{r}
+# Remove specified columns from dataset
+df_filtered <- select(pmd_filtered, -DBUID, -DBPOP, -DAUID, -DAPOP, -CSDUID, -CSDNAME, -CMAPUID,
+                      -CSDTYPE, -CSDPOP, -CMANAME, -CMATYPE, -CMAPOP, -PRUID, -PRNAME, -PRPOP, -CMAUID)
+```
+
+```{r}
+any(is.na(df_filtered))
+```
+
+```{r}
+set.seed(123)
+km.res <- kmeans(df_filtered, 4, nstart = 25)
+```
+
+```{r}
+# Print the results
+print(km.res)
+```
+
+```{r}
+dd <- cbind(df_filtered, cluster = km.res$cluster)
+head(dd)
+```
+
+```{r}
+# Visualize the clusters
+fviz_cluster(km.res, data = df_filtered, geom = "point", ellipse.type = "convex")
+```
+
+```{r}
+str(df_filtered)
+```
+
+
+```{r}
+fviz_cluster(res.km, data = df[, -5],
+             palette = c("#2E9FDF", "#00AFBB", "#E7B800"), 
+             geom = "point",
+             ellipse.type = "convex", 
+             ggtheme = theme_bw()
+             )
+```
+
+
+
+
+
+
+
+
+
+
+
