@@ -1,6 +1,6 @@
 ---
 title: "Personal Logs - Ethan"
-author: 'Irene Vrbik'
+author: 'Ricky Heinrich'
 date: "MDS capstone"
 output:
   md_document:
@@ -50,15 +50,15 @@ current.week = 0
 mylog <- mylog %>% add_row(week = current.week,
                        day=as.Date("2023-05-02"), 
                        hours=2,
-                       description="Activity during class to figure this out",
-                       comments="Refreshed memory on RMarkdown"
+                       description="Group meeting",
+                       comments="Code of Conduct and Team contract"
                        )
 
 mylog <- mylog %>% add_row(week = current.week,
                        day=as.Date("2023-05-02"), 
-                       hours=3,
-                       description="Troubleshooted RStudio and my R installation",
-                       comments=""
+                       hours=1,
+                       description="Reading, prep",
+                       comments="Read literature summaries, prepare for meeting"
                        )
 
 
