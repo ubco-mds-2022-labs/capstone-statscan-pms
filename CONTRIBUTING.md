@@ -1,4 +1,4 @@
-New Venture(s) Compass Contributing Guidelines
+capstone-statscan-pms Contributing Guidelines
 ====================================
 
 Project Vision
