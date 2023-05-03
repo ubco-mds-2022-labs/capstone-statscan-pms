@@ -14,6 +14,9 @@ If you are not able to agree on these points, it is a sign that your group may b
 | Person 3 | [@sahaavi](https://github.com/sahaavi) |
 | Person 4 | [@freinric](https://github.com/freinric) |
 
+## Working Hours
+Team members agree that standard hours of work are: 6-8 hours anytime of day between daily group meeting, to aim for 32 hours weekly. Weekends are standard days off, unless work is required to meet a deadline. 
+
 ## Participation
 
 All team members agree to fully participate in all aspects of the project.
@@ -34,18 +37,18 @@ To accomplish this goal, below are five concrete actions that we all agree to ta
 2. Respond to messages and emails in a timely manner, especially those that require urgent attention.
 3. Clearly communicate project goals, expectations, and deadlines to all team members.
 4. Hold regular team meetings and check-ins to discuss progress and resolve issues.
-5. Use a communication platform that works for everyone, such as Discord, Slack or Microsoft Teams.
+5. Have no hesitation in asking questions, and take concerns of group members seriously and respectfully.
 
 ## Meetings
 
 All team members agree to meet regularly during the project.
 To accomplish this goal, below are five concrete ideas that we all agree to regarding scheduling and frequency of meetings:
 
-1. Schedule regular weekly meetings at a consistent day and time that works for all team members.
-2. Set an agenda for each meeting and share it with all team members beforehand.
-3. Rotate the responsibility of leading meetings so that everyone has a chance to facilitate discussions.
-4. If team members cannot attend a meeting, they should notify the rest of the team in advance and catch up on what they missed.
-5. Use meetings to discuss progress, resolve issues, and set goals for the next period.
+1. Group meeting daily at 10 am on Discord, weekly meeting with client Fridays at 10 am on Microsft Teams, weekly meeting with capstone instructor and TA tba. 
+4. Set an agenda for each meeting and share it with all team members beforehand.
+5. Rotate the responsibility of leading meetings so that everyone has a chance to facilitate discussions.
+6. If team members cannot attend a meeting, they should notify the rest of the team in advance and catch up on what they missed.
+7. Use meetings to discuss progress, resolve issues, and set goals for the next period.
 
 ## Conduct
 
@@ -53,9 +56,9 @@ The code of conduct we have chosen is in the [Code of Conduct](./CODE_OF_CONDUCT
 All team members agree to following the code of conduct, and below are five concrete escalation steps that we all agree to follow in the event that the code of conduct is violated by any member of the group (Step 1 is the first thing you will do, and Step 5 is the last thing you will do).
 
 1. The team member who is affected by the violation should speak privately with the member who has violated the code of conduct and try to resolve the issue.
-2. If the issue cannot be resolved, or if it is too difficult for the team member to confront the violator, they should escalate the issue to a neutral third party who can mediate the situation.
-3. If the issue is still unresolved, the team member should report the violation to the team leader or project manager, who can take further action.
-4. If the violation persists or if it is serious enough, the team leader or project manager may escalate the issue to the course instructor or supervisor.
+2. If the issue cannot be resolved, or if it is too difficult for the team member to confront the violator, they should discuss with other team members.
+3. If the issue is still unresolved, the team member should report the violation to the TA, who can take further action.
+4. If the violation persists or if it is serious enough, the TA may escalate the issue to the course instructor or supervisor.
 5. In the event that none of the previous steps have resolved the issue, the team members may agree to leave the matter to the discretion of the course instructor or supervisor to mediate the conflict and determine the best course of action for the team.
 
 ## Conflict Management
@@ -65,7 +68,7 @@ Discuss amongst your team some conflict mitigation strategies (feel free to sear
 You may also include things you will NOT do in the event a conflict arises.
 
 1. Strategy 1: Use active listening techniques to ensure that all team members feel heard and understood.
-2. Strategy 2: Focus on the problem, not the person, and avoid personal attacks or blame.
+2. Strategy 2: Focus on the problem, not the person, and avoid personal attacks or blame. Respect group members at all times.
 3. Strategy 3: Seek to understand the underlying concerns and interests of all parties involved.
 4. Strategy 4: Brainstorm possible solutions and evaluate them objectively to find the best option.
 5. Strategy 5: If needed, seek the help of a neutral third party, such as the course instructor or a TA, to help resolve the conflict.
@@ -87,9 +90,9 @@ I suggest you discuss in your group some possible Git workflows.
 I suggest reading them, understanding them, and then selecting one.
 You can explore and choose any you like, but if you cannot decide, I suggest using the "Feature Branch Workflow".
 
-All team members agree to the [Name of chosen Git Workflow] workflow, and the following conventions (e.g., master branch protection, at least X reviews before a pull request, at least N days before the deadline etc...):
+All team members agree to the Feature Branch workflow, and the following conventions:
 
-1. Feature Branch Workflow: All team members will work on their own feature branches and submit pull requests to the main branch once their work is     complete and has been reviewed by at least one other team member.
+1. Feature Branch Workflow: All team members will work on their own feature branches and submit pull requests to the main branch once their work is complete and has been reviewed by at least one other team member.
 2. Main Branch Protection: The main branch will be protected to prevent direct pushes, and only pull requests that have been approved by at least two team members will be merged.
 3. Code Reviews: All pull requests will require at least two team members to review the code before it can be merged into the main branch.
 4. Branch Naming Convention: All team members will use a standardized naming convention when creating feature branches to ensure consistency and clarity. For example, the branch name could include a brief description of the feature being worked on and the initials of the team member working on it.
