@@ -44,11 +44,16 @@ Jonah Edmundson, Ricky Heinrich, \par Noman Mohammad, Avishek Saha
 
 \section*{Introduction}
 
-text 
-
-
-
-
+We all live somewhere, and inhabit physical space. Unless one lives completely removed from others, amenities are usually present in the built environment: schools, places of employment, healthcare facilities, etc. These amenities serve to make residents’ lives better, and are the result of policy and planning by multiple groups. Like people, they inhabit physical spaces, and not everybody is equidistant from them. As Alasia et al. (2021) outline: “having physical access to basic services and amenities is a key determinant of social inclusion, their capacity to meet basic needs, and their ability to fully participate in social and economic development.”
+\par
+The Proximity Measure Database (PMD) developed by the Data Exploration and Integration Lab (DEIL) at Statistics Canada serves to provide a granular measure of proximity to services and amenities to inform planning and policy questions (Alasia et al., 2021). The PMD contains continuous measures for 10 amenities at a ‘dissemination block’ (DB) level.
+\par
+Our goal is to segment these continuous proximity measures to group similar dissemination blocks together based on their access to amenities. These clusters may provide valuable insights to policymakers and urban planners regarding how to prioritize efforts to improve accessibility and promote social and economic sustainability.
+\par
+There are various clustering algorithms in the literature, like the k-means algorithm (MacQueen, 1967) and the fuzzy c-means algorithm (Bezdek et al., 1984). There are also various metrics defined for assessing clustering quality. These metrics can be used to evaluate the performance of different clustering algorithms and to determine which algorithm is the best fit for a particular dataset. Examples of such metrics include Rand Index (RI), Adjusted Rand Index (ARI), Normalized Mutual Information (NMI), Adjusted Mutual Information (AMI), F-measure, Homogeneity, V-measure, Heterogeneity, Completeness, and Silhouette coefficient (Mehta et al., 2020).
+\par
+Our motivation for this project is rooted in the need for improved urban planning and policy-making that can benefit individuals, businesses, and the overall community. Through our analysis, we hope to contribute to a better understanding of local access to amenities.
+ 
 
 
 \section*{Data Sources}
@@ -242,15 +247,17 @@ Our project aims to apply clustering algorithms to segment proximity measures fo
 \section*{Bibliography}
 
 
-\textbf{1} \textit{Workshop on Modernising Statistical Systems for better data ...} - oecd.org. (n.d.). Retrieved May 4, 2023, from \sloppy\url{https://www.oecd.org/cfe/regionaldevelopment/modernising-statistical-systems.htm} \\ 
+\noindent\textbf{1} Alasia, A., Newstead, N., Kuchar, J., \& Radulescu, M. (2021, February 15). \textit{Measuring Proximity to Services and Amenities: An Experimental Set of Indicators for Neighbourhoods and Localities}. Reports on Special Business Projects, Statistics Canada. Retrieved May 4, 2023, from \sloppy\url{https://www150.statcan.gc.ca/n1/pub/18-001-x/18-001-x2020001-eng.htm}  \\ 
 
-\noindent\textbf{2} Alasia, A., Newstead, N., Kuchar, J., \& Radulescu, M. (2021, February 15). \textit{Measuring Proximity to Services and Amenities: An Experimental Set of Indicators for Neighbourhoods and Localities}. Retrieved May 4, 2023, from \sloppy\url{https://www150.statcan.gc.ca/n1/pub/18-001-x/18-001-x2020001-eng.htm}  \\ 
+\noindent\textbf{2} MacQueen, J. B. (1967). \textit{Some Methods for classification and Analysis of Multivariate Observations}. Proceedings of 5th Berkeley Symposium on Mathematical Statistics and Probability. Vol. 1. University of California Press. pp. 281–297. 
 
-\noindent\textbf{3} \\ 
+\noindent\textbf{3} Bezdek, J.C., Ehrlich, R., \& Full, W. \textit{FCM: The fuzzy c-means clustering algorithm}, Computers & Geosciences,Volume 10, Issues 2–3,1984, Pages 191-203,ISSN 0098-3004, \sloppy\url{https://doi.org/10.1016/0098-3004(84)90020-7}.(\sloppy\url{https://www.sciencedirect.com/science/article/pii/0098300484900207})
 
-\noindent\textbf{4} \\ 
+\noindent\textbf{4} Mehta, V., Bawa, S. \& Singh, J. \textit{Analytical review of clustering techniques and proximity measures}. Artif Intell Rev 53, 5995–6023 (2020). \sloppy\url{https://doi.org/10.1007/s10462-020-09840-7} \\ 
 
-\noindent\textbf{5} \\ 
+\noindent\textbf{5} The Proximity data viewer\\ 
+
+\noindent\textbf{6} Alasia, A., Bédard, F., Bélanger, J., Guimond, E., \& Penney, C. (2017). \textit{Measuring remoteness and accessibility: A set of indices for Canadian communities.} Reports on Special Business Projects, Statistics Canada. \sloppy\url{https://www150.statcan.gc.ca/n1/pub/18-001-x/18-001-x2017002-eng.htm.}\\ 
 
 
 
