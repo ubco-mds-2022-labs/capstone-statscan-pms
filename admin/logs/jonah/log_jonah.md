@@ -6,7 +6,7 @@ task in the correct spot.
 ## Instructions
 
 1.  For each week, first set the `current.week` to the week number (in
-    most cases, you can increment the `current.week` by 1).  
+    most cases, you can increment the `current.week` by 1).
 
 2.  Add row entries to your table indicating the date of the task, the
     number of hours spent on the task, a description of the task, as
@@ -58,8 +58,9 @@ Add individual contributions here (be sure to call the **tidyverse** and
 |    1 | 2023-05-02 |   1.5 | Team Meeting              | contributing doc, team contract, README, etc.     |
 |    1 | 2023-05-03 |   3.0 | Team meeting and proposal | 945-1245                                          |
 |    1 | 2023-05-03 |   1.0 | Plagarism module          | NA                                                |
+|    1 | 2023-05-04 |   6.0 | Team working on proposal  | 10-4                                              |
 
-My total weekly hours are: 12
+My total weekly hours are: 18
 
 ### Weekly Reflection
 
@@ -82,7 +83,7 @@ Add individual contributions here (be sure to call the **tidyverse** and
 
 | week | day        | hours | description                            | comments                            |
 |----:|:--------|-----:|:---------------------------|:-------------------------|
-|    2 | 2023-05-03 |   0.5 | learning this personal log rmd file    | Rmd is cool                         |
+|    2 | 2023-05-04 |   0.5 | learning this personal log rmd file    | Rmd is cool                         |
 |    2 | 2023-05-01 |   1.5 | Editing kickoff slide decks with Firas | Firas will push the changes to repo |
 
 My total weekly hours are: 2
@@ -108,5 +109,5 @@ the following (requires the **dplyr** package)
 
 | week | total_weekly_hours |
 |-----:|-------------------:|
-|    1 |                 12 |
+|    1 |                 18 |
 |    2 |                  2 |

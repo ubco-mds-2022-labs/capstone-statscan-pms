@@ -20,7 +20,7 @@ Note that it will do all the calculations for you, you just need to enter in hou
 
 ## Instructions
 
-1. For each week, first set the `current.week` to the week number (in most cases, you can increment the `current.week` by 1).\
+1. For each week, first set the `current.week` to the week number (in most cases, you can increment the `current.week` by 1). 
 
 2. Add row entries to your table indicating the date of the task, the number of hours spent on the task, a description of the task, as well any comments (or reminders to yourself) or requests for follow-up.
 
@@ -108,6 +108,12 @@ mylog <- mylog %>% add_row(week = current.week,
                        hours=1,
                        description="Plagarism module", 
                        comments = NA)
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-04"), # for today's date
+                       hours=6,
+                       description="Team working on proposal", 
+                       comments = '10-4')
 
 kable(mylog)
 ```
