@@ -44,7 +44,8 @@ following questions:
 
 | week | day        | hours | description              | comments                                                                |
 |---:|:-------|----:|:--------------|:----------------------------------------|
-|    1 | 2023-05-01 |   2.5 | Project Inception        | Read & Understand Project Details                                       |
+|    1 | 2023-05-01 |   3.0 | Initial Client Meetings  | Meetings prior to May 1 (2 meetings + 1 presentation)                   |
+|    1 | 2023-05-01 |   2.0 | Project Inception        | Read & Understand Project Details                                       |
 |    1 | 2023-05-01 |   2.0 | Project Management       | Create Notion for organizing all project work and timeline in one place |
 |    1 | 2023-05-02 |   2.5 | Capstone Kickoff Lecture | NA                                                                      |
 |    1 | 2023-05-02 |   1.5 | Team Meeting             | Discuss workflow                                                        |
@@ -53,9 +54,11 @@ following questions:
 |    1 | 2023-05-03 |   1.0 | Plagarism Module         | NA                                                                      |
 |    1 | 2023-05-03 |   1.0 | Proposal Writing         | Write a draft of the introduction                                       |
 |    1 | 2023-05-04 |   6.0 | Proposal                 | Team meeting on merge proposal                                          |
-|    1 | 2023-05-04 |   1.0 | Miscellaneous            | Review Pull Requests, Store Logs, Organizing Notion etc.                |
+|    1 | 2023-05-05 |   1.0 | Client Meeting           | Feedback on Proposal                                                    |
+|    1 | 2023-05-05 |   1.5 | Team Meeting             | Finalize proposal and prepare slide decks for weekly meeting            |
+|    1 | 2023-05-05 |   1.0 | Miscellaneous            | Review Pull Requests, Store Logs, Organizing Notion etc.                |
 
-My total weekly hours are: 23
+My total weekly hours are: 28
 
 ### Weekly Reflection
 
@@ -104,5 +107,5 @@ the following (requires the **dplyr** package)
 
 | week | total_weekly_hours |
 |-----:|-------------------:|
-|    1 |                 23 |
+|    1 |                 28 |
 |    2 |                  2 |
