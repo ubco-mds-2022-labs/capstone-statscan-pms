@@ -29,16 +29,6 @@ dim(pmd)
 str(pmd)
 ```
 
-```{r}
-
-
-# Convert columns that start with "prox_idx" to numeric
-pmd <- pmd %>%
-  mutate_at(vars(starts_with("prox_idx")), as.numeric)
-
-
-```
-
 
 ```{r}
 # percentage of missing values in each column in dataset
@@ -74,13 +64,34 @@ sort(apply(pmd_filtered, 2, p), decreasing = TRUE)
 ```
 
 ```{r}
+# Convert selected columns to numeric
+pmd_filtered <- pmd_filtered %>%
+  mutate(prox_idx_emp = as.numeric(prox_idx_emp),
+         prox_idx_pharma = as.numeric(prox_idx_pharma),
+         prox_idx_childcare = as.numeric(prox_idx_childcare),
+         prox_idx_health = as.numeric(prox_idx_health),
+         prox_idx_grocery = as.numeric(prox_idx_grocery),
+         prox_idx_educpri = as.numeric(prox_idx_educpri),
+         prox_idx_educsec = as.numeric(prox_idx_educsec),
+         prox_idx_lib = as.numeric(prox_idx_lib),
+         prox_idx_parks = as.numeric(prox_idx_parks),
+         prox_idx_transit = as.numeric(prox_idx_transit))
+```
+
+```{r}
 # Remove specified columns from dataset
 df_filtered <- select(pmd_filtered, -DBUID, -DBPOP, -DAUID, -DAPOP, -CSDUID, -CSDNAME, -CMAPUID,
-                      -CSDTYPE, -CSDPOP, -CMANAME, -CMATYPE, -CMAPOP, -PRUID, -PRNAME, -PRPOP, -CMAUID)
+                      -CSDTYPE, -CSDPOP, -CMANAME, -CMATYPE, -CMAPOP, -PRUID, -PRNAME, -PRPOP, -CMAUID, -in_db_emp, -in_db_pharma, -in_db_childcare, -in_db_health, -in_db_grocery, -in_db_educpri, -in_db_educsec, -in_db_lib, -in_db_parks, -in_db_transit, -transit_na, -amenity_dense, -suppressed)
 ```
 
 ```{r}
 any(is.na(df_filtered))
+```
+```{r}
+head(df_filtered)
+```
+```{r}
+df_filtered <- select(df_filtered, -lon, -lat)
 ```
 
 ```{r}
@@ -95,7 +106,10 @@ print(km.res)
 
 ```{r}
 dd <- cbind(df_filtered, cluster = km.res$cluster)
-head(dd)
+```
+
+```{r}
+dd[, c("cluster")]
 ```
 
 ```{r}
