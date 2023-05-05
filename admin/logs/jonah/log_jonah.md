@@ -51,16 +51,18 @@ following questions:
 Add individual contributions here (be sure to call the **tidyverse** and
 **knitr** package first)
 
-| week | day        | hours | description               | comments                                          |
-|----:|:--------|-----:|:------------------|:----------------------------------|
-|    1 | 2023-05-01 |   4.0 | Getting oriented          | getting oriented on project, reading papers, etc. |
-|    1 | 2023-05-02 |   2.5 | capstone kickoff lecture  | NA                                                |
-|    1 | 2023-05-02 |   1.5 | Team Meeting              | contributing doc, team contract, README, etc.     |
-|    1 | 2023-05-03 |   3.0 | Team meeting and proposal | 945-1245                                          |
-|    1 | 2023-05-03 |   1.0 | Plagarism module          | NA                                                |
-|    1 | 2023-05-04 |   6.0 | Team working on proposal  | 10-4                                              |
+| week | day        | hours | description                     | comments                                          |
+|----:|:-------|----:|:---------------------|:--------------------------------|
+|    1 | 2023-05-01 |   3.0 | Meetings prior to May 1         | 2 meetings + presentation                         |
+|    1 | 2023-05-01 |   4.0 | Getting oriented                | getting oriented on project, reading papers, etc. |
+|    1 | 2023-05-02 |   2.5 | capstone kickoff lecture        | NA                                                |
+|    1 | 2023-05-02 |   1.5 | Team Meeting                    | contributing doc, team contract, README, etc.     |
+|    1 | 2023-05-03 |   3.0 | Team meeting and proposal       | 945-1245                                          |
+|    1 | 2023-05-03 |   1.0 | Plagarism module                | NA                                                |
+|    1 | 2023-05-04 |   6.0 | Team working on proposal        | 10-4                                              |
+|    1 | 2023-05-05 |   2.5 | Team meeting + proposal editing | 10-1245                                           |
 
-My total weekly hours are: 18
+My total weekly hours are: 23.5
 
 ### Weekly Reflection
 
@@ -83,7 +85,7 @@ Add individual contributions here (be sure to call the **tidyverse** and
 
 | week | day        | hours | description                            | comments                            |
 |----:|:--------|-----:|:---------------------------|:-------------------------|
-|    2 | 2023-05-04 |   0.5 | learning this personal log rmd file    | Rmd is cool                         |
+|    2 | 2023-05-05 |   0.5 | learning this personal log rmd file    | Rmd is cool                         |
 |    2 | 2023-05-01 |   1.5 | Editing kickoff slide decks with Firas | Firas will push the changes to repo |
 
 My total weekly hours are: 2
@@ -109,5 +111,5 @@ the following (requires the **dplyr** package)
 
 | week | total_weekly_hours |
 |-----:|-------------------:|
-|    1 |                 18 |
-|    2 |                  2 |
+|    1 |               23.5 |
+|    2 |                2.0 |
