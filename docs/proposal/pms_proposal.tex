@@ -1,12 +1,12 @@
 \documentclass[11pt, a4paper]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[margin=1in]{geometry} %Sets proper 1-inch margins. 
+\usepackage[margin=1in]{geometry} %Sets proper 1-inch margins.
 \usepackage{amsmath} %Only load this if you are using math/equations.
 \usepackage{graphicx} %Only need to call this if inserting images.
 \usepackage{caption} %Only need to call this if inserting captions.
-\usepackage{float} %Allows the use of the [H] specifier. 
+\usepackage{float} %Allows the use of the [H] specifier.
 \graphicspath{{C:/Users/jonah/Pictures/meme/}} %Sets the working directory for images.
-\usepackage[colorlinks,citecolor=blue,linkcolor=blue,urlcolor=blue]{hyperref} %Allows for the embedding of urls. 
+\usepackage[colorlinks,citecolor=blue,linkcolor=blue,urlcolor=blue]{hyperref} %Allows for the embedding of urls.
 \usepackage{setspace}
 \usepackage{blindtext}
 
@@ -35,9 +35,9 @@
 \vspace{1.5pc}
 \par
 \small
-Jonah Edmundson, Ricky Heinrich, \par Noman Mohammad, Avishek Saha 
+Jonah Edmundson, Ricky Heinrich, \par Noman Mohammad, Avishek Saha
 \end{center}
-\vspace{2pc} %Creates a paragraph line break. 
+\vspace{2pc} %Creates a paragraph line break.
 \normalsize
 
 
@@ -53,14 +53,14 @@ Our goal is to segment these continuous proximity measures to group similar diss
 There are various clustering algorithms in the literature, like the k-means algorithm (MacQueen, 1967) and the fuzzy c-means algorithm (Bezdek et al., 1984). There are also various metrics defined for assessing clustering quality. These metrics can be used to evaluate the performance of different clustering algorithms and to determine which algorithm is the best fit for a particular dataset. Examples of such metrics include Rand Index (RI), Adjusted Rand Index (ARI), Normalized Mutual Information (NMI), Adjusted Mutual Information (AMI), F-measure, Homogeneity, V-measure, Heterogeneity, Completeness, and Silhouette coefficient (Mehta et al., 2020).
 \par
 Our motivation for this project is rooted in the need for improved urban planning and policy-making that can benefit individuals, businesses, and the overall community. Through our analysis, we hope to contribute to a better understanding of local access to amenities.
- 
+
 
 
 \section*{Data Sources}
 
-Our primary dataset of interest is the \href{https://www150.statcan.gc.ca/n1/pub/17-26-0002/2020001/csv/pmd-eng.zip}{Proximity Measures Dataset} (PMD) from the DEIL at Statistics Canada, which includes the continuous numerical proximity scores of every dissemination block (DB) in Canada for 10 services/amenities: employment, grocery stores, pharmacies, health care, child care, primary education, secondary education, public transit, neighborhood parks, and libraries. These proximity measures were calculated using a gravity model that takes into account the distance between a reference DB and all other DBs where the service is located within a specified range, as well as the size of those services. Additionally, the presence of services within the reference DB is factored into the measure. These measures are considered a reliable way to assess local access to various amenities. The data dictionary for this dataset can be found \href{https://www150.statcan.gc.ca/n1/pub/71-607-x/71-607-x2020011-eng.htm}{here}. 
+Our primary dataset of interest is the \href{https://www150.statcan.gc.ca/n1/pub/17-26-0002/2020001/csv/pmd-eng.zip}{Proximity Measures Dataset} (PMD) from the DEIL at Statistics Canada, which includes the continuous numerical proximity scores of every dissemination block (DB) in Canada for 10 services/amenities: employment, grocery stores, pharmacies, health care, child care, primary education, secondary education, public transit, neighborhood parks, and libraries. These proximity measures were calculated using a gravity model that takes into account the distance between a reference DB and all other DBs where the service is located within a specified range, as well as the size of those services. Additionally, the presence of services within the reference DB is factored into the measure. These measures are considered a reliable way to assess local access to various amenities. The data dictionary for this dataset can be found \href{https://www150.statcan.gc.ca/n1/pub/71-607-x/71-607-x2020011-eng.htm}{here}.
 \par
-Our secondary dataset is the \href{https://www150.statcan.gc.ca/n1/pub/17-26-0001/172600012020001-eng.htm}{Index of Remoteness}, also from Statistics Canada. This dataset includes a continuous numeric remoteness score for each census subdivision in Canada. It will need to be linked to the proximity measures dataset by determining which DBs reside in each census subdivision. 
+Our secondary dataset is the \href{https://www150.statcan.gc.ca/n1/pub/17-26-0001/172600012020001-eng.htm}{Index of Remoteness}, also from Statistics Canada. This dataset includes a continuous numeric remoteness score for each census subdivision in Canada. It will need to be linked to the proximity measures dataset by determining which DBs reside in each census subdivision.
 
 
 
@@ -70,12 +70,12 @@ Our secondary dataset is the \href{https://www150.statcan.gc.ca/n1/pub/17-26-000
 \section*{Research Questions}
 
 \begin{enumerate}
-\item Which clustering approach is best at identifying meaningful cutoff values/segments in the proximity measures? 
-\item Is our chosen clustering approach robust? 
-\item What are the characteristics of each cluster of DBs? 
-\item Can a generalized clustering approach be applied to all amenity types, or should specific clustering methods be used for different amenities? 
-\item Are there correlations between the identified clusters and socio-economic factors, such as population density, building density, or the proportion of rural/urban areas? 
-\item Can additional datasets provide further insights into amenity accessibility or more clear clusters? 
+\item Which clustering approach is best at identifying meaningful cutoff values/segments in the proximity measures?
+\item Is our chosen clustering approach robust?
+\item What are the characteristics of each cluster of DBs?
+\item Can a generalized clustering approach be applied to all amenity types, or should specific clustering methods be used for different amenities?
+\item Are there correlations between the identified clusters and socio-economic factors, such as population density, building density, or the proportion of rural/urban areas?
+\item Can additional datasets provide further insights into amenity accessibility or more clear clusters?
 \end{enumerate}
 
 
@@ -95,15 +95,15 @@ Our methodology consists of three sequential parts: exploratory data analysis (E
 \par
 The EDA includes:
 \begin{itemize}
-\item Data can be downloaded, already cleaned and prepped from the Statistics Canada Website. 
-\item Investigating missing values and ways to deal with them. 
+\item Data can be downloaded, already cleaned and prepped from the Statistics Canada Website.
+\item Investigating missing values and ways to deal with them.
 \item Base Model – Intuition/Violin Plots (individual measures only).
 \end{itemize}
 
 We will perform various techniques on different subsets of the datasets, such as individual proximity measures, all proximity measures combined, and proximity measures in conjunction with population density, Index of Remoteness, and neighborhood income. Possible clustering algorithms we may explore include:
 
 \begin{itemize}
-\item Connectivity based (Hierarchical) 
+\item Connectivity based (Hierarchical)
 \begin{itemize}
 	\item Complete linkage (Base R)
 	\item Average linkage (Base R)
@@ -125,8 +125,8 @@ We will perform various techniques on different subsets of the datasets, such as
 \item Density based
 \begin{itemize}
 	\item Density-Based Spatial Clustering of Applications with Noise (\texttt{dbscan} package)
-	\item HDBSCAN (\texttt{dbscan} package) 
-	\item OPTICS = Ordering points to identify the clustering structure (\texttt{dbscan} package) 
+	\item HDBSCAN (\texttt{dbscan} package)
+	\item OPTICS = Ordering points to identify the clustering structure (\texttt{dbscan} package)
 \end{itemize}
 \item Grid based
 \begin{itemize}
@@ -134,9 +134,9 @@ We will perform various techniques on different subsets of the datasets, such as
 \end{itemize}
 \end{itemize}
 
-All clustering approaches will be compared and validated to assess clustering quality. We will explore different metrics defined in the literature, such as the Dunn Index and Silhouette Coefficient. 
-\par 
-We will explore ways to visualize the results of this work, such as Silhouette plots for clustering validation and interactive maps similar to Statistics Canada’s Proximity Measures \href{https://www150.statcan.gc.ca/n1/pub/71-607-x/71-607-x2020011-eng.htm}{Data Viewer} for the final results. 
+All clustering approaches will be compared and validated to assess clustering quality. We will explore different metrics defined in the literature, such as the Dunn Index and Silhouette Coefficient.
+\par
+We will explore ways to visualize the results of this work, such as Silhouette plots for clustering validation and interactive maps similar to Statistics Canada’s Proximity Measures \href{https://www150.statcan.gc.ca/n1/pub/71-607-x/71-607-x2020011-eng.htm}{Data Viewer} for the final results.
 
 
 
@@ -145,15 +145,15 @@ We will explore ways to visualize the results of this work, such as Silhouette p
 
 \begin{itemize}
 \item A document describing our chosen reproducible clustering methodology.
-\item Final report showing the different approaches attempted, their validity, and a sensitivity analysis. 
-\item Mapbox interactive choropleth map visualization. 
-\item Final presentation slides. 
+\item Final report showing the different approaches attempted, their validity, and a sensitivity analysis.
+\item Mapbox interactive choropleth map visualization.
+\item Final presentation slides.
 \end{itemize}
 
 
 
 
-\pagebreak 
+\pagebreak
 \section*{Schedule}
 
 \textit{Key dates are in italics.}
@@ -161,7 +161,7 @@ We will explore ways to visualize the results of this work, such as Silhouette p
 \begin{itemize}
 \item Week 1  \dotfill (May 1 - 5)
 \begin{itemize}
-\item Proposal 
+\item Proposal
 \item Initial setup, getting oriented
 \end{itemize}
 
@@ -169,45 +169,45 @@ We will explore ways to visualize the results of this work, such as Silhouette p
 
 \item Week 2  \dotfill (May 8 - 12)
 \begin{itemize}
-\item EDA - method to deal with missing values, exploring additional datasets, characteristics of data. 
-\item Trying connectivity and centroid-based clustering approaches, recording progress. 
+\item EDA - method to deal with missing values, exploring additional datasets, characteristics of data.
+\item Trying connectivity and centroid-based clustering approaches, recording progress.
 \end{itemize}
 
 \item Week 3  \dotfill (May 15 - 19)
 \begin{itemize}
-\item Start writing methods and results (using what we have so far). 
-\item Trying distribution-based clustering approaches, recording progress. 
+\item Start writing methods and results (using what we have so far).
+\item Trying distribution-based clustering approaches, recording progress.
 \end{itemize}
 
 \item Week 4  \dotfill (May 22 - 26)
 \begin{itemize}
 \item Preparing for midway presentation.
-\item Trying density and grid-based clustering approaches, recording progress. 
+\item Trying density and grid-based clustering approaches, recording progress.
 \end{itemize}
 
 \textit{May 25 - Midterm Presentation}
 
 \item Week 5  \dotfill (May 29 - June 2)
-\begin{itemize} 
-\item Finishing up modelling approaches. 
-\item Piecing report together, start final draft (methods and results section should be mostly done). 
+\begin{itemize}
+\item Finishing up modelling approaches.
+\item Piecing report together, start final draft (methods and results section should be mostly done).
 \end{itemize}
 
 \item Week 6  \dotfill (June 5 - 9)
 \begin{itemize}
-\item Start working on interactive choropleth visualization. 
-\item Finish draft report, submit to Jerome for major edits. 
+\item Start working on interactive choropleth visualization.
+\item Finish draft report, submit to Jerome for major edits.
 \end{itemize}
 
 \item Week 7  \dotfill (June 12 - 16)
 \begin{itemize}
-\item Finalizing report (minor edits). 
-\item Flex week (catch up on stuff or start working ahead). 
+\item Finalizing report (minor edits).
+\item Flex week (catch up on stuff or start working ahead).
 \end{itemize}
 
 \item Week 8  \dotfill (June 19 - 22)
-\begin{itemize} 
-\item Preparing for final presentation. 
+\begin{itemize}
+\item Preparing for final presentation.
 \end{itemize}
 
 \textit{June 20 - Final Report}
@@ -218,7 +218,7 @@ We will explore ways to visualize the results of this work, such as Silhouette p
 
 \vspace{0.5pc}
 
-In order to ensure that every team member gains a well-rounded experience and contributes effectively to the capstone project, we will divide our team into smaller groups (groups of 2), each focusing on different aspects of the project. Over the course of the project, we will rotate the members among these groups, allowing everyone the opportunity to work on various components and gain exposure to different challenges and skill sets. To optimize efficiency, we will hold daily team meetings where we will assess progress and distribute/prioritize tasks as needed. This collaborative approach will foster a deeper understanding of the project as a whole, while promoting teamwork across the entire team. 
+In order to ensure that every team member gains a well-rounded experience and contributes effectively to the capstone project, we will divide our team into smaller groups (groups of 2), each focusing on different aspects of the project. Over the course of the project, we will rotate the members among these groups, allowing everyone the opportunity to work on various components and gain exposure to different challenges and skill sets. To optimize efficiency, we will hold daily team meetings where we will assess progress and distribute/prioritize tasks as needed. This collaborative approach will foster a deeper understanding of the project as a whole, while promoting teamwork across the entire team.
 
 
 
@@ -226,8 +226,8 @@ In order to ensure that every team member gains a well-rounded experience and co
 \section*{Limitations}
 
 \begin{enumerate}
-\item The proximity measures dataset has lots of missing data. Once data is available for many smaller/uninhabited/remote DBs, it may skew our clustering results and our algorithm may need to be replaced. 
-\item Since the proximity measures dataset was only recently released as ``experimental statistics", it is possible that better, more comprehensive ways of calculating the proximity index using more/different data sources may be developed in the future, which may render our methodology obsolete. 
+\item The proximity measures dataset has lots of missing data. Once data is available for many smaller/uninhabited/remote DBs, it may skew our clustering results and our algorithm may need to be replaced.
+\item Since the proximity measures dataset was only recently released as ``experimental statistics", it is possible that better, more comprehensive ways of calculating the proximity index using more/different data sources may be developed in the future, which may render our methodology obsolete.
 \end{enumerate}
 
 
@@ -237,7 +237,7 @@ In order to ensure that every team member gains a well-rounded experience and co
 \section*{Conclusion}
 
 
-Our project aims to apply clustering algorithms to segment proximity measures for various amenities as provided by Statistics Canada. The insights gained from this segmentation can help policymakers and urban planners make informed decisions on how to prioritize efforts to improve access and promote social and economic sustainability. By selecting a robust clustering methodology and exploring the relationships between clusters and socio-economic factors, we hope to contribute to a better understanding of local access to amenities and its implications on communities. 
+Our project aims to apply clustering algorithms to segment proximity measures for various amenities as provided by Statistics Canada. The insights gained from this segmentation can help policymakers and urban planners make informed decisions on how to prioritize efforts to improve access and promote social and economic sustainability. By selecting a robust clustering methodology and exploring the relationships between clusters and socio-economic factors, we hope to contribute to a better understanding of local access to amenities and its implications on communities.
 
 
 
@@ -247,17 +247,17 @@ Our project aims to apply clustering algorithms to segment proximity measures fo
 \section*{Bibliography}
 
 
-\noindent\textbf{1} Alasia, A., Newstead, N., Kuchar, J., \& Radulescu, M. (2021, February 15). \textit{Measuring Proximity to Services and Amenities: An Experimental Set of Indicators for Neighbourhoods and Localities}. Reports on Special Business Projects, Statistics Canada. Retrieved May 4, 2023, from \sloppy\url{https://www150.statcan.gc.ca/n1/pub/18-001-x/18-001-x2020001-eng.htm}  \\ 
+\noindent\textbf{1} Alasia, A., Newstead, N., Kuchar, J., \& Radulescu, M. (2021, February 15). \textit{Measuring Proximity to Services and Amenities: An Experimental Set of Indicators for Neighbourhoods and Localities}. Reports on Special Business Projects, Statistics Canada. Retrieved May 4, 2023, from \sloppy\url{https://www150.statcan.gc.ca/n1/pub/18-001-x/18-001-x2020001-eng.htm}  \\
 
-\noindent\textbf{2} MacQueen, J. B. (1967). \textit{Some Methods for classification and Analysis of Multivariate Observations}. Proceedings of 5th Berkeley Symposium on Mathematical Statistics and Probability. Vol. 1. University of California Press. pp. 281–297. 
+\noindent\textbf{2} MacQueen, J. B. (1967). \textit{Some Methods for classification and Analysis of Multivariate Observations}. Proceedings of 5th Berkeley Symposium on Mathematical Statistics and Probability. Vol. 1. University of California Press. pp. 281–297.
 
-\noindent\textbf{3} Bezdek, J.C., Ehrlich, R., \& Full, W. \textit{FCM: The fuzzy c-means clustering algorithm}, Computers & Geosciences,Volume 10, Issues 2–3,1984, Pages 191-203,ISSN 0098-3004, \sloppy\url{https://doi.org/10.1016/0098-3004(84)90020-7}.(\sloppy\url{https://www.sciencedirect.com/science/article/pii/0098300484900207})
+\noindent\textbf{3} Bezdek, J.C., Ehrlich, R., \& Full, W. \textit{FCM: The fuzzy c-means clustering algorithm}, Computers \& Geosciences,Volume 10, Issues 2–3,1984, Pages 191-203,ISSN 0098-3004, \sloppy\url{https://doi.org/10.1016/0098-3004(84)90020-7}.(\sloppy\url{https://www.sciencedirect.com/science/article/pii/0098300484900207})
 
-\noindent\textbf{4} Mehta, V., Bawa, S. \& Singh, J. \textit{Analytical review of clustering techniques and proximity measures}. Artif Intell Rev 53, 5995–6023 (2020). \sloppy\url{https://doi.org/10.1007/s10462-020-09840-7} \\ 
+\noindent\textbf{4} Mehta, V., Bawa, S. \& Singh, J. \textit{Analytical review of clustering techniques and proximity measures}. Artif Intell Rev 53, 5995–6023 (2020). \sloppy\url{https://doi.org/10.1007/s10462-020-09840-7} \\
 
-\noindent\textbf{5} The Proximity data viewer\\ 
+\noindent\textbf{5} The Proximity data viewer\\
 
-\noindent\textbf{6} Alasia, A., Bédard, F., Bélanger, J., Guimond, E., \& Penney, C. (2017). \textit{Measuring remoteness and accessibility: A set of indices for Canadian communities.} Reports on Special Business Projects, Statistics Canada. \sloppy\url{https://www150.statcan.gc.ca/n1/pub/18-001-x/18-001-x2017002-eng.htm.}\\ 
+\noindent\textbf{6} Alasia, A., Bédard, F., Bélanger, J., Guimond, E., \& Penney, C. (2017). \textit{Measuring remoteness and accessibility: A set of indices for Canadian communities.} Reports on Special Business Projects, Statistics Canada. \sloppy\url{https://www150.statcan.gc.ca/n1/pub/18-001-x/18-001-x2017002-eng.htm.}\\
 
 
 
