@@ -59,9 +59,7 @@ My total weekly hours are: 28
 
 ### Weekly Reflection
 
-In this section, please write 5-7 sentences (in total) answering the
-following questions:
-
+<!-- In this section, please write 5-7 sentences (in total) answering the following questions: -->
 <!-- 1. What was your most significant **individual contribution** to the project this week? -->
 
 -   My most significant individual contribution to the project this week
