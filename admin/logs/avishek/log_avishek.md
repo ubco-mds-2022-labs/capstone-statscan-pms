@@ -23,20 +23,17 @@ Note that it will do all the calculations for you, you just need to enter in hou
 ## Week 0 (Sample Week)
 -->
 <!-- My total weekly hours are:  -->
-
+<!--
 ### Weekly Reflection
 
-In this section, please write 5-7 sentences (in total) answering the
-following questions:
+In this section, please write 5-7 sentences (in total) answering the following questions:
 
-1.  What was your most significant **individual contribution** to the
-    project this week?
+1. What was your most significant **individual contribution** to the project this week?
 
-2.  What was your most significant **team contribution** to the project
-    this week?
+1. What was your most significant **team contribution** to the project this week?
 
-3.  Are there any major blockers or roadblocks preventing you from
-    proceeding on your project?
+1. Are there any major blockers or roadblocks preventing you from proceeding on your project?
+-->
 
 ## Week 1
 
@@ -65,47 +62,47 @@ My total weekly hours are: 28
 In this section, please write 5-7 sentences (in total) answering the
 following questions:
 
-1.  What was your most significant **individual contribution** to the
-    project this week?
+<!-- 1. What was your most significant **individual contribution** to the project this week? -->
 
-2.  What was your most significant **team contribution** to the project
-    this week?
+-   My most significant individual contribution to the project this week
+    was likely the literature review, conducted on clustering proximity
+    measures and how to evaluate different clustering techniques.
 
-3.  Are there any major blockers or roadblocks preventing you from
-    proceeding on your project?
+<!-- 2. What was your most significant **team contribution** to the project this week? -->
 
+-   This week was likely working on the proposal with team members.
+    Specifically, splitting off into two groups to draft different
+    sections of the proposal, then coming back together to review each
+    other’s work. This collaboration and teamwork helped move the
+    project forward and ensured that everyone was on the same page.
+
+<!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
+
+-   There were no major blockers or roadblocks preventing me/us from
+    proceeding on our project.
+
+<!--
 ## Week 2
 
-Add individual contributions here (be sure to call the **tidyverse** and
-**knitr** package first)
+Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first)
 
-| week | day        | hours | description                            | comments                            |
-|----:|:--------|-----:|:---------------------------|:-------------------------|
-|    2 | 2023-05-05 |   0.5 | learning this personal log rmd file    | Rmd is cool                         |
-|    2 | 2023-05-01 |   1.5 | Editing kickoff slide decks with Firas | Firas will push the changes to repo |
-
-My total weekly hours are: 2
+My total weekly hours are: 
 
 ### Weekly Reflection
 
-In this section, please write 5-7 sentences (in total) answering the
-following questions:
+In this section, please write 5-7 sentences (in total) answering the following questions:
 
-1.  What was your most significant **individual contribution** to the
-    project this week?
+1. What was your most significant **individual contribution** to the project this week?
 
-2.  What was your most significant **team contribution** to the project
-    this week?
+1. What was your most significant **team contribution** to the project this week?
 
-3.  Are there any major blockers or roadblocks preventing you from
-    proceeding on your project?
+1. Are there any major blockers or roadblocks preventing you from proceeding on your project?
 
 ## Summary Table
 
-To get the total for all the weekly hourly summary over each week use
-the following (requires the **dplyr** package)
+To get the total for all the weekly hourly summary over each week use the following (requires the **dplyr** package)
+-->
 
 | week | total_weekly_hours |
 |-----:|-------------------:|
 |    1 |                 28 |
-|    2 |                  2 |
