@@ -34,7 +34,6 @@ correctly!**
 
 | week | day        | hours | description                   | comments                          |
 |----:|:---------|-----:|:------------------------|:---------------------------|
-|    1 | 2023-05-02 |   2.5 | capstone kickoff lecture      | NA                                |
 |    0 | 2023-04-14 |   1.0 | Client Meeting                | First meeting                     |
 |    0 | 2023-04-21 |   0.5 | Client Meeting                | Second meeting                    |
 |    0 | 2023-04-28 |   2.0 | Client Meeting + presentation | Third meeting, guest presentation |
@@ -66,9 +65,6 @@ Add individual contributions here (be sure to call the **tidyverse** and
 | week | day        | hours | description                       | comments                                                |
 |---:|:-------|----:|:---------------------|:----------------------------------|
 |    1 | 2023-05-02 |   2.5 | capstone kickoff lecture          | NA                                                      |
-|    0 | 2023-04-14 |   1.0 | Client Meeting                    | First meeting                                           |
-|    0 | 2023-04-21 |   0.5 | Client Meeting                    | Second meeting                                          |
-|    0 | 2023-04-28 |   2.0 | Client Meeting + presentation     | Third meeting, guest presentation                       |
 |    1 | 2023-05-02 |   2.0 | Code of Conduct and Team Contract | Group work                                              |
 |    1 | 2023-05-02 |   1.0 | Reading, prep                     | Read literature summaries, prepare for meeting          |
 |    1 | 2023-05-03 |   1.0 | prep, Daily group meeting         | Discuss tasks for day                                   |
@@ -102,7 +98,7 @@ Add individual contributions here (be sure to call the **tidyverse** and
 
 | week | day        | hours | description                            | comments                            |
 |----:|:--------|-----:|:---------------------------|:-------------------------|
-|    2 | 2023-05-05 |   0.5 | learning this personal log rmd file    | Rmd is cool                         |
+|    2 | 2023-05-06 |   0.5 | learning this personal log rmd file    | Rmd is cool                         |
 |    2 | 2023-05-01 |   1.5 | Editing kickoff slide decks with Firas | Firas will push the changes to repo |
 
 My total weekly hours are: 2

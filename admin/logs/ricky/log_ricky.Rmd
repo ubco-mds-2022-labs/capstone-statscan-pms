@@ -18,12 +18,7 @@ The following is a recommended way of keeping track of your weekly hours using t
 Note that it will do all the calculations for you, you just need to enter in hours worked and a description of the task in the correct spot.
 
 ```{r}
-mylog <- data.frame(week = 1, 
-                    day = as.Date("2023-05-02"),
-                    hours = 2.5,
-                    description = "capstone kickoff lecture",
-                    comments = NA
-                    )
+
 ```
 
 ## Instructions
@@ -47,7 +42,8 @@ mylog <- data.frame(week = 1,
 ```{r}
 current.week = 0
 
-mylog <- mylog %>% add_row(week = current.week,
+
+mylog <- data.frame(week = current.week,
                        day=as.Date("2023-04-14"), 
                        hours=1,
                        description="Client Meeting",
@@ -66,8 +62,6 @@ mylog <- mylog %>% add_row(week = current.week,
                        description="Client Meeting + presentation",
                        comments="Third meeting, guest presentation"
                        )
-
-
 
 kable(mylog)
 ```
@@ -93,6 +87,12 @@ Add individual contributions here (be sure to call the **tidyverse** and **knitr
 ```{r}
 current.week = current.week + 1
 
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-02"), 
+                       hours=2.5,
+                       description="capstone kickoff lecture",
+                       comments="NA"
+                       )
 mylog <- mylog %>% add_row(week = current.week,
                        day=as.Date("2023-05-02"), 
                        hours=2,
@@ -152,7 +152,7 @@ mylog <- mylog %>% add_row(week = current.week,
                        comments="Edit proposal, create monday meeting slides. Group work")
 
 
-kable(mylog)
+kable(filter(mylog, week == current.week))
 ```
 My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
 
