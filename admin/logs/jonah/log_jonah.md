@@ -72,11 +72,18 @@ following questions:
 1.  What was your most significant **individual contribution** to the
     project this week?
 
-2.  What was your most significant **team contribution** to the project
+I drafted the schedule that we ended up using (after some edits).
+
+1.  What was your most significant **team contribution** to the project
     this week?
 
-3.  Are there any major blockers or roadblocks preventing you from
+Noman and I worked together to draft many sections of the proposal
+(including research questions, deliverables, methods, etc.).
+
+1.  Are there any major blockers or roadblocks preventing you from
     proceeding on your project?
+
+No, not at the moment.
 
 ## Week 2
 
@@ -85,7 +92,7 @@ Add individual contributions here (be sure to call the **tidyverse** and
 
 | week | day        | hours | description                            | comments                            |
 |----:|:--------|-----:|:---------------------------|:-------------------------|
-|    2 | 2023-05-05 |   0.5 | learning this personal log rmd file    | Rmd is cool                         |
+|    2 | 2023-05-07 |   0.5 | learning this personal log rmd file    | Rmd is cool                         |
 |    2 | 2023-05-01 |   1.5 | Editing kickoff slide decks with Firas | Firas will push the changes to repo |
 
 My total weekly hours are: 2

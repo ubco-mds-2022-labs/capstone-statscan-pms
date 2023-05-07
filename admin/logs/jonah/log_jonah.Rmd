@@ -138,9 +138,15 @@ In this section, please write 5-7 sentences (in total) answering the following q
 
 1. What was your most significant **individual contribution** to the project this week?
 
+I drafted the schedule that we ended up using (after some edits). 
+
 1. What was your most significant **team contribution** to the project this week?
 
+Noman and I worked together to draft many sections of the proposal (including research questions, deliverables, methods, etc.).
+
 1. Are there any major blockers or roadblocks preventing you from proceeding on your project?
+
+No, not at the moment. 
 
 ## Week 2
 
