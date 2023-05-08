@@ -1,0 +1,141 @@
+---
+title: "Personal Logs - Noman"
+author: 'Noman Mohammad'
+date: "MDS capstone"
+output:
+  md_document:
+    variant: markdown_github
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(knitr)
+library(dplyr)
+```
+
+The following is a recommended way of keeping track of your weekly hours using this RMarkdown file.
+Note that it will do all the calculations for you, you just need to enter in hours worked and a description of the task in the correct spot.
+
+```{r}
+mylog <- data.frame(week = 1, 
+                    day = as.Date("2023-05-02"),
+                    hours = 2.5,
+                    description = "capstone kickoff lecture",
+                    comments = NA
+                    )
+```
+
+## Instructions
+
+1. For each week, first set the `current.week` to the week number (in most cases, you can increment the `current.week` by 1).\
+
+2. Add row entries to your table indicating the date of the task, the number of hours spent on the task, a description of the task, as well any comments (or reminders to yourself) or requests for follow-up.
+
+3. Knit the file to a markdown file.
+
+4. Before Friday at 5 PM, please submit a Pull Request to merge in your weekly log. All your team mates will review your log, provide comments and suggestions, and then approve (or request changes). Once all the changes have been resolved, you can merge in your pull request (by Monday at 10 AM).
+
+5. Don't forget to review the Pull Requests by your team mates!
+
+6. Discuss any discrepancies or team dynamics issues with your assigned TA during the weekly meetings.
+
+**Remember that your `markdown` file is what will be reviewed by your teammates, the TAs, and the instructors, so just make sure it renders correctly!**
+
+## Week 1
+
+Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first)
+```{r}
+current.week = 0
+current.week = current.week + 1
+
+mylog <- data.frame(week = 1, 
+                    day = as.Date("2023-05-01"),
+                    hours = 3,
+                    description = "Prior meetings with client + presenation ",
+                    comments = "client organized a presentation for our group"
+                    )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-02"), 
+                       hours=3,
+                       description="Capstone kick off lecture",
+                       comments=NA
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-02"), 
+                       hours=2,
+                       description="Team meeting + repo documents",
+                       comments="after kickoff lecture, met with group and worked on documents for repo"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-03"), 
+                       hours=7,
+                       description="Team meeting + Working on proposal",
+                       comments="plan work for proposal in meeting, read about project and dataset etc."
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-04"), 
+                       hours=6,
+                       description="Team meeting + Working on proposal",
+                       comments="consolidate work on proposal, finaize before sending to client"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-05"), 
+                       hours=.45,
+                       description="Meeting with client",
+                       comments="proposal feedback + follow up questions"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-05"), 
+                       hours=2,
+                       description="Team meeting + reforming proposal + slides",
+                       comments="reform proposal, work on team-meeting slides for week1"
+                       )
+
+kable(mylog)
+```
+My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the following questions:
+
+1. What was your most significant **individual contribution** to the project this week?
+feeling surprised that I made it to the capstone. Working on parts of the second half of the proposal.
+
+1. What was your most significant **team contribution** to the project this week?
+working on the proposal and meeting slides.
+
+1. Are there any major blockers or roadblocks preventing you from proceeding on your project?
+Nah
+
+```{r}
+# week 2 here
+```
+My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the following questions:
+
+1. What was your most significant **individual contribution** to the project this week?
+
+1. What was your most significant **team contribution** to the project this week?
+
+1. Are there any major blockers or roadblocks preventing you from proceeding on your project?
+
+## Summary Table
+
+To get the total for all the weekly hourly summary over each week use the following (requires the **dplyr** package)
+```{r}
+mylog %>% 
+  group_by(week) %>% 
+  summarise(total_weekly_hours = sum(hours)) %>%
+  kable()
+```
