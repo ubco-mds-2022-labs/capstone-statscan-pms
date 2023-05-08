@@ -6,5 +6,95 @@ date: "`r Sys.Date()`"
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(factoextra)
 ```
+
+### Import data
+
+```{r}
+pmd <- read.csv("../../data/pmd-en.csv")
+head(pmd, 3)
+```
+
+### DATA Summary
+
+```{r}
+# no. of rows and columns
+dim(pmd)
+```
+
+489676 rows and 41 columns
+
+```{r}
+# dataset summary
+str(pmd)
+```
+
+```{r}
+# definitions of variables
+defpmd <- read.csv("../../data/pmd-en-record-layout-notes.csv")
+```
+
+Definitions: https://www150.statcan.gc.ca/n1/pub/92f0138m/92f0138m2019001-eng.htm
+
+
+
+In head of dataset we saw there were missing values in `prox_idx_lib` but the above output suggest there is no missing values. Because Statistics Canada use some specific notation for missing values. The following standard symbols are used in Statistics Canada publications:  
+$.. ->$ not available for a specific reference period  
+$F ->$ to unreliable to be published (data sources disagree)
+
+```{r}
+# percentage of missing values in each column
+p <- function(x) {sum(x == ".." | x == "F")/length(x)*100}
+sort(apply(pmd, 2, p), decreasing = TRUE)
+```
+
+
+```{r}
+# changing '..' and 'F' to Nas
+pmd_na <- readr::read_csv("../../data/pmd-en.csv", na = c('..', 'F'))
+summary(pmd_na)
+```
+```{r}
+# getting proportions of nas
+na_prop <- function(x) {sum(is.na(x))/length(x)*100}
+sort(apply(pmd_na, 2, na_prop), decreasing = T)
+```
+
+
+
+```{r}
+#' Replace Commas Function
+#'
+#' This function converts a character representation of a number that contains a comma separator with a numeric value.
+#' @keywords read data
+#' @export
+replaceCommas<-function(x){
+  x<-as.numeric(gsub("\\,", "", x))
+}
+
+pmd$DBPOP <- replaceCommas(pmd$DBPOP)
+pmd$DAPOP<- replaceCommas(pmd$DAPOP)
+pmd$PRPOP <- replaceCommas(pmd$PRPOP)
+pmd$CSDPOP <- replaceCommas(pmd$CSDPOP)
+pmd$CMAPOP <- replaceCommas(pmd$CMAPOP)
+```
+
+Why would we be missing information about population? 
+```{r}
+pmd %>% filter(is.na(DBPOP))
+table(filter(pmd, is.na(DBPOP))$CSDTYPE)
+```
+IRI – Indian reserve
+S-É – Indian settlement 
+
+
+
+
+
+
+
+
+
 
