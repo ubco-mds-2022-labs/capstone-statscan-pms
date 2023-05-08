@@ -10,12 +10,14 @@ library(dplyr)
 library(factoextra)
 ```
 
-## Import data
+### Import data
 
 ```{r}
 pmd <- read.csv("../../data/pmd-en.csv")
 head(pmd, 3)
 ```
+
+### DATA Summary
 
 ```{r}
 # no. of rows and columns
