@@ -168,17 +168,19 @@ Add individual contributions here (be sure to call the **tidyverse** and **knitr
 ```{r}
 current.week = current.week + 1
 mylog <- mylog %>% add_row(week = current.week,
-                       day=Sys.Date(), # for today's date
-                       hours=0.5,
-                       description="learning this personal log rmd file",
-                       comments="Rmd is cool")
+                       day=as.Date("2023-05-08"), 
+                       hours=1.5,
+                       description="Meetings",
+                       comments="Group meeting (prep, daily), instructor meeting")
 
 mylog <- mylog %>% add_row(week = current.week,
-                       day=as.Date("2023-05-01"), 
-                       hours=1.5,
-                       description="Editing kickoff slide decks with Firas",
-                       comments="Firas will push the changes to repo"
+                       day=as.Date("2023-05-08"), 
+                       hours=4.5,
+                       description="EDA",
+                       comments="shape files, windows, crs, exploring missing values"
                        )
+
+
 
 kable(filter(mylog, week == current.week))
 ```
