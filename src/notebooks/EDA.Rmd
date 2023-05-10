@@ -1,0 +1,27 @@
+---
+title: "EDA draft"
+author: "Ricky Heinrich & Team"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = T)
+library(dplyr)
+library(factoextra)
+library(ggplot2)
+library(tidyverse)
+```
+
+## Outline
+- Overal summary
+-- how many variables, how many missing values
+
+- Exploring data distributions
+-- kernel densities (smooth)
+-- histograms (actual numbers)
+
+- Exploring missing values
+-- logistic regression with added variables (master dataset)
+
+
