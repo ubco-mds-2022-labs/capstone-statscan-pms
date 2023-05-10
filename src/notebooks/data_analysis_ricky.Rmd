@@ -5,10 +5,13 @@ date: "`r Sys.Date()`"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, cache = T)
 library(dplyr)
 library(factoextra)
+library(ggplot2)
+library(tidyverse)
 ```
+
 
 ### Import data
 
@@ -45,13 +48,6 @@ $.. ->$ not available for a specific reference period
 $F ->$ to unreliable to be published (data sources disagree)
 
 ```{r}
-# percentage of missing values in each column
-p <- function(x) {sum(x == ".." | x == "F")/length(x)*100}
-sort(apply(pmd, 2, p), decreasing = TRUE)
-```
-
-
-```{r}
 # changing '..' and 'F' to Nas
 pmd_na <- readr::read_csv("../../data/pmd-en.csv", na = c('..', 'F'))
 summary(pmd_na)
@@ -63,38 +59,308 @@ sort(apply(pmd_na, 2, na_prop), decreasing = T)
 ```
 
 
-
-```{r}
-#' Replace Commas Function
-#'
-#' This function converts a character representation of a number that contains a comma separator with a numeric value.
-#' @keywords read data
-#' @export
-replaceCommas<-function(x){
-  x<-as.numeric(gsub("\\,", "", x))
-}
-
-pmd$DBPOP <- replaceCommas(pmd$DBPOP)
-pmd$DAPOP<- replaceCommas(pmd$DAPOP)
-pmd$PRPOP <- replaceCommas(pmd$PRPOP)
-pmd$CSDPOP <- replaceCommas(pmd$CSDPOP)
-pmd$CMAPOP <- replaceCommas(pmd$CMAPOP)
-```
-
 Why would we be missing information about population? 
 ```{r}
-pmd %>% filter(is.na(DBPOP))
-table(filter(pmd, is.na(DBPOP))$CSDTYPE)
+table(filter(pmd_na, is.na(DBPOP))$CSDTYPE)
 ```
 IRI – Indian reserve
 S-É – Indian settlement 
 
 
+# Missing data analysis
+
+Trying to make the dataset smaller by conducting analysis by province.
+
+I want to do a spatial analysis to see if the NA values are correlated with things like population.Assume population is a 'continuous' covariate, maybe pull in remoteness index as well as covariate. See if 'point process' of missing values is correlated. Could see if could add information about gdp, need to merge with other datasets I guess... Right now: want to plot the missing value of grocery locations on a map of canada, for BC. 
+
+```{r}
+# only grocery NAs and BC
+groc_na <- filter(pmd_na, is.na(pmd_na$prox_idx_grocery) & pmd_na$PRUID == 59) # for BC
+#groc_na <- filter(pmd_na, is.na(pmd_na$prox_idx_grocery))
+```
+
+```{r message=F}
+library(sf)
+library(sp) 
+library(spatstat)
+library(maptools)
+```
+
+```{r}
+# Create a spatial points data frame from the longitude and latitude columns
+coordinates <- groc_na[,c("lon", "lat")]
+dat.sp <- SpatialPointsDataFrame(c(groc_na[,c("lon", "lat")]), data = groc_na)
+
+# Set the current CRS: assume it is the same as from shapefile, std canadian ?
+proj4string(dat.sp)<- CRS("+proj=longlat +datum=WGS84")
+#proj4string(dat.sp)<- CRS("+proj=lcc +lat_0=63.390675 +lon_0=-91.8666666666667 +lat_1=49 +lat_2=77 +x_0=6200000 +y_0=3000000 +datum=NAD83 +units=m +no_defs")
+
+##  Define the new CRS you want to transform to
+# new_crs <- CRS("+proj=aea +lat_0=45 +lon_0=-126 +lat_1=50 +lat_2=58.5 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs")
+new_crs <- CRS("+proj=lcc +lat_0=63.390675 +lon_0=-91.8666666666667 +lat_1=49 +lat_2=77 +x_0=6200000 +y_0=3000000 +datum=NAD83 +units=m +no_defs")
+
+# Transform the data to the new CRS
+data.sp_trans <- spTransform(dat.sp, new_crs)
+```
+
+```{r eval = F}
+# importing for the province, for nicer plotting?
+provshp <- readShapeSpatial("../../data/prov_g/lpr_000b21a_e.shp")
+provshp <- as(provshp, "SpatialPolygons")
+provshp <- as.owin(provshp)
+saveRDS(provshp, file = "prov_owin.rds")
+plot(provshp)
+```
+
+```{r}
+provshp <- readRDS("prov_owin.rds")
+```
+
+
+```{r eval=F}
+# importing the shapefile for each DB
+dbshp <- readShapeSpatial("../../data/DB/ldb_000a21a_e.shp")
+dbshp <- as(dbshp, "SpatialPolygons")
+dbshp <- as.owin(dbshp)
+saveRDS(dbshp, file = "dbshp_owin")
+plot(dbshp)
+```
+
+
+```{r}
+groc_ppp <- ppp(x = data.sp_trans@coords[,1], # X coordinates
+                    y = data.sp_trans@coords[,2], # Y coordinates
+                    window = provshp,# Observation window, but from prov_g file
+                )
+
+plot(groc_ppp)
+```
+```{r}
+saveRDS(groc_ppp, file = "groc_ppp.rds")
+```
+```{r}
+plot(groc_ppp)
+```
+
+```{r}
+# this is when I set dat.sp to have the std canadian CRS, apparently none of them plot... 
+groc_ppp2 <- ppp(x = dat.sp@coords[,1], # X coordinates
+                    y = dat.sp@coords[,2], # Y coordinates
+                    window = provshp,# Observation window, but from prov_g file
+                )
+```
+
+
+```{r}
+# finding out what the proj string is
+library(rgdal)
+# read the .shp file - layer is the same name but without the .shp
+mymap <- readOGR("../../data/prov_g/lpr_000b21a_e.shp", layer="lpr_000b21a_e") 
+# proj4 info is located in the layer's proj4string slot
+mymap@proj4string
+
+"+proj=lcc +lat_0=63.390675 +lon_0=-91.8666666666667
++lat_1=49 +lat_2=77 +x_0=6200000 +y_0=3000000
++datum=NAD83 +units=m +no_defs "
+"+proj=lcc +lat_0=63.390675 +lon_0=-91.8666666666667
++lat_1=49 +lat_2=77 +x_0=6200000 +y_0=3000000
++datum=NAD83 +units=m +no_defs"
+```
+
+
+options(maxppsize = 500000)
+```{r}
+saveRDS(groc_ppp, file = "groc_ppp.rds")
+```
+
+```{r}
+df_ppp <- readRDS("../../../df_ppp.rds")
+```
+
+
+```{r}
+plot(df_ppp)
+```
+
+```{r}
+Q10 <- quadratcount(df_ppp,
+                  nx = 10,
+                  ny = 10)
+```
+# doing onto BC window from 589
+```{r}
+load("~/Desktop/589/589Project/BC_Covariates.Rda")
+
+bc_crs <- CRS("+proj=aea +lat_0=45 +lon_0=-126 +lat_1=50 +lat_2=58.5 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs")
+
+# Transform the data to the new CRS
+data.bc <- spTransform(dat.sp, bc_crs)
 
 
 
+groc_ppp_bc <- ppp(x = data.bc@coords[,1], # X coordinates
+                    y = data.bc@coords[,2], # Y coordinates
+                    window = as.owin( DATA[["Window"]]),# Observation window from BC_covariates RDS
+                )
+
+plot(groc_ppp_bc)
+```
 
 
+# Proportion of missing values by amenity and province
+See what proportion of missing values for each province, if it is proportion for total number of DB for each province
+
+I got this from manually comparing the prov codes and the province name:
+AB: 48
+BC: 59
+MN: 46
+NB: 13
+NL: 10
+NWT: 61
+NC: 12
+NV: 622
+ON: 35
+PEI: 11
+QB: 24
+SK: 47
+YK: 60
+
+```{r}
+# Getting infos from data 
+amen_cols <- names(select(pmd_na, starts_with("prox"))) # columns names of proximity measures
+num_amen_cols <- grep("prox", colnames(pmd_na)) # column numbers of proximity measures
+prov_code <- c(48,59,46,13,10,61,12,62,35,11,24,47,60) # province codes
+prov_name <- c("AB", "BC", "MN", "NB","NL", "NT", "NC", "NU","ON", "PEI", "QB","SK","YK" ) # province abbreviations
 
 
+#initialize a matrix and empty list
+mat_missing = matrix(data=NA, ncol=length(num_amen_cols), nrow=length(prov_code))
+amt_rows <- c()
 
+# Making a matrix of amenities x provinces, percentage missing values
+for (i in 1:length(prov_code)){
+  # get the number of rows for each province
+  amt_rows[i] <- nrow(filter(pmd_na, pmd_na$PRUID == prov_code[i]))
+  for (j in 1:length(num_amen_cols)){
+    # for every province, iterate through every amenity and get percentage missing
+    amt_miss <- nrow(filter(pmd_na, is.na(pmd_na[,num_amen_cols[j]]) & pmd_na$PRUID == prov_code[i]))
+    mat_missing[i,j] <- amt_miss/amt_rows[i]
+  }
+}
+
+# build dataframe, rename columns and rows
+df_perc_missing <- mat_missing %>% data.frame() %>% setNames(amen_cols)
+rownames(df_perc_missing) <- prov_name
+
+df_perc_missing
+```
+
+# Idea: build logistic model to see if can predict if missing or not based on population or other variables
+```{r}
+# convert data so NA = 1, other = 0
+df_na <- pmd_na
+
+# converting all values to 0 and all na to 1 for amenities cols
+df_na[amen_cols][!is.na(df_na[amen_cols])] <- 0
+df_na[amen_cols][is.na(df_na[amen_cols])] <- 1
+
+log_mod <- glm(prox_idx_emp~DBPOP, data = df_na)
+summary(log_mod)
+plot(log_mod)
+```
+```{r}
+# plot logistics curve for employment and population
+ggplot(df_na, aes(x=DBPOP, y=prox_idx_emp)) + 
+  geom_point(alpha=.5) +
+  stat_smooth(method="glm", se=FALSE, method.args = list(family=binomial))
+```
+
+```{r}
+# plot histogram
+ggplot(df_na) +
+  geom_histogram(aes(x=DBPOP, fill=factor(prox_idx_emp)), bins = 50,
+                 colour="grey50", alpha=0.5, position="identity")
+```
+
+
+# Idea: look at distribution of proximity measures
+
+
+```{r}
+# manipulate dataframe to only keep amenities cols
+df_man <- subset(pmd_na, select = amen_cols)
+
+# pivot to long to make work with violin plot
+df_long <- pivot_longer(df_man, all_of(amen_cols))
+# whole range
+ggplot(df_long, aes(x=name, y = value)) + geom_violin()
+
+# setting y lim to see better
+ggplot(df_long, aes(x=name, y = value))+ geom_violin()  + ylim(0,0.25)
+```
+When plotting everything on the same plot, it is hard to see. For all amenities, the highest densities of proximity values lie below 0.12. We see that the amenities with the highest distribution density closer to 0 are health, then employment, then transit. 
+
+## Histograms
+```{r}
+hist(pmd_na$prox_idx_lib, breaks = 50)
+```
+
+```{r fig.height=10, fig.width=12}
+# histograms
+ggplot(df_long, aes(value)) + 
+    geom_histogram(bins = 50) + 
+    facet_wrap(~name, scales = 'free_y', ncol = 2)
+```
+```{r fig.height=10, fig.width=12}
+# kernel densities
+ggplot(df_long, aes(value)) + 
+    geom_density() + 
+    facet_wrap(~name, scales = 'free_y', ncol = 2)
+```
+
+
+## plot 5
+
+```{r}
+# plotting first 5 then next 5
+# pivot to long to make work with violin plot
+df_long_5 <- pivot_longer(df_man, all_of(amen_cols[1:5]))
+# first half
+ggplot(df_long_5, aes(x=name, y = value)) + geom_violin()
+```
+
+
+```{r}
+# pivot to long to make work with violin plot
+df_long_10 <- pivot_longer(df_man, all_of(amen_cols[6:10]))
+# 2nd half
+ggplot(df_long_10, aes(x=name, y = value)) + geom_violin()
+```
+## plot 2
+```{r}
+# pivot to long to make work with violin plot
+df_long_2 <- pivot_longer(df_man, all_of(amen_cols[1:2]))
+df_long_4 <- pivot_longer(df_man, all_of(amen_cols[3:4]))
+df_long_6 <- pivot_longer(df_man, all_of(amen_cols[5:6]))
+df_long_8 <- pivot_longer(df_man, all_of(amen_cols[7:8]))
+df_long_10_2 <- pivot_longer(df_man, all_of(amen_cols[9:10]))
+# 2nd half
+ggplot(df_long_2, aes(x=name, y = value)) + geom_violin()
+```
+It looks like for both employment and pharmacy proximity measure, most are very small: both have the shape of a funnel. There are a lot more values close to 0 for employment proximity, and it looks almost like an exponential decrease as the value increase, whereas the rate of decrease for pharma is smaller. 
+
+```{r}
+ggplot(df_long_4, aes(x=name, y = value)) + geom_violin()
+```
+
+
+```{r}
+ggplot(df_long_6, aes(x=name, y = value)) + geom_violin()
+```
+```{r}
+ggplot(df_long_8, aes(x=name, y = value)) + geom_violin()
+```
+
+```{r}
+ggplot(df_long_10_2, aes(x=name, y = value)) + geom_violin()
+```
