@@ -1,0 +1,441 @@
+---
+title: "Clustering Template"
+author: "PMS"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document: default
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width=8, fig.height=6, fig.align = 'center')
+```
+
+
+* * *
+
+# Preliminary 
+
+## Loading \& Cleaning Data
+
+```{r}
+# 
+```
+
+
+
+## Assumptions of the Alogrithm
+
+text
+
+
+*** 
+
+*** 
+
+
+
+# Individual Metrics
+
+## Employment 
+
+### Implementation 
+
+```{r}
+#
+```
+
+
+### Cut-off Values
+
+```{r}
+#
+```
+
+### Silhouette Plot
+
+```{r}
+#
+```
+
+
+### Cluster Profiles
+
+```{r}
+#
+```
+
+*** 
+
+
+## Pharmacy 
+
+### Implementation 
+
+```{r}
+#
+```
+
+
+### Cut-off Values
+
+```{r}
+#
+```
+
+### Silhouette Plot
+
+```{r}
+#
+```
+
+
+### Cluster Profiles
+
+```{r}
+#
+```
+
+*** 
+
+
+## Childcare  
+
+### Implementation 
+
+```{r}
+#
+```
+
+
+### Cut-off Values
+
+```{r}
+#
+```
+
+### Silhouette Plot
+
+```{r}
+#
+```
+
+
+### Cluster Profiles
+
+```{r}
+#
+```
+
+*** 
+
+
+## Healthcare  
+
+### Implementation 
+
+```{r}
+#
+```
+
+
+### Cut-off Values
+
+```{r}
+#
+```
+
+### Silhouette Plot
+
+```{r}
+#
+```
+
+
+### Cluster Profiles
+
+```{r}
+#
+```
+
+*** 
+
+
+## Grocery 
+
+### Implementation 
+
+```{r}
+#
+```
+
+
+### Cut-off Values
+
+```{r}
+#
+```
+
+### Silhouette Plot
+
+```{r}
+#
+```
+
+
+### Cluster Profiles
+
+```{r}
+#
+```
+
+*** 
+
+
+
+## Primary Education
+
+### Implementation 
+
+```{r}
+#
+```
+
+
+### Cut-off Values
+
+```{r}
+#
+```
+
+### Silhouette Plot
+
+```{r}
+#
+```
+
+
+### Cluster Profiles
+
+```{r}
+#
+```
+
+*** 
+
+
+
+## Secondary Education  
+
+### Implementation 
+
+```{r}
+#
+```
+
+
+### Cut-off Values
+
+```{r}
+#
+```
+
+### Silhouette Plot
+
+```{r}
+#
+```
+
+
+### Cluster Profiles
+
+```{r}
+#
+```
+
+*** 
+
+
+## Library 
+
+### Implementation 
+
+```{r}
+#
+```
+
+
+### Cut-off Values
+
+```{r}
+#
+```
+
+### Silhouette Plot
+
+```{r}
+#
+```
+
+
+### Cluster Profiles
+
+```{r}
+#
+```
+
+*** 
+
+
+
+## Parks 
+
+### Implementation 
+
+```{r}
+#
+```
+
+
+### Cut-off Values
+
+```{r}
+#
+```
+
+### Silhouette Plot
+
+```{r}
+#
+```
+
+
+### Cluster Profiles
+
+```{r}
+#
+```
+
+*** 
+
+
+
+## Transit 
+
+### Implementation 
+
+```{r}
+#
+```
+
+
+### Cut-off Values
+
+```{r}
+#
+```
+
+### Silhouette Plot
+
+```{r}
+#
+```
+
+
+### Cluster Profiles
+
+```{r}
+#
+```
+
+*** 
+
+
+
+
+## Conclusion
+
+text
+
+
+
+*** 
+
+*** 
+
+\pagebreak
+# All Metrics Together 
+
+## Implementation 
+
+```{r}
+#
+```
+
+
+## Cut-off Values
+
+```{r}
+#
+```
+
+## Silhouette Plot
+
+```{r}
+#
+```
+
+
+## Cluster Profiles
+
+```{r}
+#
+```
+
+## Conclusion
+
+text
+
+
+***
+
+***
+
+\pagebreak
+# Linked with Index of Remoteness
+
+
+## Implementation 
+
+```{r}
+#
+```
+
+
+## Cut-off Values
+
+```{r}
+#
+```
+
+## Silhouette Plot
+
+```{r}
+#
+```
+
+
+## Cluster Profiles
+
+```{r}
+#
+```
+
+## Conclusion
+
+text
+
+
+
+
+
