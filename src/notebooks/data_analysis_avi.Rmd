@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, cache=TRUE)
 library(dplyr)
 library(factoextra)
 ```
@@ -31,7 +31,6 @@ dim(pmd)
 str(pmd)
 ```
 
-
 ```{r}
 # percentage of missing values in each column in dataset
 p <- function(x) {sum(is.na(x))/length(x)*100}
@@ -47,6 +46,212 @@ $F ->$ to unreliable to be published
 p <- function(x) {sum(x == ".." | x == "F")/length(x)*100}
 sort(apply(pmd, 2, p), decreasing = TRUE)
 ```
+
+```{r}
+pmd[pmd == ".." | pmd == "F"] <- NA
+```
+
+```{r}
+# Convert selected columns to numeric
+pmd <- pmd %>%
+  mutate(DBPOP = as.numeric(gsub(",", "", DBPOP)), # Dissemination block population
+         DAPOP = as.numeric(gsub(",", "", DAPOP)), # Dissemination area population
+         CSDPOP = as.numeric(gsub(",", "", CSDPOP)), # Census subdivision population
+         CMAPOP = as.numeric(gsub(",", "", CMAPOP)), # Census metropolitan area population
+         PRPOP = as.numeric(gsub(",", "", PRPOP)), # Province or territory population
+         # in_db_emp = as.numeric(in_db_emp),
+         # in_db_pharma = as.numeric(in_db_pharma),
+         # in_db_childcare = as.numeric(in_db_childcare),
+         # in_db_health = as.numeric(in_db_health),
+         # in_db_grocery = as.numeric(in_db_grocery),
+         # in_db_educpri = as.numeric(in_db_educpri),
+         # in_db_educsec = as.numeric(in_db_educsec),
+         # in_db_lib = as.numeric(in_db_lib),
+         # in_db_parks = as.numeric(in_db_parks),
+         # in_db_transit = as.numeric(in_db_transit),
+         prox_idx_emp = as.numeric(prox_idx_emp),
+         prox_idx_pharma = as.numeric(prox_idx_pharma),
+         prox_idx_childcare = as.numeric(prox_idx_childcare),
+         prox_idx_health = as.numeric(prox_idx_health),
+         prox_idx_grocery = as.numeric(prox_idx_grocery),
+         prox_idx_educpri = as.numeric(prox_idx_educpri),
+         prox_idx_educsec = as.numeric(prox_idx_educsec),
+         prox_idx_lib = as.numeric(prox_idx_lib),
+         prox_idx_parks = as.numeric(prox_idx_parks),
+         prox_idx_transit = as.numeric(prox_idx_transit))
+```
+
+```{r}
+# summary of the dataset
+sapply(pmd, function(x) if(is.numeric(x)) summary(x))
+```
+
+### Outliers
+
+Outliers can have a significant impact on the clustering results by pulling the centroids towards themselves, creating biased clusters, and reducing the effectiveness of the clustering algorithm.
+
+```{r}
+boxplot(pmd$prox_idx_educsec,
+  ylab = "prox_idx_emp"
+)
+```
+
+The proximity measures are already normalized but we can still see outliers in these. So, we should use clustering algorithms that can handle outliers.  
+For example DBSCAN clustering is robust against outliers when we choose minimum number of points (minPts) - (a threshold) large enough.  
+Ordering points to identify the clustering structure (OPTICS) is an algorithm for finding density-based clusters in spatial data which is also robust against outliers.  
+https://en.wikipedia.org/wiki/OPTICS_algorithm#cite_note-1
+But we can't use general k-means: the squared error approach is sensitive to outliers. But there are variants such as k-medians for handling outliers.  
+(https://www.researchgate.net/publication/220490566_A_review_of_robust_clustering_methods)
+
+Another approach is to apply a transformation to the data that can reduce the impact of outliers. For example, we could apply a log transformation or a power transformation to the data. These transformations can help to reduce the influence of extreme values and make the data more symmetric.
+
+### Distributions
+
+```{r}
+plot(density(pmd$prox_idx_health, na.rm = TRUE)) 
+```
+
+### Density of Categorical and binary Variables
+
+```{r}
+# Simple Bar Plot
+counts <- table(pmd$amenity_dense)
+barplot(counts, main="amenity_dense distribution",
+   xlab="amenity dense")
+```
+
+```{r}
+ggplot(pmd, aes(x=as.factor(amenity_dense) )) +
+  geom_bar(width=0.7, fill="steelblue") +
+  labs(x = "Amenity Dense")
+```
+
+
+
+```{r}
+# Subset data to include only rows where amenity_dense is 0
+pmd_subset <- subset(pmd, amenity_dense == "1")
+
+# Create bar chart of other columns
+ggplot(pmd_subset, aes(x = as.factor(in_db_emp))) +
+  geom_bar(fill = "blue") +
+  geom_text(stat="count", aes(label=..count..), vjust=-0.5) +
+  labs(title = "Bar chart of column_name when amenity_dense is 0",
+       x = "Column Name",
+       y = "Count") + 
+  facet_wrap(~as.factor(in_db_lib)) +
+  facet_wrap(~as.factor(in_db_transit))
+
+```
+
+A dissemination block is an amenity dense neighbourhood, 
+a high amenity density neighbourhood, 
+a non-amenity dense neighbourhood.
+
+### Spatial
+
+```{r}
+suppressMessages(library(terra))
+window = vect("../../data/boundary/ldb_000b21a_e.shp")
+```
+
+```{r}
+
+```
+
+
+```{r fig.width=8, fig.height=6}
+plot(window)
+```
+```{r}
+names(window)
+```
+```{r}
+window$proj4string
+```
+
+
+```{r}
+suppressMessages(library(spatstat))
+suppressMessages(library(sf))
+```
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+```{r cache=TRUE}
+window_sf <- st_as_sf(window)
+window_owin <- as.owin(window_sf)
+```
+
+
+```{r cache=TRUE}
+# Convert to a ppp object
+db_ppp <- ppp(x = pmd$lon, # X coordinates
+              y = pmd$lat, # Y coordinates
+              window = window, # Observation window
+              )
+```
+
+```{r}
+# install.packages("devtools")
+
+# devtools:::install_github("gearslaboratory/gdalUtils")
+
+library(gdalUtils)
+
+# specify path to .prj file
+prj_file <- "../../data/boundary/ldb_000b21a_e.prj"
+
+# use gdalUtils to read .prj file and extract Proj4 string
+proj_string <- ogrinfo(prj_file, format = "ESRI Shapefile")$proj4
+
+```
+
+
+
+```{r}
+##### Tried to do heatmap
+
+# load required packages
+library(Matrix)
+library(ggplot2)
+
+# select only numeric columns
+numeric_cols <- pmd %>% select_if(is.numeric)
+
+# convert data frame to sparse matrix
+numeric_cols_mat <- sparseMatrix(i = rep(1:nrow(numeric_cols), ncol(numeric_cols)),
+                                 j = rep(1:ncol(numeric_cols), each = nrow(numeric_cols)),
+                                 x = as.numeric(unlist(numeric_cols)))
+
+# create heatmap
+heatmap(numeric_cols_mat)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ```{r}
 # Remove rows with ".." or "F" values in proximity columns
@@ -65,20 +270,6 @@ p <- function(x) {sum(x == ".." | x == "F")/length(x)*100}
 sort(apply(pmd_filtered, 2, p), decreasing = TRUE)
 ```
 
-```{r}
-# Convert selected columns to numeric
-pmd_filtered <- pmd_filtered %>%
-  mutate(prox_idx_emp = as.numeric(prox_idx_emp),
-         prox_idx_pharma = as.numeric(prox_idx_pharma),
-         prox_idx_childcare = as.numeric(prox_idx_childcare),
-         prox_idx_health = as.numeric(prox_idx_health),
-         prox_idx_grocery = as.numeric(prox_idx_grocery),
-         prox_idx_educpri = as.numeric(prox_idx_educpri),
-         prox_idx_educsec = as.numeric(prox_idx_educsec),
-         prox_idx_lib = as.numeric(prox_idx_lib),
-         prox_idx_parks = as.numeric(prox_idx_parks),
-         prox_idx_transit = as.numeric(prox_idx_transit))
-```
 
 ```{r}
 # Remove specified columns from dataset
@@ -133,7 +324,14 @@ fviz_cluster(res.km, data = df[, -5],
              )
 ```
 
-
+```{r fig.width=8, fig.height=6}
+plot(window)
+plot(dd$cluster,
+     pch = 16,
+     cex = 0.6,
+     cols = "white",
+     add = T)
+```
 
 
 
