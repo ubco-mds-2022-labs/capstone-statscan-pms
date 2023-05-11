@@ -19,7 +19,7 @@ knitr::opts_chunk$set(echo = TRUE, fig.width=8, fig.height=6, fig.align = 'cente
 ## Loading \& Cleaning Data
 
 ```{r}
-# 
+#
 ```
 
 
@@ -27,6 +27,7 @@ knitr::opts_chunk$set(echo = TRUE, fig.width=8, fig.height=6, fig.align = 'cente
 ## Assumptions of the Alogrithm
 
 text
+
 
 
 *** 
@@ -42,7 +43,7 @@ text
 ### Implementation 
 
 ```{r}
-#
+# 
 ```
 
 
