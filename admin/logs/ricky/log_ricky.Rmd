@@ -199,6 +199,19 @@ mylog <- mylog %>% add_row(week = current.week,
                        comments="attempt ppp, missing data analysis"
                        )
 
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-10"), 
+                       hours=0.5,
+                       description="Daily Meeting",
+                       comments="Updates, game plan"
+                       )
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-10"), 
+                       hours=5.5,
+                       description="EDA",
+                       comments="distributions, summaries, missing values, draft"
+                       )
+
 kable(filter(mylog, week == current.week))
 ```
 My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
