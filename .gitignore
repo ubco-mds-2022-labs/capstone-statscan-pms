@@ -45,3 +45,18 @@ vignettes/*.pdf
 # Jupyter notebook
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
+
+# data
+*.dbf
+*.prj
+*.shp
+*.shx
+*.xml
+*.csv
+*.txt
+*.CPG
+*.qix
+ODB_metadata.pdf
+data_analysis_avi_cache/
+data_analysis_avi_files/
+*.csv
