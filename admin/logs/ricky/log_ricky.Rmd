@@ -1,5 +1,5 @@
 ---
-title: "Personal Logs - Ethan"
+title: "Personal Logs - Ricky"
 author: 'Ricky Heinrich'
 date: "MDS capstone"
 output:
@@ -164,7 +164,6 @@ We did a lot of group work this week: creating the team contract and code of con
 
 ## Week 2
 
-Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first)
 ```{r}
 current.week = current.week + 1
 mylog <- mylog %>% add_row(week = current.week,
@@ -180,7 +179,25 @@ mylog <- mylog %>% add_row(week = current.week,
                        comments="shape files, windows, crs, exploring missing values"
                        )
 
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-09"), 
+                       hours=1,
+                       description="Meetings",
+                       comments="TA meeting, team meeting"
+                       )
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-09"), 
+                       hours=2,
+                       description="Team bonding",
+                       comments="Connecting with team members for good dynamics"
+                       )
 
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-09"), 
+                       hours=4.5,
+                       description="EDA",
+                       comments="attempt ppp, missing data analysis"
+                       )
 
 kable(filter(mylog, week == current.week))
 ```

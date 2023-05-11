@@ -93,15 +93,15 @@ from proceeding in our project.
 
 ## Week 2
 
-Add individual contributions here (be sure to call the **tidyverse** and
-**knitr** package first)
+| week | day        | hours | description  | comments                                            |
+|----:|:---------|-----:|:----------|:----------------------------------------|
+|    2 | 2023-05-08 |   1.5 | Meetings     | Group meeting (prep, daily), instructor meeting     |
+|    2 | 2023-05-08 |   4.5 | EDA          | shape files, windows, crs, exploring missing values |
+|    2 | 2023-05-09 |   1.0 | Meetings     | TA meeting, team meeting                            |
+|    2 | 2023-05-09 |   2.0 | Team bonding | Connecting with team members for good dynamics      |
+|    2 | 2023-05-09 |   4.5 | EDA          | attempt ppp, missing data analysis                  |
 
-| week | day        | hours | description                            | comments                            |
-|----:|:--------|-----:|:---------------------------|:-------------------------|
-|    2 | 2023-05-06 |   0.5 | learning this personal log rmd file    | Rmd is cool                         |
-|    2 | 2023-05-01 |   1.5 | Editing kickoff slide decks with Firas | Firas will push the changes to repo |
-
-My total weekly hours are: 2
+My total weekly hours are: 13.5
 
 ### Weekly Reflection
 
@@ -126,4 +126,4 @@ the following (requires the **dplyr** package)
 |-----:|-------------------:|
 |    0 |                3.5 |
 |    1 |               19.5 |
-|    2 |                2.0 |
+|    2 |               13.5 |
