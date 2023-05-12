@@ -6,7 +6,7 @@ output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = F, cache = T, message = F, warning = F, fig.height=5, fig.width=6)
+knitr::opts_chunk$set(echo = F, cache = T, message = F, warning = F, fig.height=4, fig.width=6)
 library(dplyr)
 library(factoextra)
 library(ggplot2)
@@ -15,17 +15,13 @@ library(gridExtra)
 ```
 
 ## Outline
-- Overall summary
--- how many variables, how many missing values
+- Overall summary: how many variables, how many missing values
 
-- Exploring missing values
--- logistic regression with added variables (master dataset)
+- Exploring missing values: are they related to population?
 
 - Exploring data distributions
--- histograms (actual numbers)
--- kernel densities (smooth)
 
-
+- Population zero
 
 
 # Overall Summary
@@ -36,60 +32,6 @@ pmd_na <- readr::read_csv("../../data/pmd-en.csv", na = c('..', 'F'))
 ```
 There are 489 676 rows in this data and 41 columns, meaning that 489 676 dissemination blocks are included. The 41 columns include information about the dissemination blocks themselves such as ID, population, and coordinates, as well as information about other census boundaries like dissemination areas, census areas, and provinces. Each of the 10 amenities have two columns associated with it: one a binary indicator to track whether the amenity is present in the DB itself, and the other the calculated proximity measure. Finally there are three indicators: transit_na, amenity_dense, and suppressed.
 
-The DBs cover all of Canada: those included in our dataset are not exhaustive, but still, many have populations of zero. The province codes correspond to each province as follows:
-AB: 48
-BC: 59
-MN: 46
-NB: 13
-NL: 10
-NWT: 61
-NC: 12
-NV: 62
-ON: 35
-PEI: 11
-QB: 24
-SK: 47
-YK: 60
-
-It could be reasonable to expect that if the population of a DB is 0, then the proximity measure are also near 0: it is intuitive that for the most part, amenities are further away from areas with no populations. It is thus reasonable to explore the cases where the population is zero, to see its prevalence, and deduce how it may affect the values of proximity measures. We see that Saskatchewan has the most DBs included with a population of zero, followed by Ontario, Quebec, and Alberta. 
-
-```{r}
-# how many DB have population of 0
-#table(filter(pmd_na, pmd_na$DBPOP == 0)$PRNAME)
-
-pmd_na %>% filter(pmd_na$DBPOP == 0) %>% ggplot(aes(factor(PRUID))) + geom_bar() + labs(title = "How many DBs with population zero by province")
-```
-
-Taking the proportions however, we see that over 50% of Yukon and NWT's DBs have a population of 0, and Saskatchewan has over 40%. Ontario has the lowest at around 15%, followed by Quebec at around 18%.
-
-```{r}
-# should get proportions
-data.frame(table(filter(pmd_na, pmd_na$DBPOP == 0)$PRUID)/table(pmd_na$PRUID)) %>% ggplot(aes(factor(Var1), Freq)) + geom_col() + labs(title = "Proportion of population zero by province")
-```
-
-We see that Ontario and Quebec have the most DBs, and the territories have the least.
-
-```{r}
-# how many DBs by province
-ggplot(pmd_na, aes(factor(PRUID))) + geom_bar() + labs(title = "How many DBs by province")
-```
-
-```{r}
-# when population is 0, what is the average value of proximity measure
-
-```
-
-
-We see that Quebec has the most DBs with a population NA, followed by Ontario, Alberta, and BC. The CSDTYPE of the DB's whose population information is NA are IRI – Indian reserve and S-É – Indian settlement. 
-
-```{r}
-pmd_na %>% filter(is.na(pmd_na$DBPOP)) %>% ggplot(aes(factor(PRUID))) + geom_bar() + labs(title = "How many DBs with population NA by province")
-```
-```{r}
-table(filter(pmd_na, is.na(DBPOP))$CSDTYPE)
-```
-
-
 In the summary of the dataset, we see that there are many missing values. We see that the library proximity indicator contains the most missing values, at around 77%, followed by the proximity measures for grocery and secondary education. Only two out of the ten amenities have proximity measures missing proportion under 50%: health and employment. 
 
 ```{r}
@@ -98,7 +40,7 @@ na_prop <- function(x) {sum(is.na(x))/length(x)*100}
 sort(apply(pmd_na, 2, na_prop), decreasing = T)
 ```
 
-We can see the proportion of missing values for each amenity by province:
+In the following chart, can see the proportion of missing values for each amenity by province. We see that overall, employment has the lowest rates of missing values, but has also more range depending on the province. Ontario and Quebec seems to have the least missing values for most amenities relative to the other regions, whereas Nunavut usually has the most. It seems like the amount of proximity measure missing for libraries are the most consistent across regions. 
 
 ```{r}
 # Getting infos from data 
@@ -139,20 +81,7 @@ df_perc_missing %>% pivot_longer(all_of(amen_cols)) %>%
     facet_wrap(~name, ncol = 2) + labs(title = "Missing values for each province by amenity")
 ```
 
-We see that overall, employment has the lowest rates of missing values, but has also more range. Ontario and Quebec seems to have the least missing values for most amenities relative to the other regions, whereas Nunavut usually has the most. It seems like the amount of proximity measure missing for libraries have the most consistency across regions. 
-
-```{r fig.height=10, fig.width=12}
-# flattening so can facet
-df_perc_missing %>% pivot_longer(all_of(amen_cols)) %>%
-  ggplot(aes(y = value, x = name, fill = name)) + 
-    geom_col() + 
-    facet_wrap(~prov_name, ncol = 2) + labs(title = "Missing values for each amenity by province")
-```
-
-Here we see the same information, but flipped so we can compare each amenity for each province. 
-
-
-For each amenity, we can plot the occurrence of missing values in a DB vs its population, and plot a basic logistics curve.
+For each amenity, we can plot the occurrence of missing values in a DB vs its population, and plot a basic logistics curve. The employment curve is included below, and the remainder are found in the appendix. We see that for some amenities, like employment and health, the missing values are concentrated among DBs with small populations. These are the same amenities with less than 50% of values missing. Overall it seems like the population of the DB is not the only factor, if at all, affecting whether a proximity measure is missing for that DB.
 
 ```{r}
 # convert data so NA = 1, other = 0
@@ -163,13 +92,225 @@ df_na[amen_cols][!is.na(df_na[amen_cols])] <- 0
 df_na[amen_cols][is.na(df_na[amen_cols])] <- 1
 ```
 
-```{r fig.height=3, fig.width=3}
+```{r fig.height=3, fig.width=6}
 # plot logistics curve for amenity and population
-# couldn't figure out easy way to get it; for loops weren't working, and facet involves flattening
+# couldn't figure out easy way to get it; for loops weren't working, and facet involves flattening but I wanted to keep most of the info incase I needed it
 #par(mfrow = c(2,5))
 ggplot(df_na, aes(x=DBPOP, y=prox_idx_emp)) + 
   geom_point(alpha=.5) +
-  stat_smooth(method="glm", se=FALSE, method.args = list(family=binomial))
+  stat_smooth(method="glm", se=FALSE, method.args = list(family=binomial)) + labs(title = "Logistic regression curve (1-NA) vs population")
+
+```
+
+
+We can also plot the histograms of missing values vs populations for each amenity, where '1' (blue) is a missing value and '0' (pink) is a value not missing. Again, the remainder are found in the appendix.
+
+```{r fig.height=4, fig.width=6}
+# I should really just facet it
+par(mfrow = c(5,2))
+ggplot(df_na) +
+  geom_histogram(aes(x=DBPOP, fill=factor(prox_idx_emp)), bins = 40,
+                 colour="grey50", alpha=0.5, position="identity") + labs(title = "Histogram NA values vs rest by population for employment")
+```
+
+Overall, there are more DBs with lower populations than larger populations. We see that for some amenities, at smaller populations, there are a lot more missing values. Again, employment and health are the only two where there are always more actual values than missing values at every population bin. 
+
+```{r eval = F}
+# ### Model with other variables to see relationship: need add 'master' df
+# basic model with only population
+log_mod <- glm(prox_idx_emp~DBPOP, data = df_na)
+summary(log_mod)
+# diagnostics
+plot(log_mod)
+```
+
+
+# Data Distributions
+We can take a preliminary look at the distribution of proximity measures for each amenity, to see if there are 'obvious' clusters.
+
+```{r}
+# manipulate dataframe to only keep amenities cols
+df_man <- subset(pmd_na, select = amen_cols)
+# rename cols for easier plot reading
+names(df_man) <- sub('prox_idx_', '', names(df_man))
+amen_cols_short <- names(df_man)
+# pivot to long to make work with plots
+df_long <- pivot_longer(df_man, all_of(amen_cols_short))
+```
+
+In this violin plot, we see that the highest densities of proximity values lie below 0.12 for all amenities. We see that the amenities with the highest distribution density closer to 0 are health, then employment, then transit. Library has the lowest density right around zero, and 'starts' a bit later. Health and employment have the least amount of missing values, and library has the most; some conclusion could be made out of that. 
+
+```{r fig.height= 4, fig.width=6}
+ggplot(df_long, aes(x=name, y = value)) + geom_violin() + labs(title = "Distribution of proximity measures by amenity")
+```
+
+
+
+
+
+Next we see the kernel densities of proximity measures for each amenity. We see that most curves appear smooth, but some like for primary education, secondary education, and library, have 'bumps', which could indicate clusters. Overall, the naked eye is not able to perceive obvious segmentation cutoffs.
+
+```{r fig.height=10, fig.width=6}
+# kernel densities
+ggplot(df_long, aes(value)) + 
+    geom_density() + 
+    facet_wrap(~name, scales = 'free_y', ncol = 2) + labs(title = "Distribution of proximity measures by amenity")
+```
+
+
+# Population zero
+
+```{r include=F}
+# how many DB have population of 0
+nrow(filter(pmd_na, pmd_na$DBPOP == 0))/nrow(pmd_na)
+```
+
+About 24% of the DBs in Canada (in 2016) have a population of 0. It could be reasonable to expect that if the population of a DB is 0, then the proximity measure are also near 0: it is intuitive that for the most part, amenities are further away from areas with no populations. It is thus reasonable to explore the cases where the population is zero, to see its prevalence, and deduce how it may affect the values of proximity measures. In the appendix there's a barplot showing how many DBs there are per province: Ontario and Quebec have the most, whereas the Territories have the least. 
+
+Here, we that the province with the most DBs with a population of zero is Saskatchewan, followed by Ontario, Quebec, and Alberta. 
+
+```{r}
+PRUID <- unique(pmd_na$PRUID)
+pr_abbr <- c('NL','PE','NC','NB','QB','ON','MN','SK','AB','BC','YK', 'NW','NV')
+
+pr_df <- cbind(PRUID, pr_abbr)
+pmd_na <- merge(pmd_na, pr_df, by = 'PRUID', all.x = T)
+
+pmd_na %>% filter(pmd_na$DBPOP == 0) %>% 
+  ggplot(aes(pr_abbr)) + geom_bar() + labs(title = "How many DBs with population zero by province") 
+
+#cowplot::plot_grid(p1,p2)
+```
+
+Taking the proportions however, we see that over 50% of Yukon and NWT's DBs have a population of 0, and Saskatchewan has over 40%. Ontario has the lowest at around 15%, followed by Quebec at around 18%.
+
+```{r}
+# should get proportions
+data.frame(table(filter(pmd_na, pmd_na$DBPOP == 0)$pr_abbr)/table(pmd_na$pr_abbr)) %>% ggplot(aes(factor(Var1), Freq)) + geom_col() + labs(title = "Proportion of population zero by province")
+```
+
+In the following table, we see that the CSDTYPE with the most populations = zero are rural municipalities followed relatively closely by cities. It seems the majority of the top counts are urban areas (cities, villes, municipalities, etc), which is somewhat unexpected.
+
+```{r}
+sort(table(filter(pmd_na, pmd_na$DBPOP == 0)$CSDTYPE), decreasing = T)
+```
+
+Some of the population is NA. We see that Quebec has the most DBs with a population NA, followed by Ontario, Alberta, and BC. The CSDTYPE of the DB's whose population information is NA are IRI – Indian reserve and S-É – Indian settlement. 
+
+```{r}
+pmd_na %>% filter(is.na(pmd_na$DBPOP)) %>% ggplot(aes(factor(pr_abbr))) + geom_bar() + labs(title = "How many DBs with population NA by province")
+```
+```{r eval=F}
+table(filter(pmd_na, is.na(DBPOP))$CSDTYPE)
+```
+
+## Effect of removing population = 0
+
+```{r}
+# Data wrangling
+# keeping only vals not 0
+pop_0 <- filter(pmd_na, pmd_na$DBPOP !=0)
+names(pop_0) <- sub('prox_idx_', '', names(pop_0))
+# manipulate dataframe to only keep amenities cols
+df_man_pop <- subset(pop_0, select = amen_cols_short)
+
+# pivot to long to make work with plots
+df_long_pop <- pivot_longer(df_man_pop, all_of(amen_cols_short))
+
+# if only keep population ==0
+pop_only0 <- filter(pmd_na, pmd_na$DBPOP ==0)
+names(pop_only0) <- sub('prox_idx_', '', names(pop_only0))
+# manipulate dataframe to only keep amenities cols
+df_man_pop_only <- subset(pop_only0, select = amen_cols_short)
+
+# pivot to long to make work with plots
+df_long_pop_only <- pivot_longer(df_man_pop_only, all_of(amen_cols_short))
+```
+
+
+```{r fig.height=10, fig.width=6}
+# data wrangling
+# add row indicating what data type
+which_df <- rep("all", nrow(df_long))
+df_long <- cbind(df_long, which_df)
+which_df <- rep("red", nrow(df_long_pop))
+df_long_pop <- cbind(df_long_pop, which_df)
+which_df <- rep("pop0", nrow(df_long_pop_only))
+df_long_pop_only <- cbind(df_long_pop_only, which_df)
+
+# merge df together
+df_long_both <- rbind(df_long, df_long_pop)
+df_long_red <- rbind(df_long_pop, df_long_pop_only)
+```
+
+
+The null hypothesis of the Kolmogorov-Smirnov test is that the two samples come from the same distribution. In this following table, we compare the 'sample' where the population = 0 vs the rest. We see that the p-values are very small for every amenity, thus leading us to conclude that we have sufficient evidence to say that these 'samples' don't come from the same distribution. (We can conclude that there is an effect on the proximity measures when the population is 0 ?)
+
+```{r}
+amen_pval <-c()
+n = 0
+for (amen in amen_cols_short){
+  n = n+1
+  amen_pval[n]<- ks.test(filter(df_long_pop_only, df_long_pop_only$name == amen)$value, filter(df_long_pop, df_long_pop$name == amen)$value)[["p.value"]]
+}
+
+amen_pvaldf_red <- cbind(amen_cols_short,amen_pval)
+amen_pvaldf_red
+```
+But in what ways do these subsets differ?
+
+Here we are comparing the histogram for both, where the pink represents the count of population = 0, and the blue the rest. We see that the 'pink' appears to mirror the trends of the 'blue', but on a smaller scale. In the appendix, a 'zoomed in' plot is available. Surprisingly, see there that for some higher proximity 'bins' in transit and health, there are more cases for when population = 0. We also see in the appendix the kernel densities. 
+
+
+```{r fig.height=10, fig.width=6}
+# histograms
+ggplot(df_long_red, aes(value, fill = which_df)) + 
+    geom_histogram(bins = 50, alpha = .5, position="identity") + 
+    facet_wrap(~name, scales = 'free_y', ncol = 2)
+```
+
+From this following table, we see that 72% of the proximity measure values where population = 0 are NA, compared to 50% of those where population !=0. 
+
+```{r}
+table(df_long_red$which_df,is.na(df_long_red$value))/cbind(table(df_long_red$which_df), table(df_long_red$which_df))
+```
+## Conclusion
+
+There are no obvious clusters in the proximity measures to the naked eye.
+
+The distribution of missing values is not the same across amenities nor provinces. 
+
+Our dataset contains a lot of rows, and there may be question about the 'usefulness' of all of them. If we were to remove all the DBs where the population is 0, we could reduce our dataset by 23%, aiding computationally. There are still proximity measures associated with these DBs with population 0: the distributions of their proximity measures are not the statistically the same as those for the rest of the DBs (those with populations), but the trends appear somewhat similar. 
+
+It doesn't appear that population of a DB is the only factor affecting whether a proximity measure is missing (NA); it was the only one tested as it was the only one included in this dataset. According to StatsCan's definition of a DB however, "only population and dwelling counts are disseminated at the dissemination block level" anyways. If we wanted to analyse other factors, we would have to look into aggregation at a higher level, which is not straighforward (need to take the mean/etc of whether something is missing or not?). 
+
+ 
+
+\clearpage
+
+# Appendix
+
+```{r}
+ggplot(pmd_na, aes(DBPOP)) + 
+    geom_density()+labs(title = "Kernel density of DB population")
+```
+
+```{r fig.height=10, fig.width=12}
+# Missing values for amennity by prov
+# flattening so can facet
+df_perc_missing %>% pivot_longer(all_of(amen_cols)) %>%
+  ggplot(aes(y = value, x = name, fill = name)) + 
+    geom_col() + 
+    facet_wrap(~prov_name, ncol = 2) + labs(title = "Missing values for each amenity by province")
+```
+
+```{r}
+# how many DBs by province
+ggplot(pmd_na, aes(pr_abbr)) + geom_bar() + labs(title = "How many DBs by province")
+```
+## Logistics curves NAs
+
+```{r fig.height=3, fig.width=3}
 ggplot(df_na, aes(x=DBPOP, y=prox_idx_pharma)) + 
   geom_point(alpha=.5) +
   stat_smooth(method="glm", se=FALSE, method.args = list(family=binomial))
@@ -197,21 +338,11 @@ ggplot(df_na, aes(x=DBPOP, y=prox_idx_parks)) +
 ggplot(df_na, aes(x=DBPOP, y=prox_idx_transit)) + 
   geom_point(alpha=.5) +
   stat_smooth(method="glm", se=FALSE, method.args = list(family=binomial))
-
 ```
 
-We see that for some amenities, like employment and health, the missing values are concentrated among DBs with small populations. These are the same amenities with less than 50% of values missing. 
-
-Overall it seems like the population of the DB is not the only factor, if at all, affecting whether a proximity measure is missing for that DB.
-
-We can also plot the histograms of missing values vs populations for each amenity, where '1' (blue) is a missing value and '0' (pink) is a value not missing:
+## Histograms NAs
 
 ```{r fig.height=4, fig.width=6}
-# I should really just facet it
-par(mfrow = c(5,2))
-ggplot(df_na) +
-  geom_histogram(aes(x=DBPOP, fill=factor(prox_idx_emp)), bins = 40,
-                 colour="grey50", alpha=0.5, position="identity")
 ggplot(df_na) +
   geom_histogram(aes(x=DBPOP, fill=factor(prox_idx_pharma)), bins = 40,
                  colour="grey50", alpha=0.5, position="identity")
@@ -240,191 +371,50 @@ ggplot(df_na) +
   geom_histogram(aes(x=DBPOP, fill=factor(prox_idx_transit)), bins = 40,
                  colour="grey50", alpha=0.5, position="identity")
 ```
-Overall, there are more DBs with lower populations than larger populations. We see that for some amenities, at smaller populations, there are a lot more missing values. Again, employment and health are the only two where there are always more actual values than missing values at every population bin. 
 
-
-### Model with other variables to see relationship: need add 'master' df
-
-```{r eval = F}
-# basic model with only population
-log_mod <- glm(prox_idx_emp~DBPOP, data = df_na)
-summary(log_mod)
-# diagnostics
-plot(log_mod)
-```
-
-
-# Data Distributions
-We can take a preliminary look at the distribution of proximity measures for each amenity, to see if there are 'obvious' clusters.
-
-```{r}
-# manipulate dataframe to only keep amenities cols
-df_man <- subset(pmd_na, select = amen_cols)
-# rename cols for easier plot reading
-names(df_man) <- sub('prox_idx_', '', names(df_man))
-amen_cols <- names(df_man)
-# pivot to long to make work with plots
-df_long <- pivot_longer(df_man, all_of(amen_cols))
-```
-
-In this violin plot, we see that the highest densities of proximity values lie below 0.12 for all amenities. We see that the amenities with the highest distribution density closer to 0 are health, then employment, then transit. Health and employment have the least amount of missing values, and some conclusion could be made out of that. 
-
-```{r fig.height= 4, fig.width=6}
-ggplot(df_long, aes(x=name, y = value)) + geom_violin()
-```
-
-Next we see the histograms of proximity values for each amenity. This gives us an idea of the counts for each bin of values. We see that libraries have the least amount of proximity values that are near 0, but we saw above that they also had the greatest amount of missing values.
+## Proximity measures histograms 
 
 ```{r fig.height=10, fig.width=6}
 # histograms
+# Next we see the histograms of proximity values for each amenity. This gives us an idea of the counts for each bin of values. We see that libraries have the least amount of proximity values that are near 0, but we saw above that they also had the greatest amount of missing values.
 ggplot(df_long, aes(value)) + 
     geom_histogram(bins = 50) + 
     facet_wrap(~name, scales = 'free_y', ncol = 2)
 ```
 
-
-Next we see the kernel densities of proximity measures for each amenity. We see that most curves appear smooth, but some like for primary education, secondary education, and library, have 'bumps', which could indicate clusters. Overall, the naked eye is not able to perceive robust clusters, but we will explore if clustering algorithms will.
-
+## Proximity measures density zoomed in ? I think something is off
 ```{r fig.height=10, fig.width=6}
 # kernel densities
 ggplot(df_long, aes(value)) + 
     geom_density() + 
-    facet_wrap(~name, scales = 'free_y', ncol = 2)
+    facet_wrap(~name, scales = 'free_y', ncol = 2) + xlim(0.5,1)+ labs(title = "Distribution of proximity measures by amenity, zoomed in")
 ```
+## Population 0
 
-- NA values by amenity by province ?
-- what happens if I remove all the DBs that don't have population; does that change the values?
-- what's the average proximity value if population is 0
-- what are the case where there are no proximity measures at all
-- what DBs are in the master dataset and not in original: population reason? remote reason? B/c different years have diff DBs amounts
-- how many rows where all proximity measures are 0
-- assumption: if proximity measure missing values are random for each amenity, then we can randomly inpute it
-- are NA values corelated with CSD type
-
-- do we care if population 
-- population 
-
-- plot the points for proximities b/w 0.2-1 (cut up granular)
-- zoom in: violin plot
-
-Ways to cut data:
-- remove all population 0
-- remove all NAs 0 for all amenities
-- 
-
-## What happens if we remove population = 0?
-```{r}
-# keeping only vals not 0
-pop_0 <- filter(pmd_na, pmd_na$DBPOP !=0)
-names(pop_0) <- sub('prox_idx_', '', names(pop_0))
-# manipulate dataframe to only keep amenities cols
-df_man_pop <- subset(pop_0, select = amen_cols)
-
-# pivot to long to make work with plots
-df_long_pop <- pivot_longer(df_man_pop, all_of(amen_cols))
-
-
-# if only keep population ==0
-pop_only0 <- filter(pmd_na, pmd_na$DBPOP ==0)
-names(pop_only0) <- sub('prox_idx_', '', names(pop_only0))
-# manipulate dataframe to only keep amenities cols
-df_man_pop_only <- subset(pop_only0, select = amen_cols)
-
-# pivot to long to make work with plots
-df_long_pop_only <- pivot_longer(df_man_pop_only, all_of(amen_cols))
-```
-
-```{r fig.height= 4, fig.width=6}
+```{r fig.height= 4, fig.width=6, include = F}
+# violin plot
 ggplot(df_long_pop, aes(x=name, y = value)) + geom_violin()
 ```
 
-We cannot tell visually if the distributions are the same or not, as they look like they overlap.
-```{r fig.height=10, fig.width=6}
-# add row indicating what data type
-which_df <- rep("all", nrow(df_long))
-df_long <- cbind(df_long, which_df)
-which_df <- rep("red", nrow(df_long_pop))
-df_long_pop <- cbind(df_long_pop, which_df)
-which_df <- rep("pop0", nrow(df_long_pop_only))
-df_long_pop_only <- cbind(df_long_pop_only, which_df)
-
-# merge df together
-df_long_both <- rbind(df_long, df_long_pop)
-df_long_red <- rbind(df_long_pop, df_long_pop_only)
-
-# kernel densities
-ggplot(df_long_both, aes(value, fill = which_df)) + 
-    geom_density(alpha = .75) + 
-    facet_wrap(~name, scales = 'free_y', ncol = 2)
-
-```
-
-
-For each of the columns:
-```{r}
-amen_pval <-c()
-n = 0
-for (amen in amen_cols){
-  n = n+1
-  amen_pval[n]<- ks.test(filter(df_long, df_long$name == amen)$value, filter(df_long_pop, df_long_pop$name == amen)$value)[["p.value"]]
-}
-
-amen_pvaldf <- cbind(amen_cols, round(amen_pval,3))
-amen_pvaldf
-```
-The null hypothesis is that the two samples come from the same distribution. From this table, we see that for most amenities, the p-values are very small, thus leading us to conclude that we have sufficient evidence to say that the full dataset and the reduced dataset don't come from the same distribution. These values are rounded to 3 decimal places.
-
-```{r}
-amen_pval <-c()
-n = 0
-for (amen in amen_cols){
-  n = n+1
-  amen_pval[n]<- ks.test(filter(df_long_pop_only, df_long_pop_only$name == amen)$value, filter(df_long_pop, df_long_pop$name == amen)$value)[["p.value"]]
-}
-
-amen_pvaldf_red <- cbind(amen_cols, round(amen_pval,4))
-amen_pvaldf_red
-```
-We see that for all amenities, the distribution of the dataset when the population = 0 is not the same as the distribution of the remainder of the dataset. These values are rounded to 4 decimal places.
-
-But in what ways do they differ?
-
-Here we are comparing the histogram for both of these population subsets.
 ```{r fig.height=10, fig.width=6}
 # histograms
 ggplot(df_long_red, aes(value, fill = which_df)) + 
-    geom_histogram(bins = 50, alpha = .5) + 
-    facet_wrap(~name, scales = 'free_y', ncol = 2)
+    geom_histogram(bins = 50, alpha = .5, position="identity") + 
+    facet_wrap(~name, scales = 'free_y', ncol = 2) +xlim(0.25,1) + labs(title = 'Histogram of Population = 0 vs != 0, zoomed in')
 ```
 
-```{r}
-cbind(table(df_long_red$which_df), table(df_long_red$which_df))
+
+```{r fig.height=10, fig.width=6}
+# histograms
+ggplot(df_long_red, aes(value, fill = which_df)) + 
+    geom_density( alpha = .5, position="identity") + 
+    facet_wrap(~name, scales = 'free_y', ncol = 2) +xlim(0.25,1) + labs(title = 'Kernel density of Population = 0 vs != 0, zoomed in')
 ```
 
-From this following table, we see that 72% of the proximity measure values where population = 0 are NA, compared to 50% of those where population !=0. 
-```{r}
-table(df_long_red$which_df,is.na(df_long_red$value))/cbind(table(df_long_red$which_df), table(df_long_red$which_df))
-```
+## Table of counts for populations and NAs
+
+There are still many more DBs that have populations > 0:
+
 ```{r}
 table(df_long_red$which_df,is.na(df_long_red$value))
 ```
-
-
-I'm confused by this following plot, b/c there should be in total more blue than pink, but it looks like for every bin there is more pink then blue ...
-
-```{r fig.height=10, fig.width=6}
-# histograms
-ggplot(df_long_red, aes(value, fill = which_df)) + 
-    geom_histogram(bins = 50, alpha = .5) + 
-    facet_wrap(~name, scales = 'free_y', ncol = 2) +xlim(0.25,1)
-```
-
-
-```{r}
-ggplot(pmd_na, aes(DBPOP)) + 
-    geom_density()
-```
-```{r}
-
-```
-

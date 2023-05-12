@@ -36,7 +36,7 @@ str(pmd)
 
 ```{r}
 # definitions of variables
-defpmd <- read.csv("../../data/pmd-en-record-layout-notes.csv")
+defpmd <- read.csv("../../data/pmd-en-record-layout.csv")
 ```
 
 Definitions: https://www150.statcan.gc.ca/n1/pub/92f0138m/92f0138m2019001-eng.htm
@@ -364,3 +364,26 @@ ggplot(df_long_8, aes(x=name, y = value)) + geom_violin()
 ```{r}
 ggplot(df_long_10_2, aes(x=name, y = value)) + geom_violin()
 ```
+
+
+- NA values by amenity by province ?
+- what happens if I remove all the DBs that don't have population; does that change the values?
+- what's the average proximity value if population is 0
+- what are the case where there are no proximity measures at all
+- what DBs are in the master dataset and not in original: population reason? remote reason? B/c different years have diff DBs amounts
+- how many rows where all proximity measures are 0
+- assumption: if proximity measure missing values are random for each amenity, then we can randomly inpute it
+- are NA values corelated with CSD type
+
+- do we care if population 
+- population 
+
+- plot the points for proximities b/w 0.2-1 (cut up granular)
+- zoom in: violin plot
+
+Ways to cut data:
+- remove all population 0
+- remove all NAs 0 for all amenities
+- 
+
+
