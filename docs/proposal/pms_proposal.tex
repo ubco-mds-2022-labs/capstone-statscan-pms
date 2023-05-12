@@ -44,40 +44,45 @@ Jonah Edmundson, Ricky Heinrich, \par Noman Mohammad, Avishek Saha
 
 \section*{Introduction}
 
-We all live somewhere, and inhabit physical space. Unless one lives completely removed from others, amenities are usually present in the built environment: schools, places of employment, healthcare facilities, etc. These amenities serve to make residents’ lives better, and are the result of policy and planning by multiple groups. Like people, they inhabit physical spaces, and not everybody is equidistant from them. As Alasia et al. (2021) outline: “having physical access to basic services and amenities is a key determinant of social inclusion, their capacity to meet basic needs, and their ability to fully participate in social and economic development.”
-\par
-The Proximity Measure Database (PMD) developed by the Data Exploration and Integration Lab (DEIL) at Statistics Canada serves to provide a granular measure of proximity to services and amenities to inform planning and policy questions (Alasia et al., 2021). The PMD contains continuous measures for 10 amenities at a ‘dissemination block’ (DB) level.
-\par
-Our goal is to segment these continuous proximity measures to group similar dissemination blocks together based on their access to amenities. These clusters may provide valuable insights to policymakers and urban planners regarding how to prioritize efforts to improve accessibility and promote social and economic sustainability.
-\par
-There are various clustering algorithms in the literature, like the k-means algorithm (MacQueen, 1967) and the fuzzy c-means algorithm (Bezdek et al., 1984). There are also various metrics defined for assessing clustering quality. These metrics can be used to evaluate the performance of different clustering algorithms and to determine which algorithm is the best fit for a particular dataset. Examples of such metrics include Rand Index (RI), Adjusted Rand Index (ARI), Normalized Mutual Information (NMI), Adjusted Mutual Information (AMI), F-measure, Homogeneity, V-measure, Heterogeneity, Completeness, and Silhouette coefficient (Mehta et al., 2020).
-\par
-Our motivation for this project is rooted in the need for improved urban planning and policy-making that can benefit individuals, businesses, and the overall community. Through our analysis, we hope to contribute to a better understanding of local access to amenities.
+
+
 
 
 
 \section*{Data Sources}
 
-Our primary dataset of interest is the \href{https://www150.statcan.gc.ca/n1/pub/17-26-0002/2020001/csv/pmd-eng.zip}{Proximity Measures Dataset} (PMD) from the DEIL at Statistics Canada, which includes the continuous numerical proximity scores of every dissemination block (DB) in Canada for 10 services/amenities: employment, grocery stores, pharmacies, health care, child care, primary education, secondary education, public transit, neighborhood parks, and libraries. These proximity measures were calculated using a gravity model that takes into account the distance between a reference DB and all other DBs where the service is located within a specified range, as well as the size of those services. Additionally, the presence of services within the reference DB is factored into the measure. These measures are considered a reliable way to assess local access to various amenities. The data dictionary for this dataset can be found \href{https://www150.statcan.gc.ca/n1/pub/71-607-x/71-607-x2020011-eng.htm}{here}.
-\par
-Our secondary dataset is the \href{https://www150.statcan.gc.ca/n1/pub/17-26-0001/172600012020001-eng.htm}{Index of Remoteness}, also from Statistics Canada. This dataset includes a continuous numeric remoteness score for each census subdivision in Canada. If possible, it can be linked to the proximity measures dataset by determining which DBs reside in each census subdivision. 
 
 
 
+\href{https://www150.statcan.gc.ca/n1/pub/17-26-0002/2020001/csv/pmd-eng.zip}{Proximity Measures Dataset}
+\href{https://www150.statcan.gc.ca/n1/pub/71-607-x/71-607-x2020011-eng.htm}{here}.
+\href{https://www150.statcan.gc.ca/n1/pub/17-26-0001/172600012020001-eng.htm}{Index of Remoteness}
+
+
+\begin{table}[H]
+\centering
+%\caption{caption goes here}\label{table1}
+\begin{tabular}{|l|l|} 
+\hline
+\textbf{Symbol} & \textbf{Meaning} \\
+\hline
+. & not available for any reference period \\ 
+\hline 
+.. & not available for a specific reference period \\ 
+\hline 
+... & not applicable \\ 
+\hline 
+F & too unreliable to be published \\ 
+\hline 
+\end{tabular}
+\end{table}
 
 
 
 \section*{Research Questions}
 
 \begin{enumerate}
-\item Is the missing value structure of the PMD dataset randomly distributed in Canada? Or is it biased to some targeted geographic regions? 
-\item Which clustering approach is best at identifying meaningful cutoff values/segments in the proximity measures?
-\item What are the cut-off values suggested by the clustering algorithm the PMD continuous metric? (This requires the analysis, not only of the content of each cluster, but also of the boundaries distinguishing the clusters.) 
-\item What are the characteristics of each cluster of DBs? (Heterogeneity between clusters and homogeneity within a cluster.)
-\item Can a generalized clustering approach be applied to all amenity types, or should specific clustering methods be used for different amenities?
-\item If it is possible to link relevant open source data: are there correlations between the identified clusters and socio-economic factors, such as population density, building density, or the proportion of rural/urban areas?
-\item Can additional datasets provide further insights into amenity accessibility or more clear clusters?
-\item Is our chosen clustering approach robust?
+\item 
 \end{enumerate}
 
 
@@ -230,10 +235,14 @@ In order to ensure that every team member gains a well-rounded experience and co
 
 \section*{Limitations}
 
+Since the proximity measures dataset was only recently released as ``experimental statistics", it is possible that better, more comprehensive ways of calculating the proximity index using more/different data sources may be developed in the future, which may render our methodology obsolete. 
+
+\comment{
 \begin{enumerate}
 %\item The proximity measures dataset has lots of missing data. Once data is available for many smaller/uninhabited/remote DBs, it may skew our clustering results and our algorithm may need to be replaced.
 \item Since the proximity measures dataset was only recently released as ``experimental statistics", it is possible that better, more comprehensive ways of calculating the proximity index using more/different data sources may be developed in the future, which may render our methodology obsolete.
 \end{enumerate}
+}
 
 
 
