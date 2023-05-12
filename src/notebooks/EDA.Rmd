@@ -291,3 +291,140 @@ ggplot(df_long, aes(value)) +
     geom_density() + 
     facet_wrap(~name, scales = 'free_y', ncol = 2)
 ```
+
+- NA values by amenity by province ?
+- what happens if I remove all the DBs that don't have population; does that change the values?
+- what's the average proximity value if population is 0
+- what are the case where there are no proximity measures at all
+- what DBs are in the master dataset and not in original: population reason? remote reason? B/c different years have diff DBs amounts
+- how many rows where all proximity measures are 0
+- assumption: if proximity measure missing values are random for each amenity, then we can randomly inpute it
+- are NA values corelated with CSD type
+
+- do we care if population 
+- population 
+
+- plot the points for proximities b/w 0.2-1 (cut up granular)
+- zoom in: violin plot
+
+Ways to cut data:
+- remove all population 0
+- remove all NAs 0 for all amenities
+- 
+
+## What happens if we remove population = 0?
+```{r}
+# keeping only vals not 0
+pop_0 <- filter(pmd_na, pmd_na$DBPOP !=0)
+names(pop_0) <- sub('prox_idx_', '', names(pop_0))
+# manipulate dataframe to only keep amenities cols
+df_man_pop <- subset(pop_0, select = amen_cols)
+
+# pivot to long to make work with plots
+df_long_pop <- pivot_longer(df_man_pop, all_of(amen_cols))
+
+
+# if only keep population ==0
+pop_only0 <- filter(pmd_na, pmd_na$DBPOP ==0)
+names(pop_only0) <- sub('prox_idx_', '', names(pop_only0))
+# manipulate dataframe to only keep amenities cols
+df_man_pop_only <- subset(pop_only0, select = amen_cols)
+
+# pivot to long to make work with plots
+df_long_pop_only <- pivot_longer(df_man_pop_only, all_of(amen_cols))
+```
+
+```{r fig.height= 4, fig.width=6}
+ggplot(df_long_pop, aes(x=name, y = value)) + geom_violin()
+```
+
+We cannot tell visually if the distributions are the same or not, as they look like they overlap.
+```{r fig.height=10, fig.width=6}
+# add row indicating what data type
+which_df <- rep("all", nrow(df_long))
+df_long <- cbind(df_long, which_df)
+which_df <- rep("red", nrow(df_long_pop))
+df_long_pop <- cbind(df_long_pop, which_df)
+which_df <- rep("pop0", nrow(df_long_pop_only))
+df_long_pop_only <- cbind(df_long_pop_only, which_df)
+
+# merge df together
+df_long_both <- rbind(df_long, df_long_pop)
+df_long_red <- rbind(df_long_pop, df_long_pop_only)
+
+# kernel densities
+ggplot(df_long_both, aes(value, fill = which_df)) + 
+    geom_density(alpha = .75) + 
+    facet_wrap(~name, scales = 'free_y', ncol = 2)
+
+```
+
+
+For each of the columns:
+```{r}
+amen_pval <-c()
+n = 0
+for (amen in amen_cols){
+  n = n+1
+  amen_pval[n]<- ks.test(filter(df_long, df_long$name == amen)$value, filter(df_long_pop, df_long_pop$name == amen)$value)[["p.value"]]
+}
+
+amen_pvaldf <- cbind(amen_cols, round(amen_pval,3))
+amen_pvaldf
+```
+The null hypothesis is that the two samples come from the same distribution. From this table, we see that for most amenities, the p-values are very small, thus leading us to conclude that we have sufficient evidence to say that the full dataset and the reduced dataset don't come from the same distribution. These values are rounded to 3 decimal places.
+
+```{r}
+amen_pval <-c()
+n = 0
+for (amen in amen_cols){
+  n = n+1
+  amen_pval[n]<- ks.test(filter(df_long_pop_only, df_long_pop_only$name == amen)$value, filter(df_long_pop, df_long_pop$name == amen)$value)[["p.value"]]
+}
+
+amen_pvaldf_red <- cbind(amen_cols, round(amen_pval,4))
+amen_pvaldf_red
+```
+We see that for all amenities, the distribution of the dataset when the population = 0 is not the same as the distribution of the remainder of the dataset. These values are rounded to 4 decimal places.
+
+But in what ways do they differ?
+
+Here we are comparing the histogram for both of these population subsets.
+```{r fig.height=10, fig.width=6}
+# histograms
+ggplot(df_long_red, aes(value, fill = which_df)) + 
+    geom_histogram(bins = 50, alpha = .5) + 
+    facet_wrap(~name, scales = 'free_y', ncol = 2)
+```
+
+```{r}
+cbind(table(df_long_red$which_df), table(df_long_red$which_df))
+```
+
+From this following table, we see that 72% of the proximity measure values where population = 0 are NA, compared to 50% of those where population !=0. 
+```{r}
+table(df_long_red$which_df,is.na(df_long_red$value))/cbind(table(df_long_red$which_df), table(df_long_red$which_df))
+```
+```{r}
+table(df_long_red$which_df,is.na(df_long_red$value))
+```
+
+
+I'm confused by this following plot, b/c there should be in total more blue than pink, but it looks like for every bin there is more pink then blue ...
+
+```{r fig.height=10, fig.width=6}
+# histograms
+ggplot(df_long_red, aes(value, fill = which_df)) + 
+    geom_histogram(bins = 50, alpha = .5) + 
+    facet_wrap(~name, scales = 'free_y', ncol = 2) +xlim(0.25,1)
+```
+
+
+```{r}
+ggplot(pmd_na, aes(DBPOP)) + 
+    geom_density()
+```
+```{r}
+
+```
+
