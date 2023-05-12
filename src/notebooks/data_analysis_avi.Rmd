@@ -5,8 +5,9 @@ date: "`r Sys.Date()`"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, cache=TRUE, fig.align="center", fig.width=8, fig.height=6)
 library(dplyr)
+library(ggplot2)
 library(factoextra)
 ```
 
@@ -31,7 +32,6 @@ dim(pmd)
 str(pmd)
 ```
 
-
 ```{r}
 # percentage of missing values in each column in dataset
 p <- function(x) {sum(is.na(x))/length(x)*100}
@@ -49,26 +49,46 @@ sort(apply(pmd, 2, p), decreasing = TRUE)
 ```
 
 ```{r}
-# Remove rows with ".." or "F" values in proximity columns
-pmd_filtered <- pmd %>%
-  filter_at(vars(starts_with("prox_idx")), all_vars(. != ".." & . != "F"))
+pmd[pmd == ".." | pmd == "F"] <- NA
 ```
 
+Count the dissemination block per province.
+
 ```{r}
-# no. of rows and columns in filtered dataset
-dim(pmd_filtered)
+# Count the number dbs' that fall under each province
+db_counts <- pmd %>% count(prov = pmd$PRNAME)
+
+# Create bar chart
+ggplot(db_counts, aes(x=prov, y=n)) +
+  geom_bar(stat="identity", fill="steelblue") +
+  geom_text(aes(label=n), vjust=0.1, color="black", size=3.5) +
+  labs(title = "Number of DBs' by Province",
+       x = "Province",
+       y = "No. of DBs'") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 
-```{r}
-p <- function(x) {sum(x == ".." | x == "F")/length(x)*100}
-sort(apply(pmd_filtered, 2, p), decreasing = TRUE)
-```
 
-```{r}
+```{r echo=FALSE}
 # Convert selected columns to numeric
-pmd_filtered <- pmd_filtered %>%
-  mutate(prox_idx_emp = as.numeric(prox_idx_emp),
+pmd <- pmd %>%
+  mutate(DBPOP = as.numeric(gsub(",", "", DBPOP)), # Dissemination block population
+         DAPOP = as.numeric(gsub(",", "", DAPOP)), # Dissemination area population
+         CSDPOP = as.numeric(gsub(",", "", CSDPOP)), # Census subdivision population
+         CMAPOP = as.numeric(gsub(",", "", CMAPOP)), # Census metropolitan area population
+         PRPOP = as.numeric(gsub(",", "", PRPOP)), # Province or territory population
+         # in_db_emp = as.numeric(in_db_emp),
+         # in_db_pharma = as.numeric(in_db_pharma),
+         # in_db_childcare = as.numeric(in_db_childcare),
+         # in_db_health = as.numeric(in_db_health),
+         # in_db_grocery = as.numeric(in_db_grocery),
+         # in_db_educpri = as.numeric(in_db_educpri),
+         # in_db_educsec = as.numeric(in_db_educsec),
+         # in_db_lib = as.numeric(in_db_lib),
+         # in_db_parks = as.numeric(in_db_parks),
+         # in_db_transit = as.numeric(in_db_transit),
+         prox_idx_emp = as.numeric(prox_idx_emp),
          prox_idx_pharma = as.numeric(prox_idx_pharma),
          prox_idx_childcare = as.numeric(prox_idx_childcare),
          prox_idx_health = as.numeric(prox_idx_health),
@@ -77,69 +97,183 @@ pmd_filtered <- pmd_filtered %>%
          prox_idx_educsec = as.numeric(prox_idx_educsec),
          prox_idx_lib = as.numeric(prox_idx_lib),
          prox_idx_parks = as.numeric(prox_idx_parks),
-         prox_idx_transit = as.numeric(prox_idx_transit))
+         prox_idx_transit = as.numeric(prox_idx_transit),
+         DBUID = as.character(DBUID),
+         DAUID = as.character(DAUID),
+         CSDUID = as.character(CSDUID),
+         CMAUID = as.character(CMAUID),
+         CMAPUID = as.character(CMAPUID),
+         PRUID = as.character(PRUID),
+         suppressed = as.character(suppressed),
+         transit_na = as.character(suppressed))
 ```
 
 ```{r}
-# Remove specified columns from dataset
-df_filtered <- select(pmd_filtered, -DBUID, -DBPOP, -DAUID, -DAPOP, -CSDUID, -CSDNAME, -CMAPUID,
-                      -CSDTYPE, -CSDPOP, -CMANAME, -CMATYPE, -CMAPOP, -PRUID, -PRNAME, -PRPOP, -CMAUID, -in_db_emp, -in_db_pharma, -in_db_childcare, -in_db_health, -in_db_grocery, -in_db_educpri, -in_db_educsec, -in_db_lib, -in_db_parks, -in_db_transit, -transit_na, -amenity_dense, -suppressed)
-```
+# summary of the dataset
+# sapply(pmd, function(x) if(is.numeric(x)) summary(x))
+sapply(Filter(is.numeric, pmd), summary)
 
-```{r}
-any(is.na(df_filtered))
-```
-```{r}
-head(df_filtered)
-```
-```{r}
-df_filtered <- select(df_filtered, -lon, -lat)
-```
-
-```{r}
-set.seed(123)
-km.res <- kmeans(df_filtered, 4, nstart = 25)
-```
-
-```{r}
-# Print the results
-print(km.res)
-```
-
-```{r}
-dd <- cbind(df_filtered, cluster = km.res$cluster)
-```
-
-```{r}
-dd[, c("cluster")]
-```
-
-```{r}
-# Visualize the clusters
-fviz_cluster(km.res, data = df_filtered, geom = "point", ellipse.type = "convex")
-```
-
-```{r}
-str(df_filtered)
 ```
 
 
 ```{r}
-fviz_cluster(res.km, data = df[, -5],
-             palette = c("#2E9FDF", "#00AFBB", "#E7B800"), 
-             geom = "point",
-             ellipse.type = "convex", 
-             ggtheme = theme_bw()
-             )
+# Subset columns that start with "prox_idx"
+prox_cols <- colnames(pmd)[grepl("^prox_idx", colnames(pmd))]
+
+# Check if there are any dbs where all proximity measures are missing
+all_prox_na <- pmd[rowSums(is.na(pmd[,prox_cols])) == length(prox_cols), ]
+nrow(all_prox_na)
+```
+```{r}
+head(all_prox_na[prox_cols], 3)
+```
+
+So, there are 64764 dissemination blocks where none of the proximity measures are available. Let's check the population of those dissemination blocks.
+
+```{r}
+unique(all_prox_na$DBPOP)[1:5]
+sort(unique(all_prox_na$DBPOP), decreasing = TRUE)[1:5]
+```
+When the DBPOP is 0, it is understandable that there are no proximity measures because they might not have been calculated. However, even for DB populations with large values, there are missing values for proximity measures, which is not expected.
+
+```{r}
+unique(all_prox_na$CSDNAME)[1:5]
+```
+
+```{r}
+unique(all_prox_na$PRNAME)[1:5]
+```
+
+```{r}
+unique(all_prox_na$CSDTYPE)
+```
+
+
+We can see that These DBs are not from different province and different csd. If we can plot them on map then it may make sense!
+
+
+```{r}
+all_prox_0 <- pmd[rowSums(pmd[, prox_cols] == 0, na.rm = TRUE) == length(prox_cols), ]
+nrow(all_prox_0)
+```
+
+
+### Outliers
+
+Outliers can have a significant impact on the clustering results by pulling the centroids towards themselves, creating biased clusters, and reducing the effectiveness of the clustering algorithm.
+
+```{r}
+# boxplot(pmd$prox_idx_educsec,
+#   ylab = "prox_idx_emp"
+# )
+```
+
+```{r}
+# Create a melted data frame for the boxplot
+df <- reshape2::melt(pmd[, prox_cols])
+
+# Create the boxplot
+ggplot(df, aes(x = variable, y = value)) +
+  geom_boxplot() +
+  xlab("Variable") +
+  ylab("Value") +
+  ggtitle("Boxplots of proximity indices") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+The proximity measures are already normalized but we can still see outliers in these. So, we should use clustering algorithms that can handle outliers.  
+For example DBSCAN clustering is robust against outliers when we choose minimum number of points (minPts) - (a threshold) large enough.  
+Ordering points to identify the clustering structure (OPTICS) is an algorithm for finding density-based clusters in spatial data which is also robust against outliers.  
+https://en.wikipedia.org/wiki/OPTICS_algorithm#cite_note-1
+But we can't use general k-means: the squared error approach is sensitive to outliers. But there are variants such as k-medians for handling outliers.  
+(https://www.researchgate.net/publication/220490566_A_review_of_robust_clustering_methods)
+
+Another approach is to apply a transformation to the data that can reduce the impact of outliers. For example, we could apply a log transformation or a power transformation to the data. These transformations can help to reduce the influence of extreme values and make the data more symmetric.
+
+### Distributions
+
+```{r}
+# plot(density(pmd$prox_idx_health, na.rm = TRUE)) 
+```
+
+```{r}
+# Create the density plot
+ggplot(df, aes(x = value, fill = variable)) +
+  geom_density(alpha = 0.5) +
+  xlab("Value") +
+  ylab("Density") +
+  ggtitle("Density plots of proximity indices") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  facet_wrap(~variable, scales = 'free_y', nrow = 5)
+```
+
+
+### Density of Categorical and binary Variables
+
+```{r dev ="png", dpi = 300}
+ggplot(pmd, aes(x=as.factor(amenity_dense) )) +
+  geom_bar(width=0.7, fill="steelblue") +
+  geom_text(stat="count", aes(label=..count..), vjust=-0.5) +
+  labs(x = "Amenity Dense")
 ```
 
 
 
+```{r echo=FALSE}
+# # Subset data to include only rows where amenity_dense is 0
+# pmd_subset <- subset(pmd, amenity_dense == "1")
+# 
+# # Create bar chart of other columns
+# ggplot(pmd_subset, aes(x = as.factor(in_db_emp))) +
+#   geom_bar(fill = "blue") +
+#   geom_text(stat="count", aes(label=..count..), vjust=-0.5) +
+#   labs(title = "Bar chart of column_name when amenity_dense is 0",
+#        x = "Column Name",
+#        y = "Count") + 
+#   facet_wrap(~as.factor(in_db_lib)) +
+#   facet_wrap(~as.factor(in_db_transit))
+
+```
+
+A dissemination block is an amenity dense neighbourhood, 
+a high amenity density neighbourhood, 
+a non-amenity dense neighbourhood.
 
 
+### Spat
+
+```{r}
+library(terra)
+db_shp <- vect("../../data/boundary/ldb_000b21a_e.shp")
+db_shp
+```
+
+```{r}
+plot(db_shp, "DBUID")
+```
+
+```{r}
+plot(db_shp)
+```
+
+```{r}
+db_shp_temp <- db_shp
+```
+
+```{r}
+# Merge DBUID column from all_prox_na to db_shp
+all_prox <- all_prox_na %>% rename(DBID = DBUID)
+all_prox <- all_prox[order(all_prox$DBID), ]
+db_shp_temp <- merge(db_shp_temp, all_prox, by.x = c("DBUID"), by.y = c("DBID"), all.x = TRUE)
+```
 
 
+```{r}
+db_shp_temp
+```
 
-
-
+```{r}
+plot(db_shp_temp, "DBPOP")
+```
 
