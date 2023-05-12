@@ -27,6 +27,14 @@ library(ggplot2)
 library(factoextra)
 library(clusterCrit)
 load('../../../../../local_data/codes/create_master/master_pms_df.Rdata')
+
+#removing rows with NA for all indices, as well as for population = 0
+master$PMS_DBPOP = as.numeric(as.character(master$PMS_DBPOP))
+master = master[master$PMS_DBPOP != 0,]
+master = master[!is.na(master$PMS_DBPOP),]
+idx = c("PMS_prox_idx_emp", "PMS_prox_idx_pharma", "PMS_prox_idx_childcare", "PMS_prox_idx_health", "PMS_prox_idx_grocery", "PMS_prox_idx_educpri", "PMS_prox_idx_educsec", "PMS_prox_idx_lib", "PMS_prox_idx_parks", "PMS_prox_idx_transit")
+master = master[(rowSums(is.na(master[,idx])) < 10),]
+nrow(master)
 ```
 
 
@@ -59,13 +67,12 @@ Algorithm steps:
 
 ## Implementation 
 
-(with 2\% subsampling)
+(with 5\% subsampling)
 
-```{r}
+```{r, cache=TRUE}
 #cluster data
-cols = c("prox_idx_emp", "prox_idx_pharma", "prox_idx_childcare", "prox_idx_health", "prox_idx_grocery", "prox_idx_educpri", "prox_idx_educsec", "prox_idx_lib", "prox_idx_parks", "prox_idx_transit")
-subsample = nrow(master)/50 # 2% subsampling 
-subsam = master[sample(nrow(master), subsample), cols]
+subsample = nrow(master)/20 #subsampling 
+subsam = master[sample(nrow(master), subsample), idx]
 sum(is.na(subsam))
 
 #algorithm
@@ -98,8 +105,9 @@ fviz_cluster(pass, ellipse.type = "norm") + theme_minimal()
 
 ## Cut-off Values
 
-```{r}
-for (k in cols){
+```{r, message=FALSE}
+cutoffs = list()
+for (k in idx){
   clus_medians = c()
   counter = 1
   for (i in unique(res$clusters)){
@@ -107,12 +115,23 @@ for (k in cols){
     counter = counter + 1
   }
   cutoff = c()
+  clus_medians = sort(clus_medians)
   for (j in 1:(length(clus_medians)-1)){
     cutoff[j] = (clus_medians[j] + clus_medians[j+1])/2
   }
+  cutoffs[[k]] = cutoff
   print(k)
   print(round(cutoff, 5))
 }
+
+#plot em 
+library(ggplot2)
+library(tidyverse)
+library(stringr)
+labs = str_sub(idx, 14) #labels
+hline = pivot_longer(as.data.frame(cutoffs), all_of(idx)) #cutoff lines
+df_long = pivot_longer(master[,idx], all_of(idx))
+ggplot(df_long, aes(x=value, y=name)) + geom_violin() + scale_y_discrete(labels=labs) + scale_x_continuous(limits = c(0, 0.15)) + ylab('Ammenity Type') + xlab('Proximity Index') + geom_point(data=hline, aes(value, name), shape=124, size=10, col='red')
 ```
 
 ## Silhouette Plot
@@ -162,7 +181,22 @@ fviz_silhouette(hc.cut)
 ## Cluster Profiles
 
 ```{r}
-#
+for (k in sort(unique(res$clusters))){
+  temp = master[res$clusters == k,]
+  print(paste('Cluster #', k))
+  print(paste('Num of DBs in cluster: ', as.character(nrow(temp))))
+  print('CSD Type:')
+  print(table(temp$CSDTYPE)) #replace with grouped type later
+  cat('\n DB Population: \n')
+  print(summary(temp$PMS_DBPOP))
+  cat('\n Index of Remoteness: \n')
+  print(summary(temp$IOR_Index_of_remoteness))
+  cat('\n Provinces: \n')
+  print(table(temp$PROVINCE))
+  cat('\n Amenity dense: \n')
+  print(table(temp$PMS_amenity_dense))
+  cat('\n\n\n ')
+}
 ```
 
 ## Conclusion
@@ -180,7 +214,7 @@ text
 
 ## Implementation 
 
-```{r}
+```{r, cache=TRUE}
 #
 ```
 
