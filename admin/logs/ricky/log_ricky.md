@@ -93,17 +93,20 @@ from proceeding in our project.
 
 ## Week 2
 
-| week | day        | hours | description   | comments                                            |
-|----:|:---------|-----:|:-----------|:----------------------------------------|
-|    2 | 2023-05-08 |   1.5 | Meetings      | Group meeting (prep, daily), instructor meeting     |
-|    2 | 2023-05-08 |   4.5 | EDA           | shape files, windows, crs, exploring missing values |
-|    2 | 2023-05-09 |   1.0 | Meetings      | TA meeting, team meeting                            |
-|    2 | 2023-05-09 |   2.0 | Team bonding  | Connecting with team members for good dynamics      |
-|    2 | 2023-05-09 |   4.5 | EDA           | attempt ppp, missing data analysis                  |
-|    2 | 2023-05-10 |   0.5 | Daily Meeting | Updates, game plan                                  |
-|    2 | 2023-05-10 |   5.5 | EDA           | distributions, summaries, missing values, draft     |
+| week | day        | hours | description        | comments                                            |
+|----:|:--------|-----:|:--------------|:-------------------------------------|
+|    2 | 2023-05-08 |   1.5 | Meetings           | Group meeting (prep, daily), instructor meeting     |
+|    2 | 2023-05-08 |   4.5 | EDA                | shape files, windows, crs, exploring missing values |
+|    2 | 2023-05-09 |   1.0 | Meetings           | TA meeting, team meeting                            |
+|    2 | 2023-05-09 |   2.0 | Team bonding       | Connecting with team members for good dynamics      |
+|    2 | 2023-05-09 |   4.5 | EDA                | attempt ppp, missing data analysis                  |
+|    2 | 2023-05-10 |   0.5 | Daily Meeting      | Updates, game plan                                  |
+|    2 | 2023-05-10 |   5.5 | EDA                | distributions, summaries, missing values, draft     |
+|    2 | 2023-05-11 |   3.0 | Daily Meeting, EDA | Meeting + EDA review & discussion                   |
+|    2 | 2023-05-11 |   0.5 | Proposal           | Review proposal feedback                            |
+|    2 | 2023-05-11 |   4.0 | EDA                | Pop = 0, etc, clean report                          |
 
-My total weekly hours are: 19.5
+My total weekly hours are: 27
 
 ### Weekly Reflection
 
@@ -128,4 +131,4 @@ the following (requires the **dplyr** package)
 |-----:|-------------------:|
 |    0 |                3.5 |
 |    1 |               19.5 |
-|    2 |               19.5 |
+|    2 |               27.0 |
