@@ -90,12 +90,15 @@ No, not at the moment.
 Add individual contributions here (be sure to call the **tidyverse** and
 **knitr** package first)
 
-| week | day        | hours | description                            | comments                            |
-|----:|:--------|-----:|:---------------------------|:-------------------------|
-|    2 | 2023-05-07 |   0.5 | learning this personal log rmd file    | Rmd is cool                         |
-|    2 | 2023-05-01 |   1.5 | Editing kickoff slide decks with Firas | Firas will push the changes to repo |
+| week | day        | hours | description                                                       | comments                        |
+|---:|:-------|----:|:-------------------------------------|:------------------|
+|    2 | 2023-05-08 |   6.5 | making master dataset, team meeting, instructor meeting           | 10-430                          |
+|    2 | 2023-05-09 |   6.5 | drafting clustering template, TA meeting                          | 930-5 minus lunch               |
+|    2 | 2023-05-10 |   7.0 | started clustimpute document, fixing master dataset, team meeting | 10-5                            |
+|    2 | 2023-05-11 |   6.5 | finished clustimpute document, team meeting                       | 10-430                          |
+|    2 | 2023-05-12 |   5.0 | fixing proposal in team meeting, addressing feedback              | 10-230 + typesetting in evening |
 
-My total weekly hours are: 2
+My total weekly hours are: 31.5
 
 ### Weekly Reflection
 
@@ -105,11 +108,29 @@ following questions:
 1.  What was your most significant **individual contribution** to the
     project this week?
 
-2.  What was your most significant **team contribution** to the project
+The most significant individual contribution was the ClustImpute
+document, which is an application and analysis of the PMD using the
+ClustImpute package. Part of this was creating reproducible code that we
+will be able to use again in applying other algorithms.
+
+1.  What was your most significant **team contribution** to the project
     this week?
 
-3.  Are there any major blockers or roadblocks preventing you from
+The most significant team contribution was definitely fixing the
+proposal. We met for almost 5 hours straight and ironed out all the
+errors.
+
+1.  Are there any major blockers or roadblocks preventing you from
     proceeding on your project?
+
+There are two roadblocks:
+
+-   git - we are having issues with large file storage
+-   memory - due to the size of the dataset and the algorithmic
+    approaches being used, many of the group members’ computers run out
+    of memory and crash, mine included. There are some workarounds, but
+    it is wasting time and preventing us from doing some things, such as
+    certain algorithms and making plots with shapefiles.
 
 ## Summary Table
 
@@ -119,4 +140,4 @@ the following (requires the **dplyr** package)
 | week | total_weekly_hours |
 |-----:|-------------------:|
 |    1 |               23.5 |
-|    2 |                2.0 |
+|    2 |               31.5 |
