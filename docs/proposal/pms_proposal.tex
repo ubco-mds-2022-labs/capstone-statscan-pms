@@ -20,7 +20,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \rhead{2023}
-\lhead{MDS Capstone}
+\lhead{\thepage \ - MDS Capstone}
 
 \newcommand{\comment}[1]{}
 
@@ -44,6 +44,13 @@ Jonah Edmundson, Ricky Heinrich, \par Noman Mohammad, Avishek Saha
 
 \section*{Introduction}
 
+We all live somewhere and inhabit physical space. Unless one lives completely removed from others, amenities are usually present in the built environment, such as schools, places of employment,and healthcare facilities. These amenities serve to make residents’ lives better, and their distribution is often the result of careful policy and planning by governing bodies. Like people, they inhabit physical space, and not everybody is equidistant from them. As Alasia et al. (2021) outline, ``having physical access to basic services and amenities is a key determinant of social inclusion, their capacity to meet basic needs, and their ability to fully participate in social and economic development." Therefore, it is imperative for these governing bodies to make deliberate, well-informed decisions as to the location of new amenities and services. 
+\par
+The Proximity Measure Database (PMD) developed by the Data Exploration and Integration Lab (DEIL) at Statistics Canada serves to provide a granular measure of proximity to services and amenities to inform planning and policy questions (Alasia et al., 2021). The PMD contains continuous measures for 10 amenities at a `dissemination block’ (DB) level, the most granular area defined by StatCan (Statistics Canada, 2021). In an urban area, a DB corresponds to a city block, whereas in rural areas they are areas “bounded by roads or other natural features" (Alasia et al., 2021). Thus, DBs different broadly in their proximity to these amenities. In order to facilitate intuitive understanding in how these DBs differ in this regard, they can be clustered based on the proximity values calculated.  
+\par
+There are various clustering algorithms in the literature, such as the k-means algorithm (MacQueen, 1967) and the fuzzy c-means algorithm (Bezdek et al., 1984). There are also various validation metrics defined for assessing clustering quality. These metrics can be used to evaluate the performance of different clustering algorithms and to determine which algorithm is the best fit for a particular dataset. Examples of such metrics include Rand Index (RI), Normalized Mutual Information (NMI), and the F-measure (Mehta et al., 2020).
+\par
+The goal of this project is to segment the continuous proximity measures in the StatCan PMD in order to identify stable cutoffs that distinguish dissemination blocks based on their proximities to amenities. Supplementary factors beyond the proximity indices may impact the resulting clusters. Intuitively, we would expect that additional information about the DBs such as remoteness, rural character, population average income or zoning information help increase the separation between clusters. Rigolon and Németh investigated causes of uneven access to urban amenities in their specific case study of Denver parks. They found that factors such as funding systems, public policies like zoning, and social mechanisms could significantly alter access (Rigolon \& Németh, 2021). While we would expect the aforementioned variables such as zoning to factor into the PMD values, we need to investigate whether there is data available to add to the PMD in order to facilitate more distinct clustering results. The results of this clustering analysis will provide valuable insights to policymakers and urban planners regarding how to prioritize efforts to improve accessibility and promote social and economic sustainability. We hope that this research contributes to a better understanding of local access to amenities for Canadian citizens.
 
 
 
@@ -51,12 +58,13 @@ Jonah Edmundson, Ricky Heinrich, \par Noman Mohammad, Avishek Saha
 
 \section*{Data Sources}
 
+Our primary dataset of interest is the \href{https://www150.statcan.gc.ca/n1/pub/17-26-0002/2020001/csv/pmd-eng.zip}{PMD} from the DEIL at Statistics Canada, which includes the continuous numerical proximity scores of every dissemination block (DB) in Canada for 10 amenities: employment, grocery stores, pharmacies, health care, child care, primary education, secondary education, public transit, neighborhood parks, and libraries. These proximity measures were calculated using a gravity model that takes into account the distance between a reference DB and all other DBs where the service is located within a specified range, as well as the size of those services. Additionally, the presence of services within the reference DB is factored into the measure. These measures are considered a reliable way to assess local access to various amenities. In the PMD, the proximity measures have been normalized across Canada. In this case, a lower proximity measure indicates that the amenity is located farther away from the dissemination block. So, if the proximity measure is low, it means that the amenity is more distant from the dissemination block than if the proximity measure were high. The data dictionary for this dataset can be found \href{https://www150.statcan.gc.ca/n1/pub/71-607-x/71-607-x2020011-eng.htm}{here}.
+\par
+Our secondary dataset is the \href{https://www150.statcan.gc.ca/n1/pub/17-26-0001/172600012020001-eng.htm}{Index of Remoteness} (IoR), also from Statistics Canada. This dataset includes a continuous numeric remoteness score for each census subdivision (CSD) in Canada. Index of Remoteness equal to zero for the least remote CSD and equal to one or the most remote CSD. A census subdivision is a general term used by Statistics Canada to refer to a municipal or equivalent area. It can be a city, town, village, township, regional municipality, or other type of local government unit. DBs are smaller geographic units used by Statistics Canada which fall within CSDs. 
+If possible, the IoR can be linked to the proximity measures dataset by a unique ID that is available in both dataset. 
+\par 
+``NA" is a symbol that represents missing values, which means that the data for a particular observation or variable is not available or is incomplete. In the context of Statistics Canada, the term ``NA" is used to indicate missing data in a standardized and consistent way. The following standard symbols are used in Statistics Canada publications: [1] 
 
-
-
-\href{https://www150.statcan.gc.ca/n1/pub/17-26-0002/2020001/csv/pmd-eng.zip}{Proximity Measures Dataset}
-\href{https://www150.statcan.gc.ca/n1/pub/71-607-x/71-607-x2020011-eng.htm}{here}.
-\href{https://www150.statcan.gc.ca/n1/pub/17-26-0001/172600012020001-eng.htm}{Index of Remoteness}
 
 
 \begin{table}[H]
@@ -77,12 +85,17 @@ F & too unreliable to be published \\
 \end{tabular}
 \end{table}
 
+NA values are most likely due to missing data in the Business Register, or other authoritative open data sources, such as the Linkable Open Data Environment, the Open Database of Educational Facilities and the General Transit Feed Specification. 
+
 
 
 \section*{Research Questions}
 
+Throughout the project, we will be trying various clustering algorithms. The clusters returned by these algorithms will be of varying quality; some will be well-defined, and others may be more muddled. In order to choose one best algorithm, the clusters returned from each algorithm will have to be compared using a validation metric such as the Dunn Index or Silhouette Coefficient. These metrics are generalizable between algorithms because they compare intra- and inter-group variance. Once a ``best" clustering algorithm has been chosen, the following two questions can be asked:
+
 \begin{enumerate}
-\item 
+\item What are the optimal cut-off values and cluster boundaries determined by the chosen clustering algorithm in the PMD continuous metric? 
+\item What distinctive characteristics define each cluster of dissemination blocks, and how do these features contribute to both heterogeneity between clusters and homogeneity within each cluster? (Characteristics include: proximity measures, CSD type, DB population, IoR, and province breakdown.) 
 \end{enumerate}
 
 
@@ -102,12 +115,13 @@ Our methodology consists of three sequential parts: exploratory data analysis (E
 \par
 The EDA includes:
 \begin{itemize}
-\item Data can be downloaded, already cleaned and prepped from the Statistics Canada Website.
-\item Investigating missing values and ways to deal with them.
-\item Base Model – Intuition/Violin Plots (individual measures only).
+\item Investigating additional data sources and how to link them. 
+\item Investigating missing values and ways to deal with them, including imputation and removal.
+\item  Investigating characteristics and distributions of variables in the PMD 
 \end{itemize}
 
-We will test various techniques on different subsets of the datasets, such as individual proximity measures, all proximity measures combined, and if possible, proximity measures in conjunction with population density, Index of Remoteness, and neighborhood income. Possible clustering algorithms we may explore include:
+We will test various techniques on the individual proximity measures, all proximity measures combined, and if possible, proximity measures in conjunction with population density, IoR, and CSD type. Possible clustering algorithms we may explore include:
+
 
 \begin{itemize}
 \item Connectivity based (Hierarchical)
@@ -123,11 +137,15 @@ We will test various techniques on different subsets of the datasets, such as in
 	\item fuzzy c-means (\texttt{ppclust} package)
    	\item Mean-shift (\texttt{meanShiftR} package)
    	\item Affinity propagation (\texttt{apcluster} package)
+   	\item \textit{k}-means with built-in missing data imputation (\texttt{ClustImpute} package)
+
 \end{itemize}
 \item Distribution based (mixture models)
 \begin{itemize}
 	\item Gaussian Mixture Modelling (\texttt{mclust} package)
-   	\item Model-Based Clustering with the Multivariate t-Distribution (\texttt{teigen} package)
+   	\item Model-Based Clustering with the Multivariate t-Distribution (\texttt{teigen} package) 
+   	\item Model-Based Clustering with variable selection and estimation of the number of clusters (\texttt{VarSelLCM} package)
+	\item Clustering Mixed data with Missing Values (\texttt{MixAll} package)
 \end{itemize}
 \item Density based
 \begin{itemize}
@@ -141,9 +159,11 @@ We will test various techniques on different subsets of the datasets, such as in
 \end{itemize}
 \end{itemize}
 
-All clustering approaches will be compared and validated to assess clustering quality. We will explore different metrics defined in the literature, such as the Dunn Index and Silhouette Coefficient.
+\textbf{Note:} Among these algorithms, some are capable of handling missing values (NAs) directly without imputation, some have built-in imputation methods, and others require that the missing values be addressed (either imputed or removed) prior to running the algorithm. 
 \par
-We will explore ways to visualize the results of this work, such as Silhouette plots for clustering validation and interactive maps similar to Statistics Canada’s Proximity Measures \href{https://www150.statcan.gc.ca/n1/pub/71-607-x/71-607-x2020011-eng.htm}{Data Viewer} for the final results.
+We will explore ways to visualize the results of this work, such as Silhouette plots for clustering validation and interactive maps similar to Statistics Canada’s Proximity Measures Data Viewer for the final results. We will select and apply different methods based on how we handle missing values (NAs) in our data, such as imputing or removing them.
+\par
+We will use different approaches to determine the cutoff values or thresholds proximity indices. So, by comparing the cutoff values suggested by each approach, we can assess the sensitivity of the results to the choice of method and determine whether the findings are sensitive (robust) to changes in the method used. 
 
 
 
@@ -154,7 +174,7 @@ We will explore ways to visualize the results of this work, such as Silhouette p
 %\item A document describing our chosen reproducible clustering methodology.
 %\item Final report showing the different approaches attempted, their validity, and a sensitivity analysis.
 %\item Mapbox interactive choropleth map visualization.
-\item Final report showing documentation for all steps of our work: an exploration of the data, the different approaches attempted, their validity, a sensitivity analysis, a chosen reproducible clustering methodology, the characteristics of the clusters, the identification of the PMD cut-off values, and the interpretation of the final results. 
+\item Final report showing documentation for all steps of our work: an exploration of the data, the different approaches attempted, their validity, a sensitivity analysis, a chosen reproducible clustering methodology, the characteristics of the clusters, the identification of the PMD cut-off values, and the interpretation of the final results.
 \item Final presentation slides.
 \end{itemize}
 
@@ -257,21 +277,23 @@ Our project aims to apply clustering algorithms to segment proximity measures fo
 
 
 
-
+\pagebreak
 \section*{Bibliography}
 
 
-\noindent\textbf{1} Alasia, A., Newstead, N., Kuchar, J., \& Radulescu, M. (2021, February 15). \textit{Measuring Proximity to Services and Amenities: An Experimental Set of Indicators for Neighbourhoods and Localities}. Reports on Special Business Projects, Statistics Canada. Retrieved May 4, 2023, from \sloppy\url{https://www150.statcan.gc.ca/n1/pub/18-001-x/18-001-x2020001-eng.htm}  \\
+\noindent\textbf{1} Alasia, A., Newstead, N., Kuchar, J., \& Radulescu, M. (2021, February 15). \textit{Measuring Proximity to Services and Amenities: An Experimental Set of Indicators for Neighbourhoods and Localities}. Reports on Special Business Projects, Statistics Canada. Retrieved May 4, 2023, from \sloppy\url{https://www150.statcan.gc.ca/n1/pub/18-001-x/18-001-x2020001-eng.htm}  \\ 
 
-\noindent\textbf{2} MacQueen, J. B. (1967). \textit{Some Methods for classification and Analysis of Multivariate Observations}. Proceedings of 5th Berkeley Symposium on Mathematical Statistics and Probability. Vol. 1. University of California Press. pp. 281–297. \\ 
+\noindent\textbf{2} Rigolon, A., \& Németh, J. (2021). \textit{What shapes uneven access to urban amenities? Thick injustice and the legacy of racial discrimination in Denver’s parks.} Journal of Planning Education and Research, 41(3), 312-325. \\ 
 
-\noindent\textbf{3} Bezdek, J.C., Ehrlich, R., \& Full, W. \textit{FCM: The fuzzy c-means clustering algorithm}, Computers \& Geosciences,Volume 10, Issues 2–3,1984, Pages 191-203,ISSN 0098-3004, \sloppy\url{https://doi.org/10.1016/0098-3004(84)90020-7}. \\ %(\sloppy\url{https://www.sciencedirect.com/science/article/pii/0098300484900207}) \\ 
+\noindent\textbf{3} MacQueen, J. B. (1967). \textit{Some Methods for classification and Analysis of Multivariate Observations}. Proceedings of 5th Berkeley Symposium on Mathematical Statistics and Probability. Vol. 1. University of California Press. pp. 281–297. \\ 
 
-\noindent\textbf{4} Mehta, V., Bawa, S. \& Singh, J. \textit{Analytical review of clustering techniques and proximity measures}. Artif Intell Rev 53, 5995–6023 (2020). \sloppy\url{https://doi.org/10.1007/s10462-020-09840-7} \\
+\noindent\textbf{4} Bezdek, J.C., Ehrlich, R., \& Full, W. \textit{FCM: The fuzzy c-means clustering algorithm}, Computers \& Geosciences,Volume 10, Issues 2–3,1984, Pages 191-203,ISSN 0098-3004, \sloppy\url{https://doi.org/10.1016/0098-3004(84)90020-7}. \\ %(\sloppy\url{https://www.sciencedirect.com/science/article/pii/0098300484900207}) \\ 
+
+\noindent\textbf{5} Mehta, V., Bawa, S. \& Singh, J. \textit{Analytical review of clustering techniques and proximity measures}. Artif Intell Rev 53, 5995–6023 (2020). \sloppy\url{https://doi.org/10.1007/s10462-020-09840-7} \\
 
 %\noindent\textbf{NUM} The Proximity data viewer \\
 
-\noindent\textbf{5} Alasia, A., Bédard, F., Bélanger, J., Guimond, E., \& Penney, C. (2017). \textit{Measuring remoteness and accessibility: A set of indices for Canadian communities.} Reports on Special Business Projects, Statistics Canada. \sloppy\url{https://www150.statcan.gc.ca/n1/pub/18-001-x/18-001-x2017002-eng.htm.} \\
+\noindent\textbf{6} Alasia, A., Bédard, F., Bélanger, J., Guimond, E., \& Penney, C. (2017). \textit{Measuring remoteness and accessibility: A set of indices for Canadian communities.} Reports on Special Business Projects, Statistics Canada. \sloppy\url{https://www150.statcan.gc.ca/n1/pub/18-001-x/18-001-x2017002-eng.htm.} \\
 
 
 
