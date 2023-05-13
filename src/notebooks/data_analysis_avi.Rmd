@@ -5,7 +5,10 @@ date: "`r Sys.Date()`"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, cache=TRUE, fig.align="center", fig.width=8, fig.height=6)
+knitr::opts_chunk$set(echo = TRUE, 
+                      cache=TRUE, 
+                      fig.align="center", fig.width=8, fig.height=6,
+                      warning=FALSE)
 library(dplyr)
 library(ggplot2)
 ```
@@ -80,7 +83,6 @@ ggplot(db_counts, aes(x=prov, y=n)) +
        y = "No. of DBs'") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
-
 
 
 ```{r echo=FALSE}
@@ -161,6 +163,7 @@ ggplot(data = pr_counts,
        aes(x = Var1, y = Freq)) +
   geom_bar(stat = "identity") +
   geom_text(aes(label = Freq), vjust = -0.5) +
+  labs(title = "Number of DBs' by Province where all PMS NA") +
   xlab("Province") +
   ylab("Count") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
@@ -176,6 +179,7 @@ ggplot(data = csdtype_counts,
        aes(x = Var1, y = Freq)) +
   geom_bar(stat = "identity") +
   # geom_text(aes(label = Freq), vjust = -0.5) +
+  labs(title = "Number of DBs' by CSDTYPE where all PMS NA") +
   xlab("CSDTYPE") +
   ylab("Count") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
@@ -216,6 +220,67 @@ ggplot(df, aes(x = variable, y = value)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
+```{r}
+# Calculate Q1 and IQR
+Q1 <- quantile(df$value, 0.25, na.rm = TRUE)
+Q3 <- quantile(df$value, 0.75, na.rm = TRUE)
+IQR <- IQR(df$value, na.rm = TRUE)
+
+# Create the boxplot with the horizontal line
+ggplot(df, aes(x = variable, y = value)) +
+  geom_boxplot() +
+  geom_hline(yintercept = Q1 - 1.5*IQR, linetype = "dashed", color = "red") +
+  geom_hline(yintercept = Q3 + 1.5*IQR, linetype = "dashed", color = "red") +
+  xlab("Variable") +
+  ylab("Value") +
+  ggtitle("Boxplots of proximity indices") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+
+```{r}
+qqnorm(pmd$prox_idx_childcare, main = "Normal Q-Q plot")
+```
+
+It's hard to detect the outliers from Normal Q-Q plot. 
+
+#### Rosner’s test for Outliers
+
+Let's do the Rosner’s test. 
+
+Rosner's test for multiple outliers is used by VSP to detect up to 10 outliers among the selected data values. This test will detect outliers that are either much smaller or much larger than the rest of the data. Rosner's approach is designed to avoid the problem of masking, where an outlier that is close in value to another outlier can go undetected.
+
+Rosner's test is appropriate only when the data, excluding the suspected outliers, are approximately normally distributed, and when the sample size is greater than or equal to 25.
+(https://vsp.pnnl.gov/help/vsample/rosners_outlier_test.htm)
+
+
+```{r}
+# Rosner’s test
+library(EnvStats)
+test <- rosnerTest(pmd$prox_idx_emp, k = 5000, warn = TRUE)
+```
+
+```{r eval=FALSE}
+test$all.stats
+```
+
+```{r}
+length(test$all.stats$Outlier == TRUE)
+```
+
+#### Chi-squared test  for Outliers
+
+```{r}
+library(outliers)
+chisq.out.test(pmd$prox_idx_emp)
+```
+So the max proximity measure of grocery is an outlier.
+
+```{r}
+chisq.out.test(pmd$prox_idx_emp, opposite = TRUE)
+```
+So the min proximity measure of grocery is an outlier.
 
 The proximity measures are already normalized but we can still see outliers in these. So, we should use clustering algorithms that can handle outliers.  
 For example DBSCAN clustering is robust against outliers when we choose minimum number of points (minPts) - (a threshold) large enough.  
@@ -242,6 +307,41 @@ ggplot(df, aes(x = value, fill = variable)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   facet_wrap(~variable, scales = 'free_y', nrow = 5)
 ```
+
+```{r}
+# prox_idx_emp distribution province wise
+ggplot(pmd, aes(x = prox_idx_emp, fill = PRNAME)) +
+  geom_density(alpha = 0.5) +
+  xlab("Value") +
+  ylab("Density") +
+  ggtitle("prox_idx_emp distribution province wise") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  facet_wrap(~PRNAME, scales = 'free_y', nrow = 5)
+```
+
+```{r}
+# prox_idx_health distribution province wise
+ggplot(pmd, aes(x = prox_idx_emp, fill = PRNAME)) +
+  geom_density(alpha = 0.5) +
+  xlab("Value") +
+  ylab("Density") +
+  ggtitle("prox_idx_health distribution province wise") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  facet_wrap(~PRNAME, scales = 'free_y', nrow = 5)
+```
+
+```{r}
+# prox_idx_emp distribution csdtype wise
+ggplot(data = pmd, aes(x = CSDTYPE, y = prox_idx_emp)) +
+  geom_boxplot() +
+  xlab("CSDTYPE") +
+  ylab("prox_idx_emp") +
+  ggtitle("prox_idx_emp distribution csdtype wise") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+
 
 
 ### Density of Categorical and binary Variables
@@ -274,6 +374,19 @@ ggplot(pmd, aes(x=as.factor(amenity_dense) )) +
 A dissemination block is an amenity dense neighbourhood, 
 a high amenity density neighbourhood, 
 a non-amenity dense neighbourhood.
+
+### Covariate 
+
+### Correlation
+
+```{r}
+library(corrplot)
+
+M <- cor(pmd[prox_cols], use = "pairwise.complete.obs")
+corrplot(M, type = "upper", order = "hclust",
+         addCoef.col = "black",
+         diag = FALSE)
+```
 
 
 ### Spat
