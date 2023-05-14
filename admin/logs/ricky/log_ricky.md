@@ -93,29 +93,36 @@ from proceeding in our project.
 
 ## Week 2
 
-Add individual contributions here (be sure to call the **tidyverse** and
-**knitr** package first)
+| week | day        | hours | description        | comments                                            |
+|----:|:--------|-----:|:--------------|:-------------------------------------|
+|    2 | 2023-05-08 |   1.5 | Meetings           | Group meeting (prep, daily), instructor meeting     |
+|    2 | 2023-05-08 |   4.5 | EDA                | shape files, windows, crs, exploring missing values |
+|    2 | 2023-05-09 |   1.0 | Meetings           | TA meeting, team meeting                            |
+|    2 | 2023-05-09 |   2.0 | Team bonding       | Connecting with team members for good dynamics      |
+|    2 | 2023-05-09 |   4.5 | EDA                | attempt ppp, missing data analysis                  |
+|    2 | 2023-05-10 |   0.5 | Daily Meeting      | Updates, game plan                                  |
+|    2 | 2023-05-10 |   5.5 | EDA                | distributions, summaries, missing values, draft     |
+|    2 | 2023-05-11 |   3.0 | Daily Meeting, EDA | Meeting + EDA review & discussion                   |
+|    2 | 2023-05-11 |   0.5 | Proposal           | Review proposal feedback                            |
+|    2 | 2023-05-11 |   4.0 | EDA                | Pop = 0, etc, clean report                          |
+|    2 | 2023-05-12 |   4.5 | Proposal           | group work                                          |
+|    2 | 2023-05-12 |   1.0 | Misc               | logs + misc over the week                           |
 
-| week | day        | hours | description                            | comments                            |
-|----:|:--------|-----:|:---------------------------|:-------------------------|
-|    2 | 2023-05-06 |   0.5 | learning this personal log rmd file    | Rmd is cool                         |
-|    2 | 2023-05-01 |   1.5 | Editing kickoff slide decks with Firas | Firas will push the changes to repo |
-
-My total weekly hours are: 2
+My total weekly hours are: 32.5
 
 ### Weekly Reflection
 
-In this section, please write 5-7 sentences (in total) answering the
-following questions:
-
-1.  What was your most significant **individual contribution** to the
-    project this week?
-
-2.  What was your most significant **team contribution** to the project
-    this week?
-
-3.  Are there any major blockers or roadblocks preventing you from
-    proceeding on your project?
+My most significant individual contribution to the project this week was
+the work I put into the EDA, and looking into what was the distribution
+of proximity measures when the population of a DB is 0 vs when it is
+not. I found out about and applied the Kolmogorov-Smirnov test. The most
+significant team contribution was talking with Jesse, who sent us
+resources about packages that help deal with NA values, to get us on the
+right track. The team started to investigate and apply these resources.
+This week we had major blockers of memory issues and computational
+power. We’ve somewhat solved the memory issues for some of us, but lack
+of computational power leads to waiting a long time for something to
+run, which doesn’t feel efficient.
 
 ## Summary Table
 
@@ -126,4 +133,4 @@ the following (requires the **dplyr** package)
 |-----:|-------------------:|
 |    0 |                3.5 |
 |    1 |               19.5 |
-|    2 |                2.0 |
+|    2 |               32.5 |
