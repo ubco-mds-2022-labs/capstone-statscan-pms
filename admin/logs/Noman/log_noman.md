@@ -62,7 +62,21 @@ following questions:
 3.  Are there any major blockers or roadblocks preventing you from
     proceeding on your project? Nah
 
-My total weekly hours are: 23.45
+| week | day        | hours | description                                                 | comments                                                                                             |
+|--:|:----|---:|:----------------------|:-------------------------------------|
+|    2 | 2023-05-08 |   1.5 | Team meeting + instructor meeting                           | Final touches/planning on instructor meeting slides + meeting with professors                        |
+|    2 | 2023-05-08 |   4.5 | Exploring datasets                                          | Looking at potential data sets to merge                                                              |
+|    2 | 2023-05-09 |   1.0 | TA meeting                                                  | NA                                                                                                   |
+|    2 | 2023-05-09 |   2.0 | Plotting merged dataset with IR                             | lots of memory issues…                                                                               |
+|    2 | 2023-05-10 |   3.0 | Researching models that can deal with NA’s (sent by jessie) | NA                                                                                                   |
+|    2 | 2023-05-10 |   1.0 | Update proposal section to revamp new methods               | NA                                                                                                   |
+|    2 | 2023-05-10 |   3.0 | Implement mixAll clustering methods                         | Doing various things that Jonah had formualted in clustering doc                                     |
+|    2 | 2023-05-11 |   3.0 | Researching Amelia and ways to impute                       | Implement Amelia, debugging. This can allow for checking correlation and apply PCA before clustering |
+|    2 | 2023-05-11 |   3.0 | Trying dimensionality reduction with clustering             | Implement various things after imputing values for data… interpret results                           |
+|    2 | 2023-05-12 |   3.0 | Team meeitng + proposal doc                                 | Had to leave early for Friday prayer, briefly tuned back in as team wrapped up                       |
+|    2 | 2023-05-12 |   1.0 | Random                                                      | Reviewing logs, githib things etc..                                                                  |
+
+My total weekly hours are: 26
 
 ### Weekly Reflection
 
@@ -70,13 +84,16 @@ In this section, please write 5-7 sentences (in total) answering the
 following questions:
 
 1.  What was your most significant **individual contribution** to the
-    project this week?
+    project this week? Researching ways to impute values and dynamic
+    clustering methods.
 
 2.  What was your most significant **team contribution** to the project
-    this week?
+    this week? Working on the team proposal document.
 
 3.  Are there any major blockers or roadblocks preventing you from
-    proceeding on your project?
+    proceeding on your project? trying to figure out a way to deal with
+    NA’s for tasks such as PCA etc. Also running into memory issues and
+    execution times…
 
 ## Summary Table
 
@@ -86,3 +103,4 @@ the following (requires the **dplyr** package)
 | week | total_weekly_hours |
 |-----:|-------------------:|
 |    1 |              23.45 |
+|    2 |              26.00 |
