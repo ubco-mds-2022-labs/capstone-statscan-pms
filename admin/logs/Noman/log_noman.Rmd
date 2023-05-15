@@ -24,6 +24,7 @@ mylog <- data.frame(week = 1,
                     description = "capstone kickoff lecture",
                     comments = NA
                     )
+
 ```
 
 ## Instructions
@@ -116,7 +117,86 @@ working on the proposal and meeting slides.
 Nah
 
 ```{r}
-# week 2 here
+current.week = current.week + 1
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-08"),
+                    hours = 1.5,
+                    description = "Team meeting + instructor meeting",
+                    comments = "Final touches/planning on instructor meeting slides + meeting with professors"
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-08"),
+                    hours = 4.5,
+                    description = "Exploring datasets",
+                    comments = "Looking at potential data sets to merge"
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-09"),
+                    hours = 1,
+                    description = "TA meeting",
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-09"),
+                    hours = 2,
+                    description = "Plotting merged dataset with IR",
+                    comments = "lots of memory issues..."
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-10"),
+                    hours = 3,
+                    description = "Researching models that can deal with NA's (sent by jessie)",
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-10"),
+                    hours = 1,
+                    description = "Update proposal section to revamp new methods",
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-10"),
+                    hours = 3,
+                    description = "Implement mixAll clustering methods ",
+                    comments = "Doing various things that Jonah had formualted in clustering doc"
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-11"),
+                    hours = 3,
+                    description = "Researching Amelia and ways to impute ",
+                    comments = "Implement Amelia, debugging. This can allow for checking correlation and apply PCA before clustering"
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-11"),
+                    hours = 3,
+                    description = "Trying dimensionality reduction with clustering",
+                    comments = "Implement various things after imputing values for data... interpret results"
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-12"),
+                    hours = 3,
+                    description = "Team meeitng + proposal doc",
+                    comments = "Had to leave early for Friday prayer, briefly tuned back in as team wrapped up"
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-12"),
+                    hours = 1,
+                    description = "Random",
+                    comments = "Reviewing logs, githib things etc.."
+                    )
+
+kable(filter(mylog, week == current.week))
 ```
 My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
 
@@ -125,10 +205,13 @@ My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
 In this section, please write 5-7 sentences (in total) answering the following questions:
 
 1. What was your most significant **individual contribution** to the project this week?
+Researching ways to impute values and dynamic clustering methods.
 
-1. What was your most significant **team contribution** to the project this week?
+2. What was your most significant **team contribution** to the project this week?
+Working on the team proposal document. 
 
-1. Are there any major blockers or roadblocks preventing you from proceeding on your project?
+3. Are there any major blockers or roadblocks preventing you from proceeding on your project?
+trying to figure out a way to deal with NA's for tasks such as PCA etc. Also running into memory issues and execution times...
 
 ## Summary Table
 
