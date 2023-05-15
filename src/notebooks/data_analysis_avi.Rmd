@@ -393,7 +393,7 @@ corrplot(M, type = "upper", order = "hclust",
 
 ```{r}
 library(terra)
-db_shp <- vect("../../data/boundary/ldb_000b21a_e.shp")
+db_shp <- vect("../../data/ldb_000b16a_e.dbf")
 db_shp
 ```
 
@@ -623,3 +623,11 @@ plot(pa_bc, "prox_na_prox_idx_grocery")
 ```
 
 ![](../../assets/bc_grocery_prox_na.png)
+
+
+```{r}
+# Count NAs and non-NAs in the grocery column where province is BC
+sum(is.na(pmd$prox_idx_grocery[pmd$PRUID == 59]))
+sum(!is.na(pmd$prox_idx_grocery[pmd$PRUID == 59]))
+```
+
