@@ -18,8 +18,24 @@ knitr::opts_chunk$set(echo = TRUE, fig.width=8, fig.height=6, fig.align = 'cente
 
 ## Loading \& Cleaning Data
 
-```{r}
-#
+```{r, message=FALSE}
+# loading libraries
+set.seed(2023)
+library(cluster)
+library(ggplot2)
+library(factoextra)
+library(clusterCrit)
+
+# loading data
+# ...
+
+# subsampling data (if needed)
+# perc = 20 #percentage of data to subsample
+# subsample = (nrow(master)/100)*perc 
+# subsam = master[sample(nrow(master), subsample), idx]
+
+# variables to cluster with
+clust_vars = c('CSDTYPE_grouped, PMS_DBPOP, IOR_Index_of_remoteness')
 ```
 
 
@@ -32,409 +48,609 @@ text
 
 *** 
 
-*** 
-
-
-
-# Individual Metrics
-
-## Employment 
-
-### Implementation 
-
-```{r}
-# 
-```
-
-
-### Cut-off Values
-
-```{r}
-#
-```
-
-### Silhouette Plot
-
-```{r}
-#
-```
-
-
-### Cluster Profiles
-
-```{r}
-#
-```
-
-*** 
-
-
-## Pharmacy 
-
-### Implementation 
-
-```{r}
-#
-```
-
-
-### Cut-off Values
-
-```{r}
-#
-```
-
-### Silhouette Plot
-
-```{r}
-#
-```
-
-
-### Cluster Profiles
-
-```{r}
-#
-```
-
-*** 
-
-
-## Childcare  
-
-### Implementation 
-
-```{r}
-#
-```
-
-
-### Cut-off Values
-
-```{r}
-#
-```
-
-### Silhouette Plot
-
-```{r}
-#
-```
-
-
-### Cluster Profiles
-
-```{r}
-#
-```
-
-*** 
-
-
-## Healthcare  
-
-### Implementation 
-
-```{r}
-#
-```
-
-
-### Cut-off Values
-
-```{r}
-#
-```
-
-### Silhouette Plot
-
-```{r}
-#
-```
-
-
-### Cluster Profiles
-
-```{r}
-#
-```
-
-*** 
-
-
-## Grocery 
-
-### Implementation 
-
-```{r}
-#
-```
-
-
-### Cut-off Values
-
-```{r}
-#
-```
-
-### Silhouette Plot
-
-```{r}
-#
-```
-
-
-### Cluster Profiles
-
-```{r}
-#
-```
-
-*** 
-
-
-
-## Primary Education
-
-### Implementation 
-
-```{r}
-#
-```
-
-
-### Cut-off Values
-
-```{r}
-#
-```
-
-### Silhouette Plot
-
-```{r}
-#
-```
-
-
-### Cluster Profiles
-
-```{r}
-#
-```
-
-*** 
-
-
-
-## Secondary Education  
-
-### Implementation 
-
-```{r}
-#
-```
-
-
-### Cut-off Values
-
-```{r}
-#
-```
-
-### Silhouette Plot
-
-```{r}
-#
-```
-
-
-### Cluster Profiles
-
-```{r}
-#
-```
-
-*** 
-
-
-## Library 
-
-### Implementation 
-
-```{r}
-#
-```
-
-
-### Cut-off Values
-
-```{r}
-#
-```
-
-### Silhouette Plot
-
-```{r}
-#
-```
-
-
-### Cluster Profiles
-
-```{r}
-#
-```
-
-*** 
-
-
-
-## Parks 
-
-### Implementation 
-
-```{r}
-#
-```
-
-
-### Cut-off Values
-
-```{r}
-#
-```
-
-### Silhouette Plot
-
-```{r}
-#
-```
-
-
-### Cluster Profiles
-
-```{r}
-#
-```
-
-*** 
-
-
-
-## Transit 
-
-### Implementation 
-
-```{r}
-#
-```
-
-
-### Cut-off Values
-
-```{r}
-#
-```
-
-### Silhouette Plot
-
-```{r}
-#
-```
-
-
-### Cluster Profiles
-
-```{r}
-#
-```
-
-*** 
-
-
-
-
-## Conclusion
-
-text
-
-
-
-*** 
-
-*** 
 
 \pagebreak
-# All Metrics Together 
+# Employment 
 
 ## Implementation 
 
 ```{r}
+# remove NA values
+# amen = master[!is.na(master$PMS_prox_idx_emp),]
+
+# algorithm
 #
+
+# plot
+#pass = list(data = <cluster_data>, cluster = <cluster_assignments>)
+#fviz_cluster(pass, ellipse.type = "norm") + theme_minimal()
 ```
 
 
 ## Cut-off Values
 
 ```{r}
-#
+# need to code this still
 ```
 
 ## Silhouette Plot
 
 ```{r}
-#
+# sil = silhouette(<cluster_assignments>, dist(<cluster_data>))
+# fviz_silhouette(sil)
 ```
 
 
 ## Cluster Profiles
 
 ```{r}
-#
+# for (k in sort(unique(<cluster_assignments>))){
+#   temp = amen[<cluster_assignments> == k,]
+#   print(paste('Cluster #', k))
+#   print(paste('Num of DBs in cluster: ', as.character(nrow(temp))))
+#   print('CSD Type:')
+#   print(table(temp$CSDTYPE_grouped)) 
+#   cat('\n DB Population: \n')
+#   print(summary(temp$PMS_DBPOP))
+#   cat('\n Index of Remoteness: \n')
+#   print(summary(temp$IOR_Index_of_remoteness))
+#   cat('\n Provinces: \n')
+#   print(table(temp$PROVINCE))
+#   cat('\n Amenity dense: \n')
+#   print(table(temp$PMS_amenity_dense))
+#   cat('\n\n\n ')
+# }
+
+# save memory
+# rm(amen)
 ```
 
-## Conclusion
+*** 
 
-text
-
-
-***
-
-***
 
 \pagebreak
-# Linked with Index of Remoteness
-
+# Pharmacy 
 
 ## Implementation 
 
 ```{r}
+# remove NA values
+# amen = master[!is.na(master$PMS_prox_idx_pharma),]
+
+# algorithm
 #
+
+# plot
+#pass = list(data = <cluster_data>, cluster = <cluster_assignments>)
+#fviz_cluster(pass, ellipse.type = "norm") + theme_minimal()
 ```
 
 
 ## Cut-off Values
 
 ```{r}
-#
+# need to code this still
 ```
 
 ## Silhouette Plot
 
 ```{r}
-#
+# sil = silhouette(<cluster_assignments>, dist(<cluster_data>))
+# fviz_silhouette(sil)
 ```
 
 
 ## Cluster Profiles
 
 ```{r}
-#
+# for (k in sort(unique(<cluster_assignments>))){
+#   temp = amen[<cluster_assignments> == k,]
+#   print(paste('Cluster #', k))
+#   print(paste('Num of DBs in cluster: ', as.character(nrow(temp))))
+#   print('CSD Type:')
+#   print(table(temp$CSDTYPE_grouped)) 
+#   cat('\n DB Population: \n')
+#   print(summary(temp$PMS_DBPOP))
+#   cat('\n Index of Remoteness: \n')
+#   print(summary(temp$IOR_Index_of_remoteness))
+#   cat('\n Provinces: \n')
+#   print(table(temp$PROVINCE))
+#   cat('\n Amenity dense: \n')
+#   print(table(temp$PMS_amenity_dense))
+#   cat('\n\n\n ')
+# }
+
+# save memory
+# rm(amen)
 ```
 
-## Conclusion
+*** 
+
+
+\pagebreak
+# Childcare  
+
+## Implementation 
+
+```{r}
+# remove NA values
+# amen = master[!is.na(master$PMS_prox_idx_childcare),]
+
+# algorithm
+#
+
+# plot
+#pass = list(data = <cluster_data>, cluster = <cluster_assignments>)
+#fviz_cluster(pass, ellipse.type = "norm") + theme_minimal()
+```
+
+
+## Cut-off Values
+
+```{r}
+# need to code this still
+```
+
+## Silhouette Plot
+
+```{r}
+# sil = silhouette(<cluster_assignments>, dist(<cluster_data>))
+# fviz_silhouette(sil)
+```
+
+
+## Cluster Profiles
+
+```{r}
+# for (k in sort(unique(<cluster_assignments>))){
+#   temp = amen[<cluster_assignments> == k,]
+#   print(paste('Cluster #', k))
+#   print(paste('Num of DBs in cluster: ', as.character(nrow(temp))))
+#   print('CSD Type:')
+#   print(table(temp$CSDTYPE_grouped)) 
+#   cat('\n DB Population: \n')
+#   print(summary(temp$PMS_DBPOP))
+#   cat('\n Index of Remoteness: \n')
+#   print(summary(temp$IOR_Index_of_remoteness))
+#   cat('\n Provinces: \n')
+#   print(table(temp$PROVINCE))
+#   cat('\n Amenity dense: \n')
+#   print(table(temp$PMS_amenity_dense))
+#   cat('\n\n\n ')
+# }
+
+# save memory
+# rm(amen)
+```
+
+*** 
+
+
+\pagebreak
+# Healthcare  
+
+## Implementation 
+
+```{r}
+# remove NA values
+# amen = master[!is.na(master$PMS_prox_idx_health),]
+
+# algorithm
+#
+
+# plot
+#pass = list(data = <cluster_data>, cluster = <cluster_assignments>)
+#fviz_cluster(pass, ellipse.type = "norm") + theme_minimal()
+```
+
+
+## Cut-off Values
+
+```{r}
+# need to code this still
+```
+
+## Silhouette Plot
+
+```{r}
+# sil = silhouette(<cluster_assignments>, dist(<cluster_data>))
+# fviz_silhouette(sil)
+```
+
+
+## Cluster Profiles
+
+```{r}
+# for (k in sort(unique(<cluster_assignments>))){
+#   temp = amen[<cluster_assignments> == k,]
+#   print(paste('Cluster #', k))
+#   print(paste('Num of DBs in cluster: ', as.character(nrow(temp))))
+#   print('CSD Type:')
+#   print(table(temp$CSDTYPE_grouped)) 
+#   cat('\n DB Population: \n')
+#   print(summary(temp$PMS_DBPOP))
+#   cat('\n Index of Remoteness: \n')
+#   print(summary(temp$IOR_Index_of_remoteness))
+#   cat('\n Provinces: \n')
+#   print(table(temp$PROVINCE))
+#   cat('\n Amenity dense: \n')
+#   print(table(temp$PMS_amenity_dense))
+#   cat('\n\n\n ')
+# }
+
+# save memory
+# rm(amen)
+```
+
+*** 
+
+
+\pagebreak
+# Grocery 
+
+## Implementation 
+
+```{r}
+# remove NA values
+# amen = master[!is.na(master$PMS_prox_idx_grocery),]
+
+# algorithm
+#
+
+# plot
+#pass = list(data = <cluster_data>, cluster = <cluster_assignments>)
+#fviz_cluster(pass, ellipse.type = "norm") + theme_minimal()
+```
+
+
+## Cut-off Values
+
+```{r}
+# need to code this still
+```
+
+## Silhouette Plot
+
+```{r}
+# sil = silhouette(<cluster_assignments>, dist(<cluster_data>))
+# fviz_silhouette(sil)
+```
+
+
+## Cluster Profiles
+
+```{r}
+# for (k in sort(unique(<cluster_assignments>))){
+#   temp = amen[<cluster_assignments> == k,]
+#   print(paste('Cluster #', k))
+#   print(paste('Num of DBs in cluster: ', as.character(nrow(temp))))
+#   print('CSD Type:')
+#   print(table(temp$CSDTYPE_grouped)) 
+#   cat('\n DB Population: \n')
+#   print(summary(temp$PMS_DBPOP))
+#   cat('\n Index of Remoteness: \n')
+#   print(summary(temp$IOR_Index_of_remoteness))
+#   cat('\n Provinces: \n')
+#   print(table(temp$PROVINCE))
+#   cat('\n Amenity dense: \n')
+#   print(table(temp$PMS_amenity_dense))
+#   cat('\n\n\n ')
+# }
+
+# save memory
+# rm(amen)
+```
+
+*** 
+
+
+
+\pagebreak
+# Primary Education
+
+## Implementation 
+
+```{r}
+# remove NA values
+# amen = master[!is.na(master$PMS_prox_idx_educpri),]
+
+# algorithm
+#
+
+# plot
+#pass = list(data = <cluster_data>, cluster = <cluster_assignments>)
+#fviz_cluster(pass, ellipse.type = "norm") + theme_minimal()
+```
+
+
+## Cut-off Values
+
+```{r}
+# need to code this still
+```
+
+## Silhouette Plot
+
+```{r}
+# sil = silhouette(<cluster_assignments>, dist(<cluster_data>))
+# fviz_silhouette(sil)
+```
+
+
+## Cluster Profiles
+
+```{r}
+# for (k in sort(unique(<cluster_assignments>))){
+#   temp = amen[<cluster_assignments> == k,]
+#   print(paste('Cluster #', k))
+#   print(paste('Num of DBs in cluster: ', as.character(nrow(temp))))
+#   print('CSD Type:')
+#   print(table(temp$CSDTYPE_grouped)) 
+#   cat('\n DB Population: \n')
+#   print(summary(temp$PMS_DBPOP))
+#   cat('\n Index of Remoteness: \n')
+#   print(summary(temp$IOR_Index_of_remoteness))
+#   cat('\n Provinces: \n')
+#   print(table(temp$PROVINCE))
+#   cat('\n Amenity dense: \n')
+#   print(table(temp$PMS_amenity_dense))
+#   cat('\n\n\n ')
+# }
+
+# save memory
+# rm(amen)
+```
+
+*** 
+
+
+
+\pagebreak
+# Secondary Education  
+
+## Implementation 
+
+```{r}
+# remove NA values
+# amen = master[!is.na(master$PMS_prox_idx_educsec),]
+
+# algorithm
+#
+
+# plot
+#pass = list(data = <cluster_data>, cluster = <cluster_assignments>)
+#fviz_cluster(pass, ellipse.type = "norm") + theme_minimal()
+```
+
+
+## Cut-off Values
+
+```{r}
+# need to code this still
+```
+
+## Silhouette Plot
+
+```{r}
+# sil = silhouette(<cluster_assignments>, dist(<cluster_data>))
+# fviz_silhouette(sil)
+```
+
+
+## Cluster Profiles
+
+```{r}
+# for (k in sort(unique(<cluster_assignments>))){
+#   temp = amen[<cluster_assignments> == k,]
+#   print(paste('Cluster #', k))
+#   print(paste('Num of DBs in cluster: ', as.character(nrow(temp))))
+#   print('CSD Type:')
+#   print(table(temp$CSDTYPE_grouped)) 
+#   cat('\n DB Population: \n')
+#   print(summary(temp$PMS_DBPOP))
+#   cat('\n Index of Remoteness: \n')
+#   print(summary(temp$IOR_Index_of_remoteness))
+#   cat('\n Provinces: \n')
+#   print(table(temp$PROVINCE))
+#   cat('\n Amenity dense: \n')
+#   print(table(temp$PMS_amenity_dense))
+#   cat('\n\n\n ')
+# }
+
+# save memory
+# rm(amen)
+```
+
+*** 
+
+
+\pagebreak
+# Library 
+
+## Implementation 
+
+```{r}
+# remove NA values
+# amen = master[!is.na(master$PMS_prox_idx_lib),]
+
+# algorithm
+#
+
+# plot
+#pass = list(data = <cluster_data>, cluster = <cluster_assignments>)
+#fviz_cluster(pass, ellipse.type = "norm") + theme_minimal()
+```
+
+
+## Cut-off Values
+
+```{r}
+# need to code this still
+```
+
+## Silhouette Plot
+
+```{r}
+# sil = silhouette(<cluster_assignments>, dist(<cluster_data>))
+# fviz_silhouette(sil)
+```
+
+
+## Cluster Profiles
+
+```{r}
+# for (k in sort(unique(<cluster_assignments>))){
+#   temp = amen[<cluster_assignments> == k,]
+#   print(paste('Cluster #', k))
+#   print(paste('Num of DBs in cluster: ', as.character(nrow(temp))))
+#   print('CSD Type:')
+#   print(table(temp$CSDTYPE_grouped)) 
+#   cat('\n DB Population: \n')
+#   print(summary(temp$PMS_DBPOP))
+#   cat('\n Index of Remoteness: \n')
+#   print(summary(temp$IOR_Index_of_remoteness))
+#   cat('\n Provinces: \n')
+#   print(table(temp$PROVINCE))
+#   cat('\n Amenity dense: \n')
+#   print(table(temp$PMS_amenity_dense))
+#   cat('\n\n\n ')
+# }
+
+# save memory
+# rm(amen)
+```
+
+*** 
+
+
+
+\pagebreak
+# Parks 
+
+## Implementation 
+
+```{r}
+# remove NA values
+# amen = master[!is.na(master$PMS_prox_idx_parks),]
+
+# algorithm
+#
+
+# plot
+#pass = list(data = <cluster_data>, cluster = <cluster_assignments>)
+#fviz_cluster(pass, ellipse.type = "norm") + theme_minimal()
+```
+
+
+## Cut-off Values
+
+```{r}
+# need to code this still
+```
+
+## Silhouette Plot
+
+```{r}
+# sil = silhouette(<cluster_assignments>, dist(<cluster_data>))
+# fviz_silhouette(sil)
+```
+
+
+## Cluster Profiles
+
+```{r}
+# for (k in sort(unique(<cluster_assignments>))){
+#   temp = amen[<cluster_assignments> == k,]
+#   print(paste('Cluster #', k))
+#   print(paste('Num of DBs in cluster: ', as.character(nrow(temp))))
+#   print('CSD Type:')
+#   print(table(temp$CSDTYPE_grouped)) 
+#   cat('\n DB Population: \n')
+#   print(summary(temp$PMS_DBPOP))
+#   cat('\n Index of Remoteness: \n')
+#   print(summary(temp$IOR_Index_of_remoteness))
+#   cat('\n Provinces: \n')
+#   print(table(temp$PROVINCE))
+#   cat('\n Amenity dense: \n')
+#   print(table(temp$PMS_amenity_dense))
+#   cat('\n\n\n ')
+# }
+
+# save memory
+# rm(amen)
+```
+
+*** 
+
+
+
+\pagebreak
+# Transit 
+
+## Implementation 
+
+```{r}
+# remove NA values
+# amen = master[!is.na(master$PMS_prox_idx_transit),]
+
+# algorithm
+#
+
+# plot
+#pass = list(data = <cluster_data>, cluster = <cluster_assignments>)
+#fviz_cluster(pass, ellipse.type = "norm") + theme_minimal()
+```
+
+
+## Cut-off Values
+
+```{r}
+# need to code this still
+```
+
+## Silhouette Plot
+
+```{r}
+# sil = silhouette(<cluster_assignments>, dist(<cluster_data>))
+# fviz_silhouette(sil)
+```
+
+
+## Cluster Profiles
+
+```{r}
+# for (k in sort(unique(<cluster_assignments>))){
+#   temp = amen[<cluster_assignments> == k,]
+#   print(paste('Cluster #', k))
+#   print(paste('Num of DBs in cluster: ', as.character(nrow(temp))))
+#   print('CSD Type:')
+#   print(table(temp$CSDTYPE_grouped)) 
+#   cat('\n DB Population: \n')
+#   print(summary(temp$PMS_DBPOP))
+#   cat('\n Index of Remoteness: \n')
+#   print(summary(temp$IOR_Index_of_remoteness))
+#   cat('\n Provinces: \n')
+#   print(table(temp$PROVINCE))
+#   cat('\n Amenity dense: \n')
+#   print(table(temp$PMS_amenity_dense))
+#   cat('\n\n\n ')
+# }
+
+# save memory
+# rm(amen)
+```
+
+*** 
+
+
+
+
+\pagebreak
+# Conclusion
 
 text
+
+
 
 
 
