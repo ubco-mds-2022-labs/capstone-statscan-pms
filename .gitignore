@@ -45,5 +45,3 @@ vignettes/*.pdf
 # Jupyter notebook
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
-
-
