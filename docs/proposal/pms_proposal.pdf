@@ -21,22 +21,14 @@ of social inclusion, their capacity to meet basic needs, and their ability to fu
 social and economic development.” Therefore, it is imperative for these governing bodies to
 make deliberate, well-informed decisions as to the location of new amenities and services.
 
-    The Proximity Measure Database (PMD) developed by the Data Exploration and Integra-
-tion Lab (DEIL) at Statistics Canada serves to provide a granular measure of proximity to
-services and amenities to inform planning and policy questions (Alasia et al., 2021). The PMD
-contains continuous measures for 10 amenities at a ‘dissemination block’ (DB) level, the most
-granular area defined by StatCan (Statistics Canada, 2021). In an urban area, a DB corresponds
-to a city block, whereas in rural areas they are areas “bounded by roads or other natural fea-
-tures” (Alasia et al., 2021). Thus, DBs different broadly in their proximity to these amenities.
-In order to facilitate intuitive understanding in how these DBs differ in this regard, they can
-be clustered based on the proximity values calculated.
-
-    There are various clustering algorithms in the literature, such as the k-means algorithm
-(MacQueen, 1967) and the fuzzy c-means algorithm (Bezdek et al., 1984). There are also
-various validation metrics defined for assessing clustering quality. These metrics can be used to
-evaluate the performance of different clustering algorithms and to determine which algorithm
-is the best fit for a particular dataset. Examples of such metrics include Rand Index (RI),
-Normalized Mutual Information (NMI), and the F-measure (Mehta et al., 2020).
+    The Proximity Measure Database (PMD) developed by the Data Exploration and Inte-
+gration Lab (DEIL) at Statistics Canada serves to provide a granular measure of proximity
+to services and amenities to inform planning and policy questions (Alasia et al., 2021). The
+PMD contains continuous measures for 10 amenities at a ‘dissemination block’ (DB) level, the
+most granular area defined by StatCan (Statistics Canada, 2021). In an urban area, a DB
+corresponds to a city block, whereas in rural areas they are areas “bounded by roads or other
+natural features” (Alasia et al., 2021). Thus, DBs differ broadly in their proximity to these
+amenities.
 
     The goal of this project is to segment the continuous proximity measures in the StatCan
 PMD in order to identify stable cutoffs that distinguish dissemination blocks based on their
@@ -46,30 +38,39 @@ as remoteness, rural character, population average income or zoning information 
 the separation between clusters. Rigolon and N´emeth investigated causes of uneven access to
 urban amenities in their specific case study of Denver parks. They found that factors such
 as funding systems, public policies like zoning, and social mechanisms could significantly alter
-access (Rigolon & N´emeth, 2021). While we would expect the aforementioned variables such
-as zoning to factor into the PMD values, we need to investigate whether there is data available
-to add to the PMD in order to facilitate more distinct clustering results. The results of this
-clustering analysis will provide valuable insights to policymakers and urban planners regarding
-how to prioritize efforts to improve accessibility and promote social and economic sustainability.
-We hope that this research contributes to a better understanding of local access to amenities
-for Canadian citizens.
+access (Rigolon & N´emeth, 2021). While we would expect the aforementioned variables such as
+zoning to factor into the PMD values, we need to investigate whether there is data available to
+add to the PMD in order to facilitate more distinct clustering results.
+
+    There are various clustering algorithms in the literature, such as the k-means algorithm
+(MacQueen, 1967) and the fuzzy c-means algorithm (Bezdek et al., 1984). There are also
+various validation metrics defined for assessing clustering quality. These metrics can be used to
+evaluate the performance of different clustering algorithms and to determine which algorithm
+is the best fit for a particular dataset. Examples of such metrics include Rand Index (RI),
+Normalized Mutual Information (NMI), and the F-measure (Mehta et al., 2020).
+
+    The results of this clustering analysis will provide valuable insights to policymakers and
+urban planners regarding how to prioritize efforts to improve accessibility and promote social
+and economic sustainability. We hope that this research contributes to a better understanding
+of local access to amenities for Canadian citizens.
 2 - MDS Capstone                                                         2023
 
 Data Sources
 
-Our primary dataset of interest is the PMD from the DEIL at Statistics Canada, which includes
-the continuous numerical proximity scores of every dissemination block (DB) in Canada for 10
-amenities: employment, grocery stores, pharmacies, health care, child care, primary education,
-secondary education, public transit, neighborhood parks, and libraries. These proximity mea-
-sures were calculated using a gravity model that takes into account the distance between a
-reference DB and all other DBs where the service is located within a specified range, as well
-as the size of those services. Additionally, the presence of services within the reference DB is
-factored into the measure. These measures are considered a reliable way to assess local access to
-various amenities. In the PMD, the proximity measures have been normalized across Canada.
-In this case, a lower proximity measure indicates that the amenity is located farther away from
-the dissemination block. So, if the proximity measure is low, it means that the amenity is
-more distant from the dissemination block than if the proximity measure were high. The data
-dictionary for this dataset can be found here.
+Our primary dataset of interest is the Proximity Measure Database (PMD) from the DEIL at
+Statistics Canada, which includes the continuous numerical proximity scores of every dissemi-
+nation block (DB) in Canada for 10 amenities: employment, grocery stores, pharmacies, health
+care, child care, primary education, secondary education, public transit, neighborhood parks,
+and libraries. These proximity measures were calculated using a gravity model that takes into
+account the distance between a reference DB and all other DBs where the service is located
+within a specified range, as well as the size of those services. Additionally, the presence of
+services within the reference DB is factored into the measure. These measures are considered
+a reliable way to assess local access to various amenities (OECD 2018). In the PMD, the prox-
+imity measures have been normalized across Canada. In this case, a lower proximity measure
+indicates that the amenity is located ‘farther away’ from the dissemination block. So, if the
+proximity measure is low, it means that the amenity is more distant from the dissemination
+block than if the proximity measure were high. The data dictionary for this dataset can be
+found here.
 
     Our secondary dataset is the Index of Remoteness (IoR), also from Statistics Canada. This
 dataset includes a continuous numeric remoteness score for each census subdivision (CSD) in
@@ -77,13 +78,11 @@ Canada. Index of Remoteness equal to zero for the least remote CSD and equal to 
 most remote CSD. A census subdivision is a general term used by Statistics Canada to refer to
 a municipal or equivalent area. It can be a city, town, village, township, regional municipality,
 or other type of local government unit. DBs are smaller geographic units used by Statistics
-Canada which fall within CSDs. If possible, the IoR can be linked to the proximity measures
-dataset by a unique ID that is available in both dataset.
+Canada which fall within CSDs. The IoR can be linked to the proximity measures dataset by
+a unique ID that is available in both dataset.
 
-    “NA” is a symbol that represents missing values, which means that the data for a particular
-observation or variable is not available or is incomplete. In the context of Statistics Canada, the
-term “NA” is used to indicate missing data in a standardized and consistent way. The following
-standard symbols are used in Statistics Canada publications: [1]
+    In terms of missing values, Statistics Canada uses the following standard representations
+(Alasia et al., 2021):
 
                   Symbol  Meaning
                   .       not available for any reference period
@@ -91,9 +90,10 @@ standard symbols are used in Statistics Canada publications: [1]
                   ...     not applicable
                   F       too unreliable to be published
 
-    NA values are most likely due to missing data in the Business Register, or other authorita-
-tive open data sources, such as the Linkable Open Data Environment, the Open Database of
-Educational Facilities and the General Transit Feed Specification.
+    We will recode any instance of these symbols with ’NA’. These ’NA’ values are most likely
+due to unavailable or missing data in the original datasets used to create the proximity measures,
+such as the Business Register, the Linkable Open Data Environment, the Open Database of
+Educational Facilities, and the General Transit Feed Specification.
 
 Research Questions
 
@@ -126,11 +126,12 @@ analysis, and visualizations.
     • Investigating missing values and ways to deal with them, including imputation and re-
        moval.
 
-    • Investigating characteristics and distributions of variables in the PMD
+    • Investigating characteristics and distributions of variables in the PMD.
 
     We will test various techniques on the individual proximity measures, all proximity measures
-combined, and if possible, proximity measures in conjunction with population density, IoR, and
-CSD type. Possible clustering algorithms we may explore include:
+combined, and if possible, proximity measures in conjunction with population density, IoR, CSD
+type, and other relevant variables we are able to link. Possible clustering algorithms we may
+explore include:
 
     • Connectivity based (Hierarchical)
 
@@ -161,9 +162,9 @@ CSD type. Possible clustering algorithms we may explore include:
           – Density-Based Spatial Clustering of Applications with Noise (dbscan package)
           – HDBSCAN (dbscan package)
           – OPTICS = Ordering points to identify the clustering structure (dbscan package)
+4 - MDS Capstone  2023
 
     • Grid based
-4 - MDS Capstone  2023
 
           – CLIQUE (subspace package)
 
@@ -257,7 +258,7 @@ obsolete.
 Conclusion
 
 Our project aims to apply clustering algorithms to segment proximity measures for various
-amenities as provided by Statistics Canada. The insights gained from this segmentation can
+amenities as provided by Statistics Canada. The insights gained from this segmentation may
 help policymakers and urban planners make informed decisions on how to prioritize efforts to
 improve access and promote social and economic sustainability. By selecting a robust clustering
 methodology and exploring the relationships between clusters and socio-economic factors, we
@@ -267,29 +268,41 @@ on communities.
 
 Bibliography
 
-1 Alasia, A., Newstead, N., Kuchar, J., & Radulescu, M. (2021, February 15). Measuring
+1 Alasia, A., B´edard, F., B´elanger, J., Guimond, E., & Penney, C. (2017). Measuring
+remoteness and accessibility: A set of indices for Canadian communities. Reports on Special
+Business Projects, Statistics Canada. https://www150.statcan.gc.ca/n1/pub/18-001-x/
+18-001-x2017002-eng.htm.
+
+2 Alasia, A., Newstead, N., Kuchar, J., & Radulescu, M. (2021, February 15). Measuring
 Proximity to Services and Amenities: An Experimental Set of Indicators for Neighbourhoods
 and Localities. Reports on Special Business Projects, Statistics Canada. Retrieved May 4,
 2023, from https://www150.statcan.gc.ca/n1/pub/18-001-x/18-001-x2020001-eng.htm
 
-2 Rigolon, A., & N´emeth, J. (2021). What shapes uneven access to urban amenities? Thick
-injustice and the legacy of racial discrimination in Denver’s parks. Journal of Planning
-Education and Research, 41(3), 312-325.
+3 Bezdek, J.C., Ehrlich, R., & Full, W. FCM: The fuzzy c-means clustering algorithm,
+Computers & Geosciences,Volume 10, Issues 2–3,1984, Pages 191-203, ISSN 0098-3004,
+https://doi.org/10.1016/0098-3004(84)90020-7.
 
-3 MacQueen, J. B. (1967). Some Methods for classification and Analysis of Multivariate
+4 MacQueen, J. B. (1967). Some Methods for classification and Analysis of Multivariate
 Observations. Proceedings of 5th Berkeley Symposium on Mathematical Statistics and
 Probability. Vol. 1. University of California Press. pp. 281–297.
-
-4 Bezdek, J.C., Ehrlich, R., & Full, W. FCM: The fuzzy c-means clustering algorithm,
-Computers & Geosciences,Volume 10, Issues 2–3,1984, Pages 191-203,ISSN 0098-3004,
-https://doi.org/10.1016/0098-3004(84)90020-7.
 
 5 Mehta, V., Bawa, S. & Singh, J. Analytical review of clustering techniques and prox-
 imity measures. Artif Intell Rev 53, 5995–6023 (2020). https://doi.org/10.1007/
 s10462-020-09840-7
 
-6 Alasia, A., B´edard, F., B´elanger, J., Guimond, E., & Penney, C. (2017). Measuring
-remoteness and accessibility: A set of indices for Canadian communities. Reports on Special
-Business Projects, Statistics Canada. https://www150.statcan.gc.ca/n1/pub/18-001-x/
-18-001-x2017002-eng.htm.
+6 OECD, Statistics Canada. (2018). Workshop on Modernising Statistical Sys-
+tems for Better Data on Regions and Cities. Retrieved May 4, 2023, from https:
+//www.oecd.org/cfe/regionaldevelopment/modernising-statistical-systems.htm
+
+7 Rigolon, A., & N´emeth, J. (2021). What shapes uneven access to urban amenities? Thick
+injustice and the legacy of racial discrimination in Denver’s parks. Journal of Planning
+Education and Research, 41(3), 312-325.
+
+8 Statistics Canada. (2021). Dictionary, Census of Population, 2021 Dissemination
+block (DB). https://www12.statcan.gc.ca/census-recensement/2021/ref/dict/az/
+definition-eng.cfm
+
+9 Statistics Canada. (2021). Index of Remoteness 2021: Update with 2021 census ge-
+ographies and populations. https://www150.statcan.gc.ca/n1/pub/17-26-0001/2020001/
+meta-doc-eng.htm
 
