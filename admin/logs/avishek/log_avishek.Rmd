@@ -205,6 +205,7 @@ My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
 
 <!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first) -->
 ```{r}
+#
 current.week = current.week + 1
 mylog <- mylog %>% add_row(week = current.week,
                        day=as.Date("2023-05-08"),
