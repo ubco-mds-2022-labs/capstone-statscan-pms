@@ -1,0 +1,222 @@
+---
+title: "Personal Logs - Mariam"
+author: 'Irene Vrbik'
+date: "MDS capstone"
+output:
+  md_document:
+    variant: markdown_github
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(knitr)
+library(dplyr)
+```
+
+The following is a recommended way of keeping track of your weekly hours using this RMarkdown file.
+Note that it will do all the calculations for you, you just need to enter in hours worked and a description of the task in the correct spot.
+
+
+## Instructions
+
+1. For each week, first set the `current.week` to the week number (in most cases, you can increment the `current.week` by 1). 
+
+2. Add row entries to your table indicating the date of the task, the number of hours spent on the task, a description of the task, as well any comments (or reminders to yourself) or requests for follow-up.
+
+3. Knit the file to a markdown file.
+
+4. Before Friday at 5 PM, please submit a Pull Request to merge in your weekly log. All your team mates will review your log, provide comments and suggestions, and then approve (or request changes). Once all the changes have been resolved, you can merge in your pull request (by Monday at 10 AM).
+
+5. Don't forget to review the Pull Requests by your team mates!
+
+6. Discuss any discrepancies or team dynamics issues with your assigned TA during the weekly meetings.
+
+**Remember that your `markdown` file is what will be reviewed by your teammates, the TAs, and the instructors, so just make sure it renders correctly!**
+
+## Week 0 (Sample Week)
+
+```{r}
+current.week = 0
+# 
+# mylog <- mylog %>% add_row(week = current.week,
+#                        day=as.Date("2023-05-02"),
+#                        hours=2,
+#                        description="Activity during class to figure this out",
+#                        comments="Refreshed memory on RMarkdown"
+#                        )
+# 
+# mylog <- mylog %>% add_row(week = current.week,
+#                        day=as.Date("2023-05-02"), 
+#                        hours=3,
+#                        description="Troubleshooted RStudio and my R installation",
+#                        comments=""
+#                        )
+# 
+# 
+# kable(mylog)
+```
+
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the following questions:
+
+1. What was your most significant **individual contribution** to the project this week?
+
+1. What was your most significant **team contribution** to the project this week?
+
+1. Are there any major blockers or roadblocks preventing you from proceeding on your project?
+
+
+## Week 1
+
+Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first)
+```{r}
+current.week = current.week + 1
+
+mylog <- data.frame(week = current.week, 
+                    day = as.Date("2023-05-01"),
+                    hours = 3,
+                    description = "Meetings prior to May 1",
+                    comments = "2 meetings + presentation"
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-01"),
+                    hours = 4,
+                    description = "Getting oriented",
+                    comments = "getting oriented on project, reading papers, etc."
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-02"),
+                    hours = 2.5,
+                    description = "capstone kickoff lecture",
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-02"), 
+                       hours=1.5,
+                       description="Team Meeting",
+                       comments="contributing doc, team contract, README, etc."
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-03"), # for today's date
+                       hours=3,
+                       description="Team meeting and proposal", 
+                       comments = '945-1245')
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-03"), # for today's date
+                       hours=1,
+                       description="Plagarism module", 
+                       comments = NA)
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-04"), # for today's date
+                       hours=6,
+                       description="Team working on proposal", 
+                       comments = '10-4')
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-05"), # for today's date
+                       hours=2.5,
+                       description="Team meeting + proposal editing", 
+                       comments = '10-1245')
+
+kable(mylog)
+```
+My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the following questions:
+
+1. What was your most significant **individual contribution** to the project this week?
+
+I drafted the schedule that we ended up using (after some edits). 
+
+1. What was your most significant **team contribution** to the project this week?
+
+Noman and I worked together to draft many sections of the proposal (including research questions, deliverables, methods, etc.).
+
+1. Are there any major blockers or roadblocks preventing you from proceeding on your project?
+
+No, not at the moment. 
+
+## Week 2
+
+Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first)
+```{r}
+current.week = current.week + 1
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-08"), 
+                       hours=6.5,
+                       description="making master dataset, team meeting, instructor meeting",
+                       comments="10-430"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-09"), 
+                       hours=6.5,
+                       description="drafting clustering template, TA meeting",
+                       comments="930-5 minus lunch"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-10"), 
+                       hours=7,
+                       description="started clustimpute document, fixing master dataset, team meeting",
+                       comments="10-5"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-11"), 
+                       hours=6.5,
+                       description="finished clustimpute document, team meeting",
+                       comments="10-430"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-12"), 
+                       hours=5,
+                       description="fixing proposal in team meeting, addressing feedback",
+                       comments="10-230 + typesetting in evening")
+
+kable(filter(mylog, week == current.week))
+```
+My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the following questions:
+
+1. What was your most significant **individual contribution** to the project this week?
+
+The most significant individual contribution was the ClustImpute document, which is an application and analysis of the PMD using the ClustImpute package. Part of this was creating reproducible code that we will be able to use again in applying other algorithms. 
+
+1. What was your most significant **team contribution** to the project this week?
+
+The most significant team contribution was definitely fixing the proposal. We met for almost 5 hours straight and ironed out all the errors. 
+
+1. Are there any major blockers or roadblocks preventing you from proceeding on your project?
+
+There are two roadblocks:
+
+* git - we are having issues with large file storage 
+* memory - due to the size of the dataset and the algorithmic approaches being used, many of the group members' computers run out of memory and crash, mine included. There are some workarounds, but it is wasting time and preventing us from doing some things, such as certain algorithms and making plots with shapefiles. 
+
+
+## Summary Table
+
+To get the total for all the weekly hourly summary over each week use the following (requires the **dplyr** package)
+```{r}
+mylog %>% 
+  group_by(week) %>% 
+  summarise(total_weekly_hours = sum(hours)) %>%
+  kable()
+```
