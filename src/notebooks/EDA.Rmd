@@ -6,7 +6,6 @@ output:
     number_sections: true
     fig_caption: true
     toc: true
-    theme: readable
 ---
 
 ```{r setup, include=FALSE}
@@ -297,6 +296,8 @@ In this violin plot, we see that the highest densities of proximity values lie b
 Next we see the kernel densities of proximity measures for each amenity.
 
 ```{r fig.height=10, fig.width=6}
+# Create a melted data frame for the boxplot
+df <- reshape2::melt(pmd[, prox_cols])
 # kernel density plots
 ggplot(df, aes(x = value, fill = variable)) +
   geom_density(alpha = 0.5) +
@@ -543,9 +544,6 @@ Outliers can have a significant impact on the clustering results by pulling the 
 Boxplots of proximity indices
 
 ```{r}
-# Create a melted data frame for the boxplot
-df <- reshape2::melt(pmd[, prox_cols])
-
 # Create the boxplot
 ggplot(df, aes(x = variable, y = value)) +
   geom_boxplot() +
@@ -897,7 +895,7 @@ cat("No. of DBs in BC which prox_idx_grocery is not NA",
 
 \clearpage
 
-# Appendix
+## Appendix
 
 ```{r}
 ggplot(pmd, aes(DBPOP)) + 
@@ -910,14 +908,21 @@ ggplot(pmd, aes(DBPOP)) +
 df_perc_missing %>% pivot_longer(all_of(prox_cols)) %>%
   ggplot(aes(y = value, x = name, fill = name)) + 
     geom_col() + 
-    facet_wrap(~prov_name, ncol = 2) + labs(title = "Missing values for each amenity by province")
+    facet_wrap(~prov_name, ncol = 2) + labs(title = "Missing values for each amenity by province") +
+  theme(axis.title.x = element_blank(),
+          axis.title.y = element_blank(),
+          axis.text.x = element_blank(),
+          axis.ticks.x = element_blank())
 ```
 
 ```{r}
 # how many DBs by province
-ggplot(pmd, aes(PRNAME)) + geom_bar() + labs(title = "How many DBs by province")
+ggplot(pmd, aes(PRNAME)) + 
+  geom_bar() + 
+  labs(x = "", title = "How many DBs by province") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
-## Logistics curves NAs
+### Logistics curves NAs
 
 ```{r fig.height=3, fig.width=3}
 ggplot(df_na, aes(x=DBPOP, y=prox_idx_pharma)) + 
@@ -949,7 +954,7 @@ ggplot(df_na, aes(x=DBPOP, y=prox_idx_transit)) +
   stat_smooth(method="glm", se=FALSE, method.args = list(family=binomial))
 ```
 
-## Histograms NAs
+### Histograms NAs
 
 ```{r fig.height=4, fig.width=6}
 ggplot(df_na) +
@@ -981,24 +986,26 @@ ggplot(df_na) +
                  colour="grey50", alpha=0.5, position="identity")
 ```
 
-## Proximity measures histograms 
+### Proximity measures histograms 
 
 ```{r fig.height=10, fig.width=6}
 # histograms
 # Next we see the histograms of proximity values for each amenity. This gives us an idea of the counts for each bin of values. We see that libraries have the least amount of proximity values that are near 0, but we saw above that they also had the greatest amount of missing values.
-ggplot(df_long, aes(value)) + 
+ggplot(df_violin_long, aes(value)) + 
     geom_histogram(bins = 50) + 
     facet_wrap(~name, scales = 'free_y', ncol = 2)
 ```
 
-## Proximity measures density zoomed in ? I think something is off
+### Proximity measures density zoomed in ? I think something is off
+
 ```{r fig.height=10, fig.width=6}
 # kernel densities
-ggplot(df_long, aes(value)) + 
+ggplot(df_long_pop, aes(value)) + 
     geom_density() + 
     facet_wrap(~name, scales = 'free_y', ncol = 2) + xlim(0.5,1)+ labs(title = "Distribution of proximity measures by amenity, zoomed in")
 ```
-## Population 0
+
+### Population 0
 
 ```{r fig.height= 4, fig.width=6, include = F}
 # violin plot
@@ -1020,7 +1027,7 @@ ggplot(df_long_red, aes(value, fill = which_df)) +
     facet_wrap(~name, scales = 'free_y', ncol = 2) +xlim(0.25,1) + labs(title = 'Kernel density of Population = 0 vs != 0, zoomed in')
 ```
 
-## Table of counts for populations and NAs
+### Table of counts for populations and NAs
 
 There are still many more DBs that have populations > 0:
 
