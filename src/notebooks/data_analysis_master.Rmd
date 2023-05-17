@@ -1,22 +1,36 @@
 ---
-title: "data_analysis"
-output: pdf_document
+title: "EDA Master draft"
 date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    number_sections: true
+    fig_caption: true
+    toc: true
+    theme: readable
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, cache=TRUE)
+knitr::opts_chunk$set(echo = F, 
+                      cache = T, 
+                      message = F, 
+                      warning = F, 
+                      fig.align="center", fig.width=8, fig.height=6)
 library(dplyr)
+# library(factoextra)
+library(ggplot2)
+# library(tidyverse)
+# library(gridExtra)
+library(knitr)
 ```
 
 ### Import data
 
 ```{r}
-load("../../data/master_pms_df.Rdata")
+load("../../../local_data/master_pms_df.Rdata")
 ```
 
 ```{r}
-head(master)
+dim(master)
 ```
 
 ```{r}

@@ -11,6 +11,8 @@ knitr::opts_chunk$set(echo = TRUE,
                       warning=FALSE)
 library(dplyr)
 library(ggplot2)
+library(knitr)
+library(kableExtra)
 ```
 
 ### Import data
@@ -126,7 +128,11 @@ pmd <- pmd %>%
 ```{r}
 # summary of the dataset
 # sapply(pmd, function(x) if(is.numeric(x)) summary(x))
-sapply(Filter(is.numeric, pmd), summary)
+
+# Summary of data set
+pmd_tibble <- as_tibble(Filter(is.numeric, pmd))
+# sapply(Filter(is.numeric, pmd), summary) %>% kable() %>% kable_styling()
+summary(pmd_tibble) %>% kable() %>% kable_styling()
 
 ```
 
@@ -154,6 +160,18 @@ When the DBPOP is 0, it is understandable that there are no proximity measures b
 ```{r}
 unique(all_prox_na$PRNAME)[1:5]
 ```
+
+
+
+
+
+
+
+
+
+
+
+
 ```{r}
 # Count the occurrences of each CSDTYPE value
 pr_counts <- data.frame(table(all_prox_na$PRNAME))
@@ -189,6 +207,8 @@ ggplot(data = csdtype_counts,
 We can see that These DBs are from different province and different csd. If we can plot them on map then it may make sense!
 Majority portions of db where all proximity measures are null from Regional municipality and Municipal district.
 
+
+
 ```{r}
 # Check if there are any dbs where all proximity measures are 0
 all_prox_0 <- pmd[rowSums(pmd[, prox_cols] == 0, na.rm = TRUE) == length(prox_cols), ]
@@ -222,12 +242,12 @@ ggplot(df, aes(x = variable, y = value)) +
 
 ```{r}
 # Calculate Q1 and IQR
-Q1 <- quantile(df$value, 0.25, na.rm = TRUE)
-Q3 <- quantile(df$value, 0.75, na.rm = TRUE)
-IQR <- IQR(df$value, na.rm = TRUE)
+Q1 <- quantile(df$value[df$variable == "prox_idx_childcare"], 0.25, na.rm = TRUE)
+Q3 <- quantile(df$value[df$variable == "prox_idx_childcare"], 0.75, na.rm = TRUE)
+IQR <- IQR(df$value[df$variable == "prox_idx_childcare"], na.rm = TRUE)
 
 # Create the boxplot with the horizontal line
-ggplot(df, aes(x = variable, y = value)) +
+ggplot(df[df$variable == "prox_idx_childcare", ], aes(x = variable, y = value)) +
   geom_boxplot() +
   geom_hline(yintercept = Q1 - 1.5*IQR, linetype = "dashed", color = "red") +
   geom_hline(yintercept = Q3 + 1.5*IQR, linetype = "dashed", color = "red") +
@@ -236,6 +256,52 @@ ggplot(df, aes(x = variable, y = value)) +
   ggtitle("Boxplots of proximity indices") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
+```
+
+```{r}
+library(ggplot2)
+
+# Subset the data for the desired variable
+variable_name <- "prox_idx_childcare"
+data_subset <- df[df$variable == variable_name, ]
+
+# Calculate the outliers based on the IQR method
+Q1 <- quantile(data_subset$value, 0.25, na.rm = TRUE)
+Q3 <- quantile(data_subset$value, 0.75, na.rm = TRUE)
+IQR <- IQR(data_subset$value, na.rm = TRUE)
+outliers <- data_subset$value[data_subset$value < Q1 - 1.5 * IQR | data_subset$value > Q3 + 1.5 * IQR]
+
+# Remove NA values from outliers
+outliers <- na.omit(outliers)
+
+# Plot the histogram and boxplot
+ggplot(data = data.frame(value = outliers), aes(x = value), color = "red", size = 3) +
+  geom_density(alpha = 0.5) +
+  labs(x = variable_name, y = "Frequency") +
+  ggtitle(paste("Distribution and Outliers of", variable_name)) +
+  theme_minimal()
+```
+
+```{r}
+# Subset the data for the desired variable
+variable_name <- "prox_idx_emp"
+data_subset <- df[df$variable == variable_name, ]
+
+# Calculate the outliers based on the IQR method
+Q1 <- quantile(data_subset$value, 0.25, na.rm = TRUE)
+Q3 <- quantile(data_subset$value, 0.75, na.rm = TRUE)
+IQR <- IQR(data_subset$value, na.rm = TRUE)
+outliers <- data_subset$value[data_subset$value < Q1 - 1.5 * IQR | data_subset$value > Q3 + 1.5 * IQR]
+
+# Remove NA values from outliers
+outliers <- na.omit(outliers)
+
+# Plot the histogram and boxplot
+ggplot(data = data.frame(value = outliers), aes(x = value), color = "red", size = 3) +
+  geom_density(alpha = 0.5) +
+  labs(x = variable_name, y = "Frequency") +
+  ggtitle(paste("Distribution and Outliers of", variable_name)) +
+  theme_minimal()
 ```
 
 
@@ -388,10 +454,16 @@ corrplot(M, type = "upper", order = "hclust",
          diag = FALSE)
 ```
 
+```{r}
+corrplot(M, type = "upper", 
+         addCoef.col = "black", method = "ellipse",
+         diag = FALSE)
+```
+
 
 ### Spat
 
-```{r}
+```{r eval=FALSE, echo=FALSE}
 library(terra)
 db_shp <- vect("../../data/ldb_000b16a_e.dbf")
 db_shp
