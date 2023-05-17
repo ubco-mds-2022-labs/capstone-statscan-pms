@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = TRUE,
 library(dplyr)
 library(ggplot2)
 library(knitr)
+library(kableExtra)
 ```
 
 ### Import data
@@ -159,6 +160,17 @@ When the DBPOP is 0, it is understandable that there are no proximity measures b
 ```{r}
 unique(all_prox_na$PRNAME)[1:5]
 ```
+
+
+
+
+
+
+
+
+
+
+
 
 ```{r}
 # Count the occurrences of each CSDTYPE value
