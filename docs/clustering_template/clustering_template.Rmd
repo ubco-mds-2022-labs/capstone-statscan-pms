@@ -142,7 +142,14 @@ do_everything = function(dataset, amen_name, num){
     temp = amen[clusts == i,amen_name]
     comp[[i]] = Mode(round(temp, 6))
   }
-  ord = match(comp[order(unlist(comp))], comp)
+  if (max(unlist(comp)) == comp[[1]]){
+    ord = match(comp, comp[order(unlist(comp))])
+  } else{
+    ord = match(comp[order(unlist(comp))], comp) 
+  }
+  if (sum(duplicated(ord))>0){
+    ord[duplicated(ord)] = unique(clusts)[which(!(unique(clusts) %in% ord))]
+  }
   clusts = ord[clusts]
   
   # plot
