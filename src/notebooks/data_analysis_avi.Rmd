@@ -215,7 +215,7 @@ all_prox_0 <- pmd[rowSums(pmd[, prox_cols] == 0, na.rm = TRUE) == length(prox_co
 nrow(all_prox_0)
 ```
 
-There are no dissemination blocks for which all the proximity measures of amenities are 0. So, dissemination blocks with no populations still has the proximity measures of amenities may be those dissemination blocks are close from other populated dissemination blocks, or the dissemination blocks contain parks, office buildings, industrial area etc.
+There are no dissemination blocks for which all the proximity measures of amenities are 0. So, dissemination blocks with no populations still has the proximity measures of amenities may be those dissemination blocks are close from other populated dissemination blocks, or the dissemination blocks contain parks, office buildings, industrial area, under construction etc.
 
 ### Outliers
 
@@ -440,6 +440,9 @@ ggplot(pmd, aes(x=as.factor(amenity_dense) )) +
 A dissemination block is an amenity dense neighbourhood, 
 a high amenity density neighbourhood, 
 a non-amenity dense neighbourhood.
+
+
+
 
 ### Covariate 
 

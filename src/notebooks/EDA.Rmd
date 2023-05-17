@@ -345,7 +345,9 @@ ggplot(pmd, aes(x=as.factor(amenity_dense) )) +
   labs(x = "Amenity Dense")
 ```
 
-
+37303 DBs' are in an amenity dense neighbourhood, 
+4827 DBs' are in a high amenity density neighbourhood, 
+442179 DBs' are in a non-amenity dense neighbourhood.
 
 #### Population zero
 
@@ -356,45 +358,119 @@ nrow(filter(pmd, pmd$DBPOP == 0))/nrow(pmd)
 
 About 24% of the DBs in Canada (in 2016) have a population of 0. It could be reasonable to expect that if the population of a DB is 0, then the proximity measure are also near 0: it is intuitive that for the most part, amenities are further away from areas with no populations. It is thus reasonable to explore the cases where the population is zero, to see its prevalence, and deduce how it may affect the values of proximity measures. In the appendix there's a barplot showing how many DBs there are per province: Ontario and Quebec have the most, whereas the Territories have the least. 
 
-Here, we that the province with the most DBs with a population of zero is Saskatchewan, followed by Ontario, Quebec, and Alberta. 
+DBs with a population of zero by Province
 
 ```{r}
 PRNAME <- unique(pmd$PRNAME)
 
-pmd %>% filter(pmd$DBPOP == 0) %>% 
-  ggplot(aes(PRNAME)) + geom_bar() + labs(title = "How many DBs with population zero by province") 
+pmd %>% filter(DBPOP == 0) %>% 
+  ggplot(aes(PRNAME)) + 
+  geom_bar(fill="steelblue") + 
+  labs(x = "",
+    title = "How many DBs with population zero by province") +
+  geom_text(stat="count", aes(label=..count..), vjust=-0.5) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 #cowplot::plot_grid(p1,p2)
 ```
 
-Taking the proportions however, we see that over 50% of Yukon and NWT's DBs have a population of 0, and Saskatchewan has over 40%. Ontario has the lowest at around 15%, followed by Quebec at around 18%.
+Here, we can see that the province with the most DBs with a population of zero is Saskatchewan, followed by Ontario, Quebec, and Alberta. 
+
+Proportion of population zero DBs' by province
 
 ```{r}
 # should get proportions
-data.frame(table(filter(pmd_na, pmd_na$DBPOP == 0)$pr_abbr)/table(pmd_na$pr_abbr)) %>% ggplot(aes(factor(Var1), Freq)) + geom_col() + labs(title = "Proportion of population zero by province")
+data.frame(table(filter(pmd, pmd$DBPOP == 0)$PRNAME)/table(pmd$PRNAME)) %>% ggplot(aes(factor(Var1), Freq)) + 
+  geom_col(fill="steelblue") + 
+  labs(x = "",
+    title = "Proportion of population zero DBs' by province") +
+  geom_text(aes(label= round(Freq, 3)), vjust=-0.5) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-In the following table, we see that the CSDTYPE with the most populations = zero are rural municipalities followed relatively closely by cities. It seems the majority of the top counts are urban areas (cities, villes, municipalities, etc), which is somewhat unexpected.
+Taking the proportions however, we see that over 50% of Yukon and NWT's DBs have a population of 0, and Saskatchewan has over 40%. Ontario has the lowest at around 15%, followed by Quebec at around 18%.
+
+DB counts of zero populations by CSDTYPE
 
 ```{r}
-sort(table(filter(pmd_na, pmd_na$DBPOP == 0)$CSDTYPE), decreasing = T)
+sort(table(filter(pmd, pmd$DBPOP == 0)$CSDTYPE), decreasing = T)
 ```
 
-Some of the population is NA. We see that Quebec has the most DBs with a population NA, followed by Ontario, Alberta, and BC. The CSDTYPE of the DB's whose population information is NA are IRI – Indian reserve and S-É – Indian settlement. 
+We see that the CSDTYPE with the most populations = zero are rural municipalities followed relatively closely by cities. It seems the majority of the top counts are urban areas (cities, villes, municipalities, etc), which is somewhat unexpected.
+
+DBs' by Province where all PMS NA
 
 ```{r}
-pmd_na %>% filter(is.na(pmd_na$DBPOP)) %>% ggplot(aes(factor(pr_abbr))) + geom_bar() + labs(title = "How many DBs with population NA by province")
+# Count the occurrences of each CSDTYPE value
+pr_counts <- data.frame(table(all_prox_na$PRNAME))
+
+# Create a bar plot
+ggplot(data = pr_counts,
+       aes(x = Var1, y = Freq)) +
+  geom_bar(stat = "identity", fill="steelblue") +
+  geom_text(aes(label = Freq), vjust = -0.5) +
+  labs(title = "Number of DBs' by Province where all PMS NA") +
+  xlab("Province") +
+  ylab("Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+
+DBs' by CSDTYPE where all PMS NA
+
+```{r}
+# Count the occurrences of each CSDTYPE value
+csdtype_counts <- data.frame(table(all_prox_na$CSDTYPE))
+
+# Create a bar plot
+ggplot(data = csdtype_counts,
+       aes(x = Var1, y = Freq)) +
+  geom_bar(stat = "identity", fill="steelblue") +
+  # geom_text(aes(label = Freq), vjust = -0.5) +
+  labs(title = "Number of DBs' by CSDTYPE where all PMS NA") +
+  xlab("CSDTYPE") +
+  ylab("Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+We can see that These DBs are from different province and different csd. If we can plot them on map then it may make sense!
+Majority portions of db where all proximity measures are null from Regional municipality and Municipal district.
+
+DBs' for which all the proximity measures of amenities are 0
+
+```{r echo=TRUE}
+# Check if there are any dbs where all proximity measures are 0
+all_prox_0 <- pmd[rowSums(pmd[, prox_cols] == 0, na.rm = TRUE) == length(prox_cols), ]
+nrow(all_prox_0)
+```
+
+There are no dissemination blocks for which all the proximity measures of amenities are 0. So, dissemination blocks with no populations still has the proximity measures of amenities may be those dissemination blocks are close from other populated dissemination blocks, or the dissemination blocks contain parks, office buildings, industrial area, under construction etc.
+
+DBs with population NA by province
+
+```{r}
+pmd %>% filter(is.na(pmd$DBPOP)) %>% 
+  ggplot(aes(factor(PRNAME))) + 
+  geom_bar(fill="steelblue") + 
+  labs(x = "",
+    title = "DBs with population NA by province") + 
+  geom_text(stat="count", aes(label=..count..), vjust=-0.5) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Some of the population is NA. We see that Quebec has the most DBs with a population NA, followed by Ontario, Alberta, and BC. 
+
 ```{r eval=F}
-table(filter(pmd_na, is.na(DBPOP))$CSDTYPE)
+table(filter(pmd, is.na(DBPOP))$CSDTYPE)
 ```
 
-## Effect of removing population = 0
+The CSDTYPE of the DB's whose population information is NA are IRI – Indian reserve and S-É – Indian settlement.
+
+#### Effect of removing population = 0
 
 ```{r}
 # Data wrangling
 # keeping only vals not 0
-pop_0 <- filter(pmd_na, pmd_na$DBPOP !=0)
+pop_0 <- filter(pmd, pmd$DBPOP !=0)
 names(pop_0) <- sub('prox_idx_', '', names(pop_0))
 # manipulate dataframe to only keep amenities cols
 df_man_pop <- subset(pop_0, select = prox_cols_short)
@@ -403,7 +479,7 @@ df_man_pop <- subset(pop_0, select = prox_cols_short)
 df_long_pop <- pivot_longer(df_man_pop, all_of(prox_cols_short))
 
 # if only keep population ==0
-pop_only0 <- filter(pmd_na, pmd_na$DBPOP ==0)
+pop_only0 <- filter(pmd, pmd$DBPOP ==0)
 names(pop_only0) <- sub('prox_idx_', '', names(pop_only0))
 # manipulate dataframe to only keep amenities cols
 df_man_pop_only <- subset(pop_only0, select = prox_cols_short)
@@ -416,15 +492,15 @@ df_long_pop_only <- pivot_longer(df_man_pop_only, all_of(prox_cols_short))
 ```{r fig.height=10, fig.width=6}
 # data wrangling
 # add row indicating what data type
-which_df <- rep("all", nrow(df_long))
-df_long <- cbind(df_long, which_df)
+which_df <- rep("all", nrow(df_violin_long))
+df_violin_long <- cbind(df_violin_long, which_df)
 which_df <- rep("red", nrow(df_long_pop))
 df_long_pop <- cbind(df_long_pop, which_df)
 which_df <- rep("pop0", nrow(df_long_pop_only))
 df_long_pop_only <- cbind(df_long_pop_only, which_df)
 
 # merge df together
-df_long_both <- rbind(df_long, df_long_pop)
+df_long_both <- rbind(df_violin_long, df_long_pop)
 df_long_red <- rbind(df_long_pop, df_long_pop_only)
 ```
 
@@ -459,6 +535,152 @@ From this following table, we see that 72% of the proximity measure values where
 ```{r}
 table(df_long_red$which_df,is.na(df_long_red$value))/cbind(table(df_long_red$which_df), table(df_long_red$which_df))
 ```
+
+### Outliers
+
+Outliers can have a significant impact on the clustering results by pulling the centroids towards themselves, creating biased clusters, and reducing the effectiveness of the clustering algorithm.
+
+Boxplots of proximity indices
+
+```{r}
+# Create a melted data frame for the boxplot
+df <- reshape2::melt(pmd[, prox_cols])
+
+# Create the boxplot
+ggplot(df, aes(x = variable, y = value)) +
+  geom_boxplot() +
+  xlab("") +
+  ylab("Value") +
+  ggtitle("Boxplots of proximity indices") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Boxplot of prox_idx_childcare with outlier indication
+
+```{r}
+# Calculate Q1 and IQR
+Q1 <- quantile(df$value[df$variable == "prox_idx_childcare"], 0.25, na.rm = TRUE)
+Q3 <- quantile(df$value[df$variable == "prox_idx_childcare"], 0.75, na.rm = TRUE)
+IQR <- IQR(df$value[df$variable == "prox_idx_childcare"], na.rm = TRUE)
+
+# Create the boxplot with the horizontal line
+ggplot(df[df$variable == "prox_idx_childcare", ], aes(x = variable, y = value)) +
+  geom_boxplot() +
+  geom_hline(yintercept = Q1 - 1.5*IQR, linetype = "dashed", color = "red") +
+  geom_hline(yintercept = Q3 + 1.5*IQR, linetype = "dashed", color = "red") +
+  xlab("") +
+  ylab("Value") +
+  ggtitle("Boxplot of prox_idx_childcare") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+Outliers distribution of prox_idx_childcare
+
+```{r}
+# Subset the data for the desired variable
+variable_name <- "prox_idx_childcare"
+data_subset <- df[df$variable == variable_name, ]
+
+# Calculate the outliers based on the IQR method
+Q1 <- quantile(data_subset$value, 0.25, na.rm = TRUE)
+Q3 <- quantile(data_subset$value, 0.75, na.rm = TRUE)
+IQR <- IQR(data_subset$value, na.rm = TRUE)
+outliers <- data_subset$value[data_subset$value < Q1 - 1.5 * IQR | data_subset$value > Q3 + 1.5 * IQR]
+
+# Remove NA values from outliers
+outliers <- na.omit(outliers)
+
+# Plot the histogram and boxplot
+ggplot(data = data.frame(value = outliers), aes(x = value), color = "red", size = 3) +
+  geom_density(alpha = 0.5) +
+  labs(x = variable_name, y = "Frequency") +
+  ggtitle(paste("Outliers distribution of", variable_name)) +
+  theme_minimal()
+```
+
+Outliers distribution of prox_idx_emp
+
+```{r}
+# Subset the data for the desired variable
+variable_name <- "prox_idx_emp"
+data_subset <- df[df$variable == variable_name, ]
+
+# Calculate the outliers based on the IQR method
+Q1 <- quantile(data_subset$value, 0.25, na.rm = TRUE)
+Q3 <- quantile(data_subset$value, 0.75, na.rm = TRUE)
+IQR <- IQR(data_subset$value, na.rm = TRUE)
+outliers <- data_subset$value[data_subset$value < Q1 - 1.5 * IQR | data_subset$value > Q3 + 1.5 * IQR]
+
+# Remove NA values from outliers
+outliers <- na.omit(outliers)
+
+# Plot the histogram and boxplot
+ggplot(data = data.frame(value = outliers), aes(x = value), color = "red", size = 3) +
+  geom_density(alpha = 0.5) +
+  labs(x = variable_name, y = "Frequency") +
+  ggtitle(paste("Outliers distribution of", variable_name)) +
+  theme_minimal()
+```
+
+
+```{r}
+qqnorm(pmd$prox_idx_childcare, main = "Normal Q-Q plot")
+```
+
+It's hard to detect the outliers from Normal Q-Q plot. 
+
+#### Rosner’s test for Outliers
+
+Let's do the Rosner’s test. 
+
+Rosner's test for multiple outliers is used by VSP to detect up to 10 outliers among the selected data values. This test will detect outliers that are either much smaller or much larger than the rest of the data. Rosner's approach is designed to avoid the problem of masking, where an outlier that is close in value to another outlier can go undetected.
+
+Rosner's test is appropriate only when the data, excluding the suspected outliers, are approximately normally distributed, and when the sample size is greater than or equal to 25.
+(https://vsp.pnnl.gov/help/vsample/rosners_outlier_test.htm)
+
+Just to check we set k=5000, so it will look for 5000 outliers in the data.
+
+```{r echo=TRUE}
+# Rosner’s test
+library(EnvStats)
+test <- rosnerTest(pmd$prox_idx_emp, k = 5000, warn = TRUE)
+```
+
+```{r eval=FALSE}
+test$all.stats
+```
+
+```{r echo=TRUE}
+length(test$all.stats$Outlier == TRUE)
+```
+
+As in the resnor's test output we find 5000 outlier so there might be more in our data. It's a proof that there are too many outliers in the data.
+
+#### Chi-squared test  for Outliers
+
+```{r echo=TRUE}
+library(outliers)
+chisq.out.test(pmd$prox_idx_emp)
+```
+
+So the max proximity measure of grocery is an outlier.
+
+```{r echo=TRUE}
+chisq.out.test(pmd$prox_idx_emp, opposite = TRUE)
+```
+
+So the min proximity measure of grocery is an outlier.
+
+The proximity measures are already normalized but we can still see outliers in these. So, we should use clustering algorithms that can handle outliers.  
+For example DBSCAN clustering is robust against outliers when we choose minimum number of points (minPts) - (a threshold) large enough.  
+Ordering points to identify the clustering structure (OPTICS) is an algorithm for finding density-based clusters in spatial data which is also robust against outliers.  
+https://en.wikipedia.org/wiki/OPTICS_algorithm#cite_note-1
+But we can't use general k-means: the squared error approach is sensitive to outliers. But there are variants such as k-medians for handling outliers.  
+(https://www.researchgate.net/publication/220490566_A_review_of_robust_clustering_methods)
+
+Another approach is to apply a transformation to the data that can reduce the impact of outliers. For example, we could apply a log transformation or a power transformation to the data. These transformations can help to reduce the influence of extreme values and make the data more symmetric.
+
 ## Conclusion
 
 There are no obvious clusters in the proximity measures to the naked eye.
@@ -469,13 +691,33 @@ Our dataset contains a lot of rows, and there may be question about the 'usefuln
 
 It doesn't appear that population of a DB is the only factor affecting whether a proximity measure is missing (NA); it was the only one tested as it was the only one included in this dataset. According to StatsCan's definition of a DB however, "only population and dwelling counts are disseminated at the dissemination block level" anyways. If we wanted to analyse other factors, we would have to look into aggregation at a higher level, which is not straighforward (need to take the mean/etc of whether something is missing or not?). 
 
+### Correlation
+
+```{r}
+library(corrplot)
+
+M <- cor(pmd[prox_cols], use = "pairwise.complete.obs")
+corrplot(M, type = "upper", order = "hclust",
+         addCoef.col = "black",
+         diag = FALSE)
+```
+
+```{r}
+corrplot(M, type = "upper", 
+         addCoef.col = "black", method = "ellipse",
+         diag = FALSE)
+```
+
+
+
+\newpage
 
 
 For each amenity, we can plot the occurrence of missing values in a DB vs its population, and plot a basic logistics curve. The employment curve is included below, and the remainder are found in the appendix. We see that for some amenities, like employment and health, the missing values are concentrated among DBs with small populations. These are the same amenities with less than 50% of values missing. Overall it seems like the population of the DB is not the only factor, if at all, affecting whether a proximity measure is missing for that DB.
 
 ```{r}
 # convert data so NA = 1, other = 0
-df_na <- pmd_na
+df_na <- pmd
 
 # converting all values to 0 and all na to 1 for amenities cols
 df_na[prox_cols][!is.na(df_na[prox_cols])] <- 0
@@ -515,13 +757,150 @@ plot(log_mod)
 ```
 
 
+### Spat
+
+```{r eval=FALSE, echo=FALSE}
+library(terra)
+db_shp <- vect("../../../local_data/boundary/ldb_000b16a_e.dbf")
+db_shp
+```
+
+```{r eval=FALSE, echo=FALSE}
+plot(db_shp, "DBUID")
+```
+
+DB plot on Map of Canada
+
+![](../../assets/dbs.png)
+
+```{r eval=FALSE, echo=FALSE}
+db_shp_temp <- db_shp
+```
+
+```{r eval=FALSE, echo=FALSE}
+# make a new column for marking on map
+all_prox_na$prox_na <- 1
+```
+
+```{r eval=FALSE, echo=FALSE}
+# Merge DBUID column from all_prox_na to db_shp
+all_prox <- all_prox_na %>% rename(DBID = DBUID)
+all_prox <- all_prox[order(all_prox$DBID), ]
+db_shp_temp <- merge(db_shp_temp, all_prox, by.x = c("DBUID"), by.y = c("DBID"), all.x = TRUE)
+```
+
+Marked DBs where all proximity measures are null.
+
+```{r eval=FALSE, echo=FALSE, dev = "png", dpi = 300}
+plot(db_shp_temp, "prox_na")
+```
+
+![](../../assets/null_all_prox_canada.png)
+
+So where all proximity measures are missing are not randomly distributed. We have seen before that these areas have population. But our main target is to cluster the proximity measures. As all the proximity measures are missing here we can delete these rows from our database then do the clustering and also we can do clustering by keeping them aswell and see the difference.
+
+Closer look to all null proximity measures of BC.
+
+```{r eval=FALSE, echo=FALSE}
+# closer look to bc
+i <- which(db_shp_temp$PRUID.x == 59)
+pa_bc <- db_shp_temp[i,]
+```
+
+```{r eval=FALSE, echo=FALSE}
+pa_bc
+```
+
+
+```{r eval=FALSE, echo=FALSE}
+plot(pa_bc, "prox_na")
+```
+
+![](../../assets/bc_all_prox_na.png)
+
+Closer look to all null proximity measures of Alberta.
+
+```{r eval=FALSE, echo=FALSE}
+# closer look to bc
+i <- which(db_shp_temp$PRUID.x == 48)
+pa_alberta <- db_shp_temp[i,]
+```
+
+```{r eval=FALSE, echo=FALSE}
+plot(pa_alberta, "prox_na")
+```
+
+![](../../assets/alberta_all_prox_na.png)
+
+Now let's look at the proximity measures na values aminity wise.
+
+```{r eval=FALSE, echo=FALSE}
+pmd_temp <- pmd
+```
+
+```{r eval=FALSE, echo=FALSE}
+#prox_cols <- colnames(pmd)[grepl("^prox_idx", colnames(pmd))]
+
+# Create a new column for each prox_col indicating if the value is missing
+for (col in prox_cols) {
+  pmd_temp[[paste0("prox_na_", col)]] <- ifelse(is.na(pmd_temp[[col]]), 1, 0)
+}
+```
+
+
+```{r eval=FALSE, echo=FALSE}
+# Subset the resulting columns
+prox_na_cols <- colnames(pmd_temp)[grepl("^prox_na", colnames(pmd_temp))]
+pmd_prox_na <- pmd_temp[, c("DBUID", prox_na_cols)]
+```
+
+```{r eval=FALSE, echo=FALSE,}
+db_shp_temp <- db_shp
+```
+
+```{r eval=FALSE, echo=FALSE,}
+# Merge DBUID column from pmd_prox_na to db_shp
+pmd_prox <- pmd_prox_na %>% rename(DBID = DBUID)
+pmd_prox <- pmd_prox[order(pmd_prox$DBID), ]
+db_shp_temp <- merge(db_shp_temp, pmd_prox, by.x = c("DBUID"), by.y = c("DBID"), all.x = TRUE)
+```
+
+Let's look where grocery proximity measures are missing all over Canada.
+
+```{r eval=FALSE, echo=FALSE, dev = "png", dpi = 300}
+plot(db_shp_temp, "prox_na_prox_idx_grocery")
+```
+
+![](../../assets/null_grocery_prox_canada.png)
+
+Closer look to null grocery proximity measures of BC	
+
+```{r eval=FALSE, echo=FALSE}
+# closer look to bc
+i <- which(db_shp_temp$PRUID == 59)
+pa_bc <- db_shp_temp[i,]
+```
+
+```{r eval=FALSE, echo=FALSE}
+plot(pa_bc, "prox_na_prox_idx_grocery")
+```
+
+![](../../assets/bc_grocery_prox_na.png)
+
+```{r}
+# Count NAs and non-NAs in the grocery column where province is BC
+cat("No. of DBs in BC which prox_idx_grocery is NA",
+    sum(is.na(pmd$prox_idx_grocery[pmd$PRUID == 59])), "\n")
+cat("No. of DBs in BC which prox_idx_grocery is not NA", 
+    sum(!is.na(pmd$prox_idx_grocery[pmd$PRUID == 59])))
+```
 
 \clearpage
 
 # Appendix
 
 ```{r}
-ggplot(pmd_na, aes(DBPOP)) + 
+ggplot(pmd, aes(DBPOP)) + 
     geom_density()+labs(title = "Kernel density of DB population")
 ```
 
@@ -536,7 +915,7 @@ df_perc_missing %>% pivot_longer(all_of(prox_cols)) %>%
 
 ```{r}
 # how many DBs by province
-ggplot(pmd_na, aes(pr_abbr)) + geom_bar() + labs(title = "How many DBs by province")
+ggplot(pmd, aes(PRNAME)) + geom_bar() + labs(title = "How many DBs by province")
 ```
 ## Logistics curves NAs
 
