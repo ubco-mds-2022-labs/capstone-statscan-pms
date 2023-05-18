@@ -33,6 +33,11 @@ master$PMS_CSDPOP = as.numeric(gsub("[^0-9.-]", "", as.character(master$PMS_CSDP
 # amenity names
 amenities = c("PMS_prox_idx_emp", "PMS_prox_idx_pharma", "PMS_prox_idx_childcare", "PMS_prox_idx_health", "PMS_prox_idx_grocery", "PMS_prox_idx_educpri", "PMS_prox_idx_educsec", "PMS_prox_idx_lib", "PMS_prox_idx_parks", "PMS_prox_idx_transit")
 
+#log transform PMs
+for (i in amenities){
+  master[,i] = log(master[,i]+1)
+}
+
 # subsampling data (if needed)
 perc = 3 #percentage of data to subsample
 subsample = (nrow(master)/100)*perc 
@@ -148,6 +153,9 @@ algo = function(dataset, amen_name, num=NULL){
   #plot silhouette coefficients
   plot(sil_coefs~num, type = 'l', ylab="Silhouette Coefficient", xlab='Number of Clusters', lwd=2)
   
+  #max sil coeff
+  print(paste('Maximum silhouete coefficient:', as.character(max(sil_coefs)), 'For', num[which(sil_coefs == max(sil_coefs))], 'clusters.'))
+  
   #re-run algorithm with highest sil
   res = ClustImpute(dataset,nr_cluster=num[which(sil_coefs == max(sil_coefs))], nr_iter=nr_iter, c_steps=c_steps, n_end=n_end) 
   return(list('complete_data' = res$complete_data, 'clusts' = res$clusters))
@@ -211,6 +219,9 @@ do_everything = function(dataset, amen_name, num){
   profiles = list()
   for (k in sort(unique(clusts))){
     temp = dataset[clusts == k,]
+    for (a in amenities){
+      profiles[[a]][k] = round(mean(temp[,a], na.rm = T), 5)
+    }
     profiles[['Count']][k] = as.character(nrow(temp))
     profiles[['DB_population']][k] = round(mean(temp$PMS_DBPOP, na.rm = T), 1)
     profiles[['CSD_population']][k] = round(mean(temp$PMS_CSDPOP, na.rm = T), 1)
@@ -234,6 +245,10 @@ do_everything = function(dataset, amen_name, num){
   print_list(profiles[['Provinces']], sort(unique(clusts)))
   cat('\n Amenity dense: \n')
   print_list(profiles[['Amenity_dense']], sort(unique(clusts)))
+  for (a in amenities){
+    cat('\n', a, ': \n')
+    print_list(profiles[[a]], sort(unique(clusts)))
+  }
   
   #return all_cutoff values
   return(all_cutoffs)

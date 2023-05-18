@@ -180,6 +180,9 @@ do_everything = function(dataset, amen_name, num){
   profiles = list()
   for (k in sort(unique(clusts))){
     temp = dataset[clusts == k,]
+    for (a in amenities){
+      profiles[[a]][k] = round(mean(temp[,a], na.rm = T), 5)
+    }
     profiles[['Count']][k] = as.character(nrow(temp))
     profiles[['DB_population']][k] = round(mean(temp$PMS_DBPOP, na.rm = T), 1)
     profiles[['CSD_population']][k] = round(mean(temp$PMS_CSDPOP, na.rm = T), 1)
@@ -203,6 +206,10 @@ do_everything = function(dataset, amen_name, num){
   print_list(profiles[['Provinces']], sort(unique(clusts)))
   cat('\n Amenity dense: \n')
   print_list(profiles[['Amenity_dense']], sort(unique(clusts)))
+  for (a in amenities){
+    cat('\n', a, ': \n')
+    print_list(profiles[[a]], sort(unique(clusts)))
+  }
   
   #return all_cutoff values
   return(all_cutoffs)
