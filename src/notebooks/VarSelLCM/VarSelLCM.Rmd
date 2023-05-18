@@ -6,13 +6,11 @@ output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, 
+knitr::opts_chunk$set(echo = F, 
                       cache=TRUE, 
                       fig.align="center", 
                       fig.width=8, 
                       fig.height=6)
-
-library(VarSelLCM)
 ```
 
 * * *
@@ -24,11 +22,12 @@ library(VarSelLCM)
 ```{r}
 set.seed(2023)
 library(dplyr)
-# library(cluster)
-# library(ClustImpute)
-# library(ggplot2)
-# library(factoextra)
-# library(clusterCrit)
+library(cluster)
+library(ggplot2)
+library(factoextra)
+library(clusterCrit)
+library(VarSelLCM)
+library(clustertend)
 load('../../../data/master_pms_df.Rdata')
 
 # Convert selected columns to numeric
@@ -77,7 +76,7 @@ master_sample = na.omit(master_sample)
 
 ```{r}
 # variables to cluster with
-clust_vars = c('CSD_AREA', 'PMS_CSDPOP', 'PMS_DBPOP', 'IOR_Index_of_remoteness') #, 'PMS_CMATYPE') --> clustimpute can only cluster over numeric variables!
+clust_vars = c('CSD_AREA', 'PMS_CSDPOP', 'PMS_DBPOP', 'IOR_Index_of_remoteness') #, 'PMS_CMATYPE')
 ```
 
 ```{r}
@@ -87,9 +86,6 @@ master_amenities <- master[, amenities]
 master_amenities_wo_na <- na.omit(master_amenities)
 ```
 
-```{r eval=FALSE}
-plot(master_amenities)
-```
 
 ```{r}
 # cutoff values for all amenities
@@ -163,32 +159,32 @@ There are various ways to assess the clustering tendency of the data. Hopkins Te
 
 It works by selecting a sample from the data, the size of which is specified by the analyst. For each point find its distance to its nearest neighbour. Then the algorithm generates a simulated data set from a uniform random distribution and finds the distance from points in this data set from their nearest neighbours. To calculate the Hopkins statistic you divide the average nearest neighbour distance in the random dataset by the average nearest neighbour distance in the random dataset plus the average nearest neighbour distance in the actual dataset. Values close to 0.5 indicate high degree of spatial randomness.
 
-```{r}
+```{r eval=FALSE}
 library(hopkins)
 hopkins <- hopkins(master_amenities_wo_na)
 hopkins
 ```
 
-The result of the Hopkins Test is 1 which is not well. If it's below the 0.5 threshold and therefore indicates the data is clusterable. In this case its not clusterable using all the proximity measures.
+The result of the Hopkins Test is 1 which is not good. If it's below the 0.5 threshold and therefore indicates the data is clusterable. In this case its not clusterable using all the proximity measures.
 
-```{r}
+```{r eval=FALSE}
 temp <- data.frame(PMS_prox_idx_emp = master_amenities$PMS_prox_idx_emp, PMS_CSDPOP = master$PMS_CSDPOP)
 ```
 
-```{r}
+```{r eval=FALSE}
 temp_wo_na <- na.omit(temp)
 hopkins <- hopkins(temp_wo_na)
 hopkins
 ```
-```{r}
+```{r eval=FALSE}
 sum(is.na(temp_wo_na))
 ```
 
-```{r}
+```{r eval=FALSE}
 test_df <- master[, c("IOR_Index_of_remoteness", "PMS_prox_idx_emp")]
 ```
 
-```{r}
+```{r eval=FALSE}
 # subsampling data 
 perc = 3 #percentage of data to subsample
 subsample = (nrow(test_df)/100)*perc 
@@ -197,7 +193,7 @@ test_df = na.omit(test_df)
 ```
 
 
-```{r}
+```{r eval=FALSE}
 cluster_df <- VarSelCluster(test_df, gvals=4, nbcores = 4, vbleSelec = FALSE)
 ```
 
@@ -207,7 +203,7 @@ cluster_df <- VarSelCluster(test_df, gvals=4, nbcores = 4, vbleSelec = FALSE)
 ```
 
 
-```{r}
+```{r eval=FALSE}
 # Load the factoextra package
 library(factoextra)
 library(clusterCrit)
@@ -224,7 +220,7 @@ silhouette_scores <- intCriteria(as.matrix(cluster_data), as.integer(cluster_ass
 ```
 
 
-```{r}
+```{r eval=FALSE}
 # silhouette_scores_list <- c()
 silhouette_scores_list[4] <- c(silhouette_scores)
 ```
@@ -245,16 +241,7 @@ Algorithm steps:
 
 
 
-```{r}
-num = 2:6
-for (i in num){
-  print(i)
-}
-```
 
-```{r}
-library(cluster)
-```
 
 
 
@@ -339,9 +326,10 @@ do_everything = function(dataset, amen_name, num){
   sil = silhouette(clusts, dist(comp_data))
   plot(fviz_silhouette(sil))
   
-  # Plot cluster data points and center named by cluster number
-  fviz_cluster(cluster_data, cluster_assignments, main = "Cluster Data Points") +
-    geom_text(aes(label = as.character(cluster_assignments)), size = 4, color = "black")
+  # Hopkin's test
+  set.seed(2023)
+  hopkins <- hopkins(clust_data, n = nrow(clust_data)-1)
+  print(paste("Hopkins statistic:", hopkins$H))
   
   #profiles
   print('Cluster profiles:')
@@ -386,7 +374,6 @@ do_everything = function(dataset, amen_name, num){
 lst = do_everything(master_sample, 'PMS_prox_idx_emp', 2:6)
 all_cutoffs = append(all_cutoffs, lst)
 ```
-
 
 
 
