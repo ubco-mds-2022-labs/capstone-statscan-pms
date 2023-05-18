@@ -45,11 +45,6 @@ clust_vars = c()
 # amenity names
 amenities = c("PMS_prox_idx_emp", "PMS_prox_idx_pharma", "PMS_prox_idx_childcare", "PMS_prox_idx_health", "PMS_prox_idx_grocery", "PMS_prox_idx_educpri", "PMS_prox_idx_educsec", "PMS_prox_idx_lib", "PMS_prox_idx_parks", "PMS_prox_idx_transit")
 
-#log transform PMs
-for (i in amenities){
-  master[,i] = log(master[,i]+0.001)
-}
-
 # cutoff values for all amenities
 all_cutoffs = list()
 
@@ -83,8 +78,8 @@ cutoff = function(x, y){
          #points(ex[k], ey[k], pch=16, col="green" )
     }
   }
-  exf = ex[ey > 1 & ex > 0.01]
-  eyf = ey[ey > 1 & ex > 0.01]
+  exf = ex[ey > 0.1 & ex > 0.01]
+  eyf = ey[ey > 0.1 & ex > 0.01]
 
   if (length(exf) > 1){
     #stop('More than one intersection above 1 detected! Change y-axis threshold.')
@@ -122,15 +117,34 @@ text
 
 
 
-```{r}
+```{r, warning=FALSE}
 #algorithm function --> must return: data with no NAs, cluster assignments
 algo = function(dataset, amen_name, num=NULL){
   
+  #log transform PM
+  dataset = log(dataset+0.0001)
   
-  sil_coef = intCriteria(as.matrix(dataset),res$cluster, 'Silhouette')$silhouette
-  xeni_beni = intCriteria(as.matrix(dataset),res$cluster, 'Xie_Beni')$silhouette
+  res = hdbscan(as.matrix(dataset), minPts = 500)
   
-  return(list('complete_data' = , 'clusts' = ))
+  sil_coef = intCriteria(as.matrix(dataset),as.integer(res$cluster), 'Silhouette')$silhouette
+  xeni_beni = intCriteria(as.matrix(dataset),as.integer(res$cluster), 'Xie_Beni')$xie_beni
+  
+  #if only 1 cluster
+  if (length(unique(res$cluster)) == 1){
+    print('NO CLUSTERS DETECTED')
+    return(NA)
+  }
+  
+  plot(res)
+  
+  #print
+  print(paste('Silhouette coefficient:', sil_coef))
+  print(paste('Xie Beni coefficient:', xeni_beni))
+  
+  #unlog the PM
+  dataset = exp(dataset)-0.0001
+  
+  return(list('complete_data' = dataset, 'clusts' = as.integer(res$cluster)))
 }
 
 #master function
@@ -141,11 +155,17 @@ do_everything = function(dataset, amen_name, num){
   
   # algorithm
   res = algo(clust_data, amen_name, num)
+  if (is.na(res)){
+    return(NA)
+  }
   
   # store cluster results
-  clusts = res$clusts
+  clusts = res$clusts+1
   comp_data = res$complete_data
   rm(res)
+  
+  barplot(as.matrix(table(clusts)/length(clusts)), col=sort(unique(clusts)), ylim=c(0, 4), horiz=TRUE, xlab='Proportion')
+  legend(0, 2.2, lty=1, lwd=2, col=sort(unique(clusts)), legend = c(paste('Cluster', sort(unique(clusts)))))
   
   # re-assign clusters so that they're in order
   comp = list()
@@ -164,8 +184,8 @@ do_everything = function(dataset, amen_name, num){
   clusts = ord[clusts]
   
   # plot
-  pass = list(data = comp_data, cluster = clusts)
-  plot(fviz_cluster(pass, ellipse.type = "norm") + theme_minimal())
+  # pass = list(data = comp_data, cluster = clusts)
+  # plot(fviz_cluster(pass, ellipse.type = "norm") + theme_minimal())
   
   cutoffs = list()
   all_cutoffs = list()
@@ -191,9 +211,7 @@ do_everything = function(dataset, amen_name, num){
   profiles = list()
   for (k in sort(unique(clusts))){
     temp = dataset[clusts == k,]
-    for (a in amenities){
-      profiles[[a]][k] = round(mean(temp[,a], na.rm = T), 5)
-    }
+    profiles[[amen_name]][k] = round(mean(temp[,amen_name], na.rm = T), 5)
     profiles[['Count']][k] = as.character(nrow(temp))
     profiles[['DB_population']][k] = round(mean(temp$PMS_DBPOP, na.rm = T), 1)
     profiles[['CSD_population']][k] = round(mean(temp$PMS_CSDPOP, na.rm = T), 1)
@@ -217,13 +235,15 @@ do_everything = function(dataset, amen_name, num){
   print_list(profiles[['Provinces']], sort(unique(clusts)))
   cat('\n Amenity dense: \n')
   print_list(profiles[['Amenity_dense']], sort(unique(clusts)))
-  for (a in amenities){
-    cat('\n', a, ': \n')
-    print_list(profiles[[a]], sort(unique(clusts)))
-  }
+  cat('\n', amen_name, ': \n')
+  print_list(profiles[[amen_name]], sort(unique(clusts)))
   
   #return all_cutoff values
-  return(all_cutoffs)
+  tab = list()
+  for (a in unique(clusts)){
+    tab[[amen_name]][a] = as.matrix(table(clusts)/length(clusts))[a]
+  }
+  return(tab)
 }
 ```
 
@@ -249,8 +269,8 @@ all_cutoffs = append(all_cutoffs, lst)
 ## Pharmacy
 
 ```{r}
-# lst = do_everything(master, 'PMS_prox_idx_pharma', NULL)
-# all_cutoffs = append(all_cutoffs, lst)
+lst = do_everything(master, 'PMS_prox_idx_pharma', NULL)
+all_cutoffs = append(all_cutoffs, lst)
 ```
 
 
@@ -260,8 +280,8 @@ all_cutoffs = append(all_cutoffs, lst)
 ## Childcare
 
 ```{r}
-# lst = do_everything(master, 'PMS_prox_idx_childcare', NULL)
-# all_cutoffs = append(all_cutoffs, lst)
+lst = do_everything(master, 'PMS_prox_idx_childcare', NULL)
+all_cutoffs = append(all_cutoffs, lst)
 ```
 
 
@@ -271,8 +291,8 @@ all_cutoffs = append(all_cutoffs, lst)
 ## Health
 
 ```{r}
-# lst = do_everything(master, 'PMS_prox_idx_health', NULL)
-# all_cutoffs = append(all_cutoffs, lst)
+lst = do_everything(master, 'PMS_prox_idx_health', NULL)
+all_cutoffs = append(all_cutoffs, lst)
 ```
 
 
@@ -282,8 +302,8 @@ all_cutoffs = append(all_cutoffs, lst)
 ## Grocery
 
 ```{r}
-# lst = do_everything(master, 'PMS_prox_idx_grocery', NULL)
-# all_cutoffs = append(all_cutoffs, lst)
+lst = do_everything(master, 'PMS_prox_idx_grocery', NULL)
+all_cutoffs = append(all_cutoffs, lst)
 ```
 
 
@@ -293,8 +313,8 @@ all_cutoffs = append(all_cutoffs, lst)
 ## Primary Education
 
 ```{r}
-# lst = do_everything(master, 'PMS_prox_idx_educpri', NULL)
-# all_cutoffs = append(all_cutoffs, lst)
+lst = do_everything(master, 'PMS_prox_idx_educpri', NULL)
+all_cutoffs = append(all_cutoffs, lst)
 ```
 
 
@@ -304,8 +324,8 @@ all_cutoffs = append(all_cutoffs, lst)
 ## Secondary Education
 
 ```{r}
-# lst = do_everything(master, 'PMS_prox_idx_educsec', NULL)
-# all_cutoffs = append(all_cutoffs, lst)
+lst = do_everything(master, 'PMS_prox_idx_educsec', NULL)
+all_cutoffs = append(all_cutoffs, lst)
 ```
 
 
@@ -315,8 +335,8 @@ all_cutoffs = append(all_cutoffs, lst)
 ## Libraries
 
 ```{r}
-# lst = do_everything(master, 'PMS_prox_idx_lib', NULL)
-# all_cutoffs = append(all_cutoffs, lst)
+lst = do_everything(master, 'PMS_prox_idx_lib', NULL)
+all_cutoffs = append(all_cutoffs, lst)
 ```
 
 
@@ -326,8 +346,8 @@ all_cutoffs = append(all_cutoffs, lst)
 ## Parks
 
 ```{r}
-# lst = do_everything(master, 'PMS_prox_idx_parks', NULL)
-# all_cutoffs = append(all_cutoffs, lst)
+lst = do_everything(master, 'PMS_prox_idx_parks', NULL)
+all_cutoffs = append(all_cutoffs, lst)
 ```
 
 
@@ -337,8 +357,8 @@ all_cutoffs = append(all_cutoffs, lst)
 ## Transit
 
 ```{r}
-# lst = do_everything(master, 'PMS_prox_idx_transit', NULL)
-# all_cutoffs = append(all_cutoffs, lst)
+lst = do_everything(master, 'PMS_prox_idx_transit', NULL)
+all_cutoffs = append(all_cutoffs, lst)
 ```
 
 
@@ -356,13 +376,18 @@ text
 
 ```{r}
 # concluding graphic
-# library(ggplot2)
-# library(tidyverse)
-# library(stringr)
-# labs = str_sub(amenities, 14) #labels
-# hline = pivot_longer(as.data.frame(all_cutoffs), all_of(amenities)) #cutoff lines
-# df_long = pivot_longer(master[,amenities], all_of(amenities))
-# ggplot(df_long, aes(x=value, y=name)) + geom_violin() + scale_y_discrete(labels=labs) + scale_x_continuous(limits = c(0, 0.15)) + ylab('Ammenity Type') + xlab('Proximity Index') + geom_point(data=hline, aes(value, name), shape=124, size=10, col='red')
+library(ggplot2)
+library(tidyverse)
+plt = as.data.frame(sapply(all_cutoffs, '[', seq(max(sapply(all_cutoffs, length)))))
+names(plt) = amenities
+plt = pivot_longer(plt, cols=amenities)
+#plt$group = as.factor(match(plt$name, amenities))
+plt$num = rep(1:4, each=10)
+plt
+
+#barplot(plt)
+ggplot(plt, aes(x = value, y = name)) + 
+  geom_col(aes(fill=num))
 ```
 
 
