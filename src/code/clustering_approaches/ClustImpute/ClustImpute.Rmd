@@ -19,6 +19,7 @@ library(cluster)
 library(ggplot2)
 library(factoextra)
 library(clusterCrit)
+library(clustertend)
 
 # load algorithm library
 library(ClustImpute)
@@ -35,7 +36,7 @@ amenities = c("PMS_prox_idx_emp", "PMS_prox_idx_pharma", "PMS_prox_idx_childcare
 
 #log transform PMs
 for (i in amenities){
-  master[,i] = log(master[,i]+1)
+  master[,i] = log(master[,i]+0.001)
 }
 
 # subsampling data (if needed)
@@ -158,6 +159,11 @@ algo = function(dataset, amen_name, num=NULL){
   
   #re-run algorithm with highest sil
   res = ClustImpute(dataset,nr_cluster=num[which(sil_coefs == max(sil_coefs))], nr_iter=nr_iter, c_steps=c_steps, n_end=n_end) 
+  
+  #hopkins test
+  # hopkins = hopkins(res$complete_data, n = nrow(res$complete_data)-1)
+  # print(paste("Hopkins statistic:", hopkins$H))
+  
   return(list('complete_data' = res$complete_data, 'clusts' = res$clusters))
 }
 
@@ -194,6 +200,12 @@ do_everything = function(dataset, amen_name, num){
   # plot
   pass = list(data = comp_data, cluster = clusts)
   plot(fviz_cluster(pass, ellipse.type = "norm") + theme_minimal())
+  
+  #unlog PMs
+  for (i in amenities){
+    amen[,i] = exp(amen[,i])-0.001
+    dataset[,i] = exp(dataset[,i])-0.001
+  }
   
   cutoffs = list()
   all_cutoffs = list()
@@ -380,16 +392,17 @@ text
 
 
 ```{r, message=FALSE, warning=FALSE}
+all_cutoffs
 # concluding graphic
-library(ggplot2)
-library(tidyverse)
-library(stringr)
-#all_cutoffs = lapply(lapply(all_cutoffs, na.omit), as.vector)
-labs = str_sub(amenities, 14) #labels
-#hline = pivot_longer(as.data.frame(all_cutoffs), all_of(amenities)) #cutoff lines
-hline = pivot_longer(as.data.frame(sapply(all_cutoffs, '[', seq(max(sapply(all_cutoffs, length))))), cols=amenities)
-df_long = pivot_longer(master[,amenities], all_of(amenities))
-ggplot(df_long, aes(x=value, y=name)) + geom_violin() + scale_y_discrete(labels=labs) + scale_x_continuous(limits = c(0, 0.15)) + ylab('Amenity Type') + xlab('Proximity Index') + geom_point(data=hline, aes(value, name), shape=124, size=10, col='red')
+# library(ggplot2)
+# library(tidyverse)
+# library(stringr)
+# #all_cutoffs = lapply(lapply(all_cutoffs, na.omit), as.vector)
+# labs = str_sub(amenities, 14) #labels
+# #hline = pivot_longer(as.data.frame(all_cutoffs), all_of(amenities)) #cutoff lines
+# hline = pivot_longer(as.data.frame(sapply(all_cutoffs, '[', seq(max(sapply(all_cutoffs, length))))), cols=amenities)
+# df_long = pivot_longer(master[,amenities], all_of(amenities))
+# ggplot(df_long, aes(x=value, y=name)) + geom_violin() + scale_y_discrete(labels=labs) + scale_x_continuous(limits = c(0, 0.15)) + ylab('Amenity Type') + xlab('Proximity Index') + geom_point(data=hline, aes(value, name), shape=124, size=10, col='red')
 ```
 
 
