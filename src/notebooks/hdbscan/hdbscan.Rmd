@@ -374,7 +374,7 @@ all_cutoffs = append(all_cutoffs, lst)
 text
 
 
-```{r}
+```{r, warning=FALSE}
 # concluding graphic
 library(ggplot2)
 library(tidyverse)
@@ -382,10 +382,8 @@ plt = as.data.frame(sapply(all_cutoffs, '[', seq(max(sapply(all_cutoffs, length)
 names(plt) = amenities
 plt = pivot_longer(plt, cols=amenities)
 #plt$group = as.factor(match(plt$name, amenities))
-plt$num = rep(1:4, each=10)
-plt
+plt$num = as.factor(rep(1:4, each=10))
 
-#barplot(plt)
 ggplot(plt, aes(x = value, y = name)) + 
   geom_col(aes(fill=num))
 ```
