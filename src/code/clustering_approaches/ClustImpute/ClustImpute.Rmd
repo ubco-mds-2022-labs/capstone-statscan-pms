@@ -19,6 +19,7 @@ library(cluster)
 library(ggplot2)
 library(factoextra)
 library(clusterCrit)
+library(clustertend)
 
 # load algorithm library
 library(ClustImpute)
@@ -30,6 +31,14 @@ load('../../../../../local_data/codes/create_master/master_pms_df.Rdata')
 master$PMS_DBPOP = as.numeric(gsub("[^0-9.-]", "", as.character(master$PMS_DBPOP)))
 master$PMS_CSDPOP = as.numeric(gsub("[^0-9.-]", "", as.character(master$PMS_CSDPOP)))
 
+# amenity names
+amenities = c("PMS_prox_idx_emp", "PMS_prox_idx_pharma", "PMS_prox_idx_childcare", "PMS_prox_idx_health", "PMS_prox_idx_grocery", "PMS_prox_idx_educpri", "PMS_prox_idx_educsec", "PMS_prox_idx_lib", "PMS_prox_idx_parks", "PMS_prox_idx_transit")
+
+#log transform PMs
+for (i in amenities){
+  master[,i] = log(master[,i]+0.001)
+}
+
 # subsampling data (if needed)
 perc = 3 #percentage of data to subsample
 subsample = (nrow(master)/100)*perc 
@@ -37,9 +46,6 @@ master = master[sample(nrow(master), subsample),]
 
 # variables to cluster with
 clust_vars = c('CSD_AREA', 'PMS_CSDPOP', 'PMS_DBPOP', 'IOR_Index_of_remoteness') #, 'PMS_CMATYPE') --> clustimpute can only cluster over numeric variables!
-
-# amenity names
-amenities = c("PMS_prox_idx_emp", "PMS_prox_idx_pharma", "PMS_prox_idx_childcare", "PMS_prox_idx_health", "PMS_prox_idx_grocery", "PMS_prox_idx_educpri", "PMS_prox_idx_educsec", "PMS_prox_idx_lib", "PMS_prox_idx_parks", "PMS_prox_idx_transit")
 
 # cutoff values for all amenities
 all_cutoffs = list()
@@ -74,8 +80,8 @@ cutoff = function(x, y){
          #points(ex[k], ey[k], pch=16, col="green" )
     }
   }
-  exf = ex[ey > 0.5 & ex > 0.01]
-  eyf = ey[ey > 0.5 & ex > 0.01]
+  exf = ex[ey > 0.5 & ex > 0.005]
+  eyf = ey[ey > 0.5 & ex > 0.005]
 
   if (length(exf) > 1){
     #stop('More than one intersection above 0.5 detected! Change y-axis threshold.')
@@ -128,6 +134,11 @@ Algorithm steps:
 ```{r}
 #algorithm function --> must return: data with no NAs, cluster assignments
 algo = function(dataset, amen_name, num=NULL){
+  #scale data
+  for (i in clust_vars){
+    dataset[,i] = scales::rescale(dataset[,i], to=c(0,1))
+  }
+  
   sil_coefs = c()
   counter = 1
   for (i in num){
@@ -143,8 +154,16 @@ algo = function(dataset, amen_name, num=NULL){
   #plot silhouette coefficients
   plot(sil_coefs~num, type = 'l', ylab="Silhouette Coefficient", xlab='Number of Clusters', lwd=2)
   
+  #max sil coeff
+  print(paste('Maximum silhouete coefficient:', as.character(max(sil_coefs)), 'For', num[which(sil_coefs == max(sil_coefs))], 'clusters.'))
+  
   #re-run algorithm with highest sil
   res = ClustImpute(dataset,nr_cluster=num[which(sil_coefs == max(sil_coefs))], nr_iter=nr_iter, c_steps=c_steps, n_end=n_end) 
+  
+  #hopkins test
+  # hopkins = hopkins(res$complete_data, n = nrow(res$complete_data)-1)
+  # print(paste("Hopkins statistic:", hopkins$H))
+  
   return(list('complete_data' = res$complete_data, 'clusts' = res$clusters))
 }
 
@@ -166,18 +185,27 @@ do_everything = function(dataset, amen_name, num){
   comp = list()
   for (i in unique(clusts)){
     temp = amen[clusts == i,amen_name]
-    comp[[i]] = Mode(round(temp, 6))
+    comp[[i]] = Mode(round(temp, 7))
   }
   if (max(unlist(comp)) == comp[[1]]){
     ord = match(comp, comp[order(unlist(comp))])
   } else{
     ord = match(comp[order(unlist(comp))], comp) 
   }
+  if (sum(duplicated(ord))>0){
+    ord[duplicated(ord)] = unique(clusts)[which(!(unique(clusts) %in% ord))]
+  }
   clusts = ord[clusts]
   
   # plot
   pass = list(data = comp_data, cluster = clusts)
   plot(fviz_cluster(pass, ellipse.type = "norm") + theme_minimal())
+  
+  #unlog PMs
+  for (i in amenities){
+    amen[,i] = exp(amen[,i])-0.001
+    dataset[,i] = exp(dataset[,i])-0.001
+  }
   
   cutoffs = list()
   all_cutoffs = list()
@@ -203,6 +231,9 @@ do_everything = function(dataset, amen_name, num){
   profiles = list()
   for (k in sort(unique(clusts))){
     temp = dataset[clusts == k,]
+    for (a in amenities){
+      profiles[[a]][k] = round(mean(temp[,a], na.rm = T), 5)
+    }
     profiles[['Count']][k] = as.character(nrow(temp))
     profiles[['DB_population']][k] = round(mean(temp$PMS_DBPOP, na.rm = T), 1)
     profiles[['CSD_population']][k] = round(mean(temp$PMS_CSDPOP, na.rm = T), 1)
@@ -226,6 +257,10 @@ do_everything = function(dataset, amen_name, num){
   print_list(profiles[['Provinces']], sort(unique(clusts)))
   cat('\n Amenity dense: \n')
   print_list(profiles[['Amenity_dense']], sort(unique(clusts)))
+  for (a in amenities){
+    cat('\n', a, ': \n')
+    print_list(profiles[[a]], sort(unique(clusts)))
+  }
   
   #return all_cutoff values
   return(all_cutoffs)
@@ -357,14 +392,17 @@ text
 
 
 ```{r, message=FALSE, warning=FALSE}
+all_cutoffs
 # concluding graphic
-library(ggplot2)
-library(tidyverse)
-library(stringr)
-labs = str_sub(amenities, 14) #labels
-hline = pivot_longer(as.data.frame(all_cutoffs), all_of(amenities)) #cutoff lines
-df_long = pivot_longer(master[,amenities], all_of(amenities))
-ggplot(df_long, aes(x=value, y=name)) + geom_violin() + scale_y_discrete(labels=labs) + scale_x_continuous(limits = c(0, 0.15)) + ylab('Ammenity Type') + xlab('Proximity Index') + geom_point(data=hline, aes(value, name), shape=124, size=10, col='red')
+# library(ggplot2)
+# library(tidyverse)
+# library(stringr)
+# #all_cutoffs = lapply(lapply(all_cutoffs, na.omit), as.vector)
+# labs = str_sub(amenities, 14) #labels
+# #hline = pivot_longer(as.data.frame(all_cutoffs), all_of(amenities)) #cutoff lines
+# hline = pivot_longer(as.data.frame(sapply(all_cutoffs, '[', seq(max(sapply(all_cutoffs, length))))), cols=amenities)
+# df_long = pivot_longer(master[,amenities], all_of(amenities))
+# ggplot(df_long, aes(x=value, y=name)) + geom_violin() + scale_y_discrete(labels=labs) + scale_x_continuous(limits = c(0, 0.15)) + ylab('Amenity Type') + xlab('Proximity Index') + geom_point(data=hline, aes(value, name), shape=124, size=10, col='red')
 ```
 
 
