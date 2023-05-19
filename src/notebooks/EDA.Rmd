@@ -410,7 +410,7 @@ The above plot reveals a heavily right-skewed distribution, indicating that the 
 
 ## Distribution of amenity_dense
 
-```{r dev ="png", dpi = 300}
+```{r}
 ggplot(pmd, aes(x=as.factor(amenity_dense) )) +
   geom_bar(width=0.7, fill="steelblue") +
   geom_text(stat="count", aes(label=..count..), vjust=-0.5) +
