@@ -9,7 +9,7 @@ urlcolor: blue
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, cache=TRUE, fig.width=8, fig.height=6, fig.align = 'center')
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, cache=TRUE, fig.width=8, fig.height=6, fig.align = 'center')
 ```
 
 
@@ -110,10 +110,24 @@ print_list = function(x, cl){
 ```
 
 
+# Introduction 
+
+The following analysis is an implementation of the \href{https://pberba.github.io/stats/2020/07/08/intro-hdbscan/}{HDBSCAN} algorithm on individual, log-scaled proximity measures (no auxiliary variables included).
+
+Please note that for the following plots, HDBSCAN considers cluster 1 to be "noise points" and are thus not part of an actual cluster. 
+
 
 # Assumptions of the Alogrithm
 
-text
+\href{https://rdrr.io/cran/dbscan/man/hdbscan.html}{This} fast implementation of HDBSCAN (Campello et al., 2013) computes the hierarchical cluster tree representing density estimates along with the stability-based flat cluster extraction. HDBSCAN essentially computes the hierarchy of all DBSCAN* clusterings, and then uses a stability-based extraction method to find optimal cuts in the hierarchy, thus producing a flat solution.
+
+HDBSCAN performs the following steps:
+
+* Compute mutual reachability distance mrd between points (based on distances and core distances).
+* Use mdr as a distance measure to construct a minimum spanning tree.
+* Prune the tree using stability.
+* Extract the clusters.
+
 
 
 
@@ -135,7 +149,7 @@ algo = function(dataset, amen_name, num=NULL){
     return(NA)
   }
   
-  plot(res)
+  plot(res, show_flat = T)
   
   #print
   print(paste('Silhouette coefficient:', sil_coef))
@@ -374,7 +388,7 @@ all_cutoffs = append(all_cutoffs, lst)
 text
 
 
-```{r, warning=FALSE}
+```{r, warning=FALSE, message=FALSE}
 # concluding graphic
 library(ggplot2)
 library(tidyverse)
@@ -385,7 +399,9 @@ plt = pivot_longer(plt, cols=amenities)
 plt$num = as.factor(rep(1:4, each=10))
 
 ggplot(plt, aes(x = value, y = name)) + 
-  geom_col(aes(fill=num))
+  geom_col(aes(fill=num)) + theme_minimal() + 
+  ggtitle('Proximity Measure Cut-off Values') + 
+  ylab('Amenity') + xlab('Value') + labs(fill = 'Cluster #')
 ```
 
 
