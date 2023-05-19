@@ -111,6 +111,16 @@ print_list = function(x, cl){
 }
 ```
 
+# Introduction
+
+The following analysis is an implementation of the ClustImpute algorithm on multi-dimensional, log-scaled proximity measures. Other variables used for clustering include:
+
+* "CSD_AREA"               
+* "PMS_CSDPOP"             
+* "PMS_DBPOP"              
+* "IOR_Index_of_remoteness"
+
+These variables were scaled from 0-1 prior to clustering. 
 
 
 # Assumptions of the Alogrithm
@@ -392,17 +402,19 @@ text
 
 
 ```{r, message=FALSE, warning=FALSE}
-all_cutoffs
 # concluding graphic
-# library(ggplot2)
-# library(tidyverse)
-# library(stringr)
-# #all_cutoffs = lapply(lapply(all_cutoffs, na.omit), as.vector)
-# labs = str_sub(amenities, 14) #labels
-# #hline = pivot_longer(as.data.frame(all_cutoffs), all_of(amenities)) #cutoff lines
-# hline = pivot_longer(as.data.frame(sapply(all_cutoffs, '[', seq(max(sapply(all_cutoffs, length))))), cols=amenities)
-# df_long = pivot_longer(master[,amenities], all_of(amenities))
-# ggplot(df_long, aes(x=value, y=name)) + geom_violin() + scale_y_discrete(labels=labs) + scale_x_continuous(limits = c(0, 0.15)) + ylab('Amenity Type') + xlab('Proximity Index') + geom_point(data=hline, aes(value, name), shape=124, size=10, col='red')
+library(ggplot2)
+library(tidyverse)
+library(stringr)
+#all_cutoffs = lapply(lapply(all_cutoffs, na.omit), as.vector)
+labs = str_sub(amenities, 14) #labels
+hline = pivot_longer(as.data.frame(all_cutoffs), all_of(amenities)) #cutoff lines
+# temp = as.data.frame(sapply(all_cutoffs, '[', seq(max(sapply(all_cutoffs, length)))))
+# names(temp) = amenities
+# hline = pivot_longer(temp, cols=amenities)
+load('../../../../../local_data/codes/create_master/master_pms_df.Rdata')
+df_long = pivot_longer(master[,amenities], all_of(amenities))
+ggplot(df_long, aes(x=value, y=name)) + geom_violin() + scale_y_discrete(labels=labs) + scale_x_continuous(limits = c(0, 0.15)) + ylab('Amenity Type') + xlab('Proximity Index') + geom_point(data=hline, aes(value, name), shape=124, size=10, col='red')
 ```
 
 
