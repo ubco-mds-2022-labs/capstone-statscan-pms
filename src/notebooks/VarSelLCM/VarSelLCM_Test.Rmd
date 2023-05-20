@@ -1,0 +1,326 @@
+---
+title: "VarSelLCM_Test"
+author: "Avishek"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, 
+                      cache=TRUE, 
+                      fig.align="center", 
+                      fig.width=8, 
+                      fig.height=6)
+```
+
+```{r}
+set.seed(2023)
+library(dplyr)
+library(cluster)
+library(ggplot2)
+library(factoextra)
+library(clusterCrit)
+library(VarSelLCM)
+library(clustertend)
+load('../../../data/master_pms_df.Rdata')
+
+# Convert selected columns to numeric
+master <- master %>%
+  mutate(PMS_DBPOP = as.numeric(gsub(",", "", PMS_DBPOP)), # Dissemination block population
+         PMS_DAPOP = as.numeric(gsub(",", "", PMS_DAPOP)), # Dissemination area population
+         PMS_CSDPOP = as.numeric(gsub(",", "", PMS_CSDPOP)), # Census subdivision population
+         PMS_CMAPOP = as.numeric(gsub(",", "", PMS_CMAPOP)), # Census metropolitan area population
+         PMS_PRPOP = as.numeric(gsub(",", "", PMS_PRPOP)), # Province or territory population
+         # in_db_emp = as.numeric(in_db_emp),
+         # in_db_pharma = as.numeric(in_db_pharma),
+         # in_db_childcare = as.numeric(in_db_childcare),
+         # in_db_health = as.numeric(in_db_health),
+         # in_db_grocery = as.numeric(in_db_grocery),
+         # in_db_educpri = as.numeric(in_db_educpri),
+         # in_db_educsec = as.numeric(in_db_educsec),
+         # in_db_lib = as.numeric(in_db_lib),
+         # in_db_parks = as.numeric(in_db_parks),
+         # in_db_transit = as.numeric(in_db_transit),
+         PMS_prox_idx_emp = as.numeric(PMS_prox_idx_emp),
+         PMS_prox_idx_pharma = as.numeric(PMS_prox_idx_pharma),
+         PMS_prox_idx_childcare = as.numeric(PMS_prox_idx_childcare),
+         PMS_prox_idx_health = as.numeric(PMS_prox_idx_health),
+         PMS_prox_idx_grocery = as.numeric(PMS_prox_idx_grocery),
+         PMS_prox_idx_educpri = as.numeric(PMS_prox_idx_educpri),
+         PMS_prox_idx_educsec = as.numeric(PMS_prox_idx_educsec),
+         PMS_prox_idx_lib = as.numeric(PMS_prox_idx_lib),
+         PMS_prox_idx_parks = as.numeric(PMS_prox_idx_parks),
+         PMS_prox_idx_transit = as.numeric(PMS_prox_idx_transit),
+         DBUID = as.character(DBUID),
+         PMS_DAUID = as.character(PMS_DAUID),
+         PMS_CSDUID = as.character(PMS_CSDUID),
+         PMS_CMAUID = as.character(PMS_CMAUID),
+         PMS_CMAPUID = as.character(PMS_CMAPUID),
+         PMS_PRUID = as.character(PMS_PRUID),
+         PMS_suppressed = as.character(PMS_suppressed),
+         PMS_transit_na = as.character(PMS_suppressed))
+
+
+# Subset columns that start with "prox_idx"
+amenities <- colnames(master)[grepl("^PMS_prox_idx", colnames(master))]
+# master dataset - contains only proximity columns
+master_amenities <- master[, amenities]
+# master dataset w/o NA - contains only proximity columns
+master_amenities_wo_na <- na.omit(master_amenities)
+# variables to cluster with
+clust_vars = c('CSD_AREA', 'PMS_CSDPOP', 'PMS_DBPOP', 'IOR_Index_of_remoteness') #, 'PMS_CMATYPE')
+
+
+master_amenities_log <- master_amenities
+
+# log transform on PMs in master amenities 
+for (i in amenities){
+  master_amenities_log[,i] = log(master_amenities[,i])
+}
+
+
+# subsampling data 
+perc = 10 #percentage of data to subsample
+subsample = (nrow(master)/100)*perc 
+master_sample = master[sample(nrow(master), subsample),]
+master_sample_wo_na = na.omit(master_sample)
+
+
+master_sample_log <- master_sample
+
+# log transform on PMs in master sample 
+for (i in amenities){
+  master_sample_log[,i] = log(master_sample[,i])
+}
+
+master_sample_log_wo_na = na.omit(master_sample_log)
+
+```
+
+
+```{r eval=FALSE}
+master_sample_wo_na_emp <- master_sample_wo_na[, "PMS_prox_idx_emp"]
+```
+
+```{r}
+master_amenities_wo_na_emp <- master_amenities_wo_na[, "PMS_prox_idx_emp"]
+```
+
+```{r}
+master_amenities_wo_na_pharma <- master_amenities_wo_na[, "PMS_prox_idx_pharma"]
+```
+
+```{r eval=FALSE}
+# still now -> hopkins doesnt work on single column
+library(hopkins)
+
+for (col in amenities) {
+  set.seed(2023)
+  hopkins <- hopkins(as.matrix(master_sample_wo_na[, col]))
+  cat("Hopkins statistic for ", col,  hopkins, "\n")
+}
+
+```
+
+```{r}
+for (col in amenities) {
+  set.seed(2023)
+  hopkins <- hopkins(as.matrix(master_sample_log_wo_na[, col]))
+  cat("Hopkins statistic for ", col,  hopkins, "\n")
+}
+```
+
+```{r}
+# hopkins test using factoextra package
+get_clust_tendency(as.matrix(master_sample_log_wo_na[, "PMS_prox_idx_emp"]), n = nrow(master_sample_log_wo_na)-1,
+                          graph = TRUE)
+```
+
+
+
+VAT on PMS_prox_idx_emp log transformed
+
+```{r}
+master_sample_log_wo_na_emp <- as.matrix(master_sample_log_wo_na[, "PMS_prox_idx_emp"])
+```
+
+
+```{r}
+# visual assessment of cluster tendency (VAT)
+fviz_dist(dist(as.matrix(master_sample_log_wo_na[, "PMS_prox_idx_emp"])), 
+          show_labels = FALSE)+
+  labs(title = "PMS EMP")
+```
+VAT on PMS_prox_idx_emp original
+
+```{r}
+# visual assessment of cluster tendency (VAT)
+fviz_dist(dist(as.matrix(master_sample_wo_na[, "PMS_prox_idx_emp"])), 
+          show_labels = FALSE)+
+  labs(title = "PMS EMP")
+```
+
+So the log PMS EMP is clusterable
+
+```{r}
+length(master_amenities_wo_na_pharma)
+sum(is.na(temp_wo_na))
+```
+
+
+## Determine the number of clusters
+
+```{r}
+library(NbClust)
+nb <- NbClust(master_sample_log_wo_na_emp, distance = "euclidean",
+                  min.nc = 2, max.nc = 9, 
+                  method = "complete", index ="all")
+
+# factoextra::fviz_nbclust(res.nbclust) + theme_minimal() + ggtitle("NbClust's optimal number of clusters")
+
+```
+
+```{r}
+library("factoextra")
+fviz_nbclust(nb$Best.nc)
+```
+```{r}
+factoextra::fviz_nbclust(nb) + theme_minimal() + ggtitle("NbClust's optimal number of clusters")
+```
+
+```{r}
+#algorithm function --> must return: data with no NAs, cluster assignments
+algo = function(dataset, num=NULL){
+  sil_coefs = c()
+  counter = 1
+  for (i in num){
+    nr_cluster = i # number of clusters
+    res = VarSelCluster(dataset, gvals=nr_cluster, nbcores = 4, vbleSelec = FALSE)
+    
+    # Obtain the cluster assignments from VarSelCluster
+    cluster_assignments <- res@partitions@zMAP
+    
+    # Obtain the data from VarselCluster
+    cluster_data <- res@data@dataContinuous@data
+    
+    sil_coefs[counter] = intCriteria(as.matrix(cluster_data), 
+                                     as.integer(cluster_assignments), 
+                                     'Silhouette')$silhouette
+    
+    xie_coefs[counter] = intCriteria(as.matrix(cluster_data), 
+                                     as.integer(cluster_assignments), 
+                                     'Xie_Beni')$xie_beni
+    
+    counter = counter + 1
+  }
+  
+  #plot silhouette coefficients
+  plot(sil_coefs~num, type = 'l', ylab="Silhouette Coefficient", xlab='Number of Clusters', lwd=2)
+  
+  #plot Xie_Beni coefficients
+  plot(xie_coefs~num, type = 'l', ylab="Xie_Beni Coefficient", xlab='Number of Clusters', lwd=2)
+  
+  res_sil_coefs <- num[which(sil_coefs == max(sil_coefs))]
+  res_xie_coefs <- num[which(xie_coefs == max(xie_coefs))]
+  
+  return(list('Silhouette' = res_sil_coefs, 'Xie_Beni' = res_xie_coefs))
+}
+```
+
+
+```{r}
+res_algo = algo(master_sample_log_wo_na_emp, 2:6)
+```
+
+
+```{r}
+res = VarSelCluster(as.matrix(master_sample_log_wo_na_emp), gvals=2:6, nbcores = 4, vbleSelec = FALSE)
+```
+
+
+```{r}
+# Obtain the cluster assignments from VarSelCluster
+cluster_assignments <- res@partitions@zMAP
+
+# Obtain the data from VarselCluster
+cluster_data <- res@data@dataContinuous@data
+
+xie_coefs = intCriteria(as.matrix(cluster_data), 
+                                     as.integer(cluster_assignments), 
+                                     'Xie_Beni')
+```
+
+
+```{r}
+xie_coefs
+```
+
+
+```{r}
+VarSelShiny(res)
+```
+
+```{r}
+# Estimated partition
+fitted(res)
+```
+
+```{r}
+# Estimated probabilities of classification
+head(fitted(res, type="probability"))
+```
+
+```{r}
+# Summary of the best model
+summary(res)
+```
+
+```{r}
+# the structure of s4 object 
+# str(cluster_df@data)
+```
+
+
+```{r eval=FALSE}
+
+# Obtain the cluster assignments from VarSelCluster
+cluster_assignments <- res@partitions@zMAP
+
+# Obtain the data from VarselCluster
+cluster_data <- res@data@dataContinuous@data
+
+# Calculate the silhouette scores
+silhouette_scores <- intCriteria(as.matrix(cluster_data), as.integer(cluster_assignments), 'Silhouette') 
+
+```
+
+```{r}
+silhouette_scores
+```
+
+
+```{r eval=FALSE}
+# silhouette_scores_list <- c()
+silhouette_scores_list[4] <- c(silhouette_scores)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
