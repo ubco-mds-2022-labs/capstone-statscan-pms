@@ -338,7 +338,7 @@ My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
 
 ### Weekly Reflection
 
-My most significant individual contribution was reminding my team members that scaling is important and will change results when running some clustering algorithms, like the k-means. Our most significant group contribution is working through a workflow when applying clustering algorithms. Some roadblocks this week include long running times, interpretation issues, and incongruence in feedback and acceptance of it. This week was short on hours because I was traveling from Thursday on to my Brother's grad out of province.
+My most significant individual contribution was reminding my team members that scaling is important and will change results when running some clustering algorithms, like the k-means. Our most significant group contribution is the group meeting with the DEIL team that made the PMD dataset: it gave us a lot of insight into the NA values and interpretation of proximity values, as well as insight into DB and different geographical areas. Some roadblocks this week include long running times, interpretation issues, and incongruence in feedback and acceptance of it. This week was short on hours because I was traveling from Thursday on to my Brother's grad out of province.
 
 ## Summary Table
 
