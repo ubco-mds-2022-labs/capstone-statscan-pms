@@ -99,7 +99,7 @@ My total weekly hours are: 28
 |    2 | 2023-05-11 |  2.00 | GitHub Issues                | Solved github push issues.                                                                                                                                               |
 |    2 | 2023-05-11 |  5.00 | EDA Vizualization            | Plot maps with PMS and NA values province wise (included running time).                                                                                                  |
 |    2 | 2023-05-12 |  4.50 | Team Meeting & Redo Proposal | Redo proposal together based on instructor feedback.                                                                                                                     |
-|    2 | 2023-05-12 |  1.00 | Miscellaneous                | Reviewed Pull Requests, Store Logs.                                                                                                                                      |
+|    2 | 2023-05-12 |  1.00 | Miscellaneous                | Reviewed Pull Requests, Stored Logs.                                                                                                                                     |
 
 My total weekly hours are: 36.65
 
@@ -131,23 +131,51 @@ My total weekly hours are: 36.65
     However, as the dataset is large it took long time to run models on
     the entire dataset.
 
-<!--
 ## Week 3
 
-<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first)
+<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first) -->
 
-My total weekly hours are: 
+| week | day        | hours | description   | comments                                                                                |
+|---:|:------|----:|:--------|:-----------------------------------------------|
+|    3 | 2023-05-15 |  1.00 | Made Slides   | Instructor meeting                                                                      |
+|    3 | 2023-05-15 |  3.50 | Meetings      | Team, Instructor & Client meetings                                                      |
+|    3 | 2023-05-15 |  0.50 | Miscellaneous | Worked on Proposal final edit/upload, short meeting                                     |
+|    3 | 2023-05-15 |  2.50 | Modeling      | Applied VarselLCM using diff techniques                                                 |
+|    3 | 2023-05-16 |  1.25 | Reading       | Articles/Papers on clustering                                                           |
+|    3 | 2023-05-16 |  2.00 | Meetings      | StatCan & TA meetings                                                                   |
+|    3 | 2023-05-16 |  0.50 | Issues        | Fixed GitHub Issues                                                                     |
+|    3 | 2023-05-16 |  3.50 | EDA Merge     | Merged mine and ricky’s EDA, modified visuals & codes                                   |
+|    3 | 2023-05-17 |  1.20 | EDA Merge     | Fixed compiling issues                                                                  |
+|    3 | 2023-05-17 |  1.50 | Meeting       | Team Meeting                                                                            |
+|    3 | 2023-05-17 |  3.75 | Modeling      | Clustering Tendency, validation                                                         |
+|    3 | 2023-05-18 |  1.50 | Modeling      | Applied VarselLCM using template, explore diff combinations of validation & data        |
+|    3 | 2023-05-18 |  0.50 | Meeting       | Team Meeting                                                                            |
+|    3 | 2023-05-18 |  8.00 | EDA Draft     | Updated EDA based on all team members feedback, handled compiling issues.               |
+|    3 | 2023-05-19 |  0.67 | Meeting       | Team Meeting                                                                            |
+|    3 | 2023-05-17 |  4.50 | Modeling      | Read Cluster Analysis articles, tried different validation metrics, tried on single pms |
+|    3 | 2023-05-17 |  1.20 | Miscellaneous | Reviewed Pull Requests, Stored Logs                                                     |
+
+My total weekly hours are: 37.57
 
 ### Weekly Reflection
 
-In this section, please write 5-7 sentences (in total) answering the following questions:
+<!-- In this section, please write 5-7 sentences (in total) answering the following questions: -->
+<!-- 1. What was your most significant **individual contribution** to the project this week? -->
 
-1. What was your most significant **individual contribution** to the project this week?
+-   My most significant individual contribution to the project this week
+    was merging the EDA first then update it based on all team members
+    feedback. Also found that we need to check clustering tendency
+    before applying clustering techniques.
 
-1. What was your most significant **team contribution** to the project this week?
+<!-- 2. What was your most significant **team contribution** to the project this week? -->
 
-1. Are there any major blockers or roadblocks preventing you from proceeding on your project?
--->
+-   My most significant team contribution was discussing questions about
+    project data with the DEIL team.
+
+<!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
+
+-   This week, I didn’t face any major roadblocks, aside from running
+    duration and interpretation.
 
 ## Summary Table
 
@@ -157,3 +185,4 @@ In this section, please write 5-7 sentences (in total) answering the following q
 |-----:|-------------------:|
 |    1 |              28.00 |
 |    2 |              36.65 |
+|    3 |              37.57 |
