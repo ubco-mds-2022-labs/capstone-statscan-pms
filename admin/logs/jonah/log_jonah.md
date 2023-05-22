@@ -132,6 +132,52 @@ There are two roadblocks:
     it is wasting time and preventing us from doing some things, such as
     certain algorithms and making plots with shapefiles.
 
+## Week 3
+
+Add individual contributions here (be sure to call the **tidyverse** and
+**knitr** package first)
+
+| week | day        | hours | description                                              | comments  |
+|----:|:---------|-----:|:-------------------------------------------|:--------|
+|    3 | 2023-05-15 |   1.0 | making instructor meeting slides                         | 730-830AM |
+|    3 | 2023-05-15 |   3.5 | meetings                                                 | 10-130    |
+|    3 | 2023-05-15 |   1.0 | update clustering template                               | 830-930PM |
+|    3 | 2023-05-16 |   7.0 | statscan meeting, TA meeting, update clustering template | 930-430   |
+|    3 | 2023-05-16 |   4.0 | coding new clustering template                           | 9PM-1AM   |
+|    3 | 2023-05-17 |   6.5 | updating clustimpute doc w scaled data                   | 10-430    |
+|    3 | 2023-05-18 |   7.0 | making hdbscan doc                                       | 930-430   |
+|    3 | 2023-05-18 |   1.0 | cleaning docs to send to jerome                          | 8-9PM     |
+
+My total weekly hours are: 31
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week?
+
+The most significant individual contribution was coding the new
+clustering template with new information from the DEIL meeting, as well
+as using this template to attempt the HDBSCAN approach.
+
+1.  What was your most significant **team contribution** to the project
+    this week?
+
+The most significant team contribution was meeting with the DEIL team to
+discuss some very important project-guiding questions that changed the
+trajectory of where we are headed with the project. This meeting was
+very important.
+
+1.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project?
+
+At this point, I do not think there are any large roadblocks, aside from
+the stuff mentioned last week. However, I am noticing that 2 months is a
+very short timeframe for a project like this, and that our project could
+easily be extended to be a year long.
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use
@@ -141,3 +187,4 @@ the following (requires the **dplyr** package)
 |-----:|-------------------:|
 |    1 |               23.5 |
 |    2 |               31.5 |
+|    3 |               31.0 |
