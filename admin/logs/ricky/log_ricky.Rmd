@@ -254,6 +254,92 @@ My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
 My most significant individual contribution to the project this week was the work I put into the EDA, and looking into what was the distribution of proximity measures when the population of a DB is 0 vs when it is not. I found out about and applied the Kolmogorov-Smirnov test. The most significant team contribution was talking with Jesse, who sent us resources about packages that help deal with NA values, to get us on the right track. The team started to investigate and apply these resources. This week we had major blockers of memory issues and computational power. We've somewhat solved the memory issues for some of us, but lack of computational power leads to waiting a long time for something to run, which doesn't feel efficient.  
 
 
+## Week 3
+
+```{r}
+current.week = current.week + 1
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-15"), 
+                       hours=3.5,
+                       description="Meetings",
+                       comments="Group meeting (prep, daily), instructor meeting, client meeting")
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-15"), 
+                       hours=2,
+                       description="Proposal",
+                       comments="final edits")
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-15"), 
+                       hours=2.5,
+                       description="EDA",
+                       comments="outlier distribution, misc exploration")
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-16"), 
+                       hours=2,
+                       description="Meetings",
+                       comments="Group meeting, Data makers meeting, TA meeting, ")
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-16"), 
+                       hours=1,
+                       description="EDA",
+                       comments="misc exploration, team member's code")
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-16"), 
+                       hours=1,
+                       description="Resource reading",
+                       comments="categories of remoteness index")
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-16"), 
+                       hours=1,
+                       description="Managing",
+                       comments="Prep midterm presentation, minutes/agenda doc")
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-17"), 
+                       hours=1.5,
+                       description="Meetings",
+                       comments="Group meeting")
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-17"), 
+                       hours=1.5,
+                       description="EDA feedback",
+                       comments="Reading and giving feedback on EDA report")
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-18"), 
+                       hours=2,
+                       description="Misc",
+                       comments="Reading proximity report, meeting, prep")
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-19"), 
+                       hours=1,
+                       description="Meetings",
+                       comments="Group meeting")
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-19"), 
+                       hours=1,
+                       description="Misc",
+                       comments="Logs, reviewing, etc")
+
+
+
+kable(filter(mylog, week == current.week))
+```
+My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
+
+### Weekly Reflection
+
+My most significant individual contribution was reminding my team members that scaling is important and will change results when running some clustering algorithms, like the k-means. Our most significant group contribution is the group meeting with the DEIL team that made the PMD dataset: it gave us a lot of insight into the NA values and interpretation of proximity values, as well as insight into DB and different geographical areas. Some roadblocks this week include long running times, interpretation issues, and incongruence in feedback and acceptance of it. This week was short on hours because I was traveling from Thursday on to my Brother's grad out of province.
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use the following (requires the **dplyr** package)

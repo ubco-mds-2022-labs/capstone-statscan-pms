@@ -124,6 +124,38 @@ power. We’ve somewhat solved the memory issues for some of us, but lack
 of computational power leads to waiting a long time for something to
 run, which doesn’t feel efficient.
 
+## Week 3
+
+| week | day        | hours | description      | comments                                                        |
+|----:|:--------|----:|:-----------|:------------------------------------------|
+|    3 | 2023-05-15 |   3.5 | Meetings         | Group meeting (prep, daily), instructor meeting, client meeting |
+|    3 | 2023-05-15 |   2.0 | Proposal         | final edits                                                     |
+|    3 | 2023-05-15 |   2.5 | EDA              | outlier distribution, misc exploration                          |
+|    3 | 2023-05-16 |   2.0 | Meetings         | Group meeting, Data makers meeting, TA meeting,                 |
+|    3 | 2023-05-16 |   1.0 | EDA              | misc exploration, team member’s code                            |
+|    3 | 2023-05-16 |   1.0 | Resource reading | categories of remoteness index                                  |
+|    3 | 2023-05-16 |   1.0 | Managing         | Prep midterm presentation, minutes/agenda doc                   |
+|    3 | 2023-05-17 |   1.5 | Meetings         | Group meeting                                                   |
+|    3 | 2023-05-17 |   1.5 | EDA feedback     | Reading and giving feedback on EDA report                       |
+|    3 | 2023-05-18 |   2.0 | Misc             | Reading proximity report, meeting, prep                         |
+|    3 | 2023-05-19 |   1.0 | Meetings         | Group meeting                                                   |
+|    3 | 2023-05-19 |   1.0 | Misc             | Logs, reviewing, etc                                            |
+
+My total weekly hours are: 20
+
+### Weekly Reflection
+
+My most significant individual contribution was reminding my team
+members that scaling is important and will change results when running
+some clustering algorithms, like the k-means. Our most significant group
+contribution is the group meeting with the DEIL team that made the PMD
+dataset: it gave us a lot of insight into the NA values and
+interpretation of proximity values, as well as insight into DB and
+different geographical areas. Some roadblocks this week include long
+running times, interpretation issues, and incongruence in feedback and
+acceptance of it. This week was short on hours because I was traveling
+from Thursday on to my Brother’s grad out of province.
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use
@@ -134,3 +166,4 @@ the following (requires the **dplyr** package)
 |    0 |                3.5 |
 |    1 |               19.5 |
 |    2 |               32.5 |
+|    3 |               20.0 |
