@@ -213,6 +213,105 @@ Working on the team proposal document.
 3. Are there any major blockers or roadblocks preventing you from proceeding on your project?
 trying to figure out a way to deal with NA's for tasks such as PCA etc. Also running into memory issues and execution times...
 
+```{r}
+current.week = current.week + 1
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-15"),
+                    hours = 1,
+                    description = "Weekly team meeting slides + practice",
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-15"),
+                    hours = 3.5,
+                    description = "Team + Dr.Moosvi + Client meeting",
+                    comments = NA
+                    )
+
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-16"),
+                    hours = 3.5,
+                    description = "Team + statscan (DEIL) + TA meetings ",
+                    comments = "The statscan meeting was super helpful as all the gaps in our understanding about the data set were answered"
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-16"),
+                    hours = 0.5,
+                    description = "Fixing git issue",
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-16"),
+                    hours = 1,
+                    description = "Reading suggested reading after meeting",
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-17"),
+                    hours = 1,
+                    description = "Team meeting",
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-17"),
+                    hours = 2.5,
+                    description = "EDA review/edits",
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-18"),
+                    hours = 0.5,
+                    description = "Team meeting",
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-18"),
+                    hours = 4,
+                    description = "Applying mixall method to template Jonah made",
+                    comments = "leaving computer run over night due to runtime"
+                    )
+
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-19"),
+                    hours = 3,
+                    description = "Updated Mixall results with log transorms and various model disitributions",
+                    comments = "very long running time...."
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-19"),
+                    hours = 2,
+                    description = "reading papers ricky suggested while running algorithms",
+                    comments = NA
+                    )
+
+kable(filter(mylog, week == current.week))
+```
+My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the following questions:
+
+1. What was your most significant **individual contribution** to the project this week?
+Running MixALL algo for clustering
+
+2. What was your most significant **team contribution** to the project this week?
+Meeting with the DEIL lab
+
+3. Are there any major blockers or roadblocks preventing you from proceeding on your project?
+Just running times, but we are utilizing subsampling which is helping. 
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use the following (requires the **dplyr** package)

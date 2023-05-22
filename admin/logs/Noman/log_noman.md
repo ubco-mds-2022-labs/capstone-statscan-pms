@@ -95,6 +95,37 @@ following questions:
     NA’s for tasks such as PCA etc. Also running into memory issues and
     execution times…
 
+| week | day        | hours | description                                                                | comments                                                                                                     |
+|--:|:----|--:|:-------------------------|:-----------------------------------|
+|    3 | 2023-05-15 |   1.0 | Weekly team meeting slides + practice                                      | NA                                                                                                           |
+|    3 | 2023-05-15 |   3.5 | Team + Dr.Moosvi + Client meeting                                          | NA                                                                                                           |
+|    3 | 2023-05-16 |   3.5 | Team + statscan (DEIL) + TA meetings                                       | The statscan meeting was super helpful as all the gaps in our understanding about the data set were answered |
+|    3 | 2023-05-16 |   0.5 | Fixing git issue                                                           | NA                                                                                                           |
+|    3 | 2023-05-16 |   1.0 | Reading suggested reading after meeting                                    | NA                                                                                                           |
+|    3 | 2023-05-17 |   1.0 | Team meeting                                                               | NA                                                                                                           |
+|    3 | 2023-05-17 |   2.5 | EDA review/edits                                                           | NA                                                                                                           |
+|    3 | 2023-05-18 |   0.5 | Team meeting                                                               | NA                                                                                                           |
+|    3 | 2023-05-18 |   4.0 | Applying mixall method to template Jonah made                              | leaving computer run over night due to runtime                                                               |
+|    3 | 2023-05-19 |   3.0 | Updated Mixall results with log transorms and various model disitributions | very long running time….                                                                                     |
+|    3 | 2023-05-19 |   2.0 | reading papers ricky suggested while running algorithms                    | NA                                                                                                           |
+
+My total weekly hours are: 22.5
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week? Running MixALL algo for clustering
+
+2.  What was your most significant **team contribution** to the project
+    this week? Meeting with the DEIL lab
+
+3.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project? Just running times, but we are utilizing
+    subsampling which is helping.
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use
@@ -104,3 +135,4 @@ the following (requires the **dplyr** package)
 |-----:|-------------------:|
 |    1 |              23.45 |
 |    2 |              26.00 |
+|    3 |              22.50 |
