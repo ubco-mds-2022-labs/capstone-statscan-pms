@@ -142,6 +142,7 @@ algo = function(dataset, amen_name, num=NULL){
   
   sil_coef = intCriteria(as.matrix(dataset),as.integer(res$cluster), 'Silhouette')$silhouette
   xeni_beni = intCriteria(as.matrix(dataset),as.integer(res$cluster), 'Xie_Beni')$xie_beni
+  davies = intCriteria(as.matrix(dataset),as.integer(res$cluster), 'Davies_Bouldin')$davies_bouldin
   
   #if only 1 cluster
   if (length(unique(res$cluster)) == 1){
@@ -154,6 +155,7 @@ algo = function(dataset, amen_name, num=NULL){
   #print
   print(paste('Silhouette coefficient:', sil_coef))
   print(paste('Xie Beni coefficient:', xeni_beni))
+  print(paste('Davies Bouldin coefficient:', davies))
   
   #unlog the PM
   dataset = exp(dataset)-0.0001
@@ -175,45 +177,60 @@ do_everything = function(dataset, amen_name, num){
   
   # store cluster results
   clusts = res$clusts+1
-  comp_data = res$complete_data
+  comp_data = res$complete_data[!(clusts == 1)]
+  clusts = clusts[!(clusts == 1)]
+  clusts = clusts-1
   rm(res)
   
-  barplot(as.matrix(table(clusts)/length(clusts)), col=sort(unique(clusts)), ylim=c(0, 4), horiz=TRUE, xlab='Proportion')
+  #reorder clusters
+  # ...
+  
+  #find cutoffs
+  cutoffs = c()
+  for (i in 1:(length(unique(clusts))-1)){
+    temp = comp_data[clusts==unique(clusts)[i]]
+    temp2 = comp_data[clusts==unique(clusts)[i+1]]
+    values = c(max(temp), min(temp2))
+    cutoffs[i] = mean(values)
+  }
+  all_cutoffs = list()
+  all_cutoffs[[amen_name]] = cutoffs
+  
+  barplot(as.matrix(table(clusts)/length(clusts)), col=sort(unique(clusts)), ylim=c(0, 4), horiz=TRUE, xlab='Proportion', main='Proportion of DBs in each cluster')
   legend(0, 2.2, lty=1, lwd=2, col=sort(unique(clusts)), legend = c(paste('Cluster', sort(unique(clusts)))))
   
   # re-assign clusters so that they're in order
-  comp = list()
-  for (i in unique(clusts)){
-    temp = amen[clusts == i,amen_name]
-    comp[[i]] = Mode(round(temp, 6))
-  }
-  if (max(unlist(comp)) == comp[[1]]){
-    ord = match(comp, comp[order(unlist(comp))])
-  } else{
-    ord = match(comp[order(unlist(comp))], comp) 
-  }
-  if (sum(duplicated(ord))>0){
-    ord[duplicated(ord)] = unique(clusts)[which(!(unique(clusts) %in% ord))]
-  }
-  clusts = ord[clusts]
+  # comp = list()
+  # for (i in unique(clusts)){
+  #   temp = amen[clusts == i,amen_name]
+  #   comp[[i]] = Mode(round(temp, 6))
+  # }
+  # if (max(unlist(comp)) == comp[[1]]){
+  #   ord = match(comp, comp[order(unlist(comp))])
+  # } else{
+  #   ord = match(comp[order(unlist(comp))], comp) 
+  # }
+  # if (sum(duplicated(ord))>0){
+  #   ord[duplicated(ord)] = unique(clusts)[which(!(unique(clusts) %in% ord))]
+  # }
+  # clusts = ord[clusts]
   
   # plot
   # pass = list(data = comp_data, cluster = clusts)
   # plot(fviz_cluster(pass, ellipse.type = "norm") + theme_minimal())
   
-  cutoffs = list()
-  all_cutoffs = list()
-  plot(density(amen[clusts == 1,amen_name]), xlim=c(0, 1), lwd=2, xlab="X", ylab="Density", main="")
-  for (j in 1:(length(unique(clusts))-1)){
-      cutoffs[[j]] = cutoff(amen[clusts == j,amen_name], amen[clusts == j+1,amen_name])
-      all_cutoffs[[amen_name]][j] = cutoffs[[j]][1]
-
-      lines(density(amen[clusts == j+1,amen_name]), col=(j+1), lwd=2)
-      points(cutoffs[[j]][1], cutoffs[[j]][2], pch=16, col="green" )
-  }
+  # cutoffs = list()
+  # plot(density(amen[clusts == 1,amen_name]), xlim=c(0, 1), lwd=2, xlab="X", ylab="Density", main="")
+  # for (j in 1:(length(unique(clusts))-1)){
+  #     cutoffs[[j]] = cutoff(amen[clusts == j,amen_name], amen[clusts == j+1,amen_name])
+  #     all_cutoffs[[amen_name]][j] = cutoffs[[j]][1]
+  # 
+  #     lines(density(amen[clusts == j+1,amen_name]), col=(j+1), lwd=2)
+  #     points(cutoffs[[j]][1], cutoffs[[j]][2], pch=16, col="green" )
+  # }
   print('Segment cutoff values:')
   for (a in 1:length(cutoffs)){
-    print(cutoffs[[a]][1])
+    print(cutoffs[a])
   }
   
   #silhouette plot
@@ -253,11 +270,11 @@ do_everything = function(dataset, amen_name, num){
   print_list(profiles[[amen_name]], sort(unique(clusts)))
   
   #return all_cutoff values
-  tab = list()
-  for (a in unique(clusts)){
-    tab[[amen_name]][a] = as.matrix(table(clusts)/length(clusts))[a]
-  }
-  return(tab)
+  # tab = list()
+  # for (a in unique(clusts)){
+  #   tab[[amen_name]][a] = as.matrix(table(clusts)/length(clusts))[a]
+  # }
+  return(all_cutoffs)
 }
 ```
 
@@ -389,19 +406,20 @@ text
 
 
 ```{r, warning=FALSE, message=FALSE}
+dput(all_cutoffs)
 # concluding graphic
-library(ggplot2)
-library(tidyverse)
-plt = as.data.frame(sapply(all_cutoffs, '[', seq(max(sapply(all_cutoffs, length)))))
-names(plt) = amenities
-plt = pivot_longer(plt, cols=amenities)
-#plt$group = as.factor(match(plt$name, amenities))
-plt$num = as.factor(rep(1:4, each=10))
-
-ggplot(plt, aes(x = value, y = name)) + 
-  geom_col(aes(fill=num)) + theme_minimal() + 
-  ggtitle('Proximity Measure Cut-off Values') + 
-  ylab('Amenity') + xlab('Value') + labs(fill = 'Cluster #')
+# library(ggplot2)
+# library(tidyverse)
+# plt = as.data.frame(sapply(all_cutoffs, '[', seq(max(sapply(all_cutoffs, length)))))
+# names(plt) = amenities
+# plt = pivot_longer(plt, cols=amenities)
+# #plt$group = as.factor(match(plt$name, amenities))
+# plt$num = as.factor(rep(1:4, each=10))
+# 
+# ggplot(plt, aes(x = value, y = name)) + 
+#   geom_col(aes(fill=num)) + theme_minimal() + 
+#   ggtitle('Proximity Measure Cut-off Values') + 
+#   ylab('Amenity') + xlab('Value') + labs(fill = 'Cluster #')
 ```
 
 
