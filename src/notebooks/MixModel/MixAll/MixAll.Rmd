@@ -1,0 +1,422 @@
+---
+title: "MixAll (PMS + additional variables)"
+author: "PMS"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    dev: png
+urlcolor: blue
+---
+
+```{r global_options, include=FALSE}
+## Set some options for knitr to apply globally
+knitr::opts_chunk$set(cache=TRUE,
+                      echo=FALSE,
+                      autodep=TRUE,
+                      message=FALSE,
+                      warning=FALSE,
+                      out.width="80%",
+                      fig.asp=0.75,
+                      fig.align='center',
+                      fig.pos = "H", 
+                      out.extra = "")
+```
+
+------------------------------------------------------------------------
+
+```{r, message=FALSE}
+# loading libraries
+set.seed(2023)
+library(cluster)
+library(ggplot2)
+library(factoextra)
+# install.packages("clusterCrit_1.2.7.tar.gz", repos = NULL, type = "source")
+
+library(clusterCrit)
+
+# load algorithm library
+library(MixAll)
+
+# loading data
+load('../../../.../data/master_pms_df.Rdata')
+
+# covert populations to numeric from factor
+master$PMS_DBPOP = as.numeric(gsub("[^0-9.-]", "", as.character(master$PMS_DBPOP)))
+master$PMS_CSDPOP = as.numeric(gsub("[^0-9.-]", "", as.character(master$PMS_CSDPOP)))
+
+# amenity names
+amenities = c("PMS_prox_idx_emp", "PMS_prox_idx_pharma", "PMS_prox_idx_childcare", "PMS_prox_idx_health", "PMS_prox_idx_grocery", "PMS_prox_idx_educpri", "PMS_prox_idx_educsec", "PMS_prox_idx_lib", "PMS_prox_idx_parks", "PMS_prox_idx_transit")
+
+#log transform PMs
+# for (i in amenities){
+#   master[,i] = log(master[,i]+0.001)
+# }
+
+# subsampling data (if needed)
+perc = 3 #percentage of data to subsample
+subsample = (nrow(master)/100)*perc 
+master = master[sample(nrow(master), subsample),]
+
+# variables to cluster with
+clust_vars = c('CSD_AREA', 'PMS_CSDPOP', 'PMS_DBPOP', 'IOR_Index_of_remoteness') #, 'PMS_CMATYPE')
+
+# cutoff values for all amenities
+all_cutoffs = list()
+
+#cutoff function
+#https://stats.stackexchange.com/questions/586937/identify-the-point-of-intersection-from-two-distributions
+cutoff = function(x, y){
+  # Find global minimum and maximum
+  xymin <- min(x,y)
+  xymax <- max(x,y)
+# Estimate densities
+  dx <- density(x, n=512, from=xymin, to=xymax)
+  dy <- density(y, n=512, from=xymin, to=xymax)
+
+# Plot results
+  #plot(dx, xlim=c(xymin, xymax), type="l", lwd=3, xlab="X", ylab="Density", main="")
+  #lines(dy, col="red", lwd=3)
+
+# Differences in densities
+  dx$diff <- dx$y - dy$y
+  ex <- NULL  # Store the intersection points
+  ey <- NULL
+  k = 0
+  for (i in 2:length(dx$x)) {
+      # Look for a change in sign of the difference in densities
+      if (sign(dx$diff[i-1]) != sign(dx$diff[i])) {
+         k = k + 1
+         # Linearly interpolate
+         ex[k] <- dx$x[i-1] + (dx$x[i]-dx$x[i-1])*(0-dx$diff[i-1])/(dx$diff[i]-dx$diff[i-1])
+         ey[k] <- dx$y[i-1] + (dx$y[i]-dx$y[i-1])*(ex[k]-dx$x[i-1])/(dx$x[i]-dx$x[i-1])
+         #lines(c(ex[k],ex[k]), c(0,ey[k])) #more plotting
+         #points(ex[k], ey[k], pch=16, col="green" )
+    }
+  }
+  exf = ex[ey > 0.5 & ex > 0.005]
+  eyf = ey[ey > 0.5 & ex > 0.005]
+
+  if (length(exf) > 1){
+    #stop('More than one intersection above 0.5 detected! Change y-axis threshold.')
+    exf = exf[1]
+    eyf = eyf[1]
+  }
+
+  return(c(exf, eyf))
+}
+
+#mode function
+Mode = function(x){
+  ux = unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+#print list items function for profiles
+print_list = function(x, cl){
+  df = as.data.frame(x)
+  if (ncol(df) == 1){
+    df = as.data.frame(t(df))
+    row.names(df) = ''
+  }
+  names(df) = paste('Cluster', cl)
+  print(df)
+  cat('\n\n')
+}
+```
+
+# Assumptions of the Alogrithm
+
+The clusterDiagGaussian() model assumes that the data is generated from a mixture of Gaussian distributions. It assumes independence and diagonal covariance thus meaning no correlation between variables. Each component follows a Gaussian distribution with estimated mean and standard deviation parameters. The model represents a mixture of K components, allowing for equal or different standard deviations within each component.
+
+# How it works
+
+The MixAll model is basically a mixture model. Mixture models assume data is generated from a combination of probability distributions. Parameter estimation is achieved by maximizing the observed log-likelihood or integrated log-likelihood for data with missing values. Estimation algorithms like EM, SEM, and CEM are used and the default is EM which is highlighted below, involving steps such as imputation, conditional probability calculation, and parameter updates. The EM algorithm iteratively performs these steps until convergence.
+
+1.  **I step:** Impute the missing values $x^{m}_{i}$ using the current MAP value provided by the current parameter $\theta^{m-1}$.
+2.  **E step:** Compute the current conditional probabilities $t^{m}_{ik}$ for $i = 1, \ldots, n$ and $k = 1, \ldots, K$ using the current parameter $\theta^{m-1}$.
+3.  **M step:** Update the maximum likelihood estimate $\theta^{m}$ of $\theta$ using the conditional probabilities $t^{m}_{ik}$ as conditional mixing weights, aiming to maximize the log-likelihood function, where $t^{m} = (t^{m}_{ik}, i = 1, \ldots, n, k = 1, \ldots, K)$.
+4.  **Parameter update:** The updated expression of mixture proportions $p^{m}_{k}$ for $k = 1, \ldots, K$ are computed. Detailed formulas for updating the parameters $\lambda_{k}$ and $\alpha$ depend on the component parameterization.
+
+Note that there are one of two strategies that can be used as a function call: clusterFastStrategy() and clusterSemiSEMStrategy(). When using the clusterFastStrategy(), result is not guaranteed if the model is quite difficult to estimate (overlapping class for examples). If there are lots of missing values its suggested that the fff is used as it uses a MonteCarlo estimator to estimate unbiased estimators. In our case the fast strategy was used as the other would take way too long and we dont have the computing power especially for all 10 measures and trying numerous different number of clusters...
+
+[More information can be found here](https://cran.r-project.org/web/packages/MixAll/vignettes/Introduction-Mixtures.pdf)
+
+```{r}
+#algorithm function --> must return: data with no NAs, cluster assignments
+algo = function(dataset, amen_name, num=NULL){
+  #scale data
+  for (i in clust_vars){
+    dataset[,i] = scales::rescale(dataset[,i], to=c(0,1))
+  }
+  
+  sil_coefs = c()
+  counter = 1
+  for (i in num){
+    #using MixAll clustering algo
+    model = clusterDiagGaussian(data=dataset, nbCluster=i, strategy =  clusterFastStrategy())
+    
+    clus_labels = model@zi
+    clus_data = model@component@data
+    
+    res = list('complete_data' = model@component@data, 'clusters' = model@zi)
+    sil_coefs[counter] = intCriteria(as.matrix(clus_data), 
+                                     clus_labels, 
+                                     'Silhouette')$silhouette
+    counter = counter + 1
+  }
+  
+  #plot silhouette coefficients
+  plot(sil_coefs~num, type = 'l', ylab="Silhouette Coefficient", xlab='Number of Clusters', lwd=2)
+  
+  #max sil coeff
+  print(paste('Maximum silhouete coefficient:', as.character(max(sil_coefs)), 'For', num[which(sil_coefs == max(sil_coefs))], 'clusters.'))
+  
+  #re-run algorithm with highest sil
+  model = clusterDiagGaussian(data=dataset, nbCluster=num[which(sil_coefs == max(sil_coefs))], strategy = clusterFastStrategy())
+  
+    #unlog the PM
+  dataset = exp(dataset)-0.0001
+  
+  res = list('complete_data' = dataset, 'clusters' = model@zi)
+  
+  #hopkins test
+  # hopkins = hopkins(res$complete_data, n = nrow(res$complete_data)-1)
+  # print(paste("Hopkins statistic:", hopkins$H))
+  
+  return(res)
+}
+
+do_everything = function(dataset, amen_name, num){
+  # remove NA values
+  amen = dataset[!is.na(dataset[,amen_name]),]
+  clust_data = dataset[!is.na(dataset[,amen_name]),c(amen_name, clust_vars)]
+  
+  # algorithm
+  res = algo(clust_data, amen_name, num)
+  
+  # store cluster results
+  clusts = res$clusters
+  comp_data = res$complete_data
+  rm(res)
+  
+  # re-assign clusters so that they're in order
+  comp = list()
+  for (i in unique(clusts)){
+    temp = amen[clusts == i,amen_name]
+    comp[[i]] = Mode(round(temp, 7))
+  }
+  if (max(unlist(comp)) == comp[[1]]){
+    ord = match(comp, comp[order(unlist(comp))])
+  } else{
+    ord = match(comp[order(unlist(comp))], comp) 
+  }
+  if (sum(duplicated(ord))>0){
+    ord[duplicated(ord)] = unique(clusts)[which(!(unique(clusts) %in% ord))]
+  }
+  clusts = ord[clusts]
+  
+  # plot
+  pass = list(data = comp_data, cluster = clusts)
+  plot(fviz_cluster(pass, ellipse.type = "norm") + theme_minimal())
+  
+  # #unlog PMs
+  # for (i in amenities){
+  #   amen[,i] = exp(amen[,i])-0.001
+  #   dataset[,i] = exp(dataset[,i])-0.001
+  # }
+  
+  cutoffs = list()
+  all_cutoffs = list()
+  plot(density(amen[clusts == 1,amen_name]), xlim=c(0, 1), lwd=2, xlab="X", ylab="Density", main="")
+  for (j in 1:(length(unique(clusts))-1)){
+      cutoffs[[j]] = cutoff(amen[clusts == j,amen_name], amen[clusts == j+1,amen_name])
+      all_cutoffs[[amen_name]][j] = cutoffs[[j]][1]
+      lines(density(amen[clusts == j+1,amen_name]), col=(j+1), lwd=2)
+      points(cutoffs[[j]][1], cutoffs[[j]][2], pch=16, col="green" )
+  }
+
+  print('Segment cutoff values:')
+  for (a in 1:length(cutoffs)){
+    print(cutoffs[[a]][1])
+  }
+  
+  #silhouette plot
+  sil = silhouette(clusts, dist(comp_data))
+  plot(fviz_silhouette(sil))
+  
+  #profiles
+  print('Cluster profiles:')
+  profiles = list()
+  for (k in sort(unique(clusts))){
+    temp = dataset[clusts == k,]
+    for (a in amenities){
+      profiles[[a]][k] = round(mean(temp[,a], na.rm = T), 5)
+    }
+    profiles[['Count']][k] = as.character(nrow(temp))
+    profiles[['DB_population']][k] = round(mean(temp$PMS_DBPOP, na.rm = T), 1)
+    profiles[['CSD_population']][k] = round(mean(temp$PMS_CSDPOP, na.rm = T), 1)
+    profiles[['CMA_type']][[k]] = summary(temp$PMS_CMATYPE)
+    profiles[['Index_of_Remoteness']][k] = round(mean(temp$IOR_Index_of_remoteness, na.rm = T), 3)
+    profiles[['Provinces']][[k]] = summary(temp$PROVINCE)
+    profiles[['Amenity_dense']][[k]] = summary(temp$PMS_amenity_dense)
+  }
+  #printing profiles
+  print('Num of DBs:')
+  print_list(profiles[['Count']], sort(unique(clusts)))
+  cat('\n DB Population: \n')
+  print_list(profiles[['DB_population']], sort(unique(clusts)))
+  cat('\n CSD Population: \n')
+  print_list(profiles[['CSD_population']], sort(unique(clusts)))
+  cat('\n CMA Type: \n')
+  print_list(profiles[['CMA_type']], sort(unique(clusts)))
+  cat('\n Index of Remoteness: \n')
+  print_list(profiles[['Index_of_Remoteness']], sort(unique(clusts)))
+  cat('\n Provinces: \n')
+  print_list(profiles[['Provinces']], sort(unique(clusts)))
+  cat('\n Amenity dense: \n')
+  print_list(profiles[['Amenity_dense']], sort(unique(clusts)))
+  for (a in amenities){
+    cat('\n', a, ': \n')
+    print_list(profiles[[a]], sort(unique(clusts)))
+  }
+  
+  #return all_cutoff values
+  return(all_cutoffs)
+}
+```
+
+------------------------------------------------------------------------
+
+\pagebreak
+
+# Amenities
+
+## Employment
+
+```{r}
+lst = do_everything(master, 'PMS_prox_idx_emp', 2:6)
+all_cutoffs = append(all_cutoffs, lst)
+```
+
+------------------------------------------------------------------------
+
+\pagebreak
+
+## Pharmacy
+
+```{r}
+lst = do_everything(master, 'PMS_prox_idx_pharma', 2:6)
+all_cutoffs = append(all_cutoffs, lst)
+```
+
+------------------------------------------------------------------------
+
+\pagebreak
+
+## Childcare
+
+```{r}
+lst = do_everything(master, 'PMS_prox_idx_childcare', 2:6)
+all_cutoffs = append(all_cutoffs, lst)
+```
+
+------------------------------------------------------------------------
+
+\pagebreak
+
+## Health
+
+```{r}
+lst = do_everything(master, 'PMS_prox_idx_health', 2:6)
+all_cutoffs = append(all_cutoffs, lst)
+```
+
+------------------------------------------------------------------------
+
+\pagebreak
+
+## Grocery
+
+```{r}
+lst = do_everything(master, 'PMS_prox_idx_grocery', 2:6)
+all_cutoffs = append(all_cutoffs, lst)
+```
+
+------------------------------------------------------------------------
+
+\pagebreak
+
+## Primary Education
+
+```{r}
+lst = do_everything(master, 'PMS_prox_idx_educpri', 2:6)
+all_cutoffs = append(all_cutoffs, lst)
+```
+
+------------------------------------------------------------------------
+
+\pagebreak
+
+## Secondary Education
+
+```{r}
+lst = do_everything(master, 'PMS_prox_idx_educsec', 2:6)
+all_cutoffs = append(all_cutoffs, lst)
+```
+
+------------------------------------------------------------------------
+
+\pagebreak
+
+## Libraries
+
+```{r}
+lst = do_everything(master, 'PMS_prox_idx_lib', 2:6)
+all_cutoffs = append(all_cutoffs, lst)
+```
+
+------------------------------------------------------------------------
+
+\pagebreak
+
+## Parks
+
+```{r}
+lst = do_everything(master, 'PMS_prox_idx_parks', 2:6)
+all_cutoffs = append(all_cutoffs, lst)
+```
+
+------------------------------------------------------------------------
+
+\pagebreak
+
+## Transit
+
+```{r}
+lst = do_everything(master, 'PMS_prox_idx_transit', 2:6)
+all_cutoffs = append(all_cutoffs, lst)
+```
+
+------------------------------------------------------------------------
+
+\pagebreak
+
+# Conclusion
+
+text
+
+<!-- ```{r} -->
+<!-- # concluding graphic -->
+<!-- library(ggplot2) -->
+<!-- library(tidyverse) -->
+<!-- plt = as.data.frame(sapply(all_cutoffs, '[', seq(max(sapply(all_cutoffs, length))))) -->
+<!-- names(plt) = amenities -->
+<!-- plt = pivot_longer(plt, cols=amenities) -->
+<!-- #plt$group = as.factor(match(plt$name, amenities)) -->
+<!-- plt$num = as.factor(rep(1:4, each=10)) -->
+
+<!-- ggplot(plt, aes(x = value, y = name)) + -->
+<!--   geom_col(aes(fill=num)) + theme_minimal() + -->
+<!--   ggtitle('Proximity Measure Cut-off Values') + -->
+<!--   ylab('Amenity') + xlab('Value') + labs(fill = 'Cluster #') -->
+<!-- ``` -->

@@ -1,5 +1,5 @@
 ---
-title: "MixAll (PMS + additional variables)"
+title: "MixAll + Variables (log transform))"
 author: "PMS"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
@@ -38,7 +38,7 @@ library(clusterCrit)
 library(MixAll)
 
 # loading data
-load('../../../data/master_pms_df.Rdata')
+load('../../../../data/master_pms_df.Rdata')
 
 # covert populations to numeric from factor
 master$PMS_DBPOP = as.numeric(gsub("[^0-9.-]", "", as.character(master$PMS_DBPOP)))
@@ -47,10 +47,10 @@ master$PMS_CSDPOP = as.numeric(gsub("[^0-9.-]", "", as.character(master$PMS_CSDP
 # amenity names
 amenities = c("PMS_prox_idx_emp", "PMS_prox_idx_pharma", "PMS_prox_idx_childcare", "PMS_prox_idx_health", "PMS_prox_idx_grocery", "PMS_prox_idx_educpri", "PMS_prox_idx_educsec", "PMS_prox_idx_lib", "PMS_prox_idx_parks", "PMS_prox_idx_transit")
 
-#log transform PMs
-# for (i in amenities){
-#   master[,i] = log(master[,i]+0.001)
-# }
+# log transform PMs
+for (i in amenities){
+  master[,i] = log(master[,i]+0.001)
+}
 
 # subsampling data (if needed)
 perc = 3 #percentage of data to subsample
@@ -58,7 +58,8 @@ subsample = (nrow(master)/100)*perc
 master = master[sample(nrow(master), subsample),]
 
 # variables to cluster with
-clust_vars = c('CSD_AREA', 'PMS_CSDPOP', 'PMS_DBPOP', 'IOR_Index_of_remoteness') #, 'PMS_CMATYPE')
+clust_vars = c('CSD_AREA', 'PMS_CSDPOP', 'PMS_DBPOP', 'IOR_Index_of_remoteness') #, 'PMS_CMATYPE') 
+
 
 # cutoff values for all amenities
 all_cutoffs = list()
@@ -144,10 +145,14 @@ Note that there are one of two strategies that can be used as a function call: c
 ```{r}
 #algorithm function --> must return: data with no NAs, cluster assignments
 algo = function(dataset, amen_name, num=NULL){
+  
   #scale data
   for (i in clust_vars){
     dataset[,i] = scales::rescale(dataset[,i], to=c(0,1))
   }
+  
+    #log transform PM
+  dataset = log(dataset+0.0001)
   
   sil_coefs = c()
   counter = 1
@@ -173,8 +178,11 @@ algo = function(dataset, amen_name, num=NULL){
   
   #re-run algorithm with highest sil
   model = clusterDiagGaussian(data=dataset, nbCluster=num[which(sil_coefs == max(sil_coefs))], strategy = clusterFastStrategy())
-  res = list('complete_data' = model@component@data, 'clusters' = model@zi)
   
+    #unlog the PM
+  dataset = exp(dataset)-0.0001
+  
+  res = list('complete_data' = dataset, 'clusters' = model@zi)
   #hopkins test
   # hopkins = hopkins(res$complete_data, n = nrow(res$complete_data)-1)
   # print(paste("Hopkins statistic:", hopkins$H))
@@ -212,8 +220,8 @@ do_everything = function(dataset, amen_name, num){
   clusts = ord[clusts]
   
   # plot
-  pass = list(data = comp_data, cluster = clusts)
-  plot(fviz_cluster(pass, ellipse.type = "norm") + theme_minimal())
+  # pass = list(data = comp_data, cluster = clusts)
+  # plot(fviz_cluster(pass, ellipse.type = "norm") + theme_minimal())
   
   # #unlog PMs
   # for (i in amenities){
