@@ -236,27 +236,29 @@ do_everything = function(dataset, amen_name, num){
   
   # remove NA values
   clust_data = as.matrix(na.omit(dataset[, c(amen_name)]))
+  print("Na removed")
   
   # log data
-  clust_data_log = log(clust_data)
+  clust_data_log = round(log(clust_data+0.001)^2, 4)
+  print("data logged")
   
   # algorithm
-  res = algo(clust_data, num)
-  # res_log = algo(clust_data_log, num)
-  
+  #res = algo(clust_data, num)
+  res_log = algo(clust_data_log, num)
+  print("algo applied")
   # store cluster results
-  clusts = res$Clust_res@partitions@zMAP
-  comp_data = res$Clust_res@data@dataContinuous@data
+  # clusts = res$Clust_res@partitions@zMAP
+  # comp_data = res$Clust_res@data@dataContinuous@data
   
-  # clusts_log = res_log$Clust_res@partitions@zMAP
-  # comp_data_log = res_log$Clust_res@data@dataContinuous@data
+  clusts_log = res_log$Clust_res@partitions@zMAP
+  comp_data_log = res_log$Clust_res@data@dataContinuous@data
   
   # silhouette plot
-  sil = silhouette(clusts, dist(comp_data))
-  plot(fviz_silhouette(sil))
-  
-  # sil_log = silhouette(clusts_log, dist(comp_data_log))
-  # plot(fviz_silhouette(sil_log))
+  # sil = silhouette(clusts, dist(comp_data))
+  # plot(fviz_silhouette(sil))
+  # 
+  sil_log = silhouette(clusts_log, dist(comp_data_log))
+  plot(fviz_silhouette(sil_log))
   
   #return sil values
   return(sil)
@@ -345,7 +347,6 @@ res_algo_lib = do_everything(master_sample, 'PMS_prox_idx_lib', 2:6)
 ```
 
 
-<!--
 
 ## Test/Play with clustering package
 
@@ -354,7 +355,7 @@ emp <- as.matrix(na.omit(master_sample[, c("PMS_prox_idx_emp")]))
 ```
 
 ```{r}
-emp <- log(emp+0.0001)
+emp <- round(log(emp), 4)
 ```
 
 ```{r}
@@ -372,7 +373,7 @@ r
 
 ```{r}
 # direct applying
-res = VarSelCluster(emp, gvals=2:6, nbcores = 4, vbleSelec = FALSE)
+res = VarSelCluster(as.matrix(emp), gvals=2:4, nbcores = 4, vbleSelec = FALSE)
 ```
 
 

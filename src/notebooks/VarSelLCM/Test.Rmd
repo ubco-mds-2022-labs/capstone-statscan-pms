@@ -1,0 +1,166 @@
+---
+title: "Untitled"
+author: "Avishek"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Import and Process Data
+
+```{r}
+library(dplyr)
+library(clusterCrit)
+library(VarSelLCM)
+library(cluster)
+library(factoextra)
+
+load('../../../data/master_pms_df.Rdata')
+
+# Convert selected columns to numeric
+master <- master %>%
+  mutate(PMS_DBPOP = as.numeric(gsub(",", "", PMS_DBPOP)), # Dissemination block population
+         PMS_DAPOP = as.numeric(gsub(",", "", PMS_DAPOP)), # Dissemination area population
+         PMS_CSDPOP = as.numeric(gsub(",", "", PMS_CSDPOP)), # Census subdivision population
+         PMS_CMAPOP = as.numeric(gsub(",", "", PMS_CMAPOP)), # Census metropolitan area population
+         PMS_PRPOP = as.numeric(gsub(",", "", PMS_PRPOP)), # Province or territory population
+         # in_db_emp = as.numeric(in_db_emp),
+         # in_db_pharma = as.numeric(in_db_pharma),
+         # in_db_childcare = as.numeric(in_db_childcare),
+         # in_db_health = as.numeric(in_db_health),
+         # in_db_grocery = as.numeric(in_db_grocery),
+         # in_db_educpri = as.numeric(in_db_educpri),
+         # in_db_educsec = as.numeric(in_db_educsec),
+         # in_db_lib = as.numeric(in_db_lib),
+         # in_db_parks = as.numeric(in_db_parks),
+         # in_db_transit = as.numeric(in_db_transit),
+         PMS_prox_idx_emp = as.numeric(PMS_prox_idx_emp),
+         PMS_prox_idx_pharma = as.numeric(PMS_prox_idx_pharma),
+         PMS_prox_idx_childcare = as.numeric(PMS_prox_idx_childcare),
+         PMS_prox_idx_health = as.numeric(PMS_prox_idx_health),
+         PMS_prox_idx_grocery = as.numeric(PMS_prox_idx_grocery),
+         PMS_prox_idx_educpri = as.numeric(PMS_prox_idx_educpri),
+         PMS_prox_idx_educsec = as.numeric(PMS_prox_idx_educsec),
+         PMS_prox_idx_lib = as.numeric(PMS_prox_idx_lib),
+         PMS_prox_idx_parks = as.numeric(PMS_prox_idx_parks),
+         PMS_prox_idx_transit = as.numeric(PMS_prox_idx_transit),
+         DBUID = as.character(DBUID),
+         PMS_DAUID = as.character(PMS_DAUID),
+         PMS_CSDUID = as.character(PMS_CSDUID),
+         PMS_CMAUID = as.character(PMS_CMAUID),
+         PMS_CMAPUID = as.character(PMS_CMAPUID),
+         PMS_PRUID = as.character(PMS_PRUID),
+         PMS_suppressed = as.character(PMS_suppressed),
+         PMS_transit_na = as.character(PMS_suppressed))
+
+
+# Subset columns that start with "prox_idx"
+amenities <- colnames(master)[grepl("^PMS_prox_idx", colnames(master))]
+# master dataset - contains only proximity columns
+master_amenities <- master[, amenities]
+
+# subsampling data 
+perc = 0.4 #percentage of data to subsample
+subsample = (nrow(master)/100)*perc 
+master_sample = master[sample(nrow(master), subsample),]
+```
+
+## Algo Function
+
+```{r}
+# Mode function
+Mode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+#algorithm function --> must return: data with no NAs, cluster assignments
+algo_update = function(dataset, num=NULL){
+
+  res = VarSelCluster(as.matrix(emp_log), gvals=2:9, nbcores = 4, vbleSelec = FALSE)
+  print("res done")
+  
+  return(list('complete_data' = res@data@dataContinuous@data, 'clusts' = res@partitions@zMAP))
+}
+```
+
+
+
+## Do Everything Function
+
+
+```{r}
+do_everything_new = function(dataset, amen_name, num){
+  
+  # remove NA values
+  # clust_data = na.omit(dataset[, c(amen_name)])
+  clust_data = na.omit(master_sample[, c("PMS_prox_idx_emp")])
+  print("Na removed")
+  
+  # log data
+  clust_data_log = round(log(clust_data), 4)
+  print("data logged")
+  
+  # taking only the finite values
+  clust_data_log <- clust_data_log[is.finite(clust_data_log)]
+  print("took finite values only")
+  
+  # algorithm
+  #res = algo(clust_data, num)
+  res_log = algo_update(clust_data_log, num)
+  print("algo applied")
+  # store cluster results
+  # clusts = res$Clust_res@partitions@zMAP
+  # comp_data = res$Clust_res@data@dataContinuous@data
+  # 
+  # clusts_log = res_log$Clust_res@partitions@zMAP
+  # comp_data_log = res_log$Clust_res@data@dataContinuous@data
+  # 
+  # # silhouette plot
+  # # sil = silhouette(clusts, dist(comp_data))
+  # # plot(fviz_silhouette(sil))
+  # # 
+  # sil_log = silhouette(clusts_log, dist(comp_data_log))
+  # plot(fviz_silhouette(sil_log))
+  # 
+  # #return sil values
+  # return(sil_log)
+}
+```
+
+
+## Test using custom-made functions
+
+```{r}
+res_algo_emp = do_everything_new(master_sample, 'PMS_prox_idx_emp', 2:4)
+```
+
+## Test using direct VarselLCM funtion
+
+```{r}
+set.seed(2023)
+# only taking the employment proximity index
+emp <- na.omit(master_sample[, c("PMS_prox_idx_emp")])
+
+# applying log transformation
+emp_log <- log(emp + 0.001)^2
+
+
+# taking only the finite values
+# emp_log <- emp[is.finite(emp_log)]
+
+
+# direct applying
+res_log = VarSelCluster(as.matrix(emp_log), gvals=2:9, nbcores = 4, vbleSelec = FALSE)
+
+clusts_log = res_log@partitions@zMAP
+comp_data_log = res_log@data@dataContinuous@data
+
+sil_log = silhouette(clusts_log, dist(comp_data_log))
+plot(fviz_silhouette(sil_log))
+```
+
+

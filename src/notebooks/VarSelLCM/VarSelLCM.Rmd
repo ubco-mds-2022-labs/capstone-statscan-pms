@@ -75,7 +75,7 @@ master_amenities <- master[, amenities]
 clust_vars = c('CSD_AREA', 'PMS_CSDPOP', 'PMS_DBPOP', 'IOR_Index_of_remoteness') #, 'PMS_CMATYPE')
 
 # subsampling data 
-perc = 10 #percentage of data to subsample
+perc = 3 #percentage of data to subsample
 subsample = (nrow(master)/100)*perc 
 master_sample = master[sample(nrow(master), subsample),]
 
@@ -339,14 +339,14 @@ do_everything = function(dataset, amen_name, num){
 
 ```{r}
 lst_emp = do_everything(master_sample_wo_na, 'PMS_prox_idx_emp', 2:6)
-all_cutoffs_emp = append(all_cutoffs_emp, lst_emp)
+all_cutoffs_emp = append(all_cutoffs, lst_emp)
 ```
 
 ### Health 
 
 ```{r}
 lst_health = do_everything(master_sample_wo_na, 'PMS_prox_idx_health', 2:6)
-all_cutoffs_health = append(all_cutoffs_health, lst_health)
+all_cutoffs_health = append(all_cutoffs, lst_health)
 ```
 
 
@@ -354,7 +354,7 @@ all_cutoffs_health = append(all_cutoffs_health, lst_health)
 
 ```{r}
 lst_childcare = do_everything(master_sample_wo_na, 'PMS_prox_idx_childcare', 2:6)
-all_cutoffs_childcare = append(all_cutoffs_childcare, lst_childcare)
+all_cutoffs_childcare = append(all_cutoffs, lst_childcare)
 ```
 
 
@@ -362,7 +362,7 @@ all_cutoffs_childcare = append(all_cutoffs_childcare, lst_childcare)
 
 ```{r}
 lst_parks = do_everything(master_sample_wo_na, 'PMS_prox_idx_parks', 2:6)
-all_cutoffs_parks = append(all_cutoffs_parks, lst_parks)
+all_cutoffs_parks = append(all_cutoffs, lst_parks)
 ```
 
 ### Education Primary 
