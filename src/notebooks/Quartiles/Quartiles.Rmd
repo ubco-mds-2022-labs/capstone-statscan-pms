@@ -1,0 +1,319 @@
+---
+title: "quartiles"
+author: "Avishek"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, 
+                      cache = TRUE, 
+                      warning = F,
+                      fig.align = "center", 
+                      fig.width = 5, 
+                      fig.height = 5)
+```
+
+# Cluster by Quartiles
+
+
+```{r}
+set.seed(2023)
+library(dplyr)
+library(cluster)
+library(ggplot2)
+library(factoextra)
+library(clusterCrit)
+library(VarSelLCM)
+library(clustertend)
+load('../../../data/master_pms_df.Rdata')
+
+# Convert selected columns to numeric
+master <- master %>%
+  mutate(PMS_DBPOP = as.numeric(gsub(",", "", PMS_DBPOP)), # Dissemination block population
+         PMS_DAPOP = as.numeric(gsub(",", "", PMS_DAPOP)), # Dissemination area population
+         PMS_CSDPOP = as.numeric(gsub(",", "", PMS_CSDPOP)), # Census subdivision population
+         PMS_CMAPOP = as.numeric(gsub(",", "", PMS_CMAPOP)), # Census metropolitan area population
+         PMS_PRPOP = as.numeric(gsub(",", "", PMS_PRPOP)), # Province or territory population
+         # in_db_emp = as.numeric(in_db_emp),
+         # in_db_pharma = as.numeric(in_db_pharma),
+         # in_db_childcare = as.numeric(in_db_childcare),
+         # in_db_health = as.numeric(in_db_health),
+         # in_db_grocery = as.numeric(in_db_grocery),
+         # in_db_educpri = as.numeric(in_db_educpri),
+         # in_db_educsec = as.numeric(in_db_educsec),
+         # in_db_lib = as.numeric(in_db_lib),
+         # in_db_parks = as.numeric(in_db_parks),
+         # in_db_transit = as.numeric(in_db_transit),
+         PMS_prox_idx_emp = as.numeric(PMS_prox_idx_emp),
+         PMS_prox_idx_pharma = as.numeric(PMS_prox_idx_pharma),
+         PMS_prox_idx_childcare = as.numeric(PMS_prox_idx_childcare),
+         PMS_prox_idx_health = as.numeric(PMS_prox_idx_health),
+         PMS_prox_idx_grocery = as.numeric(PMS_prox_idx_grocery),
+         PMS_prox_idx_educpri = as.numeric(PMS_prox_idx_educpri),
+         PMS_prox_idx_educsec = as.numeric(PMS_prox_idx_educsec),
+         PMS_prox_idx_lib = as.numeric(PMS_prox_idx_lib),
+         PMS_prox_idx_parks = as.numeric(PMS_prox_idx_parks),
+         PMS_prox_idx_transit = as.numeric(PMS_prox_idx_transit),
+         DBUID = as.character(DBUID),
+         PMS_DAUID = as.character(PMS_DAUID),
+         PMS_CSDUID = as.character(PMS_CSDUID),
+         PMS_CMAUID = as.character(PMS_CMAUID),
+         PMS_CMAPUID = as.character(PMS_CMAPUID),
+         PMS_PRUID = as.character(PMS_PRUID),
+         PMS_suppressed = as.character(PMS_suppressed),
+         PMS_transit_na = as.character(PMS_suppressed))
+
+
+# Subset columns that start with "prox_idx"
+amenities <- colnames(master)[grepl("^PMS_prox_idx", colnames(master))]
+# master dataset - contains only proximity columns
+master_amenities <- master[, amenities]
+
+# subsampling data 
+perc = 3 #percentage of data to subsample
+subsample = (nrow(master)/100)*perc 
+master_sample = master[sample(nrow(master), subsample),]
+
+master_sample_log <- master_sample
+
+# log transform on PMs in master amenities
+for (col in amenities){
+  master_sample_log[, col] = log(master_sample[, col]+0.001)
+}
+```
+
+
+```{r}
+#algorithm function --> must return: data with no NAs, cluster assignments
+algo = function(dataset, amen_name){
+
+  
+  # calculate quartiles
+  quartiles <- cut(dataset[ , amen_name], 
+                   breaks = quantile(dataset[ , amen_name], 
+                                     probs = c(0, 0.25, 0.5, 0.75, 1), na.rm=T),
+                   labels = c("Q1", "Q2", "Q3", "Q4")
+                   )
+  
+  # adding quartiles in a new column
+  dataset$quartiles <- as.numeric(gsub("Q", "", quartiles))
+  
+  # removing na's
+  clust_data = dataset[!is.na(dataset[,"quartiles"]),]
+  clust_data = dataset[!is.na(dataset[,"quartiles"]),c(amen_name, "quartiles")]
+  
+  cutoffs <- tapply(clust_data[, amen_name], clust_data$quartiles, quantile, probs = c(0, 1))
+  
+  # cut-off viz
+  # data frame with the cutoff values and group information
+  cutoff_data <- data.frame(Group = rownames(cutoffs))
+  cutoff_data$Start <- sapply(cutoffs, function(x) x["0%"])
+  cutoff_data$End <- sapply(cutoffs, function(x) x["100%"])
+  
+  # vector of colors for each group
+  cluster_colors <- c("1" = "red", "2" = "blue", "3" = "green", "4" = "purple")
+  
+
+  plot(ggplot(cutoff_data) +
+    geom_rect(aes(xmin = Start, xmax = End, ymin = 0, ymax = 0.1, fill = Group)) +
+    scale_fill_manual(values = cluster_colors) +
+    labs(x = amen_name, y = NULL,
+         title = "Cutoff Values by Quartile") +
+    theme_minimal() +
+    theme(axis.text.y = element_blank(),
+          axis.ticks.y = element_blank()) +
+    coord_cartesian(xlim = range(cutoff_data$Start, cutoff_data$End)))
+  
+  # silhouette plot
+  clusts <- clust_data$quartiles
+  comp_data <- clust_data[, amen_name]
+  
+  sil = silhouette(clusts, dist(comp_data))
+  plot(fviz_silhouette(sil))
+  
+  avg_sil_width <- mean(sil[, "sil_width"])
+
+
+  return(list('avg_sill_width' = avg_sil_width, 'cut_offs' = as.vector(cutoff_data$End)))
+}
+```
+
+
+### Employment 
+
+```{r}
+res_emp = algo(master_sample_log, "PMS_prox_idx_emp")
+```
+
+### Health 
+
+```{r}
+res_health = algo(master_sample_log, "PMS_prox_idx_health")
+```
+
+### Childcare 
+
+```{r}
+res_childcare = algo(master_sample_log, "PMS_prox_idx_childcare")
+```
+
+
+### Parks 
+
+```{r}
+res_parks = algo(master_sample_log, "PMS_prox_idx_parks")
+```
+
+
+### Education Primary 
+
+```{r}
+res_educpri = algo(master_sample_log, "PMS_prox_idx_educpri")
+```
+
+### Transit 
+
+```{r}
+res_transit = algo(master_sample_log, "PMS_prox_idx_transit")
+```
+
+### Pharma 
+
+```{r}
+res_pharma = algo(master_sample_log, "PMS_prox_idx_pharma")
+```
+
+### Education Secondary 
+
+```{r}
+res_educsec = algo(master_sample_log, "PMS_prox_idx_educsec")
+```
+
+### Grocery 
+
+```{r}
+res_grocery = algo(master_sample_log, "PMS_prox_idx_grocery")
+```
+
+### Library 
+
+```{r}
+res_lib = algo(master_sample_log, "PMS_prox_idx_lib")
+```
+
+
+<!--
+"PMS_prox_idx_emp", "PMS_prox_idx_pharma", "PMS_prox_idx_childcare", "PMS_prox_idx_health", "PMS_prox_idx_grocery", "PMS_prox_idx_educpri", "PMS_prox_idx_educsec", "PMS_prox_idx_lib", "PMS_prox_idx_parks", "PMS_prox_idx_transit"
+-->
+
+
+```{r eval=FALSE}
+sill_quartiles <- c(res_emp$avg_sill_width, res_pharma$avg_sill_width, res_childcare$avg_sill_width, res_health$avg_sill_width, res_grocery$avg_sill_width, res_educpri$avg_sill_width, res_educsec$avg_sill_width, res_lib$avg_sill_width, res_parks$avg_sill_width, res_transit$avg_sill_width)
+sill_quartiles
+```
+
+### Cut-offs
+
+```{r}
+cut_offs_quartiles <- list(PMS_prox_idx_emp = c(res_emp$cut_offs), 
+                           PMS_prox_idx_pharma = c(res_pharma$cut_offs), 
+                           PMS_prox_idx_childcare = c(res_childcare$cut_offs), 
+                           PMS_prox_idx_health = c(res_health$cut_offs), 
+                           PMS_prox_idx_grocery = c(res_grocery$cut_offs), 
+                           PMS_prox_idx_educpri = c(res_educpri$cut_offs), 
+                           PMS_prox_idx_educsec = c(res_educsec$cut_offs), 
+                           PMS_prox_idx_lib = c(res_lib$cut_offs), 
+                           PMS_prox_idx_parks = c(res_parks$cut_offs), 
+                           PMS_prox_idx_transit = c(res_transit$cut_offs)
+                           )
+cut_offs_quartiles
+```
+
+
+```{r eval=FALSE}
+cut_offs_quartiles <- list(PMS_prox_idx_emp = c(-6.377127, -4.919881, -3.540459, -0.320343), 
+                           PMS_prox_idx_pharma = c(-4.26158048, -3.60453831, -2.92062480, -0.01338924), 
+                           PMS_prox_idx_childcare = c(-3.872802, -3.013896, -2.321768, -0.081427), 
+                           PMS_prox_idx_health = c( -6.1192979, -5.1328029, -4.1930605, -0.3902317), 
+                           PMS_prox_idx_grocery = c(-3.6156290, -3.1212955, -2.4522459, -0.2519289), 
+                           PMS_prox_idx_educpri = c(-3.0098312, -2.4001979, -1.8643302, -0.2927616), 
+                           PMS_prox_idx_educsec = c(-3.0944482, -2.6050425, -2.0612088, -0.1750679), 
+                           PMS_prox_idx_lib = c(-2.8100829, -2.4961698, -2.0166546, -0.1421398), 
+                           PMS_prox_idx_parks = c(-3.6730061, -3.0220762, -2.3957975, -0.1935847), 
+                           PMS_prox_idx_transit = c(-5.3816990, -4.5469013, -3.7507549, -0.5215496)
+                           )
+cut_offs_quartiles
+```
+
+
+
+<!--
+
+
+```{r}
+quartiles <- cut(master_sample$PMS_prox_idx_emp, 
+                 breaks = quantile(master_sample$PMS_prox_idx_emp, 
+                                   probs = c(0, 0.25, 0.5, 0.75, 1), na.rm=T),
+                 labels = c("Q1", "Q2", "Q3", "Q4")
+                 )
+
+master_sample$quartiles <- as.numeric(gsub("Q", "", quartiles))
+
+
+emp <- na.omit(master_sample[, c("quartiles")])
+clust_data = master_sample[!is.na(master_sample[,"quartiles"]),c("PMS_prox_idx_emp", "quartiles")]
+```
+
+
+```{r}
+# cutoffs <- tapply(clust_data$PMS_prox_idx_emp, clust_data$quartiles, quantile, probs = c(0, 0.25, 0.5, 0.75, 1))
+cutoffs <- tapply(clust_data$PMS_prox_idx_emp, clust_data$quartiles, quantile, probs = c(0, 1))
+```
+
+```{r}
+cutoffs
+```
+```{r}
+min(clust_data$PMS_prox_idx_emp)
+```
+
+
+```{r}
+cutoff_data <- data.frame(Group = rownames(cutoffs))
+cutoff_data$Start <- sapply(cutoffs, function(x) x["0%"])
+cutoff_data$End <- sapply(cutoffs, function(x) x["100%"])
+
+
+cluster_colors <- c("1" = "red", "2" = "blue", "3" = "green", "4" = "purple")
+
+ggplot(cutoff_data) +
+  
+  geom_rect(aes(xmin = Start, xmax = End, ymin = 0, ymax = 0.1, fill = Group)) +
+  scale_fill_manual(values = cluster_colors) +
+  labs(x = "PMS_prox_idx_emp", y = NULL,
+       title = "Cutoff Values by Quartile") +
+  theme_minimal() +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank()) +
+  coord_cartesian(xlim = range(cutoff_data$Start, cutoff_data$End))
+```
+
+
+```{r}
+clusts_log <- clust_data$quartiles
+
+comp_data_log <- clust_data$PMS_prox_idx_emp
+
+sil_log = silhouette(clusts_log, dist(comp_data_log))
+plot(fviz_silhouette(sil_log))
+```
+
+
+```{r}
+avg_sil_width <- mean(sil_log[, "sil_width"])
+
+print(round(avg_sil_width,2))
+```
+
+-->
