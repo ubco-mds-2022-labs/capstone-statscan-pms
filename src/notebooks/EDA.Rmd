@@ -389,7 +389,7 @@ ggplot(df, aes(x = value, fill = variable)) +
   xlab("Value") +
   ylab("Density") +
   ggtitle("Density plots of proximity indices") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 12)) +
   facet_wrap(~variable, scales = 'free_y', nrow = 5) +
   guides(fill = FALSE)
 ```
@@ -616,7 +616,7 @@ ggplot(df, aes(x = variable, y = value)) +
   xlab("") +
   ylab("Value") +
   ggtitle("Boxplots of proximity indices") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 12))
 ```
 
 The boxplots reveal a significant number of outliers in each proximity index, indicating a substantial deviation from the norm.
@@ -784,8 +784,8 @@ ggplot(df_log, aes(x = variable, y = value)) +
   geom_boxplot() +
   xlab("") +
   ylab("Value") +
-  ggtitle("Boxplots of proximity indices") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  ggtitle("Boxplots of log proximity indices") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 12))
 ```
 
 The plot above demonstrates that the application of log transformation has slightly mitigated the impact of outliers. While the proximity measure for employment shows no outliers, there are still a significant number of outliers present in the other proximity measure indices.
