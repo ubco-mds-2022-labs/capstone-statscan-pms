@@ -40,7 +40,7 @@ Note that it will do all the calculations for you, you just need to enter in hou
 ## Week 0
 
 ```{r}
-current.week = 0
+current.week = 1
 
 
 mylog <- data.frame(week = current.week,
@@ -85,7 +85,7 @@ No, all ready to start (assuming no problems arised from instructor meeting)
 
 Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first)
 ```{r}
-current.week = current.week + 1
+# current.week = current.week + 1
 
 mylog <- mylog %>% add_row(week = current.week,
                        day=as.Date("2023-05-02"), 

@@ -34,9 +34,9 @@ correctly!**
 
 | week | day        | hours | description                   | comments                          |
 |----:|:---------|-----:|:------------------------|:---------------------------|
-|    0 | 2023-04-14 |   1.0 | Client Meeting                | First meeting                     |
-|    0 | 2023-04-21 |   0.5 | Client Meeting                | Second meeting                    |
-|    0 | 2023-04-28 |   2.0 | Client Meeting + presentation | Third meeting, guest presentation |
+|    1 | 2023-04-14 |   1.0 | Client Meeting                | First meeting                     |
+|    1 | 2023-04-21 |   0.5 | Client Meeting                | Second meeting                    |
+|    1 | 2023-04-28 |   2.0 | Client Meeting + presentation | Third meeting, guest presentation |
 
 My total weekly hours are: 3.5
 
@@ -64,6 +64,9 @@ Add individual contributions here (be sure to call the **tidyverse** and
 
 | week | day        | hours | description                       | comments                                                |
 |---:|:-------|----:|:---------------------|:----------------------------------|
+|    1 | 2023-04-14 |   1.0 | Client Meeting                    | First meeting                                           |
+|    1 | 2023-04-21 |   0.5 | Client Meeting                    | Second meeting                                          |
+|    1 | 2023-04-28 |   2.0 | Client Meeting + presentation     | Third meeting, guest presentation                       |
 |    1 | 2023-05-02 |   2.5 | capstone kickoff lecture          | NA                                                      |
 |    1 | 2023-05-02 |   2.0 | Code of Conduct and Team Contract | Group work                                              |
 |    1 | 2023-05-02 |   1.0 | Reading, prep                     | Read literature summaries, prepare for meeting          |
@@ -76,7 +79,7 @@ Add individual contributions here (be sure to call the **tidyverse** and
 |    1 | 2023-05-05 |   1.5 | Client meeting                    | prep + feedback on draft proposal                       |
 |    1 | 2023-05-05 |   2.0 | Proposal + slides                 | Edit proposal, create monday meeting slides. Group work |
 
-My total weekly hours are: 19.5
+My total weekly hours are: 23
 
 ### Weekly Reflection
 
@@ -194,8 +197,7 @@ the following (requires the **dplyr** package)
 
 | week | total_weekly_hours |
 |-----:|-------------------:|
-|    0 |                3.5 |
-|    1 |               19.5 |
+|    1 |               23.0 |
 |    2 |               32.5 |
 |    3 |               20.0 |
 |    4 |               26.0 |
