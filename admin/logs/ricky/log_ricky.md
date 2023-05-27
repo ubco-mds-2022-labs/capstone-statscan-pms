@@ -167,7 +167,7 @@ from Thursday on to my Brother’s grad out of province.
 |    4 | 2023-05-23 |   3.0 | Meetings                 | Daily group, TA, client                        |
 |    4 | 2023-05-23 |   1.0 | Midterm pres             | reading report, visualizations, slides         |
 |    4 | 2023-05-24 |   1.0 | Meeting                  | daily meeting + agenda prep                    |
-|    4 | 2023-05-24 |   5.0 | Midterm pres             | work together slides, flow, practice pres      |
+|    4 | 2023-05-24 |   6.0 | Midterm pres             | work together slides, flow, practice pres      |
 |    4 | 2023-05-25 |   4.5 | class presentations      | attending presentations                        |
 |    4 | 2023-05-25 |   0.5 | Prep                     | agenda prep + personal reflection              |
 |    4 | 2023-05-25 |   2.0 | Team meeting             | presentation reflection, agendas, timeline     |
@@ -175,7 +175,7 @@ from Thursday on to my Brother’s grad out of province.
 |    4 | 2023-05-26 |   1.5 | Misc managing            | schedule timeline, reformat agendas/notes docs |
 |    4 | 2023-05-26 |   1.0 | Misc week                | logs, prep                                     |
 
-My total weekly hours are: 25
+My total weekly hours are: 26
 
 ### Weekly Reflection
 
@@ -198,4 +198,4 @@ the following (requires the **dplyr** package)
 |    1 |               19.5 |
 |    2 |               32.5 |
 |    3 |               20.0 |
-|    4 |               25.0 |
+|    4 |               26.0 |
