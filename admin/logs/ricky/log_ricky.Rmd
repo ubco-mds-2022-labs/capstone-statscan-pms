@@ -340,6 +340,91 @@ My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
 
 My most significant individual contribution was reminding my team members that scaling is important and will change results when running some clustering algorithms, like the k-means. Our most significant group contribution is the group meeting with the DEIL team that made the PMD dataset: it gave us a lot of insight into the NA values and interpretation of proximity values, as well as insight into DB and different geographical areas. Some roadblocks this week include long running times, interpretation issues, and incongruence in feedback and acceptance of it. This week was short on hours because I was traveling from Thursday on to my Brother's grad out of province.
 
+## Week 4
+
+```{r}
+current.week = current.week + 1
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-20"), 
+                       hours=1,
+                       description="Communication reflection",
+                       comments="NA")
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-21"), 
+                       hours=1,
+                       description="Midterm pres",
+                       comments="design drafting")
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-22"), 
+                       hours=1,
+                       description="Midterm pres",
+                       comments="Outline")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-23"), 
+                       hours=.5,
+                       description="Agenda",
+                       comments="meeting prep")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-23"), 
+                       hours=3,
+                       description="Meetings",
+                       comments="Daily group, TA, client")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-23"), 
+                       hours=1,
+                       description="Midterm pres",
+                       comments="reading report, visualizations, slides")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-24"), 
+                       hours=1,
+                       description="Meeting",
+                       comments="daily meeting + agenda prep")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-24"), 
+                       hours=5,
+                       description="Midterm pres",
+                       comments="work together slides, flow, practice pres")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-25"), 
+                       hours=4.5,
+                       description="class presentations",
+                       comments="attending presentations")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-25"), 
+                       hours=.5,
+                       description="Prep",
+                       comments="agenda prep + personal reflection")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-25"), 
+                       hours=2,
+                       description="Team meeting",
+                       comments="presentation reflection, agendas, timeline")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-26"), 
+                       hours=2,
+                       description="Meetings",
+                       comments="Jesse meeting, client meeting, team meeting")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-26"), 
+                       hours=1.5,
+                       description="Misc managing",
+                       comments="schedule timeline, reformat agendas/notes docs")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-26"), 
+                       hours=1,
+                       description="Misc week",
+                       comments="logs, prep")
+
+kable(filter(mylog, week == current.week))
+```
+My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
+
+### Weekly Reflection
+
+My most significant contribution was implementing agendas for all of our meetings, including preparing them and moderating meetings. This has helped a lot for accountability and to use the meeting time meaningfully. Our most significant group contribution was making and presenting the midterm presentation. It helped center and reflect on our project. Roadblocks this week include unexpected results, showing the need to investigate algorithms and validation techniques some more. 
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use the following (requires the **dplyr** package)
