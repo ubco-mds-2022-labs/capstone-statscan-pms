@@ -138,7 +138,7 @@ algo = function(dataset, amen_name, num=NULL){
   #log transform PM
   dataset = log(dataset+0.0001)
   
-  res = hdbscan(as.matrix(dataset), minPts = 500)
+  res = hdbscan(as.matrix(dataset), minPts = 250)
   
   sil_coef = intCriteria(as.matrix(dataset),as.integer(res$cluster), 'Silhouette')$silhouette
   xeni_beni = intCriteria(as.matrix(dataset),as.integer(res$cluster), 'Xie_Beni')$xie_beni
