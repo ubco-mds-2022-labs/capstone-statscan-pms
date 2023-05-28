@@ -177,6 +177,43 @@ My total weekly hours are: 37.57
 -   This week, I didn’t face any major roadblocks, aside from running
     duration and interpretation.
 
+## Week 4
+
+<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first) -->
+
+| week | day        | hours | description           | comments                                          |
+|----:|:--------|-----:|:----------------|:------------------------------------|
+|    4 | 2023-05-23 |   3.0 | Meetings              | Team, TA & Client Meeting                         |
+|    4 | 2023-05-23 |   2.0 | Modeling              | Tried to fix Log Transformed VarselLCM            |
+|    4 | 2023-05-23 |   1.5 | Modeling              | Quartiles                                         |
+|    4 | 2023-05-23 |   1.5 | Presentation Slide    | EDA                                               |
+|    4 | 2023-05-24 |   7.0 | Presentation Prep     | Team Meetings, Slide Prep, Presentation Practise  |
+|    4 | 2023-05-25 |   4.5 | Mid Term Presentation | NA                                                |
+|    4 | 2023-05-25 |   2.0 | Team Meeting          | Presentation Reflection, Agendas                  |
+|    4 | 2023-05-26 |   2.0 | Meetings              | TA & Client Meeting                               |
+|    4 | 2023-05-26 |   2.0 | Modeling              | Quintile & Plotted models on other transformation |
+|    4 | 2023-05-26 |   0.5 | Miscellaneous         | Reviewed Pull Requests, Stored Logs               |
+
+My total weekly hours are: 26
+
+### Weekly Reflection
+
+<!-- In this section, please write 5-7 sentences (in total) answering the following questions: -->
+<!-- 1. What was your most significant **individual contribution** to the project this week? -->
+
+-   My most significant individual contribution to the project this week
+    was identifying that VarcelLCM is not suitable for Log-Transformed
+    data.
+
+<!-- 2. What was your most significant **team contribution** to the project this week? -->
+
+-   My most significant team contribution was working on the
+    presentation.
+
+<!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
+
+-   This week, I didn’t face any major roadblocks.
+
 ## Summary Table
 
 <!-- To get the total for all the weekly hourly summary over each week use the following (requires the **dplyr** package) -->
@@ -186,3 +223,4 @@ My total weekly hours are: 37.57
 |    1 |              28.00 |
 |    2 |              36.65 |
 |    3 |              37.57 |
+|    4 |              26.00 |
