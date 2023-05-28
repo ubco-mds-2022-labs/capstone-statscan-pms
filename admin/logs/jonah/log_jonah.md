@@ -178,6 +178,45 @@ the stuff mentioned last week. However, I am noticing that 2 months is a
 very short timeframe for a project like this, and that our project could
 easily be extended to be a year long.
 
+## Week 4
+
+Add individual contributions here (be sure to call the **tidyverse** and
+**knitr** package first)
+
+| week | day        | hours | description                                            | comments |
+|----:|:---------|-----:|:-------------------------------------------|:-------|
+|    4 | 2023-05-23 |  9.00 | meetings, making presentation ready plots              | 945-545  |
+|    4 | 2023-05-24 |  7.00 | meetings, making slides, practicing presentation       | 10-5     |
+|    4 | 2023-05-25 |  6.25 | presentations, team meeting                            | 10-415   |
+|    4 | 2023-05-26 |  3.00 | meetings, logs, new transforms, final report structure | 9-12     |
+
+My total weekly hours are: 25.25
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week?
+
+My most significant individual contribution this week was preparing the
+summary plots (density/cutoffs & silhouette) for the presentation. These
+took me all day Tuesday to figure out.
+
+1.  What was your most significant **team contribution** to the project
+    this week?
+
+My most significant team contribution this week was working on the
+presentation. We spent a lot of time perfecting and practicing it, and I
+think it went well.
+
+1.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project?
+
+No, not this week. We revised our schedule with the time we have left,
+so things are looking good.
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use
@@ -185,6 +224,7 @@ the following (requires the **dplyr** package)
 
 | week | total_weekly_hours |
 |-----:|-------------------:|
-|    1 |               23.5 |
-|    2 |               31.5 |
-|    3 |               31.0 |
+|    1 |              23.50 |
+|    2 |              31.50 |
+|    3 |              31.00 |
+|    4 |              25.25 |

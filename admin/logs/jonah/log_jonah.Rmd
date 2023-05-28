@@ -295,6 +295,65 @@ At this point, I do not think there are any large roadblocks, aside from the stu
 
 
 
+## Week 4
+
+Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first)
+```{r}
+current.week = current.week + 1
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-23"), 
+                       hours=9,
+                       description="meetings, making presentation ready plots",
+                       comments="945-545"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-24"), 
+                       hours=7,
+                       description="meetings, making slides, practicing presentation ",
+                       comments="10-5"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-25"), 
+                       hours=6.25,
+                       description="presentations, team meeting",
+                       comments="10-415"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-26"), 
+                       hours=3,
+                       description="meetings, logs, new transforms, final report structure",
+                       comments="9-12"
+                       )
+
+
+kable(filter(mylog, week == current.week))
+```
+My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the following questions:
+
+1. What was your most significant **individual contribution** to the project this week?
+
+My most significant individual contribution this week was preparing the summary plots (density/cutoffs & silhouette) for the presentation. These took me all day Tuesday to figure out. 
+
+
+1. What was your most significant **team contribution** to the project this week?
+
+My most significant team contribution this week was working on the presentation. We spent a lot of time perfecting and practicing it, and I think it went well. 
+
+
+1. Are there any major blockers or roadblocks preventing you from proceeding on your project?
+
+No, not this week. We revised our schedule with the time we have left, so things are looking good. 
+
+
+
 
 
 
