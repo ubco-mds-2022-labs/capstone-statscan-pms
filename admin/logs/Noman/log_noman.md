@@ -126,6 +126,35 @@ following questions:
     proceeding on your project? Just running times, but we are utilizing
     subsampling which is helping.
 
+| week | day        | hours | description                                                                                          | comments                                                                                         |
+|--:|:----|--:|:-------------------------------|:------------------------------|
+|    4 | 2023-05-23 |   3.0 | Meeting with Team + Client + TA                                                                      | NA                                                                                               |
+|    4 | 2023-05-23 |   3.0 | Computing cutoff values                                                                              | getting data rdy for plots for final prez                                                        |
+|    4 | 2023-05-23 |   1.0 | Brainstorming slides                                                                                 | thinking of slide structure for prez for modeling section                                        |
+|    4 | 2023-05-24 |   7.0 | team meeting + slides + presentation practice                                                        | trying to debug/fix cutoff values for MixAll as they didnt seem right after looking at visuals.. |
+|    4 | 2023-05-25 |   4.5 | Midterm presentation                                                                                 | 10 - 2:30                                                                                        |
+|    4 | 2023-05-25 |   2.0 | Team meeting + reflection                                                                            | reflection on our presentation and next steps for coming weeks                                   |
+|    4 | 2023-05-26 |   1.0 | Meeting with TA                                                                                      | Q and A session with TA                                                                          |
+|    4 | 2023-05-26 |   1.0 | Meeting with client                                                                                  | Re did our presentation with TA and talked about next steps                                      |
+|    4 | 2023-05-26 |   2.5 | Trying MixAll with different transformation and trying to debug what is happening with MixAll method |                                                                                                  |
+|    4 | 2023-05-26 |   1.0 | random thing throughout week                                                                         | reviewing logs/having to fix stashed changes.                                                    |
+
+My total weekly hours are: 26
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week? Finding cutoff values for the MixAll method.
+
+2.  What was your most significant **team contribution** to the project
+    this week? Contributing to our mideterm presentation.
+
+3.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project? not really this week.
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use
@@ -136,3 +165,4 @@ the following (requires the **dplyr** package)
 |    1 |              23.45 |
 |    2 |              26.00 |
 |    3 |              22.50 |
+|    4 |              26.00 |
