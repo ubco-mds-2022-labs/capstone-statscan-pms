@@ -26,6 +26,7 @@ library(factoextra)
 library(clusterCrit)
 library(clustertend)
 library(fpc)
+library(clusterSim)
 
 load('../../../data/master_pms_df.Rdata')
 
@@ -80,7 +81,7 @@ master_sample_log <- master_sample
 
 # log transform on PMs in master amenities
 for (col in amenities){
-  master_sample_log[, col] = log(master_sample[, col]+0.001)
+  master_sample_log[, col] = log(master_sample[, col]+0.0001)
 }
 ```
 
@@ -137,9 +138,21 @@ algo = function(dataset, amen_name){
   avg_sil_width <- mean(sil[, "sil_width"])
   
   dunn_stats <- cluster.stats(dist(comp_data), clusts)
-
-
-  return(list('avg_sill_width' = avg_sil_width, "dunn_index" = dunn_stats$dunn, 'cut_offs' = as.vector(cutoff_data$End)))
+  
+  xie_beni <- intCriteria(as.matrix(comp_data), 
+                          as.integer(clusts), 
+                          'Xie_Beni')$xie_beni
+  
+  calinski_harabasz <- calinhara(comp_data, clusts)
+  
+  davies_bouldin <- index.DB(comp_data, clusts)
+  
+  return(list('avg_sill_width' = avg_sil_width, 
+              "dunn_index" = dunn_stats$dunn,
+              "xie_beni" = xie_beni,
+              "calinski_harabasz" = calinski_harabasz,
+              "davies_bouldin" = davies_bouldin$DB,
+              'cut_offs' = as.vector(cutoff_data$End)))
 }
 ```
 
@@ -212,17 +225,37 @@ res_lib = algo(master_sample, "PMS_prox_idx_lib")
 -->
 
 
-```{r eval=FALSE}
+```{r}
 print("Silhouette Coefficients")
 sill_quintiles <- c(res_emp$avg_sill_width, res_pharma$avg_sill_width, res_childcare$avg_sill_width, res_health$avg_sill_width, res_grocery$avg_sill_width, res_educpri$avg_sill_width, res_educsec$avg_sill_width, res_lib$avg_sill_width, res_parks$avg_sill_width, res_transit$avg_sill_width)
 sill_quintiles
 ```
 
-```{r eval=FALSE}
+```{r}
 print("Dunn Index")
 dunn_quintiles <- c(res_emp$dunn_index, res_pharma$dunn_index, res_childcare$dunn_index, res_health$dunn_index, res_grocery$dunn_index, res_educpri$dunn_index, res_educsec$dunn_index, res_lib$dunn_index, res_parks$dunn_index, res_transit$dunn_index)
 dunn_quintiles
 ```
+  
+  
+```{r}
+print("Xie Beni")
+xie_beni_quintiles <- c(res_emp$xie_beni, res_pharma$xie_beni, res_childcare$xie_beni, res_health$xie_beni, res_grocery$xie_beni, res_educpri$xie_beni, res_educsec$xie_beni, res_lib$xie_beni, res_parks$xie_beni, res_transit$xie_beni)
+xie_beni_quintiles
+```
+
+```{r}
+print("Calinski Harabasz")
+calinski_harabasz_quintiles <- c(res_emp$calinski_harabasz, res_pharma$calinski_harabasz, res_childcare$calinski_harabasz, res_health$calinski_harabasz, res_grocery$calinski_harabasz, res_educpri$calinski_harabasz, res_educsec$calinski_harabasz, res_lib$calinski_harabasz, res_parks$calinski_harabasz, res_transit$calinski_harabasz)
+calinski_harabasz_quintiles
+```
+
+```{r}
+print("Davies Bouldin")
+davies_bouldin_quintiles <- c(res_emp$davies_bouldin, res_pharma$davies_bouldin, res_childcare$davies_bouldin, res_health$davies_bouldin, res_grocery$davies_bouldin, res_educpri$davies_bouldin, res_educsec$davies_bouldin, res_lib$davies_bouldin, res_parks$davies_bouldin, res_transit$davies_bouldin)
+davies_bouldin_quintiles
+```
+
 
 ### Cut-offs
 
@@ -257,7 +290,7 @@ cut_offs_quintiles <- list(PMS_prox_idx_emp = c(-6.377127, -4.919881, -3.540459,
 cut_offs_quintiles
 ```
 
-
+<!--
 
 ```{r}
 master_sample <- master_sample[complete.cases(master_sample[, "PMS_prox_idx_emp"]), ]
@@ -338,5 +371,24 @@ avg_sil_width <- mean(sil_log[, "sil_width"])
 
 print(round(avg_sil_width,2))
 ```
+
+```{r}
+calinski_harabasz <- calinhara(comp_data_log,clusts_log)
+calinski_harabasz
+```
+
+```{r}
+xie_beni <- intCriteria(as.matrix(comp_data_log), 
+                          as.integer(clusts_log), 
+                          'Xie_Beni')$xie_beni
+xie_beni
+```
+
+```{r}
+library(clusterSim)
+davies_bouldin <- index.DB(comp_data_log, clusts_log)
+davies_bouldin$DB
+```
+
 
 -->
