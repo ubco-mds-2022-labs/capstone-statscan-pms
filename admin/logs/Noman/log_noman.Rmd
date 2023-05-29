@@ -312,6 +312,97 @@ Meeting with the DEIL lab
 3. Are there any major blockers or roadblocks preventing you from proceeding on your project?
 Just running times, but we are utilizing subsampling which is helping. 
 
+```{r}
+current.week = current.week + 1
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-23"),
+                    hours = 3,
+                    description = "Meeting with Team + Client + TA",
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-23"),
+                    hours = 3,
+                    description = "Computing cutoff values",
+                    comments = "getting data rdy for plots for final prez"
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-23"),
+                    hours = 1,
+                    description = "Brainstorming slides",
+                    comments = "thinking of slide structure for prez for modeling section"
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-24"),
+                    hours = 7,
+                    description = "team meeting + slides + presentation practice",
+                    comments = "trying to debug/fix cutoff values for MixAll as they didnt seem right after looking at visuals.."
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-25"),
+                    hours = 4.5,
+                    description = " Midterm presentation",
+                    comments = "10 - 2:30"
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-25"),
+                    hours = 2,
+                    description = "Team meeting + reflection",
+                    comments = "reflection on our presentation and next steps for coming weeks"
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-26"),
+                    hours = 1,
+                    description = "Meeting with TA",
+                    comments = "Q and A session with TA"
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-26"),
+                    hours = 1,
+                    description = "Meeting with client",
+                    comments = "Re did our presentation with TA and talked about next steps"
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-26"),
+                    hours = 2.5,
+                    description = "Trying MixAll with different transformation and trying to debug what is happening with MixAll method",
+                    comments = ""
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-05-26"),
+                    hours = 1,
+                    description = "random thing throughout week",
+                    comments = "reviewing logs/having to fix stashed changes."
+                    )
+
+
+kable(filter(mylog, week == current.week))
+```
+My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the following questions:
+
+1. What was your most significant **individual contribution** to the project this week?
+Finding cutoff values for the MixAll method.
+
+2. What was your most significant **team contribution** to the project this week?
+Contributing to our mideterm presentation.
+
+3. Are there any major blockers or roadblocks preventing you from proceeding on your project?
+not really this week.
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use the following (requires the **dplyr** package)
