@@ -1,0 +1,116 @@
+---
+title: "Manual cutoffs"
+author: "Ricky Heinrich"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, cache = T, message = F, warning = F, fig.height=4, fig.width=6)
+library(dplyr)
+library(factoextra)
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+```
+
+```{r}
+load('../../../data/master_pms_df.Rdata')
+
+# Convert selected columns to numeric
+master <- master %>%
+  mutate(PMS_DBPOP = as.numeric(gsub(",", "", PMS_DBPOP)), # Dissemination block population
+         PMS_DAPOP = as.numeric(gsub(",", "", PMS_DAPOP)), # Dissemination area population
+         PMS_CSDPOP = as.numeric(gsub(",", "", PMS_CSDPOP)), # Census subdivision population
+         PMS_CMAPOP = as.numeric(gsub(",", "", PMS_CMAPOP)), # Census metropolitan area population
+         PMS_PRPOP = as.numeric(gsub(",", "", PMS_PRPOP)), # Province or territory population
+         PMS_prox_idx_emp = as.numeric(PMS_prox_idx_emp),
+         PMS_prox_idx_pharma = as.numeric(PMS_prox_idx_pharma),
+         PMS_prox_idx_childcare = as.numeric(PMS_prox_idx_childcare),
+         PMS_prox_idx_health = as.numeric(PMS_prox_idx_health),
+         PMS_prox_idx_grocery = as.numeric(PMS_prox_idx_grocery),
+         PMS_prox_idx_educpri = as.numeric(PMS_prox_idx_educpri),
+         PMS_prox_idx_educsec = as.numeric(PMS_prox_idx_educsec),
+         PMS_prox_idx_lib = as.numeric(PMS_prox_idx_lib),
+         PMS_prox_idx_parks = as.numeric(PMS_prox_idx_parks),
+         PMS_prox_idx_transit = as.numeric(PMS_prox_idx_transit),
+         DBUID = as.character(DBUID),
+         PMS_DAUID = as.character(PMS_DAUID),
+         PMS_CSDUID = as.character(PMS_CSDUID),
+         PMS_CMAUID = as.character(PMS_CMAUID),
+         PMS_CMAPUID = as.character(PMS_CMAPUID),
+         PMS_PRUID = as.character(PMS_PRUID),
+         PMS_suppressed = as.character(PMS_suppressed),
+         PMS_transit_na = as.character(PMS_suppressed))
+
+
+# Subset columns that start with "prox_idx"
+amenities <- colnames(master)[grepl("^PMS_prox_idx", colnames(master))]
+# master dataset - contains only proximity columns
+master_amenities <- master[, amenities]
+
+# subsampling data 
+perc = 3 #percentage of data to subsample
+subsample = (nrow(master)/100)*perc 
+master_sample = master[sample(nrow(master), subsample),] #random sample
+```
+
+# Introduction
+
+The Proximity Measures Database contains continuous measures for 10 amenities for a number of DB within a specific threshold. The distribution of these proximity measures is heavily right skewed, and there are for the most part no discernible clusters. The density distribution of each amenity is shown in Figure 1.
+
+```{r fig.height=10, fig.width=6, fig.cap="Distribution of proximity measures by amenity"}
+master[,amenities] %>% pivot_longer(all_of(amenities)) %>%
+  ggplot(aes(value))+ 
+    geom_density() + 
+    facet_wrap(~name, scales = 'free_y', ncol = 2) + labs(title = "")
+```
+
+
+When transforming the data, the inherent relationship between data points remain the same, but the new structure may reveal new insights. The most 'famous' transformation available is the log transform. It "can be used to make highly skewed distributions less skewed" (https://stats.libretexts.org/Bookshelves/Introductory_Statistics/Book%3A_Introductory_Statistics_(Lane)/16%3A_Transformations/16.02%3A_Log_Transformations). It may help "make patterns more visible". A consideration to be aware of is that the log of 0 is -Inf. To account for proximity values of 0 in our dataset, we shift the distribution by +0.0001. This avoids the problem of -Inf whilst maintaining the original distances between all values. The downsides of using a log transformation are [DOWNSIDES]. Figure 2 demonstrates the distribution of the log transformed proximity measures.
+
+```{r eval = F}
+# number of 0s per amenity: expecting 1 per amenity
+apply(master_amenities , 2 , function(x) sum(na.omit(x == 0)) )
+
+# minimum proximity measure for each amenity: expecting 0
+apply(master_amenities , 2 , function(x) min(na.omit(x)) )
+
+# number of 1s per amenity: expecting 1 per amenity
+apply(master_amenities , 2 , function(x) sum(na.omit(x == 1)) )
+```
+
+
+```{r eval = F, fig.height=10, fig.width=6, fig.cap="LOG TRANSFORMED: Distribution of proximity measures by amenity"}
+master[,amenities] %>% mutate(across(all_of(amenities), ~ .x + 0.001)) %>% log() %>%  pivot_longer(all_of(amenities)) %>%
+  ggplot(aes(value))+ 
+    geom_density() + 
+    facet_wrap(~name, scales = 'free_y', ncol = 2) + labs(title = "")
+```
+
+```{r fig.height=10, fig.width=6, fig.cap="LOG TRANSFORMED(0.0001): Distribution of proximity measures by amenity"}
+master[,amenities] %>% mutate(across(all_of(amenities), ~ .x + 0.0001)) %>% log() %>%  pivot_longer(all_of(amenities)) %>%
+  ggplot(aes(value))+ 
+    geom_density() + 
+    facet_wrap(~name, scales = 'free_y', ncol = 2) + labs(title = "")
+```
+
+```{r eval = F, fig.height=10, fig.width=6, fig.cap="SAMPLED LOG TRANSFORMED Distribution of proximity measures by amenity"}
+master_sample_log <- master_sample
+
+# log transform on PMs in master amenities
+for (col in amenities){
+  master_sample_log[, col] = log(master_sample[, col]+0.001)
+}
+
+master_sample_log[,amenities] %>% pivot_longer(all_of(amenities)) %>%
+  ggplot(aes(value))+ 
+    geom_density() + 
+    facet_wrap(~name, scales = 'free_y', ncol = 2) + labs(title = "")
+```
+
+
+
+
+
+
