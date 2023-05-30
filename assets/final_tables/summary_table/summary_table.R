@@ -3,7 +3,7 @@ library(moments)
 library(xtable)
 
 # load data
-load('../../../local_data/codes/create_master/master_pms_df.Rdata')
+load('../../../../local_data/codes/create_master/master_pms_df.Rdata')
 
 #convert dbpop to numerical
 master[,'PMS_DBPOP'] = as.numeric(as.character(master[,'PMS_DBPOP']))
