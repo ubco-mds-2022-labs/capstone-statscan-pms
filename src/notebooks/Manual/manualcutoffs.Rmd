@@ -2,11 +2,13 @@
 title: "Manual cutoffs"
 author: "Ricky Heinrich"
 date: "`r Sys.Date()`"
-output: pdf_document
+output: 
+  pdf_document:
+    extra_dependencies: ["float"]
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = F, cache = T, message = F, warning = F, fig.height=4, fig.width=6)
+knitr::opts_chunk$set(echo = F,  cache = T, message = F, warning = F, fig.pos = "H", out.extra = "", fig.align = 'center', fig.height=4, fig.width=6)
 library(dplyr)
 library(factoextra)
 library(ggplot2)
