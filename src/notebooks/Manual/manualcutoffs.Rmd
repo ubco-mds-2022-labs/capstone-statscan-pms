@@ -59,15 +59,17 @@ master_sample = master[sample(nrow(master), subsample),] #random sample
 
 The Proximity Measures Database contains continuous measures for 10 amenities for a number of DB within a specific threshold. The distribution of these proximity measures is heavily right skewed, and there are for the most part no discernible clusters. The density distribution of each amenity is shown in Figure 1.
 
-```{r fig.height=10, fig.width=6, fig.cap="Distribution of proximity measures by amenity"}
+```{r fig.height=7, fig.width=7, fig.cap="Distribution of proximity measures by amenity"}
 master[,amenities] %>% pivot_longer(all_of(amenities)) %>%
   ggplot(aes(value))+ 
     geom_density() + 
-    facet_wrap(~name, scales = 'free_y', ncol = 2) + labs(title = "")
+    facet_wrap(~name, scales = 'free_y', ncol = 3) + labs(title = "")
 ```
 
 
-When transforming the data, the inherent relationship between data points remain the same, but the new structure may reveal new insights. The most 'famous' transformation available is the log transform. It ["can be used to make highly skewed distributions less skewed"](https://stats.libretexts.org/Bookshelves/Introductory_Statistics/Book%3A_Introductory_Statistics_(Lane)/16%3A_Transformations/16.02%3A_Log_Transformations). It may help "make patterns more visible". A consideration to be aware of is that the log of 0 is -Inf. To account for proximity values of 0 in our dataset, we shift the distribution by +0.0001. This avoids the problem of -Inf whilst maintaining the original distances between all values. The downsides of using a log transformation are [DOWNSIDES]. Figure 2 demonstrates the distribution of the log transformed proximity measures. We can already visually identify more possible clusters. 
+When transforming the data, the inherent relationship between data points remain the same, but the new structure may reveal new insights. The most 'famous' transformation available is the log transform. It ["can be used to make highly skewed distributions less skewed"](https://stats.libretexts.org/Bookshelves/Introductory_Statistics/Book%3A_Introductory_Statistics_(Lane)/16%3A_Transformations/16.02%3A_Log_Transformations). It may help "make patterns more visible". A consideration to be aware of is that the log of 0 is -Inf. To account for proximity values of 0 in our dataset, we shift the distribution by +0.0001. This avoids the problem of -Inf whilst maintaining the original distances between all values. The downsides of using a log transformation are [DOWNSIDES]. Figure 2 demonstrates the distribution of the log transformed proximity measures, where all the amenities' distributions were shifted by +0.0001. We can already visually identify more possible clusters. 
+
+In Figure 3, we only shifted the distribution by +0.0001 of the amenities that had a minimum value of 0. Grocery, educpri, educsec, and lib did not have values of 0 in their distribution and such were not shifted. The visual difference of the distributions between when +0.0001 is applied vs when it is not are imperceptible. For simplification in reproducibility, we will just apply the distribution shift to all amenities. 
 
 ```{r eval = F}
 # number of 0s per amenity: expecting 1 per amenity
@@ -88,15 +90,28 @@ master[,amenities] %>% mutate(across(all_of(amenities), ~ .x + 0.001)) %>% log()
     facet_wrap(~name, scales = 'free_y', ncol = 2) + labs(title = "")
 ```
 
-```{r fig.height=10, fig.width=6, fig.cap="LOG TRANSFORMED(0.0001): Distribution of proximity measures by amenity"}
+```{r fig.height=7, fig.width=7, fig.cap="LOG TRANSFORMED(0.0001): Distribution of proximity measures by amenity"}
 master_log <- master[,amenities] %>% mutate(across(all_of(amenities), ~ .x + 0.0001)) %>% log()
+
 master[,amenities] %>% mutate(across(all_of(amenities), ~ .x + 0.0001)) %>% log() %>%  pivot_longer(all_of(amenities)) %>%
   ggplot(aes(value))+ 
     geom_density() + 
-    facet_wrap(~name, scales = 'free_y', ncol = 2) + labs(title = "")
+    facet_wrap(~name, scales = 'free_y', ncol = 3) + labs(title = "")
 ```
 
-```{r eval = F, fig.height=10, fig.width=6, fig.cap="SAMPLED LOG TRANSFORMED Distribution of proximity measures by amenity"}
+```{r fig.height=7, fig.width=7, fig.cap="LOG TRANSFORMED(0.0001 in some): Distribution of proximity measures by amenity"}
+# amenities w/o 0
+# amenities[! amenities %in% c('PMS_prox_idx_grocery','PMS_prox_idx_educpri', 'PMS_prox_idx_educsec','PMS_prox_idx_lib' )]
+
+master_log <- master[,amenities] %>% mutate(across(all_of(amenities), ~ .x + 0.0001)) %>% log()
+
+master[,amenities] %>% mutate(across(all_of(amenities[! amenities %in% c('PMS_prox_idx_grocery','PMS_prox_idx_educpri', 'PMS_prox_idx_educsec','PMS_prox_idx_lib' )]), ~ .x + 0.0001)) %>% log() %>%  pivot_longer(all_of(amenities)) %>%
+  ggplot(aes(value))+ 
+    geom_density() + 
+    facet_wrap(~name, scales = 'free_y', ncol = 3) + labs(title = "")
+```
+
+```{r eval = F, fig.height=7, fig.width=7, fig.cap="SAMPLED LOG TRANSFORMED Distribution of proximity measures by amenity"}
 master_sample_log <- master_sample
 
 # log transform on PMs in master amenities
@@ -107,7 +122,7 @@ for (col in amenities){
 master_sample_log[,amenities] %>% pivot_longer(all_of(amenities)) %>%
   ggplot(aes(value))+ 
     geom_density() + 
-    facet_wrap(~name, scales = 'free_y', ncol = 2) + labs(title = "")
+    facet_wrap(~name, scales = 'free_y', ncol = 3) + labs(title = "")
 ```
 
 
@@ -182,14 +197,76 @@ points(d_child$x[lst_min], d_child$y[lst_min], pch=16, col="red")
 legend(x="topright", legend = c("Minima","Maxima"), col = c("blue","red"), pch = 16)
 
 ```
-```{r}
 
+```{r fig.height=7, fig.width=7, fig.cap="Location of minima and maxima"}
+# function to get legend as standalone plot
+g_legend <- function(a.gplot){
+  tmp <- ggplot_gtable(ggplot_build(a.gplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  legend
+}
+
+# reproduce on all plots
+dense_plot_list <- list() # initialize plot list
+# loop start
+for (amen in amenities){
+  d_amen <-  density(master_log[,amen], na.rm = T)
+  
+  # get locations of local minima and maxima
+  DeltaY <- diff(d_amen$y) # difference in y from x to x+1; same sign as derivative
+  Turns <- which(DeltaY[-1] * DeltaY[-length(DeltaY)] < 0) + 1 # if product of consecutive values is negative, that means the sign changed. # essentially remove the first obs, remove the last obs, gives series with same size, but shifted by one. when multiply together, multiplying consecutive values
+  lst_max <- c()
+  lst_min <- c()
+  # separate minima and maxima: if the turn point value is negative, that means going down, so max
+  for (i in Turns){
+    if (DeltaY[i]<0) {
+      lst_max <- append(lst_max, i)
+    }
+    if (DeltaY[i]>0){
+      lst_min <- append(lst_min, i)
+    }
+  }
+  
+  # preparing df for plot
+  df_dense <- data.frame(x = d_amen$x, y= d_amen$y)
+  df_max <- data.frame(x = d_amen$x[lst_max], y = d_amen$y[lst_max], type = "max")
+  df_min <- data.frame(x = d_amen$x[lst_min], y = d_amen$y[lst_min], type = "min")
+  df_minmax <- rbind(df_max, df_min)
+  dense_plot_list[[amen]] <- ggplot(df_dense, aes(x,y))+ geom_line()+geom_point(data = df_minmax, mapping = aes(x,y, col = type))+ theme(legend.position="none")
+}
+
+# set legend: for whichever amen last out of loop, get legend (same for all)
+legend_plot <- ggplot(df_dense, aes(x,y))+ geom_line()+geom_point(data = df_minmax, mapping = aes(x,y, col = type))
+dense_plot_list[[11]] = g_legend(legend_plot)
+
+# layout of plots
+layout_mat <- rbind(c(1:3),
+                    c(4:6),
+                    c(7:9),
+                    c(10:11, 11))
+do.call(grid.arrange,list(grobs=dense_plot_list, layout_matrix=layout_mat))
+
+# save image
+#cutoffs = do.call(grid.arrange,list(grobs=p, layout_matrix=layout_mat))
+#ggsave("cutoffs_hdbscan.png", cutoffs, dpi = 400, width=8, height=5)
+
+```
+
+```{r eval=F}
+
+df_dense <- data.frame(x = d_child$x, y= d_child$y)
+df_max <- data.frame(x = d_child$x[lst_max], y = d_child$y[lst_max], type = "max")
+df_min <- data.frame(x = d_child$x[lst_min], y = d_child$y[lst_min], type = "min")
+df_minmax <- rbind(df_max, df_min)
+ggplot(df_dense, aes(x,y))+ geom_line()+geom_point(data = df_minmax, mapping = aes(x,y, col = type))
 ```
 
 
 ```{r eval=F}
 # reproduce on all plots
-p <- list() # list of plots
+
+p <- list() # initialize list of plots
 for (amen in amenities){
   
 }
@@ -205,20 +282,13 @@ for(i in amenities){
   # logged <- log(cutoff+0.0001)
   df$Cluster <- as.factor(as.numeric(cut(df$x, c(min(df$x), logged, max(df$x)),  include.lowest=T)))
   plt = ggplot(df, aes(x,y)) + geom_line() + geom_ribbon(aes(ymin=0, ymax=y, fill=Cluster)) + 
-    #scale_x_continuous(breaks=round(logged, 2)) + 
     ylab('') + guides(fill = 'none') + 
-    theme(
-      #axis.text.x = element_text(angle = 45, vjust = 0.8, hjust=1, size=8), 
-      panel.grid.major = element_blank(), 
-      panel.grid.minor = element_blank(),
-      plot.margin=unit(c(0,0,0.1,0),"cm"),
-      plot.title = element_text(size = 10),
-      axis.ticks.y = element_blank(),
-      axis.text.y = element_blank(),
-      axis.text.x = element_blank(), #removes x axis labels
-      axis.ticks.x = element_blank() #removes x axis ticks
-      ) +
-    ggtitle(str_sub(i, 14))
+   ggplot(df, aes(x,y)) + geom_line() + geom_ribbon(aes(ymin=0, ymax=y, fill=Cluster)) +
+      scale_x_continuous(breaks=round(logged, 2)) +
+      guides(fill = guide_legend(title.position = "top", label.hjust = 0.5)) +
+      theme(
+        legend.direction = "horizontal"
+      )
   if (is.null(cutoff[1])){
     plt = plt + xlab("NO CLUSTERS DETECTED") + theme(axis.title.x = element_text(size = 7, color='gray'))
   } else {
@@ -228,19 +298,19 @@ for(i in amenities){
   p[[i]] = plt
   
   # set legend
-  # if (length(cutoff) > most){
-  #   most = length(cutoff)
-  #   most_plt = ggplot(df, aes(x,y)) + geom_line() + geom_ribbon(aes(ymin=0, ymax=y, fill=Cluster)) +
-  #     scale_x_continuous(breaks=round(logged, 2)) +
-  #     guides(fill = guide_legend(title.position = "top", label.hjust = 0.5)) +
-  #     theme(
-  #       legend.direction = "horizontal"
-  #     )
-  #}
+  if (length(cutoff) > most){
+    most = length(cutoff)
+    most_plt = ggplot(df, aes(x,y)) + geom_line() + geom_ribbon(aes(ymin=0, ymax=y, fill=Cluster)) +
+      scale_x_continuous(breaks=round(logged, 2)) +
+      guides(fill = guide_legend(title.position = "top", label.hjust = 0.5)) +
+      theme(
+        legend.direction = "horizontal"
+      )
+  }
 }
 
-# most = names(lapply(chdbscan, length)[lapply(chdbscan, length) == max(unlist(lapply(chdbscan, length)))][1])
-# p[[11]] = g_legend(most_plt)
+most = names(lapply(chdbscan, length)[lapply(chdbscan, length) == max(unlist(lapply(chdbscan, length)))][1])
+p[[11]] = g_legend(most_plt)
 
 layout_mat <- rbind(c(1:4),
                     c(5:8),
