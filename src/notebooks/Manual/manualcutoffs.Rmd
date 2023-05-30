@@ -5,10 +5,14 @@ date: "`r Sys.Date()`"
 output: 
   pdf_document:
     extra_dependencies: ["float"]
+header-includes:
+  \usepackage{placeins}
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = F,  cache = T, message = F, warning = F, fig.pos = "H", out.extra = "", fig.align = 'center', fig.height=4, fig.width=6)
+knitr::opts_chunk$set(echo = F,  cache = T, message = F, warning = F, fig.height=4, fig.width=6)
+# float formatting
+# knitr::opts_chunk$set(echo = F,  cache = T, message = F, warning = F, fig.pos = "H", out.extra = "", fig.align = 'center', fig.height=4, fig.width=6)
 library(dplyr)
 library(factoextra)
 library(ggplot2)
@@ -127,46 +131,16 @@ master_sample_log[,amenities] %>% pivot_longer(all_of(amenities)) %>%
     facet_wrap(~name, scales = 'free_y', ncol = 3) + labs(title = "")
 ```
 
+\FloatBarrier
+# Segmenting via minima
 
-A segmentation technique is to segment the distribution at select minima. Each minimum in the density curves represents a density sparse region, which may be a 'natural' break in the continuous measures. 
-
-
-```{r eval=F}
-library(quantmod)
-findValleys(d_child$y)
-```
-
-```{r eval=F}
-find_peaks <- function (x, m = 3){
-    shape <- diff(sign(diff(x, na.pad = FALSE)))
-    pks <- sapply(which(shape < 0), FUN = function(i){
-       z <- i - m + 1
-       z <- ifelse(z > 0, z, 1)
-       w <- i + m + 1
-       w <- ifelse(w < length(x), w, length(x))
-       if(all(x[c(z : i, (i + 2) : w)] <= x[i + 1])) return(i + 1) else return(numeric(0))
-    })
-     pks <- unlist(pks)
-     pks
-}
-
-# gives index ? of where minimum is
-find_peaks(-d_child$y)
-```
-
-```{r eval=F}
-min_y_vals <- c()
-n = 0
-for (i in find_peaks(-d_child$y)){
-  n = n + 1
-  min_y_vals[n] <- d_child$y[i]
-}
-
-plot(d_child)
-```
+A segmentation technique is to segment the distribution at select minima of the density distribution. Each minimum in the density curves represents a density sparse region, which may be a 'natural' break in the continuous measures. Figure 4 provides an overview of where maxima and minima are located in the density curves of every amenity. We see that there are a lot of points that are by definition local minima, but are not fully indicative of density sparse regions. We can limit which minima are representative of density sparse regions by only including those who have a threshold difference between themselves and surrounding maxima. We will conduct an indepth analysis of which minima should intuitively represent a cutoff value for each amenity.
 
 
-```{r fig.cap="Location of Minima and Maxima"}
+
+
+
+```{r eval = F, fig.cap="Location of Minima and Maxima"}
 # for childcare for example
 d_child <- density(master_log$PMS_prox_idx_childcare, na.rm = T)
 
@@ -196,7 +170,7 @@ for (i in Turns){
 plot(d_child, xlab="", ylab="", main="")
 points(d_child$x[lst_max], d_child$y[lst_max], pch=16, col="blue")
 points(d_child$x[lst_min], d_child$y[lst_min], pch=16, col="red")
-legend(x="topright", legend = c("Minima","Maxima"), col = c("blue","red"), pch = 16)
+legend(x="topright", legend = c("Minima","Maxima"), col = c("red","blue"), pch = 16)
 
 ```
 
@@ -209,18 +183,26 @@ g_legend <- function(a.gplot){
   legend
 }
 
-# reproduce on all plots
+## reproduce on all plots ##
 dense_plot_list <- list() # initialize plot list
-# loop start
+big_list <- list() # initilize list of amenity lists
+count <- 0 
+
 for (amen in amenities){
+  # make a list for each amenity, add list to list at end
+  # in the list for given amenity, will have density list, max vector, min vector
+  count <- count+1
+  amen_list <- list()
+  amen_list[[1]] <- density(master_log[,amen], na.rm = T) # list of densities
   d_amen <-  density(master_log[,amen], na.rm = T)
   
   # get locations of local minima and maxima
-  DeltaY <- diff(d_amen$y) # difference in y from x to x+1; same sign as derivative
-  Turns <- which(DeltaY[-1] * DeltaY[-length(DeltaY)] < 0) + 1 # if product of consecutive values is negative, that means the sign changed. # essentially remove the first obs, remove the last obs, gives series with same size, but shifted by one. when multiply together, multiplying consecutive values
+  DeltaY <- diff(d_amen$y) 
+  Turns <- which(DeltaY[-1] * DeltaY[-length(DeltaY)] < 0) + 1
+  
+  
   lst_max <- c()
   lst_min <- c()
-  # separate minima and maxima: if the turn point value is negative, that means going down, so max
   for (i in Turns){
     if (DeltaY[i]<0) {
       lst_max <- append(lst_max, i)
@@ -229,14 +211,28 @@ for (amen in amenities){
       lst_min <- append(lst_min, i)
     }
   }
+  amen_list[[2]] <- lst_max
+  amen_list[[3]] <- lst_min
+  amen_list[[4]] <- amen_list[[1]][["y"]][amen_list[[2]]]-amen_list[[1]][["y"]][amen_list[[3]]] # diff b/w max and following min density values
   
   # preparing df for plot
   df_dense <- data.frame(x = d_amen$x, y= d_amen$y)
   df_max <- data.frame(x = d_amen$x[lst_max], y = d_amen$y[lst_max], type = "max")
   df_min <- data.frame(x = d_amen$x[lst_min], y = d_amen$y[lst_min], type = "min")
   df_minmax <- rbind(df_max, df_min)
-  dense_plot_list[[amen]] <- ggplot(df_dense, aes(x,y))+ geom_line()+geom_point(data = df_minmax, mapping = aes(x,y, col = type))+ theme(legend.position="none")
+  dense_plot_list[[amen]] <- ggplot(df_dense, aes(x,y))+ geom_line()+geom_point(data = df_minmax, mapping = aes(x,y, col = type))+ theme(legend.position="none") +
+    ggtitle(str_sub(amen, 14))
+  # add plot to big list
+  amen_list[[5]] <- ggplot(df_dense, aes(x,y))+ geom_line()+geom_point(data = df_minmax, mapping = aes(x,y, col = type))+ theme(legend.position="none") +
+    ggtitle(str_sub(amen, 14)) # with points
+  amen_list[[6]] <- ggplot(df_dense, aes(x,y))+ geom_line()+ theme(legend.position="none") +
+    ggtitle(str_sub(amen, 14)) # without points
+  
+  
+  names(amen_list) <- c("density", "maxima", "minima", "maxmindiff", "plot", "nopt")
+  big_list[[count]] <- amen_list # add amenity list to big list
 }
+names(big_list) <- amenities # rename big list
 
 # set legend: for whichever amen last out of loop, get legend (same for all)
 legend_plot <- ggplot(df_dense, aes(x,y))+ geom_line()+geom_point(data = df_minmax, mapping = aes(x,y, col = type))
@@ -255,69 +251,156 @@ do.call(grid.arrange,list(grobs=dense_plot_list, layout_matrix=layout_mat))
 
 ```
 
+
+```{r eval = F, fig.height=7, fig.width=7, fig.cap="Location of minima and maxima"}
+
+dense_plot_list <- list() # initialize plot list
+big_list <- list() # initilize list of amenity lists
+count <- 0 
+
+for (amen in amenities){
+  # make a list for each amenity, add list to list at end
+  # in the list for given amenity, will have density list, max vector, min vector
+  count <- count+1
+  amen_list <- list()
+  amen_list[[1]] <- density(master_log[,amen], na.rm = T) # list of densities
+  d_amen <-  density(master_log[,amen], na.rm = T)
+  
+  # get locations of local minima and maxima
+  DeltaY <- diff(d_amen$y) 
+  Turns <- which(DeltaY[-1] * DeltaY[-length(DeltaY)] < 0) + 1
+  
+  
+  lst_max <- c()
+  lst_min <- c()
+  for (i in Turns){
+    if (DeltaY[i]<0) {
+      lst_max <- append(lst_max, i)
+    }
+    if (DeltaY[i]>0){
+      lst_min <- append(lst_min, i)
+    }
+  }
+  amen_list[[2]] <- lst_max
+  amen_list[[3]] <- lst_min
+  amen_list[[4]] <- amen_list[[1]][["y"]][amen_list[[2]]]-amen_list[[1]][["y"]][amen_list[[3]]] # diff b/w max and following min density values
+  
+  # preparing df for plot
+  df_dense <- data.frame(x = d_amen$x, y= d_amen$y)
+  df_max <- data.frame(x = d_amen$x[lst_max], y = d_amen$y[lst_max], type = "max")
+  df_min <- data.frame(x = d_amen$x[lst_min], y = d_amen$y[lst_min], type = "min")
+  df_minmax <- rbind(df_max, df_min)
+  dense_plot_list[[amen]] <- ggplot(df_dense, aes(x,y))+ geom_line()+geom_point(data = df_minmax, mapping = aes(x,y, col = type))+ theme(legend.position="none") +
+    ggtitle(str_sub(amen, 14))
+  # add plot to big list
+  amen_list[[5]] <- ggplot(df_dense, aes(x,y))+ geom_line()+geom_point(data = df_minmax, mapping = aes(x,y, col = type))+ theme(legend.position="none") +
+    ggtitle(str_sub(amen, 14)) # with points
+  amen_list[[6]] <- ggplot(df_dense, aes(x,y))+ geom_line()+ theme(legend.position="none") +
+    ggtitle(str_sub(amen, 14)) # without points
+  
+  
+  names(amen_list) <- c("density", "maxima", "minima", "maxmindiff", "plot", "nopt")
+  big_list[[count]] <- amen_list # add amenity list to big list
+}
+names(big_list) <- amenities # rename big list
+
+# set legend: for whichever amen last out of loop, get legend (same for all)
+legend_plot <- ggplot(df_dense, aes(x,y))+ geom_line()+geom_point(data = df_minmax, mapping = aes(x,y, col = type))
+dense_plot_list[[11]] = g_legend(legend_plot)
+
+# layout of plots
+layout_mat <- rbind(c(1:3),
+                    c(4:6),
+                    c(7:9),
+                    c(10:11, 11))
+do.call(grid.arrange,list(grobs=dense_plot_list, layout_matrix=layout_mat))
+
+# save image
+#cutoffs = do.call(grid.arrange,list(grobs=p, layout_matrix=layout_mat))
+#ggsave("cutoffs_hdbscan.png", cutoffs, dpi = 400, width=8, height=5)
+
+```
+
+## Employment
+
+The Employment density distribution contains `r length( big_list[["PMS_prox_idx_emp"]][["minima"]])` minima. The following figure illustrates the density distribution with the minima ploted in blue and the maxima in red. Visually, we may not construe the either the third or the fourth minima as a cutoff value, as the peak in between is fairly small. As well, there are other areas in the curve that seem to plateau, and may be visually decent places for a cutoff value, but are not technically places where a minima is present.
+
+As is, there would be  `r length( big_list[["PMS_prox_idx_emp"]][["maxima"]])` groups, corresponding to  `r length( big_list[["PMS_prox_idx_emp"]][["minima"]])` cutoffs.
+
+```{r}
+# plot
+big_list[["PMS_prox_idx_emp"]][["plot"]]
+#big_list[["PMS_prox_idx_emp"]][["nopt"]]
+```
+
+
+
+## Pharmacies
+
+```{r}
+# diff b/w first max and first min
+(first_diff <- big_list[["PMS_prox_idx_pharma"]][["density"]][["y"]][big_list[["PMS_prox_idx_pharma"]][["maxima"]][1]]-big_list[["PMS_prox_idx_pharma"]][["density"]][["y"]][big_list[["PMS_prox_idx_pharma"]][["minima"]][1]])
+
+(eight_diff <- big_list[["PMS_prox_idx_pharma"]][["density"]][["y"]][big_list[["PMS_prox_idx_pharma"]][["maxima"]][8]]-big_list[["PMS_prox_idx_pharma"]][["density"]][["y"]][big_list[["PMS_prox_idx_pharma"]][["minima"]][8]])
+```
+
+
+In the case of Pharmacies, there are many technical minima and maxima in an area that visually seems flat and has overall very low density. There is no doubt that these areas are not indicative specifically of density sparse regions, as the whole area is density sparse. The difference in density between the first maxima and the first minima, for example, is `r first_diff`, which is very small compared to the 8th (the 2nd visually discernible peak): `r eight_diff`. This may suggest that we should only use as cutoffs the minima that have a threshold difference with the neighbouring maxima, where the difference is as a base at least 0.0001.
+
+```{r}
+# plot
+big_list[[2]][["plot"]]
+#big_list[["PMS_prox_idx_emp"]][["nopt"]]
+```
+
+The following plot shows the difference between the density value of maxima-minima pairs (unidirectional). We see that for Pharmacies, the difference in the first 6 pairs is very small, as we can tell from the previous plot. 
+
+```{r eval = F, fig.cap="Difference between density value of a maxima and minima following it"}
+# want make a df with max, min, diff
+maxmindf <- as.data.frame(cbind(big_list[["PMS_prox_idx_pharma"]][["density"]][["y"]][big_list[["PMS_prox_idx_pharma"]][["maxima"]]],big_list[["PMS_prox_idx_pharma"]][["density"]][["y"]][big_list[["PMS_prox_idx_pharma"]][["minima"]]]))
+colnames(maxmindf) <- c('maxima', 'minima')
+mutate(maxmindf, diffmaxmin = maxima - minima)
+```
+```{r}
+plot(big_list[["PMS_prox_idx_pharma"]][["maxmindiff"]], ylab = "Difference")
+```
+
+
+```{r eval=F}
+# figuring out how to add to big list all at once
+big_list[[10]][["density"]][["y"]][big_list[[10]][["maxima"]]]-big_list[[10]][["density"]][["y"]][big_list[[10]][["minima"]]]
+
+amen_list[["density"]][["y"]][amen_list[["maxima"]]]-amen_list[["density"]][["y"]][amen_list[["minima"]]]
+
+big_list[["PMS_prox_idx_transit"]][["maxmindiff"]]
+```
+
+
+## Childcare
+
+## etc
+
 ```{r eval=F}
 
 df_dense <- data.frame(x = d_child$x, y= d_child$y)
 df_max <- data.frame(x = d_child$x[lst_max], y = d_child$y[lst_max], type = "max")
 df_min <- data.frame(x = d_child$x[lst_min], y = d_child$y[lst_min], type = "min")
 df_minmax <- rbind(df_max, df_min)
-ggplot(df_dense, aes(x,y))+ geom_line()+geom_point(data = df_minmax, mapping = aes(x,y, col = type))
+ggplot(df_dense, aes(x,y))+ geom_line()+geom_point(data = df_minmax, mapping = aes(x,y, col = type))+ 
+    theme(
+      #axis.text.x = element_text(angle = 45, vjust = 0.8, hjust=1, size=8), 
+      panel.grid.major = element_blank(), 
+      panel.grid.minor = element_blank(),
+      plot.margin=unit(c(0,0,0.1,0),"cm"),
+      plot.title = element_text(size = 10),
+      axis.ticks.y = element_blank(),
+      axis.text.y = element_blank(),
+      axis.text.x = element_blank(), #removes x axis labels
+      axis.ticks.x = element_blank() #removes x axis ticks
+      )
 ```
 
 
-```{r eval=F}
-# reproduce on all plots
 
-p <- list() # initialize list of plots
-for (amen in amenities){
-  
-}
-
-
-most = 0
-for(i in amenities){
-  temp = na.omit(master[,i]) # select only amenity i col
-  dt <- data.table(x=1:length(temp),y=temp) # make data.table with x = index, y = value
-  dens <- density(dt$y) # get density values
-  df <- data.frame(x=dens$x, y=dens$y) # data frame
-  # cutoff = chdbscan[[i]] #change this for different algorithms!
-  # logged <- log(cutoff+0.0001)
-  df$Cluster <- as.factor(as.numeric(cut(df$x, c(min(df$x), logged, max(df$x)),  include.lowest=T)))
-  plt = ggplot(df, aes(x,y)) + geom_line() + geom_ribbon(aes(ymin=0, ymax=y, fill=Cluster)) + 
-    ylab('') + guides(fill = 'none') + 
-   ggplot(df, aes(x,y)) + geom_line() + geom_ribbon(aes(ymin=0, ymax=y, fill=Cluster)) +
-      scale_x_continuous(breaks=round(logged, 2)) +
-      guides(fill = guide_legend(title.position = "top", label.hjust = 0.5)) +
-      theme(
-        legend.direction = "horizontal"
-      )
-  if (is.null(cutoff[1])){
-    plt = plt + xlab("NO CLUSTERS DETECTED") + theme(axis.title.x = element_text(size = 7, color='gray'))
-  } else {
-    plt = plt + xlab(paste(round(cutoff, 3), collapse = ', ')) + theme(axis.title.x = element_text(size = 7, color='gray'))
-  }
-  # add plot to list
-  p[[i]] = plt
-  
-  # set legend
-  if (length(cutoff) > most){
-    most = length(cutoff)
-    most_plt = ggplot(df, aes(x,y)) + geom_line() + geom_ribbon(aes(ymin=0, ymax=y, fill=Cluster)) +
-      scale_x_continuous(breaks=round(logged, 2)) +
-      guides(fill = guide_legend(title.position = "top", label.hjust = 0.5)) +
-      theme(
-        legend.direction = "horizontal"
-      )
-  }
-}
-
-most = names(lapply(chdbscan, length)[lapply(chdbscan, length) == max(unlist(lapply(chdbscan, length)))][1])
-p[[11]] = g_legend(most_plt)
-
-layout_mat <- rbind(c(1:4),
-                    c(5:8),
-                    c(9:11, 11))
-cutoffs = do.call(grid.arrange,list(grobs=p, layout_matrix=layout_mat))
-```
 
 
