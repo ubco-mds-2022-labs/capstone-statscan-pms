@@ -400,7 +400,7 @@ big_list[[amen_num]][["nopt"]] +geom_point(data = filter(big_list[[amen_num]][["
 
 ## Healthcare
 
-For Healthcare, a visual assessment of the density curve with the minima and maxima point doesn't reveal any point outside of expectation. The curve suggests 3 cutoff values, giving a total of 4 groups. 
+For Healthcare, a visual assessment of the density curve with the minima and maxima point doesn't reveal any point outside of expectation. The curve suggests 3 cutoff values, giving a total of 4 groups. For here on out, 'extra' plots are moved to the appendix.
 
 ```{r fig.cap="density plot with suggested cutoff points in blue"}
 # removing minima that aren't above threshold
@@ -431,18 +431,6 @@ big_list[[amen_num]][["nopt"]] +geom_point(data = filter(big_list[[amen_num]][["
 ## Primary Education
 
 The final plot suggests 2 cutoff points, giving 3 groups.
-
-```{r fig.cap="density curve with minima and maxima"}
-amen_num<- 6
-# plot
-big_list[[amen_num]][["plot"]]
-#big_list[["PMS_prox_idx_emp"]][["nopt"]]
-```
-
-```{r fig.cap="difference between density value of a maxima-minima pairs, threshold = 0.001"}
-plot(big_list[[amen_num]][["maxmindiff"]], ylab = "Difference", xlab= "")
-abline(h = 0.001, lty=2, col = "grey")
-```
 
 ```{r fig.cap="density plot with suggested cutoff points in blue"}
 # removing minima that aren't above threshold
@@ -529,6 +517,8 @@ cbind(amenities, num_groups)
 - Investigate 'weight' of distribution for every suggested groups
 - Format table properly
 - investigate change of bandwidth in kernel density
+- change number points in density curve
+- investigate with different transforms
 
 
 # Appendix: Extra Plots
