@@ -12,7 +12,7 @@ header-includes:
 ```{r setup, include=FALSE}
 #knitr::opts_chunk$set(echo = F,  cache = T, message = F, warning = F, fig.height=4, fig.width=6)
 # remove float formatting
-knitr::opts_chunk$set(echo = F,  cache = T, message = F, warning = F, fig.pos = "H", out.extra = "", fig.align = 'center', fig.height=4, fig.width=6)
+knitr::opts_chunk$set(echo = F,  cache = T, message = F, warning = F, fig.pos = "H", out.extra = "", fig.align = 'center', fig.height=3, fig.width=6)
 library(dplyr)
 library(factoextra)
 library(ggplot2)
@@ -63,7 +63,7 @@ master_sample = master[sample(nrow(master), subsample),] #random sample
 \newpage
 # Introduction
 
-The Proximity Measures Database contains continuous measures for 10 amenities for a number of DB within a specific threshold. The distribution of these proximity measures is heavily right skewed, and there are for the most part no discernible clusters. The density distribution of each amenity is shown in Figure 1.
+The Proximity Measures Database contains continuous measures for 10 amenities for a number of DB within a specific threshold. The distribution of these proximity measures is heavily right skewed, and there are for the most part no discernible clusters. The density distribution, with a default bandwidth, of each amenity is shown in Figure 1.
 
 ```{r fig.height=7, fig.width=7, fig.cap="Distribution of proximity measures by amenity"}
 master[,amenities] %>% pivot_longer(all_of(amenities)) %>%
@@ -75,7 +75,7 @@ master[,amenities] %>% pivot_longer(all_of(amenities)) %>%
 
 When transforming the data, the inherent relationship between data points remain the same, but the new structure may reveal new insights. The most 'famous' transformation available is the log transform. It ["can be used to make highly skewed distributions less skewed"](https://stats.libretexts.org/Bookshelves/Introductory_Statistics/Book%3A_Introductory_Statistics_(Lane)/16%3A_Transformations/16.02%3A_Log_Transformations). It may help "make patterns more visible". A consideration to be aware of is that the log of 0 is -Inf. To account for proximity values of 0 in our dataset, we shift the distribution by +0.0001. This avoids the problem of -Inf whilst maintaining the original distances between all values. The downsides of using a log transformation are [DOWNSIDES]. Figure 2 demonstrates the distribution of the log transformed proximity measures, where all the amenities' distributions were shifted by +0.0001. We can already visually identify more possible clusters. 
 
-In Figure 3, we only shifted the distribution by +0.0001 of the amenities that had a minimum value of 0. Grocery, educpri, educsec, and lib did not have values of 0 in their distribution and such were not shifted. The visual difference of the distributions between when +0.0001 is applied vs when it is not are imperceptible. For simplification in reproducibility, we will just apply the distribution shift to all amenities. 
+In Figure 3, we only shifted the distribution by +0.0001 of the amenities that had a minimum value of 0. Grocery, educpri, educsec, and lib did not have values of 0 in their distribution and such were not shifted. The visual difference of the distributions between when +0.0001 is applied vs when it is not are imperceptible. For simplification in reproducibility, we will apply the distribution shift to all amenities. 
 
 ```{r eval = F}
 # number of 0s per amenity: expecting 1 per amenity
@@ -374,7 +374,7 @@ big_list[["PMS_prox_idx_transit"]][["nopt"]] +geom_point(data = filter(big_list[
 
 ## Childcare
 
-Similarly to Pharmacies, Childcare has indiscernible maxima and minima in some areas, as seen in Figure XX. Figure XX shows the difference again, and we can see that the same threshold of 0.001 may be appropriate. Figure XX shows the density with the values with a difference beneath this threshold removed, showing 2 cutoffs for 3 groups.
+Similarly to Pharmacies, Childcare has indiscernible maxima and minima in some areas, as seen in Figure 9. There is even such an area at the top of the largest peak. Figure 10 shows the difference again, and we can see that the same threshold of 0.001 may be appropriate. Figure 11 shows the density with the values with a difference beneath this threshold removed, showing 2 cutoffs for 3 groups. The second 'maxima' at the top of the peak was retained due the methodology. 
 
 ```{r fig.cap="density curve with minima and maxima"}
 amen_num<- 3
@@ -402,22 +402,11 @@ big_list[[amen_num]][["nopt"]] +geom_point(data = filter(big_list[[amen_num]][["
 
 For Healthcare, a visual assessment of the density curve with the minima and maxima point doesn't reveal any point outside of expectation. The curve suggests 3 cutoff values, giving a total of 4 groups. 
 
-```{r fig.cap="density curve with minima and maxima"}
-amen_num<- 4
-# plot
-big_list[[amen_num]][["plot"]]
-#big_list[["PMS_prox_idx_emp"]][["nopt"]]
-```
-
-```{r eval = F, fig.cap="difference between density value of a maxima-minima pairs, threshold = 0.001"}
-plot(big_list[[amen_num]][["maxmindiff"]], ylab = "Difference", xlab= "")
-abline(h = 0.001, lty=2, col = "grey")
-```
-
-```{r eval = F, fig.cap="density plot with suggested cutoff points in blue"}
+```{r fig.cap="density plot with suggested cutoff points in blue"}
 # removing minima that aren't above threshold
 # add include row in df
 threshold <- 0.001
+amen_num = 4 
 big_list[[amen_num]][["df_minmax"]][[1]] <- big_list[[amen_num]][["df_minmax"]][[1]] %>% mutate(include = ifelse(index %in% which(big_list[[amen_num]][["maxmindiff"]] < threshold), 0,1))
 
 # plot w/ filter
@@ -428,21 +417,10 @@ big_list[[amen_num]][["nopt"]] +geom_point(data = filter(big_list[[amen_num]][["
 
 Grocery has a similar start to Pharmacies and Childcare. Removing the points below the same threshold suggests 2 cutoff points, giving 3 groups. Visually, there are plateau areas, similarly to other amenities, that may serve as decent additional cut off points.
 
-```{r fig.cap="density curve with minima and maxima"}
-amen_num<- amen_num+1
-# plot
-big_list[[amen_num]][["plot"]]
-#big_list[["PMS_prox_idx_emp"]][["nopt"]]
-```
-
-```{r fig.cap="difference between density value of a maxima-minima pairs, threshold = 0.001"}
-plot(big_list[[amen_num]][["maxmindiff"]], ylab = "Difference", xlab= "")
-abline(h = 0.001, lty=2, col = "grey")
-```
-
 ```{r fig.cap="density plot with suggested cutoff points in blue"}
 # removing minima that aren't above threshold
 # add include row in df
+amen_num = 5
 threshold <- 0.001
 big_list[[amen_num]][["df_minmax"]][[1]] <- big_list[[amen_num]][["df_minmax"]][[1]] %>% mutate(include = ifelse(index %in% which(big_list[[amen_num]][["maxmindiff"]] < threshold), 0,1))
 
@@ -455,7 +433,7 @@ big_list[[amen_num]][["nopt"]] +geom_point(data = filter(big_list[[amen_num]][["
 The final plot suggests 2 cutoff points, giving 3 groups.
 
 ```{r fig.cap="density curve with minima and maxima"}
-amen_num<- amen_num+1
+amen_num<- 6
 # plot
 big_list[[amen_num]][["plot"]]
 #big_list[["PMS_prox_idx_emp"]][["nopt"]]
@@ -469,6 +447,7 @@ abline(h = 0.001, lty=2, col = "grey")
 ```{r fig.cap="density plot with suggested cutoff points in blue"}
 # removing minima that aren't above threshold
 # add include row in df
+amen_num <- 6
 threshold <- 0.001
 big_list[[amen_num]][["df_minmax"]][[1]] <- big_list[[amen_num]][["df_minmax"]][[1]] %>% mutate(include = ifelse(index %in% which(big_list[[amen_num]][["maxmindiff"]] < threshold), 0,1))
 
@@ -480,21 +459,10 @@ big_list[[amen_num]][["nopt"]] +geom_point(data = filter(big_list[[amen_num]][["
 
 For the first time, after removal of values below the threshold, only one cutoff point is suggested, giving two groups. 
 
-```{r fig.cap="density curve with minima and maxima"}
-amen_num<- amen_num+1
-# plot
-big_list[[amen_num]][["plot"]]
-#big_list[["PMS_prox_idx_emp"]][["nopt"]]
-```
-
-```{r fig.cap="difference between density value of a maxima-minima pairs, threshold = 0.001"}
-plot(big_list[[amen_num]][["maxmindiff"]], ylab = "Difference", xlab= "")
-abline(h = 0.001, lty=2, col = "grey")
-```
-
 ```{r fig.cap="density plot with suggested cutoff points in blue"}
 # removing minima that aren't above threshold
 # add include row in df
+amen_num = 7 
 threshold <- 0.001
 big_list[[amen_num]][["df_minmax"]][[1]] <- big_list[[amen_num]][["df_minmax"]][[1]] %>% mutate(include = ifelse(index %in% which(big_list[[amen_num]][["maxmindiff"]] < threshold), 0,1))
 
@@ -506,21 +474,10 @@ big_list[[amen_num]][["nopt"]] +geom_point(data = filter(big_list[[amen_num]][["
 
 Not quite sure why the minima values aren't being plotted in the final plot for libraries only. For some reason there are sometimes two minima following each other, which is algebrically impossible. Will need to investigate. Regardless, the plot suggests 1 minima cutoff, giving 2 groups. 
 
-```{r fig.cap="density curve with minima and maxima"}
-amen_num<- amen_num+1
-# plot
-big_list[[amen_num]][["plot"]]
-#big_list[["PMS_prox_idx_emp"]][["nopt"]]
-```
-
-```{r fig.cap="difference between density value of a maxima-minima pairs, threshold = 0.001"}
-plot(big_list[[amen_num]][["maxmindiff"]], ylab = "Difference", xlab= "")
-abline(h = 0.001, lty=2, col = "grey")
-```
-
 ```{r fig.cap="density plot with suggested cutoff points in blue"}
 # removing minima that aren't above threshold
 # add include row in df
+amen_num = 8
 threshold <- 0.001
 big_list[[amen_num]][["df_minmax"]][[1]] <- big_list[[amen_num]][["df_minmax"]][[1]] %>% mutate(include = ifelse(index %in% which(big_list[[amen_num]][["maxmindiff"]] < threshold), 0,1))
 
@@ -532,21 +489,10 @@ big_list[[amen_num]][["nopt"]] +geom_point(data = filter(big_list[[amen_num]][["
 
 After removing values under the threshold, the curve suggests 2 cutoff locations, giving 3 groups.
 
-```{r fig.cap="density curve with minima and maxima"}
-amen_num<- amen_num+1
-# plot
-big_list[[amen_num]][["plot"]]
-#big_list[["PMS_prox_idx_emp"]][["nopt"]]
-```
-
-```{r fig.cap="difference between density value of a maxima-minima pairs, threshold = 0.001"}
-plot(big_list[[amen_num]][["maxmindiff"]], ylab = "Difference", xlab= "")
-abline(h = 0.001, lty=2, col = "grey")
-```
-
 ```{r fig.cap="density plot with suggested cutoff points in blue"}
 # removing minima that aren't above threshold
 # add include row in df
+amen_num = 9
 threshold <- 0.001
 big_list[[amen_num]][["df_minmax"]][[1]] <- big_list[[amen_num]][["df_minmax"]][[1]] %>% mutate(include = ifelse(index %in% which(big_list[[amen_num]][["maxmindiff"]] < threshold), 0,1))
 
@@ -558,21 +504,10 @@ big_list[[amen_num]][["nopt"]] +geom_point(data = filter(big_list[[amen_num]][["
 
 After removing all values below the same threshold of 0.001, Transit suggests one of the greatest number of groups: 5.
 
-```{r fig.cap="density curve with minima and maxima"}
-amen_num<- amen_num+1
-# plot
-big_list[[amen_num]][["plot"]]
-#big_list[["PMS_prox_idx_emp"]][["nopt"]]
-```
-
-```{r fig.cap="difference between density value of a maxima-minima pairs, threshold = 0.001"}
-plot(big_list[[amen_num]][["maxmindiff"]], ylab = "Difference", xlab= "")
-abline(h = 0.001, lty=2, col = "grey")
-```
-
 ```{r fig.cap="density plot with suggested cutoff points in blue"}
 # removing minima that aren't above threshold
 # add include row in df
+amen_num<- 10
 threshold <- 0.001
 big_list[[amen_num]][["df_minmax"]][[1]] <- big_list[[amen_num]][["df_minmax"]][[1]] %>% mutate(include = ifelse(index %in% which(big_list[[amen_num]][["maxmindiff"]] < threshold), 0,1))
 
@@ -588,4 +523,109 @@ big_list[[amen_num]][["nopt"]] +geom_point(data = filter(big_list[[amen_num]][["
 num_groups <- c(5,3,4,3,3,3,2,2,3,5)
 
 cbind(amenities, num_groups)
+```
+
+# Next Steps
+- Investigate 'weight' of distribution for every suggested groups
+- Format table properly
+- investigate change of bandwidth in kernel density
+
+
+# Appendix: Extra Plots
+
+## Healthcare
+
+```{r fig.cap="density curve with minima and maxima"}
+amen_num<- 4
+# plot
+big_list[[amen_num]][["plot"]]
+#big_list[["PMS_prox_idx_emp"]][["nopt"]]
+```
+
+```{r fig.cap="difference between density value of a maxima-minima pairs, threshold = 0.001"}
+plot(big_list[[amen_num]][["maxmindiff"]], ylab = "Difference", xlab= "")
+abline(h = 0.001, lty=2, col = "grey")
+```
+
+## Grocery
+
+```{r fig.cap="density curve with minima and maxima"}
+amen_num<- 5
+# plot
+big_list[[amen_num]][["plot"]]
+#big_list[["PMS_prox_idx_emp"]][["nopt"]]
+```
+
+```{r fig.cap="difference between density value of a maxima-minima pairs, threshold = 0.001"}
+plot(big_list[[amen_num]][["maxmindiff"]], ylab = "Difference", xlab= "")
+abline(h = 0.001, lty=2, col = "grey")
+```
+
+## Primary Education
+
+```{r fig.cap="density curve with minima and maxima"}
+amen_num<- 6
+# plot
+big_list[[amen_num]][["plot"]]
+#big_list[["PMS_prox_idx_emp"]][["nopt"]]
+```
+
+```{r fig.cap="difference between density value of a maxima-minima pairs, threshold = 0.001"}
+plot(big_list[[amen_num]][["maxmindiff"]], ylab = "Difference", xlab= "")
+abline(h = 0.001, lty=2, col = "grey")
+```
+
+## Secondary Education
+
+```{r fig.cap="density curve with minima and maxima"}
+amen_num<- 7
+# plot
+big_list[[amen_num]][["plot"]]
+#big_list[["PMS_prox_idx_emp"]][["nopt"]]
+```
+
+```{r fig.cap="difference between density value of a maxima-minima pairs, threshold = 0.001"}
+plot(big_list[[amen_num]][["maxmindiff"]], ylab = "Difference", xlab= "")
+abline(h = 0.001, lty=2, col = "grey")
+```
+
+
+## Libraries
+
+```{r fig.cap="density curve with minima and maxima"}
+amen_num<- amen_num+1
+# plot
+big_list[[amen_num]][["plot"]]
+#big_list[["PMS_prox_idx_emp"]][["nopt"]]
+```
+
+```{r fig.cap="difference between density value of a maxima-minima pairs, threshold = 0.001"}
+plot(big_list[[amen_num]][["maxmindiff"]], ylab = "Difference", xlab= "")
+abline(h = 0.001, lty=2, col = "grey")
+```
+
+## Parks
+```{r fig.cap="density curve with minima and maxima"}
+amen_num<- 9
+# plot
+big_list[[amen_num]][["plot"]]
+#big_list[["PMS_prox_idx_emp"]][["nopt"]]
+```
+
+```{r fig.cap="difference between density value of a maxima-minima pairs, threshold = 0.001"}
+plot(big_list[[amen_num]][["maxmindiff"]], ylab = "Difference", xlab= "")
+abline(h = 0.001, lty=2, col = "grey")
+```
+
+## Transit
+```{r  fig.cap="density curve with minima and maxima"}
+amen_num<- 10
+# plot
+big_list[[amen_num]][["plot"]]
+#big_list[["PMS_prox_idx_emp"]][["nopt"]]
+```
+
+```{r fig.cap="difference between density value of a maxima-minima pairs, threshold = 0.001"}
+plot(big_list[[amen_num]][["maxmindiff"]], ylab = "Difference", xlab= "")
+abline(h = 0.001, lty=2, col = "grey")
 ```
