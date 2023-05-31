@@ -128,10 +128,9 @@ optimal_num_clusters <- function(amenity, results_df) {
   #filter by ammenity
   amenity_df <- results_df[results_df$amenity == amenity, ]
   
-  # count agreements for each number of clusters
-  agreement_scores <- numeric(8)  # Adjust as needed
+  scores <- numeric(8)  
   for (num_clusters in 2:8) {
-    agreement_scores[num_clusters] <- sum(
+    scores[num_clusters] <- sum(
       amenity_df$num_clusters[which.max(amenity_df$dunn)] == num_clusters,
       amenity_df$num_clusters[which.max(amenity_df$sil_coef)] == num_clusters,
       amenity_df$num_clusters[which.min(amenity_df$davies_bouldin)] == num_clusters,
@@ -140,8 +139,7 @@ optimal_num_clusters <- function(amenity, results_df) {
     )
   }
   
-  # Find number of clusters with highest agreement score
-  best_num_clusters <- which.max(agreement_scores)
+  best_num_clusters <- which.max(scores)
   
   return(best_num_clusters)
 }
