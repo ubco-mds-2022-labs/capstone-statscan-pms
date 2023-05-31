@@ -97,41 +97,6 @@ for (amenity in ammenities) {
 head(results_df, 7)
 ```
 
-### standardize the scores
-
-```{r, cache=TRUE, echo=TRUE}
-# standardize function since without doing this, the large values will take over when adding them all up
-standardize <- function(x) {
-  return ((x - mean(x)) / sd(x))
-}
-
-results_df$dunn <- standardize(results_df$dunn)
-results_df$calinski_harabasz <- standardize(results_df$calinski_harabasz)
-results_df$xie_beni <- standardize(results_df$xie_beni)
-results_df$davies_bouldin <- standardize(results_df$davies_bouldin)
-results_df$sil_coef <- standardize(results_df$sil_coef)
-
-# xie_beni and davies_bouldin smaller value is better so we can take negative value for total score...
-results_df$xie_beni <- -results_df$xie_beni
-results_df$davies_bouldin <- -results_df$davies_bouldin
-
-# the score
-results_df$score <- results_df$dunn + results_df$calinski_harabasz + results_df$xie_beni + results_df$davies_bouldin + results_df$sil_coef
-```
-
-```{r, cache=TRUE, echo=TRUE}
-# best cluster = max score
-best_clusters <- results_df %>%
-  group_by(amenity) %>%
-  slice(which.max(score))
-
-# re-order to this specific order before clustering again for cutoffs
-ammenities <- c("PMS_prox_idx_emp", "PMS_prox_idx_pharma", "PMS_prox_idx_childcare", "PMS_prox_idx_health", "PMS_prox_idx_grocery", "PMS_prox_idx_educpri", "PMS_prox_idx_educsec", "PMS_prox_idx_lib", "PMS_prox_idx_parks", "PMS_prox_idx_transit")
-
-best_clusters <- best_clusters[match(ammenities, best_clusters$amenity), ]
-print(best_clusters$num_clusters)
-```
-
 ### Cutoff function
 
 ```{r, cache=TRUE}
@@ -156,6 +121,32 @@ compute_cutoffs = function(data, labels) {
 }
 ```
 
+### number of clusters function
+
+```{r}
+optimal_num_clusters <- function(amenity, results_df) {
+  #filter by ammenity
+  amenity_df <- results_df[results_df$amenity == amenity, ]
+  
+  # count agreements for each number of clusters
+  agreement_scores <- numeric(8)  # Adjust as needed
+  for (num_clusters in 2:8) {
+    agreement_scores[num_clusters] <- sum(
+      amenity_df$num_clusters[which.max(amenity_df$dunn)] == num_clusters,
+      amenity_df$num_clusters[which.max(amenity_df$sil_coef)] == num_clusters,
+      amenity_df$num_clusters[which.min(amenity_df$davies_bouldin)] == num_clusters,
+      amenity_df$num_clusters[which.min(amenity_df$xie_beni)] == num_clusters,
+      amenity_df$num_clusters[which.max(amenity_df$calinski_harabasz)] == num_clusters
+    )
+  }
+  
+  # Find number of clusters with highest agreement score
+  best_num_clusters <- which.max(agreement_scores)
+  
+  return(best_num_clusters)
+}
+```
+
 ### getting cutoffs and metrics for optimal cluster
 
 ```{r, cache=TRUE, echo=TRUE}
@@ -171,7 +162,7 @@ cut_offs_mixall <- list()
 for (amenity in ammenities) {
   
   # select the best number of clusters for current amenity by filtering the best_cluster df
-  num_clusters <- best_clusters$num_clusters[best_clusters$amenity == amenity]
+  num_clusters <- optimal_num_clusters(amenity, results_df)
 
   pms_amen <- pms_prox[, amenity]
   pms_amen <- na.omit(pms_amen)
@@ -228,28 +219,3 @@ num_of_clust_mixall
 ```{r, echo=TRUE}
 cut_offs_mixall
 ```
-
-<!-- ```{r} -->
-<!--  dunn_stats <- cluster.stats(dist(clus_data), clus_labels) -->
-<!--  dunn_stats$dunn -->
-<!-- ``` -->
-
-<!-- ```{r} -->
-<!-- calinski_harabasz <- calinhara(clus_data, clus_labels) -->
-<!--  calinski_harabasz -->
-<!-- ``` -->
-
-<!-- ```{r} -->
-<!--  xie_beni <- intCriteria(as.matrix(clus_data), as.integer(clus_labels), 'Xie_Beni')$xie_beni -->
-<!--  xie_beni -->
-<!-- ``` -->
-
-<!-- ```{r} -->
-<!-- davies_bouldin <- index.DB(clus_data, clus_labels) -->
-<!-- davies_bouldin$DB -->
-<!-- ``` -->
-
-<!-- ```{r} -->
-<!-- sil_coef <- intCriteria(as.matrix(clus_data), as.integer(clus_labels),'Silhouette')$silhouette -->
-<!-- sil_coef -->
-<!-- ``` -->
