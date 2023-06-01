@@ -2,11 +2,7 @@
 title: "MixAll (PMS + log transform (no other variables))"
 author: "PMS"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
-output:
-  pdf_document:
-    dev: png
-urlcolor: blue
----
+
 
 ```{r global_options, include=FALSE}
 ## Set some options for knitr to apply globally
