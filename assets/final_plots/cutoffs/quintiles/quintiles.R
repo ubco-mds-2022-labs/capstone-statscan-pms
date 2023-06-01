@@ -9,6 +9,13 @@ library(gridExtra)
 # load data
 load('../../../../../local_data/codes/create_master/master_pms_df.Rdata')
 
+
+# subsampling data (if needed)
+perc = 5 #percentage of data to subsample
+subsample = (nrow(master)/100)*perc
+master = master[sample(nrow(master), subsample),]
+
+
 #amenities
 amenities = c("PMS_prox_idx_emp", "PMS_prox_idx_pharma", "PMS_prox_idx_childcare", "PMS_prox_idx_health", "PMS_prox_idx_grocery", "PMS_prox_idx_educpri", "PMS_prox_idx_educsec", "PMS_prox_idx_lib", "PMS_prox_idx_parks", "PMS_prox_idx_transit")
 
