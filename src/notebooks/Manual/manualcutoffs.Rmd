@@ -137,43 +137,6 @@ master_sample_log[,amenities] %>% pivot_longer(all_of(amenities)) %>%
 A segmentation technique is to segment the distribution at select minima of the density distribution. Each minimum in the density curves represents a density sparse region, which may be a 'natural' break in the continuous measures. Figure 4 provides an overview of where maxima and minima are located in the density curves of every amenity. We see that there are a lot of points that are by definition local minima, but are not fully indicative of density sparse regions. We can limit which minima are representative of density sparse regions by only including those who have a threshold difference between themselves and surrounding maxima. We will conduct an indepth analysis of which minima should intuitively represent a cutoff value for each amenity.
 
 
-
-
-
-```{r eval = F, fig.cap="Location of Minima and Maxima"}
-# for childcare for example
-d_child <- density(master_log$PMS_prox_idx_childcare, na.rm = T)
-
-# get locations of Mins and Maxes
-DeltaY = diff(d_child$y) # difference in y from x to x+1; same sign as derivative
-
-# if product of consecutive values is negative, that means the sign changed
-# essentially remove the first obs, remove the last obs, gives series with same size, but shifted by one
-# when multiply together, multiplying consecutive values
-Turns = which(DeltaY[-1] * DeltaY[-length(DeltaY)] < 0) + 1 # turning points where sign changed
-
-# if turn point is negative, then maximum
-# if turn point is positive, then minimum
-lst_max <- c()
-lst_min <- c()
-for (i in Turns){
-  
-  if (DeltaY[i]<0) {
-    lst_max <- append(lst_max, i)
-  }
-  if (DeltaY[i]>0){
-    lst_min <- append(lst_min, i)
-  }
-}
-
-# plot mins and maxes on density plot
-plot(d_child, xlab="", ylab="", main="")
-points(d_child$x[lst_max], d_child$y[lst_max], pch=16, col="blue")
-points(d_child$x[lst_min], d_child$y[lst_min], pch=16, col="red")
-legend(x="topright", legend = c("Minima","Maxima"), col = c("red","blue"), pch = 16)
-
-```
-
 ```{r fig.height=7, fig.width=7, fig.cap="Location of minima and maxima"}
 # function to get legend as standalone plot
 g_legend <- function(a.gplot){
@@ -200,6 +163,20 @@ for (amen in amenities){
   DeltaY <- diff(d_amen$y) 
   Turns <- which(DeltaY[-1] * DeltaY[-length(DeltaY)] < 0) + 1
   
+  # check for cases where have slopes 0
+  test_list <- which(DeltaY[-1] * DeltaY[-length(DeltaY)] == 0) 
+  test_n <- 0 
+  zero_list <- c()
+  while (test_n < length(test_list)-1){
+    test_n = test_n+1
+    if (test_list[test_n+1] != test_list[test_n]+1){
+      zero_list <- append(zero_list, test_list[test_n])
+    }
+  }
+  # need to append last one also
+  zero_list <- append(zero_list, test_list[length(test_list)])
+  Turns <- append(Turns, zero_list) # add to list of turns
+  
   
   lst_max <- c()
   lst_min <- c()
@@ -207,10 +184,13 @@ for (amen in amenities){
     if (DeltaY[i]<0) {
       lst_max <- append(lst_max, i)
     }
-    if (DeltaY[i]>0){
+    if (DeltaY[i]>=0){ # assume if slope was 0 then minima
       lst_min <- append(lst_min, i)
     }
   }
+  
+  lst_min <- sort(lst_min, )
+  
   amen_list[[2]] <- lst_max
   amen_list[[3]] <- lst_min
   amen_list[[4]] <- amen_list[[1]][["y"]][amen_list[[2]]]-amen_list[[1]][["y"]][amen_list[[3]]] # diff b/w max and following min density values
@@ -255,6 +235,8 @@ do.call(grid.arrange,list(grobs=dense_plot_list, layout_matrix=layout_mat))
 
 
 
+
+
 ## Employment
 
 The Employment density distribution contains `r length( big_list[["PMS_prox_idx_emp"]][["minima"]])` minima. The following figure illustrates the density distribution with the minima ploted in blue and the maxima in red. Visually, we may not construe the third or the fourth minima as a cutoff value, as the peak in between is fairly small. As well, there are other areas in the curve that seem to plateau, and may be visually decent places for a cutoff value, but are not technically places where a minima is present.
@@ -294,7 +276,6 @@ big_list[[2]][["plot"]]
 ```
 
 
-
 ```{r eval = F, fig.cap="Difference between density value of a maxima and minima following it"}
 # want make a df with max, min, diff
 maxmindf <- as.data.frame(cbind(big_list[["PMS_prox_idx_pharma"]][["density"]][["y"]][big_list[["PMS_prox_idx_pharma"]][["maxima"]]],big_list[["PMS_prox_idx_pharma"]][["density"]][["y"]][big_list[["PMS_prox_idx_pharma"]][["minima"]]]))
@@ -314,10 +295,11 @@ Removing the pairs of where the difference is below the threshold values give us
 threshold <- 0.001
 big_list[[2]][["df_minmax"]][[1]] <- big_list[[2]][["df_minmax"]][[1]] %>% mutate(include = ifelse(index %in% which(big_list[[2]][["maxmindiff"]] < threshold), 0,1))
 
+
+
 # plot w/ filter
 big_list[[2]][["nopt"]] +geom_point(data = filter(big_list[[2]][["df_minmax"]][[1]], include == 1), mapping = aes(x,y, col = type))+ theme(legend.position="none")
 ```
-
 
 
 ```{r eval = F}
@@ -472,6 +454,11 @@ big_list[[amen_num]][["df_minmax"]][[1]] <- big_list[[amen_num]][["df_minmax"]][
 # plot w/ filter
 big_list[[amen_num]][["nopt"]] +geom_point(data = filter(big_list[[amen_num]][["df_minmax"]][[1]], include == 1), mapping = aes(x,y, col = type))+ theme(legend.position="none")
 ```
+```{r}
+big_list[[amen_num]][["df_minmax"]]
+big_list[[amen_num]][["maxmindiff"]]
+which(big_list[[amen_num]][["maxmindiff"]] > threshold)
+```
 
 ## Parks
 
@@ -582,8 +569,81 @@ abline(h = 0.001, lty=2, col = "grey")
 
 ## Libraries
 
+```{r, eval = F}
+d_amen <-  density(master_log[,8], na.rm = T)
+  
+# get locations of local minima and maxima
+DeltaY <- diff(d_amen$y) # slope at a point
+Turns <- which(DeltaY[-1] * DeltaY[-length(DeltaY)] < 0) + 1 # what if it is equal to 0 ?
+
+# if it goes from having a negative slope to a slope of 0 --> minimum
+# if it goes from slope of 0 to slope of 0 --> nothing
+# if it goes from slope of 0 to positive slope --> nothin
+# if it goes from positive slope to slope of 0 (should never happen by definition of density kernel) --> maxima
+# 0 to neg slope --> nothin
+
+test_list <- which(DeltaY[-1] * DeltaY[-length(DeltaY)] == 0) 
+test_list
+# take the first point in the run as a minima, since maxima should never happen by def of density kernel
+
+# write an algorithm that given a list, only keeps the first of sequential numbers
+# could ask chatgpt, or do as exercise for myself ...
+# make a 2nd list with each integer from min to max of list
+# compare lists ?
+# or check item in list: if the i+1 item is effectivly i+1, then throw out, if not, keep
+# get first item in list
+
+test_n <- 0 
+zero_list <- c()
+while (test_n < length(test_list)-1){
+  test_n = test_n+1
+  if (test_list[test_n+1] != test_list[test_n]+1){
+    zero_list <- append(zero_list, test_list[test_n])
+  }
+}
+
+# need to append last one also
+zero_list <- append(zero_list, test_list[length(test_list)])
+zero_list # list of extra minima
+
+test_list
+
+Turns <- append(Turns, zero_list) # add to list of turns
+
+DeltaY[46]
+  
+lst_max <- c()
+  lst_min <- c()
+  for (i in Turns){
+    if (DeltaY[i]<0) {
+      lst_max <- append(lst_max, i)
+    }
+    if (DeltaY[i]>=0){ # change so if equal to 0 its a minima
+      lst_min <- append(lst_min, i)
+    }
+  }
+lst_max
+lst_min
+cbind(lst_max, lst_min)
+
+lst_min <- sort(lst_min, )
+# does it need to be an ordered list ... maybe. yes ! b/c take difference in ordered fashion
+# still have problem that lst_max has two more than lst_min, should just be one more
+# plot what have so far to see 
+```
+
+```{r eval = F}
+
+```
+
+```{r eval = F, fig.cap="density curve with minima and maxima"}
+amen_num<- 8
+# plot
+big_list[[amen_num]][["plot"]]+ xlim(-7.4,-7.2) + ylim(0,0.00000000000000018)
+#big_list[["PMS_prox_idx_emp"]][["nopt"]]
+```
 ```{r fig.cap="density curve with minima and maxima"}
-amen_num<- amen_num+1
+amen_num<- 8
 # plot
 big_list[[amen_num]][["plot"]]
 #big_list[["PMS_prox_idx_emp"]][["nopt"]]
