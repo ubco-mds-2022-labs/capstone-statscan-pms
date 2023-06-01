@@ -190,6 +190,19 @@ for (amen in amenities){
   }
   
   lst_min <- sort(lst_min, )
+  # deal with rare case where slope is 0 but not actually minima
+  # assumes that it's not a maxima or minima, just removes it
+  num <- 0
+  while (length(lst_min)>= length(lst_max)){ # min list should in theory have 1 less than lst_max
+    num <- num + 2
+    if (lst_max[num]>lst_min[num]){
+      lst_min <- lst_min[-num]
+    }
+  }
+  
+  print(amen)
+  print(length(lst_max))
+  print(length(lst_min))
   
   amen_list[[2]] <- lst_max
   amen_list[[3]] <- lst_min
@@ -229,10 +242,7 @@ do.call(grid.arrange,list(grobs=dense_plot_list, layout_matrix=layout_mat))
 # save image
 #cutoffs = do.call(grid.arrange,list(grobs=p, layout_matrix=layout_mat))
 #ggsave("cutoffs_hdbscan.png", cutoffs, dpi = 400, width=8, height=5)
-
 ```
-
-
 
 
 
@@ -289,6 +299,7 @@ abline(h = 0.001, lty=2, col = "grey")
 
 Removing the pairs of where the difference is below the threshold values give us the following plot. We see that in this case, there would be 2 cutoff points giving 3 groups. 
 
+
 ```{r fig.cap="Density plot with suggested cutoff points in blue"}
 # removing minima that aren't above threshold
 # add include row in df
@@ -300,6 +311,7 @@ big_list[[2]][["df_minmax"]][[1]] <- big_list[[2]][["df_minmax"]][[1]] %>% mutat
 # plot w/ filter
 big_list[[2]][["nopt"]] +geom_point(data = filter(big_list[[2]][["df_minmax"]][[1]], include == 1), mapping = aes(x,y, col = type))+ theme(legend.position="none")
 ```
+
 
 
 ```{r eval = F}
@@ -447,6 +459,7 @@ Not quite sure why the minima values aren't being plotted in the final plot for 
 ```{r fig.cap="density plot with suggested cutoff points in blue"}
 # removing minima that aren't above threshold
 # add include row in df
+
 amen_num = 8
 threshold <- 0.001
 big_list[[amen_num]][["df_minmax"]][[1]] <- big_list[[amen_num]][["df_minmax"]][[1]] %>% mutate(include = ifelse(index %in% which(big_list[[amen_num]][["maxmindiff"]] < threshold), 0,1))
@@ -454,7 +467,7 @@ big_list[[amen_num]][["df_minmax"]][[1]] <- big_list[[amen_num]][["df_minmax"]][
 # plot w/ filter
 big_list[[amen_num]][["nopt"]] +geom_point(data = filter(big_list[[amen_num]][["df_minmax"]][[1]], include == 1), mapping = aes(x,y, col = type))+ theme(legend.position="none")
 ```
-```{r}
+```{r eval = F}
 big_list[[amen_num]][["df_minmax"]]
 big_list[[amen_num]][["maxmindiff"]]
 which(big_list[[amen_num]][["maxmindiff"]] > threshold)
@@ -604,13 +617,10 @@ while (test_n < length(test_list)-1){
 
 # need to append last one also
 zero_list <- append(zero_list, test_list[length(test_list)])
-zero_list # list of extra minima
 
-test_list
 
 Turns <- append(Turns, zero_list) # add to list of turns
 
-DeltaY[46]
   
 lst_max <- c()
   lst_min <- c()
@@ -624,9 +634,22 @@ lst_max <- c()
   }
 lst_max
 lst_min
-cbind(lst_max, lst_min)
-
 lst_min <- sort(lst_min, )
+
+#lst_min[lst_min<lst_max][1] # gives first value that is off, but what if multiple are... won't work
+# need a loop that removes then checks again
+
+num <- 0
+while (length(lst_min)>= length(lst_max)){ # min list should in theory have 1 less than lst_max
+  num <- num + 2
+  if (lst_max[num]>lst_min[num]){
+    lst_min <- lst_min[-num]
+  }
+}
+
+
+  
+
 # does it need to be an ordered list ... maybe. yes ! b/c take difference in ordered fashion
 # still have problem that lst_max has two more than lst_min, should just be one more
 # plot what have so far to see 
@@ -641,6 +664,10 @@ amen_num<- 8
 # plot
 big_list[[amen_num]][["plot"]]+ xlim(-7.4,-7.2) + ylim(0,0.00000000000000018)
 #big_list[["PMS_prox_idx_emp"]][["nopt"]]
+
+# if theres a minima before then remove that point as a minima
+# have way to check
+# if min_index < max_index (min should come after max), then remove that value and shift 
 ```
 ```{r fig.cap="density curve with minima and maxima"}
 amen_num<- 8
