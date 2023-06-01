@@ -122,6 +122,42 @@ cmixall = list(PMS_prox_idx_emp = 0.0047496679109546, PMS_prox_idx_pharma = 0.02
 #chdbscan = list(PMS_prox_idx_emp = 0.21475, PMS_prox_idx_pharma = 0.0114, PMS_prox_idx_childcare = 0.0087, PMS_prox_idx_health = 0.09555, PMS_prox_idx_grocery = 0.1146, PMS_prox_idx_educpri = 0.05295, PMS_prox_idx_educsec = c(0.0625, 0.096), PMS_prox_idx_lib = 0.0577, PMS_prox_idx_parks = 0.01955, PMS_prox_idx_transit = c(0.0039, 0.0355))
 chdbscan =  list(PMS_prox_idx_emp = 0.22985, PMS_prox_idx_pharma = c(0.01175, 0.0525), PMS_prox_idx_childcare = 0.009, PMS_prox_idx_health = 0.1052,PMS_prox_idx_grocery = c(0.0763, 0.0124), PMS_prox_idx_educpri = c(0.04495,0.22045, 0.1449), PMS_prox_idx_educsec = c(0.0576, 0.0863), PMS_prox_idx_lib = c(0.06575, 0.0691, 0.05465), PMS_prox_idx_parks = 0.01995,PMS_prox_idx_transit = 0.03875)
 
+cpamkmeans = list(PMS_prox_idx_emp = 0.00354965732265224, PMS_prox_idx_pharma = 0.0263499502919753, 
+    PMS_prox_idx_childcare = 0.0364499668413561, PMS_prox_idx_health = 0.00224946884447716, 
+    PMS_prox_idx_grocery = c(0.0112995659370951, 0.0189499271797888, 
+    0.0275499599355604, 0.038949976675303, 0.0574499507265309, 
+    0.0918500301533346, 0.167399317893989), PMS_prox_idx_educpri = 0.0826500219059937, 
+    PMS_prox_idx_educsec = c(0.0556991858613332, 0.0990498437413425, 
+    0.178299296897769), PMS_prox_idx_lib = 0.0943493091040467, 
+    PMS_prox_idx_parks = 0.0450499548102519, PMS_prox_idx_transit = 0.00764984062766953) 
+
+cmclust = list(PMS_prox_idx_emp = c(4.14213253644949e-05, 0.000447722382861175, 
+0.00124907379468787, 0.0033496379343892, 0.00854985258828782, 
+0.020649938420429, 0.051849977216652, 0.162949898378599), PMS_prox_idx_pharma = c(0.0064176656258352, 
+0.0107995366480914, 0.0181499306310357, 0.0331986640972552, 0.055421552515451, 
+0.0113612442533326), PMS_prox_idx_childcare = c(0.00187484177058108, 
+0.0668500138482712), PMS_prox_idx_health = c(0.000246410177823522, 
+0.00344964741551701, 0.00934986333014108), PMS_prox_idx_grocery = c(0.0116898298058918, 
+0.0072198386031646), PMS_prox_idx_educpri = c(0.0234991637948482, 
+0.0265082755680189, 0.0443998704967309, 0.0900500296893578, 0.13115004954825, 
+0.185000010995437), PMS_prox_idx_educsec = c(0.0347496912922471, 
+0.0345950934903355, 0.0438499848307019, 0.0617987062596693, 0.101149653016388, 
+0.143449981685184, 0.0854657664906577), PMS_prox_idx_lib = c(0.0487996030559252, 
+0.053799611978918, 0.0682490920317932, 0.0927483278964371, 0.116349101318268, 
+0.0416971133687469), PMS_prox_idx_parks = c(0.0825462357679255, 
+0.0159499266421358, 0.0324499645311814, 0.0463499913474011, 0.0623500026485389, 
+0.0844500172175564, 0.12194993679559), PMS_prox_idx_transit = c(0.00104891300114654, 
+0.0116498947015775)) 
+
+
+
+
+
+
+
+
+
+
 g_legend <- function(a.gplot){
   tmp <- ggplot_gtable(ggplot_build(a.gplot))
   leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
@@ -455,6 +491,115 @@ cutoffs3 = do.call(grid.arrange,list(grobs=p, layout_matrix=layout_mat))
 
 
 
+# PAM k-means
+p <- list()
+most = 0
+for(i in amenities){
+  temp = na.omit(master[,i])
+  dt <- data.table(x=1:length(temp),y=temp)
+  dens <- density(dt$y)
+  df <- data.frame(x=dens$x, y=dens$y)
+  cutoff = cpamkmeans[[i]] #change this for different algorithms!
+  logged <- log(cutoff+0.0001)
+  df$Cluster <- as.factor(as.numeric(cut(df$x, c(min(df$x), logged, max(df$x)),  include.lowest=T)))
+  plt = ggplot(df, aes(x,y)) + geom_line() + geom_ribbon(aes(ymin=0, ymax=y, fill=Cluster)) + 
+    #scale_x_continuous(breaks=round(logged, 2)) + 
+    ylab('') + guides(fill = 'none') + 
+    theme(
+      #axis.text.x = element_text(angle = 45, vjust = 0.8, hjust=1, size=8), 
+      panel.grid.major = element_blank(), 
+      panel.grid.minor = element_blank(),
+      plot.margin=unit(c(0,0,0.1,0),"cm"),
+      plot.title = element_text(size = 10),
+      axis.ticks.y = element_blank(),
+      axis.text.y = element_blank(),
+      axis.text.x = element_blank(), #removes x axis labels
+      axis.ticks.x = element_blank() #removes x axis ticks
+    ) +
+    ggtitle(str_sub(i, 14))
+  if (is.null(cutoff[1])){
+    plt = plt + xlab("NO CLUSTERS DETECTED") + theme(axis.title.x = element_text(size = 7, color='gray'))
+  } else {
+    plt = plt + xlab(paste(round(cutoff, 3), collapse = ', ')) + theme(axis.title.x = element_text(size = 7, color='gray'))
+  }
+  p[[i]] = plt
+  if (length(cutoff) > most){
+    most = length(cutoff)
+    most_plt = ggplot(df, aes(x,y)) + geom_line() + geom_ribbon(aes(ymin=0, ymax=y, fill=Cluster)) + 
+      scale_x_continuous(breaks=round(logged, 2)) + 
+      guides(fill = guide_legend(title.position = "top", label.hjust = 0.5)) +
+      theme(
+        legend.direction = "horizontal"
+      ) 
+  }
+}
+
+p[[11]] = g_legend(most_plt)
+
+layout_mat <- rbind(c(1:4),
+                    c(5:8),
+                    c(9:11, 11))
+cutoffs4 = do.call(grid.arrange,list(grobs=p, layout_matrix=layout_mat))
+
+
+
+
+
+
+# mclust
+p <- list()
+most = 0
+for(i in amenities){
+  temp = na.omit(master[,i])
+  dt <- data.table(x=1:length(temp),y=temp)
+  dens <- density(dt$y)
+  df <- data.frame(x=dens$x, y=dens$y)
+  cutoff = cmclust[[i]] #change this for different algorithms!
+  logged <- log(cutoff+0.0001)
+  df$Cluster <- as.factor(as.numeric(cut(df$x, c(min(df$x), logged, max(df$x)),  include.lowest=T)))
+  plt = ggplot(df, aes(x,y)) + geom_line() + geom_ribbon(aes(ymin=0, ymax=y, fill=Cluster)) + 
+    #scale_x_continuous(breaks=round(logged, 2)) + 
+    ylab('') + guides(fill = 'none') + 
+    theme(
+      #axis.text.x = element_text(angle = 45, vjust = 0.8, hjust=1, size=8), 
+      panel.grid.major = element_blank(), 
+      panel.grid.minor = element_blank(),
+      plot.margin=unit(c(0,0,0.1,0),"cm"),
+      plot.title = element_text(size = 10),
+      axis.ticks.y = element_blank(),
+      axis.text.y = element_blank(),
+      axis.text.x = element_blank(), #removes x axis labels
+      axis.ticks.x = element_blank() #removes x axis ticks
+    ) +
+    ggtitle(str_sub(i, 14))
+  if (is.null(cutoff[1])){
+    plt = plt + xlab("NO CLUSTERS DETECTED") + theme(axis.title.x = element_text(size = 7, color='gray'))
+  } else {
+    plt = plt + xlab(paste(round(cutoff, 3), collapse = ', ')) + theme(axis.title.x = element_text(size = 7, color='gray'))
+  }
+  p[[i]] = plt
+  if (length(cutoff) > most){
+    most = length(cutoff)
+    most_plt = ggplot(df, aes(x,y)) + geom_line() + geom_ribbon(aes(ymin=0, ymax=y, fill=Cluster)) + 
+      scale_x_continuous(breaks=round(logged, 2)) + 
+      guides(fill = guide_legend(title.position = "top", label.hjust = 0.5)) +
+      theme(
+        legend.direction = "horizontal"
+      ) 
+  }
+}
+
+p[[11]] = g_legend(most_plt)
+
+layout_mat <- rbind(c(1:4),
+                    c(5:8),
+                    c(9:11, 11))
+cutoffs5 = do.call(grid.arrange,list(grobs=p, layout_matrix=layout_mat))
+
+
+
+
+
 
 ###################
 # SAVING PLOTS
@@ -465,5 +610,7 @@ ggsave("silcoef.png", silcoef, dpi = 400, width=8, height=5)
 ggsave("cutoffs_hdbscan.png", cutoffs, dpi = 400, width=8, height=5)
 ggsave("cutoffs_mixall.png", cutoffs2, dpi = 400, width=8, height=5)
 ggsave("cutoffs_quintiles.png", cutoffs3, dpi = 400, width=8, height=5)
+ggsave("cutoffs_pamkmeans.png", cutoffs4, dpi = 400, width=8, height=5)
+ggsave("cutoffs_mclust.png", cutoffs5, dpi = 400, width=8, height=5)
 
 
