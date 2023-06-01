@@ -138,11 +138,13 @@ algo = function(dataset, amen_name, num=NULL){
   #log transform PM
   dataset = log(dataset+0.0001)
   
-  res = hdbscan(as.matrix(dataset), minPts = 250)
+  res = hdbscan(as.matrix(dataset), minPts = 200)
   
   sil_coef = intCriteria(as.matrix(dataset),as.integer(res$cluster), 'Silhouette')$silhouette
   xeni_beni = intCriteria(as.matrix(dataset),as.integer(res$cluster), 'Xie_Beni')$xie_beni
   davies = intCriteria(as.matrix(dataset),as.integer(res$cluster), 'Davies_Bouldin')$davies_bouldin
+  dunn = intCriteria(as.matrix(dataset),as.integer(res$cluster), 'Dunn')$dunn
+  calinski = intCriteria(as.matrix(dataset),as.integer(res$cluster), 'Calinski_Harabasz')$calinski_harabasz
   
   #if only 1 cluster
   if (length(unique(res$cluster)) == 1){
@@ -156,6 +158,8 @@ algo = function(dataset, amen_name, num=NULL){
   print(paste('Silhouette coefficient:', sil_coef))
   print(paste('Xie Beni coefficient:', xeni_beni))
   print(paste('Davies Bouldin coefficient:', davies))
+  print(paste('Dunn Index coefficient:', dunn))
+  print(paste('Calinski-Harabasz coefficient:', calinski))
   
   #unlog the PM
   dataset = exp(dataset)-0.0001
