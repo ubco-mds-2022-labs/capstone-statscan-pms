@@ -520,13 +520,70 @@ for (ameni in 1:length(amenities)){
 kable(cbind(amenities, num_groups)) %>% kable_styling(latex_options = "HOLD_position")
 ```
 
+```{r eval = F, echo = T}
+# cluster values
+# for each amenity get x-values of minima
+# so each amenity has a list
+# in big_list df_minmax, if type is min AND include is 1, then get the density x-value
+# all in same df_minmax ezpz
+for (ameni in 1:length(amenities)){
+  print(amenities[ameni])
+  print(exp(filter(big_list[[ameni]][["df_minmax"]][[1]], type == "min" & include == 1)$x))
+}
+
+# i guess have to manually make this list ... ran the above for loop and copied the values here
+num_of_clust_manual <- c(5, 3, 3, 4, 3, 3, 2, 2, 3, 5)
+
+cut_offs_manual <- list(
+  PMS_prox_idx_emp = c(0.0001423603, 0.0002573125, 0.0003743458, 0.0006010775),
+  PMS_prox_idx_pharma = c(0.01152592, 0.01958168),
+  PMS_prox_idx_childcare = c(0.008507409, 0.013950871),
+  PMS_prox_idx_health = c(0.0001405736, 0.0002524638, 0.0003658077),
+  PMS_prox_idx_grocery = c(0.01218361, 0.01856220),
+  PMS_prox_idx_educpri = c(0.04975835, 0.08179011),
+  PMS_prox_idx_educsec = c(0.06619424),
+  PMS_prox_idx_lib = c(0.6150259),
+  PMS_prox_idx_parks = c(0.01844893, 0.02954933),
+  PMS_prox_idx_transit = c(0.0001390986, 0.0002481958, 0.0003512994, 0.0004514904, 0.8553858919)
+)
+```
+
+
+```{r eval = F}
+sil_kmeans_pam <- c(0.6251910, 0.5923426, 0.5728351, 0.5891724, 0.5561223, 0.5901501, 0.5577481, 0.5655205, 0.5793991, 0.5354237)
+
+dunn_kmeans_pam <- c(0.0049762117, 0.0008444133, 0.0007161396, 0.0077941279, 0.0007049463, 0.0003786560, 0.0017758166, 0.0032023605, 0.0004418321, 0.0029705301)
+
+xei_beni_kmeans_pam <- c(55792.1759, 1591.6493, 19154.7833, 55278.2559, 4520.3419, 548.2124, 20165.5443, 110838.5333, 3766.7252, 2168.3315)
+
+calinski_harabasz_kmeans_pam <- c(36371.960, 11854.182, 15190.339, 18858.442, 19255.211, 15238.574, 16406.098, 6138.014, 14512.118, 8940.283)
+
+davies_bouldin_kmeans_pam <- c(0.5887389, 0.6655722, 0.6862804, 0.6555938, 0.5812439, 0.6575715, 0.6209026, 0.7263383, 0.6942425, 0.7757473)
+
+num_of_clust_kmeans_pam <- c(2, 2, 2, 2, 8, 2, 4, 2, 2, 2)
+
+cut_offs_kmeans_pam <- list(
+  PMS_prox_idx_emp = c(-5.613122),
+  PMS_prox_idx_pharma = c(-3.632501),
+  PMS_prox_idx_childcare = c(-3.309075),
+  PMS_prox_idx_health = c(-6.053566),
+  PMS_prox_idx_grocery = c(-4.474180, -3.960692, -3.588131, -3.242913, -2.855102, -2.386510, -1.786776),
+  PMS_prox_idx_educpri = c(-2.491931),
+  PMS_prox_idx_educsec = c(-2.885996, -2.311123, -1.723731),
+  PMS_prox_idx_lib = c(-2.359692),
+  PMS_prox_idx_parks = c(-3.097766),
+  PMS_prox_idx_transit = c(-4.860083)
+)
+```
+
+
 # Next Steps
 - Investigate 'weight' of distribution for every suggested groups
 - ~~Format table properly~~
 - investigate change of bandwidth in kernel density
 - change number points in density curve
 - investigate with different transforms
-- get cutoff values to send for plotting
+- get cutoff values to send for plotting --> for each amenity get x-value of minima
 
 
 # Appendix: Extra Plots
@@ -656,16 +713,11 @@ while (length(lst_min)>= length(lst_max)){ # min list should in theory have 1 le
 }
 
 
-  
-
 # does it need to be an ordered list ... maybe. yes ! b/c take difference in ordered fashion
 # still have problem that lst_max has two more than lst_min, should just be one more
 # plot what have so far to see 
 ```
 
-```{r eval = F}
-
-```
 
 ```{r eval = F, fig.cap="density curve with minima and maxima"}
 amen_num<- 8
