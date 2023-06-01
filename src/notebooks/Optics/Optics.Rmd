@@ -281,6 +281,7 @@ cutoffs_gro
 sill_coef_gro <- intCriteria(as.matrix(ClusterData_gro), 
                            as.integer(XiClusters_gro$cluster), 
                                      'Silhouette')$silhouette
+sill_coef_gro
 ```
 
 

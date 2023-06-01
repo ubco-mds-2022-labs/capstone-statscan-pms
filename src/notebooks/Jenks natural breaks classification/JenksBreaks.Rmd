@@ -1,0 +1,596 @@
+---
+title: "JenksBreaks"
+author: "Avishek"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, 
+                      cache=TRUE, 
+                      warning = F,
+                      fig.align="center" 
+                      )
+```
+
+* * *
+
+## Introduction
+The Jenks Natural Breaks Classification (or Optimization) system is a data classification method designed to optimize the arrangement of a set of values into "natural" classes.   
+- A Natural class is the most optimal class range found "naturally" in a data set.   
+- Natural breaks are determined with a frequency histogram. Class boundaries are identified as troughs in the data.
+- Many dataset will not have obvious natural breaks which means that this method would tend to show breaks where none really exists.  
+
+Jenks Natural Breaks Classification is done by seeking to minimize each class's average deviation from the class mean, while maximizing each class's deviation from the means of the other classes. In other words, the method seeks to reduce the variance within classes and maximize the variance between classes.
+
+## Alogrithm Steps
+Step 1: The user selects the attribute, x, to be classified and specifies the number of classes required, k
+
+Step 2: A set of k‑1 random or uniform values are generated in the range [min{x},max{x}]. These are used as initial class boundaries
+
+Step 3: The mean values for each initial class are computed and the sum of squared deviations of class members from the mean values is computed. The total sum of squared deviations (TSSD) is recorded
+
+Step 4: Individual values in each class are then systematically assigned to adjacent classes by adjusting the class boundaries to see if the TSSD can be reduced. This is an iterative process, which ends when improvement in TSSD falls below a threshold level, i.e. when the within class variance is as small as possible and between class variance is as large as possible. True optimization is not assured. The entire process can be optionally repeated from Step 1 or 2 and TSSD values compared
+
+
+```{r}
+set.seed(2023)
+library(dplyr)
+library(cluster)
+library(ggplot2)
+library(factoextra)
+library(clusterCrit)
+library(clustertend)
+library(fpc)
+library(clusterSim)
+library(BAMMtools)
+load('../../../data/master_pms_df.Rdata')
+
+# Convert selected columns to numeric
+master <- master %>%
+  mutate(PMS_DBPOP = as.numeric(gsub(",", "", PMS_DBPOP)), # Dissemination block population
+         PMS_DAPOP = as.numeric(gsub(",", "", PMS_DAPOP)), # Dissemination area population
+         PMS_CSDPOP = as.numeric(gsub(",", "", PMS_CSDPOP)), # Census subdivision population
+         PMS_CMAPOP = as.numeric(gsub(",", "", PMS_CMAPOP)), # Census metropolitan area population
+         PMS_PRPOP = as.numeric(gsub(",", "", PMS_PRPOP)), # Province or territory population
+         # in_db_emp = as.numeric(in_db_emp),
+         # in_db_pharma = as.numeric(in_db_pharma),
+         # in_db_childcare = as.numeric(in_db_childcare),
+         # in_db_health = as.numeric(in_db_health),
+         # in_db_grocery = as.numeric(in_db_grocery),
+         # in_db_educpri = as.numeric(in_db_educpri),
+         # in_db_educsec = as.numeric(in_db_educsec),
+         # in_db_lib = as.numeric(in_db_lib),
+         # in_db_parks = as.numeric(in_db_parks),
+         # in_db_transit = as.numeric(in_db_transit),
+         PMS_prox_idx_emp = as.numeric(PMS_prox_idx_emp),
+         PMS_prox_idx_pharma = as.numeric(PMS_prox_idx_pharma),
+         PMS_prox_idx_childcare = as.numeric(PMS_prox_idx_childcare),
+         PMS_prox_idx_health = as.numeric(PMS_prox_idx_health),
+         PMS_prox_idx_grocery = as.numeric(PMS_prox_idx_grocery),
+         PMS_prox_idx_educpri = as.numeric(PMS_prox_idx_educpri),
+         PMS_prox_idx_educsec = as.numeric(PMS_prox_idx_educsec),
+         PMS_prox_idx_lib = as.numeric(PMS_prox_idx_lib),
+         PMS_prox_idx_parks = as.numeric(PMS_prox_idx_parks),
+         PMS_prox_idx_transit = as.numeric(PMS_prox_idx_transit),
+         DBUID = as.character(DBUID),
+         PMS_DAUID = as.character(PMS_DAUID),
+         PMS_CSDUID = as.character(PMS_CSDUID),
+         PMS_CMAUID = as.character(PMS_CMAUID),
+         PMS_CMAPUID = as.character(PMS_CMAPUID),
+         PMS_PRUID = as.character(PMS_PRUID),
+         PMS_suppressed = as.character(PMS_suppressed),
+         PMS_transit_na = as.character(PMS_suppressed))
+
+
+# Subset columns that start with "prox_idx"
+amenities <- colnames(master)[grepl("^PMS_prox_idx", colnames(master))]
+# master dataset - contains only proximity columns
+master_amenities <- master[, amenities]
+# variables to cluster with
+clust_vars = c('CSD_AREA', 'PMS_CSDPOP', 'PMS_DBPOP', 'IOR_Index_of_remoteness') #, 'PMS_CMATYPE')
+
+# subsampling data 
+perc = 3 #percentage of data to subsample
+subsample = (nrow(master)/100)*perc 
+master_sample = master[sample(nrow(master), subsample),]
+
+master_sample_log <- master_sample
+
+# log transform PMs
+for (i in amenities){
+  master_sample_log[,i] = log(master_sample[,i] + 0.0001)
+}
+
+master_amenities_log <- master_amenities
+
+for (i in amenities){
+  master_amenities_log[,i] = log(master_amenities[,i] + 0.0001)
+}
+```
+
+
+
+```{r}
+# Mode function
+Mode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+algo <- function(data, c_num){
+  avg_sil_width = c()
+  dunn_stats = c()
+  xie_beni = c()
+  calinski_harabasz = c()
+  davies_bouldin = c()
+  
+  counter = 1
+  
+  # run algo for different number of clusters
+  for (i in c_num){
+   
+    # apply the jenks
+    jenks_breaks <- getJenksBreaks(data$Data, i)
+    # jenks_breaks_org <- exp(jenks_breaks) - 0.0001
+
+  
+    # max_val <- max(data$Data)
+    
+    # group numbers based on breaks
+    data$Cluster <- NA
+
+    for (i in 1:length(jenks_breaks)) {
+      if (i == 1) {
+        data$Cluster <- ifelse(data$Data <= jenks_breaks[i], i, NA)
+      } else {
+        data$Cluster <- ifelse(data$Data< jenks_breaks[i] & is.na(data$Cluster), 
+                                          i, data$Cluster)
+      }
+    }
+    
+    # last group to values above the highest break
+    data$Cluster <- ifelse(is.na(data$Cluster), 
+                                      length(jenks_breaks) + 1, 
+                                      data$Cluster)
+    
+    
+    clusts <- data$Cluster
+    comp_data <- data$Data
+    
+    sil = silhouette(clusts, dist(comp_data))
+    
+    avg_sil_width[counter] <- mean(sil[, "sil_width"])
+    
+    dunn_stats[counter] <- cluster.stats(dist(comp_data), clusts)$dunn
+    
+    xie_beni[counter] <- intCriteria(as.matrix(comp_data), 
+                            as.integer(clusts), 
+                            'Xie_Beni')$xie_beni
+    
+    calinski_harabasz[counter] <- calinhara(comp_data, clusts)
+    
+    davies_bouldin[counter] <- index.DB(comp_data, clusts)$DB
+    
+    counter = counter + 1
+  }
+  
+  #plot silhouette coefficients
+  plot(avg_sil_width~c_num, type = 'l', ylab="Silhouette Coefficient", xlab='Number of Clusters', lwd=2)
+
+  # plot Dunn Index coefficients
+  plot(dunn_stats~c_num, type = 'l', ylab="Dunn Coefficient", xlab='Number of Clusters', lwd=2)
+
+  # plot Xie_Beni coefficients
+  plot(xie_beni~c_num, type = 'l', ylab="Xie_Beni Coefficient", xlab='Number of Clusters', lwd=2)
+
+  # plot Calinski Harabasz coefficients
+  plot(calinski_harabasz~c_num, type = 'l', ylab="Calinski Harabasz Coefficient", xlab='Number of Clusters', lwd=2)
+
+  # plot davies_bouldin coefficients
+  plot(davies_bouldin~c_num, type = 'l', ylab="Davies Bouldin Coefficient", xlab='Number of Clusters', lwd=2)
+
+
+  res_avg_sil_width <- c_num[which(avg_sil_width == max(avg_sil_width))]
+  res_dunn_stats <- c_num[which(dunn_stats == max(dunn_stats))]
+  res_xie_beni <- c_num[which(xie_beni == min(xie_beni))]
+  res_calinski_harabasz <- c_num[which(calinski_harabasz == max(calinski_harabasz))]
+  res_davies_bouldin <- c_num[which(davies_bouldin == min(davies_bouldin))]
+
+
+  # the most suggested number of clusters
+  most_frequent <- Mode(c(res_avg_sil_width,
+                          res_dunn_stats,
+                          res_xie_beni,
+                          res_calinski_harabasz,
+                          res_davies_bouldin))
+
+  # re-run algorithm with most suggested number of clusters
+  jenks_breaks <- getJenksBreaks(data$Data, most_frequent)
+
+  return(list("jenks_breaks" = jenks_breaks, "no_clust" = most_frequent))
+}
+
+do_everything = function(data, num){
+  
+  data <- as.matrix(na.omit(data))
+  # make a dataframe with clusters and data
+  data <- as.data.frame(data)
+  colnames(data) <- c("Data")
+
+  res = algo(data, num)
+
+  jenks_breaks <- res$jenks_breaks
+  
+  max_val <- max(data$Data)
+  
+# group numbers based on breaks
+    data$Cluster <- NA
+
+    for (i in 1:length(jenks_breaks)) {
+      if (i == 1) {
+        data$Cluster <- ifelse(data$Data <= jenks_breaks[i], i, NA)
+      } else {
+        data$Cluster <- ifelse(data$Data< jenks_breaks[i] & is.na(data$Cluster), 
+                                          i, data$Cluster)
+      }
+    }
+    
+    # last group to values above the highest break
+    data$Cluster <- ifelse(is.na(data$Cluster), 
+                                      length(jenks_breaks) + 1, 
+                                      data$Cluster)
+  
+  clusts <- data$Cluster
+  comp_data <- data$Data
+  
+  sil = silhouette(clusts, dist(comp_data))
+  plot(fviz_silhouette(sil))
+  
+  avg_sil_width <- mean(sil[, "sil_width"])
+  
+  dunn_stats <- cluster.stats(dist(comp_data), clusts)
+  
+  xie_beni <- intCriteria(as.matrix(comp_data), 
+                          as.integer(clusts), 
+                          'Xie_Beni')$xie_beni
+  
+  calinski_harabasz <- calinhara(comp_data, clusts)
+  
+  davies_bouldin <- index.DB(comp_data, clusts)$DB
+  
+  
+  cutoffs <- tapply(data$Data, data$Cluster, quantile, probs = c(0, 1))
+
+  # cut-off viz
+  # data frame with the cutoff values and group information
+  cutoff_data <- data.frame(Group = rownames(cutoffs))
+  cutoff_data$Start <- sapply(cutoffs, function(x) x["0%"])
+  cutoff_data$End <- sapply(cutoffs, function(x) x["100%"])
+
+  return(list('avg_sill_width' = avg_sil_width,
+              "dunn_index" = dunn_stats,
+              "xie_beni" = xie_beni,
+              "calinski_harabasz" = calinski_harabasz,
+              "davies_bouldin" = davies_bouldin,
+              "opt_n_clust" = res$no_clust,
+              "cut_offs" = cutoff_data,
+              "breaks" = jenks_breaks
+              )
+         )
+}
+```
+
+
+```{r}
+rug_plot <- function(cluster_data, Data){
+  num_clusters <- length(unique(cluster_data$Group))
+  cluster_colors <- hcl(h = seq(15, 375, length = num_clusters), c = 100, l = 65)
+  
+  ggplot(Data, aes(x = Value)) +
+    geom_histogram(aes( y = ..density..),
+                   colour = 1, fill = "white", bins = 50) +
+    geom_density() +
+    # rug cluster
+    geom_segment(data = cluster_data, aes(x = Start, xend = End, 
+                                          y = 0, yend = 0, 
+                                          color = as.factor(Group)), 
+                 size = 2) +
+    # rug points
+    geom_rug(data = Data, aes(x = Value), sides = "b", size = 0.2) +
+    scale_color_manual(values = cluster_colors) +
+    
+    geom_vline(data = cluster_data, 
+               aes(xintercept = Start), 
+               color = "blue", linetype = "dashed", size = 0.1, alpha = 0.5) +
+    
+    geom_vline(data = cluster_data, 
+               aes(xintercept = End), 
+               color = "red", linetype = "dashed", size = 0.1, alpha = 0.5) +
+    
+    ylab("") +
+    xlab("Value") +
+    ggtitle("Cluster Rugs with Histogram & Cutoff Line") +
+    theme_minimal() +
+    coord_cartesian(xlim = c(min(cluster_data$Start) - 1, max(cluster_data$End) + 1))
+}
+```
+
+
+
+### Employment 
+
+```{r}
+res_emp = do_everything(master_sample_log$PMS_prox_idx_emp, 2:10)
+```
+
+In the cutoff line figures below Blue vertical line indicates a cluster starting point and red vertical line indicates cluster's ending point. If you can't see the blue line before the red line that means either the cluster contains only one point or the starting and ending point of that cluster is so close. 
+
+```{r}
+Data_emp <- data.frame(Value = na.omit(master_sample_log$PMS_prox_idx_emp))
+rug_plot(res_emp$cut_offs, Data_emp)
+```
+
+
+### Health 
+
+```{r}
+res_health = do_everything(master_sample_log$PMS_prox_idx_health, 2:10)
+```
+
+```{r}
+Data_health <- data.frame(Value = na.omit(master_sample_log$PMS_prox_idx_health))
+rug_plot(res_health$cut_offs, Data_health)
+```
+
+
+### Childcare 
+
+```{r}
+res_childcare = do_everything(master_sample_log$PMS_prox_idx_childcare, 2:10)
+```
+
+```{r}
+Data_childcare <- data.frame(Value = na.omit(master_sample_log$PMS_prox_idx_childcare))
+rug_plot(res_childcare$cut_offs, Data_childcare)
+```
+
+### Parks 
+
+```{r}
+res_parks = do_everything(master_sample_log$PMS_prox_idx_parks, 2:10)
+```
+
+
+```{r}
+Data_parks <- data.frame(Value = na.omit(master_sample_log$PMS_prox_idx_parks))
+rug_plot(res_parks$cut_offs, Data_parks)
+```
+
+
+### Education Primary 
+
+```{r}
+res_educpri = do_everything(master_sample_log$PMS_prox_idx_educpri, 2:10)
+```
+
+```{r}
+Data_educpri <- data.frame(Value = na.omit(master_sample_log$PMS_prox_idx_educpri))
+rug_plot(res_educpri$cut_offs, Data_educpri)
+```
+
+### Transit 
+
+```{r}
+res_transit = do_everything(master_sample_log$PMS_prox_idx_transit, 2:10)
+```
+
+
+```{r}
+Data_transit <- data.frame(Value = na.omit(master_sample_log$PMS_prox_idx_transit))
+rug_plot(res_transit$cut_offs, Data_transit)
+```
+
+### Pharma 
+
+```{r}
+res_pharma = do_everything(master_sample_log$PMS_prox_idx_pharma, 2:10)
+```
+
+```{r}
+Data_pharma <- data.frame(Value = na.omit(master_sample_log$PMS_prox_idx_pharma))
+rug_plot(res_pharma$cut_offs, Data_pharma)
+```
+
+### Education Secondary 
+
+```{r}
+res_educsec = do_everything(master_sample_log$PMS_prox_idx_educsec, 2:10)
+```
+
+```{r}
+Data_educsec <- data.frame(Value = na.omit(master_sample_log$PMS_prox_idx_educsec))
+rug_plot(res_educsec$cut_offs, Data_educsec)
+```
+
+### Grocery 
+
+```{r}
+res_grocery = do_everything(master_sample_log$PMS_prox_idx_grocery, 2:10)
+```
+
+```{r}
+Data_grocery <- data.frame(Value = na.omit(master_sample_log$PMS_prox_idx_grocery))
+rug_plot(res_grocery$cut_offs, Data_grocery)
+```
+
+### Library 
+
+```{r}
+res_lib = do_everything(master_sample_log$PMS_prox_idx_lib, 2:10)
+```
+
+```{r}
+Data_lib <- data.frame(Value = na.omit(master_sample_log$PMS_prox_idx_lib))
+rug_plot(res_lib$cut_offs, Data_lib)
+```
+<!--
+
+```{r eval=False}
+Data_emp <- as.matrix(na.omit(master_sample_log$PMS_prox_idx_emp))
+emp_breaks <- getJenksBreaks(Data_emp, 4, subset = NULL)
+```
+
+```{r eval=False}
+emp_breaks
+```
+
+```{r eval=False}
+emp_breaks_org <- exp(emp_breaks) - 0.0001
+emp_breaks_org
+```
+
+```{r eval=False}
+# add an additional break point
+ClusterData_emp <- as.data.frame(Data_emp)
+```
+
+
+```{r eval=False}
+# Determine the min and max values
+min_val <- min(ClusterData_emp$V1)
+max_val <- max(ClusterData_emp$V1)
+
+# Assign group numbers based on breaks
+ClusterData_emp$Cluster <- ifelse(ClusterData_emp$V1 <= emp_breaks[1], 1, 
+                                  ifelse(ClusterData_emp$V1 < emp_breaks[2], 2,
+                                         ifelse(ClusterData_emp$V1 < emp_breaks[3], 3,
+                                                ifelse(ClusterData_emp$V1 < emp_breaks[4], 4,
+                                                       ifelse(ClusterData_emp$V1 <= max_val, 5, NA)
+                                                       )
+                                                )
+                                         )
+                                  )
+head(ClusterData_emp)
+```
+
+
+```{r eval=False}
+unique(ClusterData_emp$Cluster)
+```
+-9.2103404 -6.9077553 -4.3428059 -0.3215836
+
+```{r eval=False}
+length(ClusterData_emp[ClusterData_emp$V1==-6.9077553,])
+```
+
+ 
+```{r eval=False}
+max(ClusterData_emp[ClusterData_emp$Cluster==1, "V1"])
+```
+
+```{r eval=False}
+min(ClusterData_emp[ClusterData_emp$Cluster==1, "V1"])
+```
+
+
+
+```{r eval=False}
+ClusterData_emp$Cluster <- NA
+
+for (i in 1:length(emp_breaks)) {
+  if (i == 1) {
+    ClusterData_emp$Cluster <- ifelse(ClusterData_emp$V1 <= emp_breaks[i], i, NA)
+  } else {
+    ClusterData_emp$Cluster <- ifelse(ClusterData_emp$V1 < emp_breaks[i] & is.na(ClusterData_emp$Cluster), i, ClusterData_emp$Cluster)
+  }
+}
+
+# Assign the last group to values above the highest break
+ClusterData_emp$Cluster <- ifelse(is.na(ClusterData_emp$Cluster), length(emp_breaks) + 1, ClusterData_emp$Cluster)
+
+```
+
+
+```{r eval=False}
+cutoffs <- tapply(ClusterData_emp[, "V1"], ClusterData_emp$Cluster, quantile, probs = c(0, 1))
+  
+# cut-off viz
+# data frame with the cutoff values and group information
+cutoff_data <- data.frame(Group = rownames(cutoffs))
+cutoff_data$Start <- sapply(cutoffs, function(x) x["0%"])
+cutoff_data$End <- sapply(cutoffs, function(x) x["100%"])
+```
+
+```{r eval=False}
+cutoff_data
+```
+
+
+```{r eval=False}
+library(ggplot2)
+Data_emp <- data.frame(Value = na.omit(master_sample_log$PMS_prox_idx_emp))
+# Create a data frame with the cluster information
+cluster_data <- data.frame(Group = c(1, 2, 3, 4, 5),
+                           Start = c(-9.2103404, -8.5171932, -6.9077553, -4.3428059, -0.3215836),
+                           End = c(-9.2103404, -7.0131158, -4.3505280, -0.3339355, -0.3215836))
+```
+
+
+```{r eval=False}
+num_clusters <- length(unique(cluster_data$Group))
+cluster_colors <- hcl(h = seq(15, 375, length = num_clusters), c = 100, l = 65)
+
+ggplot(Data_emp) +
+  geom_histogram(data = Data_emp, aes(x = Value), alpha = 0.5, bins = 50) + # binwidth = 0.2) +
+  geom_density(data = Data_emp,aes(x = Value), alpha = 0.5) +
+  # rug cluster
+  geom_segment(data = cluster_data, aes(x = Start, xend = End, y = 0, yend = 0, color = as.factor(Group)), size = 2) +
+  # rug points
+  geom_rug(aes(x = Value), sides = "b", size = 0.2) +
+  scale_color_manual(values = cluster_colors) +
+  geom_vline(xintercept = cluster_data$Start, color = "blue", linetype = "dashed", size = 0.1, alpha=0.5) +
+  geom_vline(xintercept = cluster_data$End, color = "red", linetype = "dashed", size = 0.1, alpha=0.5) +
+  ylab("") +
+  xlab("Value") +
+  ggtitle("Cluster Rugs with Histogram & Cutoff Line") +
+  theme_minimal() +
+  coord_cartesian(xlim = c(min(cluster_data$Start) - 1, max(cluster_data$End) + 1))
+
+```
+
+```{r eval=False}
+num_clusters <- length(unique(cluster_data$Group))
+cluster_colors <- hcl(h = seq(15, 375, length = num_clusters), c = 100, l = 65)
+
+ggplot(Data_emp, aes(x = Value)) +
+  geom_histogram(aes( y = ..density..),
+                 colour = 1, fill = "white", bins = 50) +
+  geom_density() +
+  # rug cluster
+  geom_segment(data = cluster_data, aes(x = Start, xend = End, y = 0, yend = 0, color = as.factor(Group)), size = 2) +
+  # rug points
+  geom_rug(data = Data_emp, aes(x = Value), sides = "b", size = 0.2) +
+  scale_color_manual(values = cluster_colors) +
+  geom_vline(data = cluster_data, aes(xintercept = Start), color = "blue", linetype = "dashed", size = 0.1, alpha = 0.5) +
+  geom_vline(data = cluster_data, aes(xintercept = End), color = "red", linetype = "dashed", size = 0.1, alpha = 0.5) +
+  ylab("") +
+  xlab("Value") +
+  ggtitle("Cluster Rugs with Histogram & Cutoff Line") +
+  theme_minimal() +
+  coord_cartesian(xlim = c(min(cluster_data$Start) - 1, max(cluster_data$End) + 1))
+
+```
+
+
+
+```{r eval=False}
+ClusterData_emp <- as.data.frame(Data_emp)
+# Create histogram
+hist(ClusterData_emp$V1, breaks = emp_breaks, col = "skyblue", xlab = "Value", ylab = "Frequency",
+     main = "Distribution of Data with Jenks Breaks")
+```
+
+
+-->
+
