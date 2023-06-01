@@ -18,6 +18,7 @@ library(factoextra)
 library(ggplot2)
 library(tidyverse)
 library(gridExtra)
+library(kableExtra)
 ```
 
 ```{r}
@@ -200,10 +201,6 @@ for (amen in amenities){
     }
   }
   
-  print(amen)
-  print(length(lst_max))
-  print(length(lst_min))
-  
   amen_list[[2]] <- lst_max
   amen_list[[3]] <- lst_min
   amen_list[[4]] <- amen_list[[1]][["y"]][amen_list[[2]]]-amen_list[[1]][["y"]][amen_list[[3]]] # diff b/w max and following min density values
@@ -257,6 +254,12 @@ As is, there would be  `r length( big_list[["PMS_prox_idx_emp"]][["maxima"]])` g
 # plot
 big_list[["PMS_prox_idx_emp"]][["plot"]]
 #big_list[["PMS_prox_idx_emp"]][["nopt"]]
+
+
+
+# add include row so can do table later
+threshold <- 0.001
+big_list[[1]][["df_minmax"]][[1]] <- big_list[[1]][["df_minmax"]][[1]] %>% mutate(include = ifelse(index %in% which(big_list[[1]][["maxmindiff"]] < threshold), 0,1))
 ```
 
 ```{r eval = F, fig.cap="Difference between density value of a maxima-minima pairs, with suggested threshold = 0.01"}
@@ -454,7 +457,7 @@ big_list[[amen_num]][["nopt"]] +geom_point(data = filter(big_list[[amen_num]][["
 
 ## Libraries
 
-Not quite sure why the minima values aren't being plotted in the final plot for libraries only. For some reason there are sometimes two minima following each other, which is algebrically impossible. Will need to investigate. Regardless, the plot suggests 1 minima cutoff, giving 2 groups. 
+The plot suggests 1 minima cutoff, giving 2 groups. Similarly as in other amenities, the case could be made that more clusters could be found in areas that plateau a bit.
 
 ```{r fig.cap="density plot with suggested cutoff points in blue"}
 # removing minima that aren't above threshold
@@ -508,9 +511,21 @@ big_list[[amen_num]][["nopt"]] +geom_point(data = filter(big_list[[amen_num]][["
 (table with number of groups for each amenity)
 ```{r}
 # remade this to have reproducible workflow instead of manual count
-num_groups <- c(5,3,4,3,3,3,2,2,3,5)
+# the number of maxima gives essentially the number of groups
+# sum the 'include' col in df_minmax if type is max for each amenity
+# ezpz
+num_groups <- c()
+for (ameni in 1:length(amenities)){
+  num_groups[ameni] <- aggregate(include~type, data = big_list[[ameni]][["df_minmax"]][[1]], sum)[1,2]
+}
 
-cbind(amenities, num_groups)
+#aggregate(include~type, data = big_list[["PMS_prox_idx_lib"]][["df_minmax"]][[1]], sum)[1,2]
+
+#num_groups <- c(5,3,4,3,3,3,2,2,3,5)
+
+#cbind(amenities, num_groups)
+
+kable(cbind(amenities, num_groups)) %>% kable_styling(latex_options = "HOLD_position")
 ```
 
 # Next Steps
