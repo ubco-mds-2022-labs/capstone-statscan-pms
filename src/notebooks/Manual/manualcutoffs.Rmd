@@ -507,8 +507,6 @@ big_list[[amen_num]][["nopt"]] +geom_point(data = filter(big_list[[amen_num]][["
 ```
 
 ## Summary
-
-(table with number of groups for each amenity)
 ```{r}
 # remade this to have reproducible workflow instead of manual count
 # the number of maxima gives essentially the number of groups
@@ -519,21 +517,16 @@ for (ameni in 1:length(amenities)){
   num_groups[ameni] <- aggregate(include~type, data = big_list[[ameni]][["df_minmax"]][[1]], sum)[1,2]
 }
 
-#aggregate(include~type, data = big_list[["PMS_prox_idx_lib"]][["df_minmax"]][[1]], sum)[1,2]
-
-#num_groups <- c(5,3,4,3,3,3,2,2,3,5)
-
-#cbind(amenities, num_groups)
-
 kable(cbind(amenities, num_groups)) %>% kable_styling(latex_options = "HOLD_position")
 ```
 
 # Next Steps
 - Investigate 'weight' of distribution for every suggested groups
-- Format table properly
+- ~~Format table properly~~
 - investigate change of bandwidth in kernel density
 - change number points in density curve
 - investigate with different transforms
+- get cutoff values to send for plotting
 
 
 # Appendix: Extra Plots
