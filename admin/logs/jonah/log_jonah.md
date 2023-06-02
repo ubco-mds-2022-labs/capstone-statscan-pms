@@ -217,6 +217,52 @@ think it went well.
 No, not this week. We revised our schedule with the time we have left,
 so things are looking good.
 
+## Week 5
+
+Add individual contributions here (be sure to call the **tidyverse** and
+**knitr** package first)
+
+| week | day        | hours | description                                                                      | comments |
+|---:|:-------|----:|:------------------------------------------------|:------|
+|    5 | 2023-05-29 |  6.00 | updating plots, meeting slides, instructor meeting, team meeting, report writing | 10-4     |
+|    5 | 2023-05-30 |  7.50 | team meeting, TA meeting, tables and figures for report, some report writing     | 9-430    |
+|    5 | 2023-05-31 |  7.00 | team meeting, report writing, making plots for report                            | 930-430  |
+|    5 | 2023-06-01 |  7.00 | team meeting, team dynamics meeting, plots, report writing                       | 930-430  |
+|    5 | 2023-06-02 |  2.75 | client meeting, false cluster investigation, logs                                | 1030-115 |
+
+My total weekly hours are: 30.25
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week?
+
+My most significant individual contribution this week was getting the
+first draft of the final report off the ground. I spent a fair amount of
+time doing this, and have the majority of the methods and results done,
+along with their accompanying plots and tables.
+
+1.  What was your most significant **team contribution** to the project
+    this week?
+
+My most significant team contribution this week was participating in the
+team dynamics discussion. Everyone was able to say their bit, and from
+my perspective, things are resolved now.
+
+1.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project?
+
+We need to decide on a criterion/metric for comparing our modeling
+approaches. This should ideally be done before cluster profiling and
+report writing. However, we are having difficulty deciding this, and
+have booked a meeting with Jeff so that he can help us. Issue is, it’s
+scheduled for the 8th, a few days later than we would like. We may end
+up just choosing something, and then going back and fixing it once we
+get some ideas from Jeff.
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use
@@ -228,3 +274,4 @@ the following (requires the **dplyr** package)
 |    2 |              31.50 |
 |    3 |              31.00 |
 |    4 |              25.25 |
+|    5 |              30.25 |
