@@ -706,7 +706,7 @@ lst_min <- sort(lst_min, )
 
 num <- 0
 while (length(lst_min)>= length(lst_max)){ # min list should in theory have 1 less than lst_max
-  num <- num + 2
+  num <- num + 1
   if (lst_max[num]>lst_min[num]){
     lst_min <- lst_min[-num]
   }
