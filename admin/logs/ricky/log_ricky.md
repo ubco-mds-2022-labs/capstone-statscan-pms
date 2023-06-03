@@ -190,6 +190,34 @@ presenting the midterm presentation. It helped center and reflect on our
 project. Roadblocks this week include unexpected results, showing the
 need to investigate algorithms and validation techniques some more.
 
+## Week 5
+
+| week | day        | hours | description            | comments                          |
+|-----:|:----------|------:|:--------------------|:-----------------------------|
+|    5 | 2023-05-29 |   2.0 | Meetings               | Group meeting, instructor meeting |
+|    5 | 2023-05-29 |   5.0 | Manual clustering      | NA                                |
+|    5 | 2023-05-30 |   1.5 | Meetings               | Group, TA                         |
+|    5 | 2023-05-30 |   5.5 | Manual clustering      | NA                                |
+|    5 | 2023-05-31 |   1.0 | Meetings               | group                             |
+|    5 | 2023-05-31 |   3.5 | Manual clustering      | NA                                |
+|    5 | 2023-06-01 |   0.5 | Meetings               | team dynamics reflection          |
+|    5 | 2023-06-01 |   2.5 | Meetings               | daily, team dynamics              |
+|    5 | 2023-06-01 |   3.0 | Manual clustering      | NA                                |
+|    5 | 2023-06-02 |   1.0 | Meetings               | client meeting                    |
+|    5 | 2023-06-02 |   4.0 | Manual clustering      | NA                                |
+|    5 | 2023-06-02 |   1.5 | over the week managing | agendas, logs, emails, etc        |
+
+### Weekly Reflection
+
+My most significant individual contribution this week was coming up with
+reproducible code to ‘manually’ identify segmentation points via
+identifying minima in the density curve, and investigating parameters
+having different effects. Our most significant team contribution was
+discussing our team dynamics. Roadblocks we have this week is the
+analysis of the different metrics and techniques we use, and knowledge
+of how they work and how the results may be interpreted, as different
+metrics give different results.
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use
@@ -201,3 +229,4 @@ the following (requires the **dplyr** package)
 |    2 |               32.5 |
 |    3 |               20.0 |
 |    4 |               26.0 |
+|    5 |               31.0 |
