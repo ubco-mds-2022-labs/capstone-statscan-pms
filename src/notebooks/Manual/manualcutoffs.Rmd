@@ -520,7 +520,8 @@ for (ameni in 1:length(amenities)){
 kable(cbind(amenities, num_groups)) %>% kable_styling(latex_options = "HOLD_position")
 ```
 
-```{r eval = F, echo = T}
+Cut off values:
+```{r }
 # cluster values
 # for each amenity get x-values of minima
 # so each amenity has a list
@@ -530,7 +531,8 @@ for (ameni in 1:length(amenities)){
   print(amenities[ameni])
   print(exp(filter(big_list[[ameni]][["df_minmax"]][[1]], type == "min" & include == 1)$x))
 }
-
+```
+```{r eval = F}
 # i guess have to manually make this list ... ran the above for loop and copied the values here
 num_of_clust_manual <- c(5, 3, 3, 4, 3, 3, 2, 2, 3, 5)
 
@@ -580,10 +582,10 @@ cut_offs_kmeans_pam <- list(
 # Next Steps
 - Investigate 'weight' of distribution for every suggested groups
 - ~~Format table properly~~
-- investigate change of bandwidth in kernel density
-- change number points in density curve
+- ~~investigate change of bandwidth in kernel density~~
+- ~~change number points in density curve~~
 - investigate with different transforms
-- get cutoff values to send for plotting --> for each amenity get x-value of minima
+- ~~get cutoff values to send for plotting~~
 
 
 # Appendix: Extra Plots
