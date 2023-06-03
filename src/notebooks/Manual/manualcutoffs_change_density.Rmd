@@ -1,5 +1,5 @@
 ---
-title: "Manual cutoffs"
+title: "Manual cutoffs: density(n=1024)"
 author: "Ricky Heinrich"
 date: "`r Sys.Date()`"
 output: 
@@ -64,12 +64,16 @@ master_sample = master[sample(nrow(master), subsample),] #random sample
 \newpage
 # Introduction
 
+In this copy, I changed the `density` 'n' value from the default `n=512` to `n=1024`. 'n' in the `density` function is the number of equally spaced points at which the density is to be estimated.
+
+Tldr result: n=1024 hows same number of groups as n=512, and cutoff values very similar if not identical to 2 s.d. Need closer analysis to see if difference between the two follow a pattern or just random.
+
 The Proximity Measures Database contains continuous measures for 10 amenities for a number of DB within a specific threshold. The distribution of these proximity measures is heavily right skewed, and there are for the most part no discernible clusters. The density distribution, with a default bandwidth, of each amenity is shown in Figure 1.
 
 ```{r fig.height=7, fig.width=7, fig.cap="Distribution of proximity measures by amenity"}
 master[,amenities] %>% pivot_longer(all_of(amenities)) %>%
   ggplot(aes(value))+ 
-    geom_density() + 
+    geom_density(n=1024) + 
     facet_wrap(~name, scales = 'free_y', ncol = 3) + labs(title = "")
 ```
 
@@ -102,7 +106,7 @@ master_log <- master[,amenities] %>% mutate(across(all_of(amenities), ~ .x + 0.0
 
 master[,amenities] %>% mutate(across(all_of(amenities), ~ .x + 0.0001)) %>% log() %>%  pivot_longer(all_of(amenities)) %>%
   ggplot(aes(value))+ 
-    geom_density() + 
+    geom_density(n=1024) + 
     facet_wrap(~name, scales = 'free_y', ncol = 3) + labs(title = "")
 ```
 
@@ -114,7 +118,7 @@ master_log <- master[,amenities] %>% mutate(across(all_of(amenities), ~ .x + 0.0
 
 master[,amenities] %>% mutate(across(all_of(amenities[! amenities %in% c('PMS_prox_idx_grocery','PMS_prox_idx_educpri', 'PMS_prox_idx_educsec','PMS_prox_idx_lib' )]), ~ .x + 0.0001)) %>% log() %>%  pivot_longer(all_of(amenities)) %>%
   ggplot(aes(value))+ 
-    geom_density() + 
+    geom_density(n=1024) + 
     facet_wrap(~name, scales = 'free_y', ncol = 3) + labs(title = "")
 ```
 
@@ -157,8 +161,8 @@ for (amen in amenities){
   # in the list for given amenity, will have density list, max vector, min vector
   count <- count+1
   amen_list <- list()
-  amen_list[[1]] <- density(master_log[,amen], na.rm = T) # list of densities
-  d_amen <-  density(master_log[,amen], na.rm = T)
+  amen_list[[1]] <- density(master_log[,amen], n=1024, na.rm = T) # list of densities
+  d_amen <-  density(master_log[,amen], n=1024, na.rm = T)
   
   # get locations of local minima and maxima
   DeltaY <- diff(d_amen$y) 
@@ -507,6 +511,8 @@ big_list[[amen_num]][["nopt"]] +geom_point(data = filter(big_list[[amen_num]][["
 ```
 
 ## Summary
+Should find a way to compare with when n=512 in same doc to see how different the cutoff values are, see if diff number of groups at all. 'Manual' comparison shows same number of groups, and cutoff values very similar if not identical to 2 s.d.
+
 ```{r}
 # remade this to have reproducible workflow instead of manual count
 # the number of maxima gives essentially the number of groups
@@ -520,17 +526,19 @@ for (ameni in 1:length(amenities)){
 kable(cbind(amenities, num_groups)) %>% kable_styling(latex_options = "HOLD_position")
 ```
 
-```{r eval = F, echo = T}
+```{r}
 # cluster values
 # for each amenity get x-values of minima
 # so each amenity has a list
 # in big_list df_minmax, if type is min AND include is 1, then get the density x-value
 # all in same df_minmax ezpz
+print("Cluster cutoff values")
 for (ameni in 1:length(amenities)){
   print(amenities[ameni])
   print(exp(filter(big_list[[ameni]][["df_minmax"]][[1]], type == "min" & include == 1)$x))
 }
-
+```
+```{r eval = F, echo = T}
 # i guess have to manually make this list ... ran the above for loop and copied the values here
 num_of_clust_manual <- c(5, 3, 3, 4, 3, 3, 2, 2, 3, 5)
 
@@ -648,7 +656,7 @@ abline(h = 0.001, lty=2, col = "grey")
 ## Libraries
 
 ```{r, eval = F}
-d_amen <-  density(master_log[,8], na.rm = T)
+d_amen <-  density(master_log[,8],n=1024, na.rm = T)
   
 # get locations of local minima and maxima
 DeltaY <- diff(d_amen$y) # slope at a point
@@ -706,7 +714,7 @@ lst_min <- sort(lst_min, )
 
 num <- 0
 while (length(lst_min)>= length(lst_max)){ # min list should in theory have 1 less than lst_max
-  num <- num + 1
+  num <- num + 2
   if (lst_max[num]>lst_min[num]){
     lst_min <- lst_min[-num]
   }
