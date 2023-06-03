@@ -214,6 +214,50 @@ My total weekly hours are: 26
 
 -   This week, I didn’t face any major roadblocks.
 
+## Week 5
+
+<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first) -->
+
+| week | day        | hours | description              | comments                                  |
+|----:|:---------|-----:|:-------------------|:--------------------------------|
+|    5 | 2023-05-29 |  1.50 | Meetings                 | Team & Instructor Merting, Slide Prep     |
+|    5 | 2023-05-29 |  1.50 | Validation Metrics       | NA                                        |
+|    5 | 2023-05-29 |  3.00 | Study & Implement OPTICS | NA                                        |
+|    5 | 2023-05-30 |  4.67 | OPTICS                   | Explore results and parameters tuning     |
+|    5 | 2023-05-30 |  1.00 | Meetings                 | Team & TA Meetings                        |
+|    5 | 2023-05-31 |  5.00 | Jensk                    | Study, apply, validation, plot            |
+|    5 | 2023-05-31 |  1.00 | Team Meeting             | NA                                        |
+|    5 | 2023-06-01 |  2.50 | Quintile                 | Tried to match with existing one          |
+|    5 | 2023-06-01 |  2.25 | Meeting                  | Team meeting                              |
+|    5 | 2023-06-01 |  0.33 | Miscellaneous            | NA                                        |
+|    5 | 2023-06-02 |  0.67 | Final Report             | Method didn’t work                        |
+|    5 | 2023-06-02 |  1.00 | Meeting                  | Client Meeting                            |
+|    5 | 2023-06-02 |  1.00 | Quintile                 | EMail + Tried                             |
+|    5 | 2023-06-02 |  1.00 | Miscellaneous            | Reviewed Pull Requests, Stored Logs, etc. |
+
+My total weekly hours are: 26.42
+
+### Weekly Reflection
+
+<!-- In this section, please write 5-7 sentences (in total) answering the following questions: -->
+<!-- 1. What was your most significant **individual contribution** to the project this week? -->
+
+-   My most significant individual contribution to the project this week
+    was applying OPTICS and Jensk natural breaks clustering techniques.
+
+<!-- 2. What was your most significant **team contribution** to the project this week? -->
+
+-   My most significant team contribution was discussing about the team
+    dynamics.
+
+<!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
+
+-   This week, I didn’t face any major roadblocks. As a team we’re
+    facing issues with choosing the right clustering technique based on
+    validation metrics. Because different clustering techniques
+    suggesting different number of clusters but we need to pick one for
+    profiling.
+
 ## Summary Table
 
 <!-- To get the total for all the weekly hourly summary over each week use the following (requires the **dplyr** package) -->
@@ -224,3 +268,4 @@ My total weekly hours are: 26
 |    2 |              36.65 |
 |    3 |              37.57 |
 |    4 |              26.00 |
+|    5 |              26.42 |
