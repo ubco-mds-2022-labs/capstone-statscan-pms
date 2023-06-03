@@ -76,13 +76,6 @@ master_amenities <- master[, amenities]
 perc = 3 #percentage of data to subsample
 subsample = (nrow(master)/100)*perc 
 master_sample = master[sample(nrow(master), subsample),]
-
-master_sample_log <- master_sample
-
-# log transform on PMs in master amenities
-for (col in amenities){
-  master_sample_log[, col] = log(master_sample[, col]+0.0001)
-}
 ```
 
 
@@ -96,10 +89,9 @@ algo = function(dataset, amen_name){
 
   # calculate quintiles
   quintiles <- cut(dataset[, amen_name], 
-                   breaks = c(0, 0.012, 0.021, 0.036, 0.069, 1),
-                   labels = c(1, 2, 3, 4, 5)
-  )
-  
+                   breaks = quantile(dataset[, amen_name], probs = seq(0, 1, 0.2)),
+                   include.lowest = TRUE)
+
   # adding quintiles in a new column
   dataset$quintiles <-  as.numeric(quintiles)
   
@@ -113,6 +105,17 @@ algo = function(dataset, amen_name){
   cutoff_data <- data.frame(Group = rownames(cutoffs))
   cutoff_data$Start <- sapply(cutoffs, function(x) x["0%"])
   cutoff_data$End <- sapply(cutoffs, function(x) x["100%"])
+  
+  # Calculate the number of data points in each group
+  group_counts <- table(clust_data$quintiles)
+  
+  # Add the counts to the cutoff_data dataframe
+  cutoff_data$Count <- group_counts
+  
+  print(table(cutoff_data$Count))
+  
+  end_values <- as.vector(cutoff_data$End)
+  end_values <- end_values[-length(end_values)]
   
   # vector of colors for each group
   cluster_colors <- c("1" = "red", "2" = "blue", "3" = "green", "4" = "purple", "5" = "orange")
@@ -128,31 +131,33 @@ algo = function(dataset, amen_name){
           axis.ticks.y = element_blank()) +
     coord_cartesian(xlim = range(cutoff_data$Start, cutoff_data$End)))
   
-  # silhouette plot
-  clusts <- clust_data$quintiles
-  comp_data <- clust_data[, amen_name]
-  
-  sil = silhouette(clusts, dist(comp_data))
-  plot(fviz_silhouette(sil))
-  
-  avg_sil_width <- mean(sil[, "sil_width"])
-  
-  dunn_stats <- cluster.stats(dist(comp_data), clusts)
-  
-  xie_beni <- intCriteria(as.matrix(comp_data), 
-                          as.integer(clusts), 
-                          'Xie_Beni')$xie_beni
-  
-  calinski_harabasz <- calinhara(comp_data, clusts)
-  
-  davies_bouldin <- index.DB(comp_data, clusts)
-  
-  return(list('avg_sill_width' = avg_sil_width, 
-              "dunn_index" = dunn_stats$dunn,
-              "xie_beni" = xie_beni,
-              "calinski_harabasz" = calinski_harabasz,
-              "davies_bouldin" = davies_bouldin$DB,
-              'cut_offs' = as.vector(cutoff_data$End)))
+  # # silhouette plot
+  # clusts <- clust_data$quintiles
+  # comp_data <- clust_data[, amen_name]
+  # 
+  # sil = silhouette(clusts, dist(comp_data))
+  # plot(fviz_silhouette(sil))
+  # 
+  # avg_sil_width <- mean(sil[, "sil_width"])
+  # 
+  # dunn_stats <- cluster.stats(dist(comp_data), clusts)
+  # 
+  # xie_beni <- intCriteria(as.matrix(comp_data), 
+  #                         as.integer(clusts), 
+  #                         'Xie_Beni')$xie_beni
+  # 
+  # calinski_harabasz <- calinhara(comp_data, clusts)
+  # 
+  # davies_bouldin <- index.DB(comp_data, clusts)
+  # 
+  return(list(
+    # 'avg_sill_width' = avg_sil_width,
+    #           "dunn_index" = dunn_stats$dunn,
+    #           "xie_beni" = xie_beni,
+    #           "calinski_harabasz" = calinski_harabasz,
+    #           "davies_bouldin" = davies_bouldin$DB,
+              'cut_offs' = cutoffs,
+              "cut_data" = cutoff_data))
 }
 ```
 
@@ -160,63 +165,67 @@ algo = function(dataset, amen_name){
 ### Employment 
 
 ```{r}
-res_emp = algo(master_sample, "PMS_prox_idx_emp")
+res_emp = algo(master_amenities, "PMS_prox_idx_emp")
 ```
+```{r}
+res_emp$cut_data
+```
+
 
 ### Health 
 
 ```{r}
-res_health = algo(master_sample, "PMS_prox_idx_health")
+res_health = algo(master_amenities, "PMS_prox_idx_health")
 ```
 
 ### Childcare 
 
 ```{r}
-res_childcare = algo(master_sample, "PMS_prox_idx_childcare")
+res_childcare = algo(master_amenities, "PMS_prox_idx_childcare")
 ```
 
 
 ### Parks 
 
 ```{r}
-res_parks = algo(master_sample, "PMS_prox_idx_parks")
+res_parks = algo(master_amenities, "PMS_prox_idx_parks")
 ```
 
 
 ### Education Primary 
 
 ```{r}
-res_educpri = algo(master_sample, "PMS_prox_idx_educpri")
+res_educpri = algo(master_amenities, "PMS_prox_idx_educpri")
 ```
 
 ### Transit 
 
 ```{r}
-res_transit = algo(master_sample, "PMS_prox_idx_transit")
+res_transit = algo(master_amenities, "PMS_prox_idx_transit")
 ```
 
 ### Pharma 
 
 ```{r}
-res_pharma = algo(master_sample, "PMS_prox_idx_pharma")
+res_pharma = algo(master_amenities, "PMS_prox_idx_pharma")
 ```
 
 ### Education Secondary 
 
 ```{r}
-res_educsec = algo(master_sample, "PMS_prox_idx_educsec")
+res_educsec = algo(master_amenities, "PMS_prox_idx_educsec")
 ```
 
 ### Grocery 
 
 ```{r}
-res_grocery = algo(master_sample, "PMS_prox_idx_grocery")
+res_grocery = algo(master_amenities, "PMS_prox_idx_grocery")
 ```
 
 ### Library 
 
 ```{r}
-res_lib = algo(master_sample, "PMS_prox_idx_lib")
+res_lib = algo(master_amenities, "PMS_prox_idx_lib")
 ```
 
 
@@ -290,7 +299,6 @@ cut_offs_quintiles <- list(PMS_prox_idx_emp = c(-6.377127, -4.919881, -3.540459,
 cut_offs_quintiles
 ```
 
-<!--
 
 ```{r}
 master_sample <- master_sample[complete.cases(master_sample[, "PMS_prox_idx_emp"]), ]
@@ -306,6 +314,89 @@ master_sample$quintiles <- as.numeric(quintiles)
 
 emp <- na.omit(master_sample[, c("quintiles")])
 clust_data = master_sample[!is.na(master_sample[,"quintiles"]),c("PMS_prox_idx_emp", "quintiles")]
+```
+
+
+```{r}
+# sort the column
+master_amenities_emp <- sort((master_amenities$PMS_prox_idx_emp))
+
+# number of rows in each group
+row_each_group <- ceiling(length(master_amenities_emp) / 5)
+
+# split vector into five groups
+grouped_data <- split(master_amenities_emp, rep(1:5, each = row_each_group, length.out = length(master_amenities_emp)))
+
+```
+
+```{r}
+cutoffs <- as.data.frame(Group = c(1,2,3,4,5),
+                         Start = c(grouped_data[[1]][1]))
+```
+
+
+```{r}
+# Print the dataframe
+cat("1", length(grouped_data[[1]]))
+# print(grouped_data[[1]])
+print(grouped_data[[1]][1])
+print(grouped_data[[1]][84721])
+cat("2", length(grouped_data[[2]]))
+print(grouped_data[[2]][1])
+print(grouped_data[[2]][84721])
+cat("3", length(grouped_data[[3]]))
+print(grouped_data[[3]][1])
+print(grouped_data[[3]][84721])
+cat("4", length(grouped_data[[4]]))
+print(grouped_data[[4]][1])
+print(grouped_data[[4]][84721])
+cat("5", length(grouped_data[[5]]))
+print(grouped_data[[5]][1])
+print(grouped_data[[5]][84718])
+
+```
+```{r}
+table(grouped_data)
+```
+
+
+```{r}
+column_data <- c(10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65)
+quintiles <- cut(column_data, 
+                 breaks = quantile(column_data, probs = seq(0, 1, 0.2)),
+                 include.lowest = TRUE)
+quintiles
+```
+
+
+```{r}
+# Sample data
+column_data <- c(10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65)
+
+# Split column into 5 equal groups
+groups <- cut(column_data, breaks = 5, labels = FALSE, include.lowest = TRUE)
+
+# Calculate group statistics
+group_stats <- tapply(column_data, groups, function(x) {
+  data_points <- length(x)
+  start_value <- min(x)
+  end_value <- max(x)
+  data.frame(Data_Points = data_points, Start_Value = start_value, End_Value = end_value)
+})
+
+# Combine group statistics into a dataframe
+group_df <- do.call(rbind, group_stats)
+
+# Add Group No. column
+group_df$Group_No <- seq_len(nrow(group_df))
+
+# Print the dataframe
+print(group_df)
+
+```
+
+```{r}
+cutoff_data
 ```
 
 
