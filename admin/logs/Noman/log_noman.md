@@ -155,6 +155,47 @@ following questions:
 3.  Are there any major blockers or roadblocks preventing you from
     proceeding on your project? not really this week.
 
+| week | day        | hours | description                                                                                                                                                                  | comments                                                                                                                                                  |
+|-:|:---|--:|:---------------------------------|:------------------------------|
+|    5 | 2023-05-29 |   1.5 | Team + Mentor meeting/ making slides                                                                                                                                         | NA                                                                                                                                                        |
+|    5 | 2023-05-29 |   3.0 | added new metrics + Method for ranking number of clusters                                                                                                                    | NA                                                                                                                                                        |
+|    5 | 2023-05-29 |   1.0 | Re running algos with new added metrics                                                                                                                                      | NA                                                                                                                                                        |
+|    5 | 2023-05-29 |   1.0 | Research                                                                                                                                                                     | methods robust to outliers… these are mostly all denisty based methods that can handle noise but for distance based, kmeans mediods (PAM) seems promising |
+|    5 | 2023-05-30 |   1.5 | Team meeting + TA                                                                                                                                                            | NA                                                                                                                                                        |
+|    5 | 2023-05-30 |   6.0 | Rewrote cutoff function to test if working properly, Changed way for finding optimal cluster function with Jesse’s suggestion, Mclust, k means with PAM (robust to outliers) | NA                                                                                                                                                        |
+|    5 | 2023-05-31 |   1.0 | Team meeting                                                                                                                                                                 | NA                                                                                                                                                        |
+|    5 | 2023-05-31 |   4.0 | DENCLUE model (density based)                                                                                                                                                | found denclue 2.0 paper. Implementation exists in R? through some paid course online. Attempted to fit to Python implementation. fail…                    |
+|    5 | 2023-06-01 |   2.5 | Team meeting/dynamics discussion                                                                                                                                             | NA                                                                                                                                                        |
+|    5 | 2023-06-01 |   3.0 | algorithm assumptions and how they work for previosuly fitted models                                                                                                         | final report                                                                                                                                              |
+|    5 | 2023-06-02 |   1.0 | client meeting                                                                                                                                                               | NA                                                                                                                                                        |
+|    5 | 2023-06-02 |   2.0 | cluster profiling                                                                                                                                                            | NA                                                                                                                                                        |
+|    5 | 2023-06-02 |   1.0 | random                                                                                                                                                                       | logs/emailing Jeff/ git                                                                                                                                   |
+
+My total weekly hours are: 28.5
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week? Fitting Mclust model and also a k-means model
+    called k-mediod, which is an algorithm that is robust to outliers.
+    The reason being was to see whether we get better metrics scores if
+    we directly handle these outliers. Surprisingly, the cutoff values
+    were very similiar to MixAll for some ammenities.
+
+2.  What was your most significant **team contribution** to the project
+    this week? Participating in our team dynamics meeting. I felt it was
+    super valuable to gauge how everyone in our group was feeling
+    mentally. We had a great group discussion and ironed out any
+    concerns thus far.
+
+3.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project? I think its important that we can find
+    an agreed upon way to find a best clustering algorithm with the
+    results we have thus far so we can highlight the group profiles.
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use
@@ -166,3 +207,4 @@ the following (requires the **dplyr** package)
 |    2 |              26.00 |
 |    3 |              22.50 |
 |    4 |              26.00 |
+|    5 |              28.50 |
