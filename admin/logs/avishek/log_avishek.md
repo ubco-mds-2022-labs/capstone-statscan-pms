@@ -220,7 +220,7 @@ My total weekly hours are: 26
 
 | week | day        | hours | description              | comments                                  |
 |----:|:---------|-----:|:-------------------|:--------------------------------|
-|    5 | 2023-05-29 |  1.50 | Meetings                 | Team & Instructor Merting, Slide Prep     |
+|    5 | 2023-05-29 |  1.50 | Meetings                 | Team & Instructor Meeting, Slide Prep     |
 |    5 | 2023-05-29 |  1.50 | Validation Metrics       | NA                                        |
 |    5 | 2023-05-29 |  3.00 | Study & Implement OPTICS | NA                                        |
 |    5 | 2023-05-30 |  4.67 | OPTICS                   | Explore results and parameters tuning     |

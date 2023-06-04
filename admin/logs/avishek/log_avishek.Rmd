@@ -573,7 +573,7 @@ mylog <- mylog %>% add_row(week = current.week,
                        day=as.Date("2023-05-29"), 
                        hours=1.5,
                        description="Meetings",
-                       comments="Team & Instructor Merting, Slide Prep")
+                       comments="Team & Instructor Meeting, Slide Prep")
 
 mylog <- mylog %>% add_row(week = current.week,
                        day=as.Date("2023-05-29"), 
