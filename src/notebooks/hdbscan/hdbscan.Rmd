@@ -181,9 +181,15 @@ do_everything = function(dataset, amen_name, num){
   
   # store cluster results
   clusts = res$clusts+1
+  amen$clust = clusts
   comp_data = res$complete_data[!(clusts == 1)]
+  amen = amen[!(clusts == 1),]
   clusts = clusts[!(clusts == 1)]
   clusts = clusts-1
+  amen$clust = amen$clust - 1
+  
+  #export data
+  save(amen, file = paste0(amen_name, '_results.Rdata'))
   rm(res)
   
   #reorder clusters
