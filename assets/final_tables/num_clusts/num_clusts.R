@@ -15,11 +15,6 @@ labs = c('Emp.', 'Pharm.', 'Child.', 'Health.', 'Groc.', 'Pri. Educ.', 'Sec. Edu
 #algo names
 approaches = c('Quintiles', 'Min/Max', 'Best Algo')
 
-
-#producing table
-summary_table = data.frame(stringsAsFactors=FALSE)
-
-
 #convert to string
 switche = function(x){
 	return(format(round(x, 0), nsmall=0))
@@ -32,7 +27,7 @@ approach3 = switche(approach3)
 
 
 #adding rows
-summary_table = as.character(rbind(summary_table, approach1))
+summary_table = approach1
 summary_table = rbind(summary_table, approach2)
 summary_table = rbind(summary_table, approach3)
 
