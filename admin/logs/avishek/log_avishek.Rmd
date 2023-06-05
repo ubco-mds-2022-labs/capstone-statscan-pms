@@ -564,6 +564,124 @@ My total weekly hours are: `r  sum(mylog[which(mylog$week==current.week), 3])`
 - This week, I didn't face any major roadblocks.
 
 
+## Week 5
+
+<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first) -->
+```{r}
+current.week = current.week + 1
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-29"), 
+                       hours=1.5,
+                       description="Meetings",
+                       comments="Team & Instructor Meeting, Slide Prep")
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-29"), 
+                       hours=1.5,
+                       description="Validation Metrics",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-29"), 
+                       hours=3,
+                       description="Study & Implement OPTICS",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-30"), 
+                       hours=4.67,
+                       description="OPTICS",
+                       comments="Explore results and parameters tuning"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-30"), 
+                       hours=1,
+                       description="Meetings",
+                       comments="Team & TA Meetings"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-31"), 
+                       hours=5,
+                       description="Jensk",
+                       comments="Study, apply, validation, plot"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-31"), 
+                       hours=1,
+                       description="Team Meeting",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-01"), 
+                       hours=2.5,
+                       description="Quintile",
+                       comments="Tried to match with existing one"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-01"), 
+                       hours=2.25,
+                       description="Meeting",
+                       comments="Team meeting"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-01"), 
+                       hours=0.33,
+                       description="Miscellaneous",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-02"), 
+                       hours=0.67,
+                       description="Final Report",
+                       comments="Method didn't work"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-02"), 
+                       hours=1,
+                       description="Meeting",
+                       comments="Client Meeting"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-02"), 
+                       hours=1,
+                       description="Quintile",
+                       comments="EMail + Tried "
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-02"), 
+                       hours=1,
+                       description="Miscellaneous",
+                       comments="Reviewed Pull Requests, Stored Logs, etc."
+                       )
+
+kable(filter(mylog, week == current.week))
+```
+My total weekly hours are: `r  sum(mylog[which(mylog$week==current.week), 3])`
+
+### Weekly Reflection
+
+<!-- In this section, please write 5-7 sentences (in total) answering the following questions: -->
+
+<!-- 1. What was your most significant **individual contribution** to the project this week? -->
+- My most significant individual contribution to the project this week was applying OPTICS and Jensk natural breaks clustering techniques.
+
+<!-- 2. What was your most significant **team contribution** to the project this week? -->
+- My most significant team contribution was discussing about the team dynamics.
+
+<!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
+- This week, I didn't face any major roadblocks. As a team we're facing issues with choosing the right clustering technique based on validation metrics. Because different clustering techniques suggesting different number of clusters but we need to pick one for profiling.
 
 ## Summary Table
 
