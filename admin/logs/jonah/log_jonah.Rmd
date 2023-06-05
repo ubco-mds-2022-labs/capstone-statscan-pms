@@ -1,5 +1,5 @@
 ---
-title: "Personal Logs - Mariam"
+title: "Personal Logs - Jonah Edmundson"
 author: 'Irene Vrbik'
 date: "MDS capstone"
 output:
@@ -351,6 +351,73 @@ My most significant team contribution this week was working on the presentation.
 1. Are there any major blockers or roadblocks preventing you from proceeding on your project?
 
 No, not this week. We revised our schedule with the time we have left, so things are looking good. 
+
+
+
+## Week 5
+
+Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first)
+```{r}
+current.week = current.week + 1
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-29"), 
+                       hours=6,
+                       description="updating plots, meeting slides, instructor meeting, team meeting, report writing",
+                       comments="10-4"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-30"), 
+                       hours=7.5,
+                       description="team meeting, TA meeting, tables and figures for report, some report writing",
+                       comments="9-430"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-31"), 
+                       hours=7,
+                       description="team meeting, report writing, making plots for report",
+                       comments="930-430"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-01"), 
+                       hours=7,
+                       description="team meeting, team dynamics meeting, plots, report writing",
+                       comments="930-430"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-02"), 
+                       hours=2.75,
+                       description="client meeting, false cluster investigation, logs",
+                       comments="1030-115"
+                       )
+
+
+kable(filter(mylog, week == current.week))
+```
+My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the following questions:
+
+1. What was your most significant **individual contribution** to the project this week?
+
+My most significant individual contribution this week was getting the first draft of the final report off the ground. I spent a fair amount of time doing this, and have the majority of the methods and results done, along with their accompanying plots and tables. 
+
+
+1. What was your most significant **team contribution** to the project this week?
+
+My most significant team contribution this week was participating in the team dynamics discussion. Everyone was able to say their bit, and from my perspective, things are resolved now.  
+
+
+1. Are there any major blockers or roadblocks preventing you from proceeding on your project?
+
+We need to decide on a criterion/metric for comparing our modeling approaches. This should ideally be done before cluster profiling and report writing. However, we are having difficulty deciding this, and have booked a meeting with Jeff so that he can help us. Issue is, it's scheduled for the 8th, a few days later than we would like. We may end up just choosing something, and then going back and fixing it once we get some ideas from Jeff.  
+
 
 
 
