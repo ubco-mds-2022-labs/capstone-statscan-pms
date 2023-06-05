@@ -425,6 +425,76 @@ My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
 
 My most significant contribution was implementing agendas for all of our meetings, including preparing them and moderating meetings. This has helped a lot for accountability and to use the meeting time meaningfully. Our most significant group contribution was making and presenting the midterm presentation. It helped center and reflect on our project. Roadblocks this week include unexpected results, showing the need to investigate algorithms and validation techniques some more. 
 
+## Week 5
+```{r}
+current.week = current.week + 1
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-29"), 
+                       hours=2,
+                       description="Meetings",
+                       comments="Group meeting, instructor meeting")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-29"), 
+                       hours=5,
+                       description="Manual clustering",
+                       comments="NA")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-30"), 
+                       hours=1.5,
+                       description="Meetings",
+                       comments="Group, TA")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-30"), 
+                       hours=5.5,
+                       description="Manual clustering",
+                       comments="NA")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-31"), 
+                       hours=1,
+                       description="Meetings",
+                       comments="group")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-31"), 
+                       hours=3.5,
+                       description="Manual clustering",
+                       comments="NA")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-01"), 
+                       hours=.5,
+                       description="Meetings",
+                       comments="team dynamics reflection")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-01"), 
+                       hours=2.5,
+                       description="Meetings",
+                       comments="daily, team dynamics")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-01"), 
+                       hours=3,
+                       description="Manual clustering",
+                       comments="NA")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-02"), 
+                       hours=1,
+                       description="Meetings",
+                       comments="client meeting")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-02"), 
+                       hours=4,
+                       description="Manual clustering",
+                       comments="NA")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-02"), 
+                       hours=1.5,
+                       description="over the week managing",
+                       comments="agendas, logs, emails, etc")
+
+kable(filter(mylog, week == current.week))
+```
+
+### Weekly Reflection
+My most significant individual contribution this week was coming up with reproducible code to 'manually' identify segmentation points via identifying minima in the density curve, and investigating parameters having different effects. Our most significant team contribution was discussing our team dynamics. Roadblocks we have this week is the analysis of the different metrics and techniques we use, and knowledge of how they work and how the results may be interpreted, as different metrics give different results. 
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use the following (requires the **dplyr** package)
