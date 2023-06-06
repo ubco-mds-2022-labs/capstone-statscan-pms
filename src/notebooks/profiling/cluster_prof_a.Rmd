@@ -106,7 +106,7 @@ profiling <- function(df, c_name, cutoffs){
   # assign cluster numbers to df
   for (i in 1:nrow(df_na)) {
     for (j in 1:length(cutoffs)){
-      if (df_na[, c_name][i] > cutoffs[j] && 
+      if (df_na[, c_name][i] >= cutoffs[j] && 
         df_na[, c_name][i] < cutoffs[j+1]) {
       df_na$cluster_no[i] <- j
       } 
