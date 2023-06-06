@@ -1,0 +1,185 @@
+---
+title: "BLANK Profiles"
+author: "PMS"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document: default
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, fig.width=8, fig.height=6, fig.align = 'center')
+```
+
+
+* * *
+
+
+
+```{r}
+set.seed(2023)
+library(xtable)
+
+# loading data
+load('../../../../../local_data/codes/create_master/master_pms_df.Rdata')
+
+# covert populations to numeric from factor
+master$PMS_DBPOP = as.numeric(gsub("[^0-9.-]", "", as.character(master$PMS_DBPOP)))
+
+# amenity names
+amenities = c("PMS_prox_idx_emp", "PMS_prox_idx_pharma", "PMS_prox_idx_childcare", "PMS_prox_idx_health", "PMS_prox_idx_grocery", "PMS_prox_idx_educpri", "PMS_prox_idx_educsec", "PMS_prox_idx_lib", "PMS_prox_idx_parks", "PMS_prox_idx_transit")
+
+# labels
+labs = c('Employment', 'Pharmacy', 'Childcare', 'Healthcare', 'Grocery', 'Pri. Educ.', 'Sec. Educ.', 'Library', 'Parks', 'Transit')
+
+# var names
+#var_names = c('# of DBs', 'DB Population', 'Median IoR', 'CMA Type', '#1 Province', '#2 Province', '#3 Province', 'Amenity Dense')
+var_names = c('# of DBs', 'DB Population', 'Median IoR', 'CMA Type', 'Province', 'Amenity Dense')
+
+#cma type
+cmatype_old = c('', 'B', 'D', 'K')
+cmatype_new = c('None', 'CMA', 'uCA', 'tCA')
+
+#amenity dense
+amendense_old = c('0', '1', '2', 'F')
+amendense_new = c('Low', 'Med', 'High', 'Unreliable')
+
+#change words function
+switche = function(var, olist, nlist){
+  master[,var] = as.character(master[,var])
+  for (i in 1:length(olist)){
+    master[master[,var] == olist[i], var] = nlist[i]
+  }
+  return(master[,var])
+}
+
+#make more intuitive category names
+master[,'PMS_CMATYPE'] = switche('PMS_CMATYPE', cmatype_old, cmatype_new)
+master[,'PMS_amenity_dense'] = switche('PMS_amenity_dense', amendense_old, amendense_new)
+
+#print functions
+printe = function(count, p_rows){
+  perc = paste0("(", format(round(count*100/p_rows, 1), nsmall=1), "%)")
+  text = paste(formatC(count, format="d", big.mark=","), perc)
+  return(text)
+}
+
+# make output file
+file.create("BLANK_all_tables.tex")
+write('
+  \\documentclass[10pt, a4paper]{article} \n
+  \\usepackage[utf8]{inputenc} \n
+  \\usepackage[margin=1in]{geometry} \n
+  \\usepackage{rotating} \n
+  \\begin{document} \n',
+  file = 'BLANK_all_tables.tex', append = TRUE
+)
+```
+
+
+
+```{r, echo=F}
+#cutoff values list
+cutoffs =  list()
+
+counter = 1
+for (i in amenities){
+  
+  #producing table
+  summary_table = data.frame()
+  
+  # #load data
+  # load(paste0('../', i, '_results.Rdata'))
+  # clusts = unique(amen$clust)
+  # #amen[amen$PMS_CMATYPE == '','PMS_CMATYPE'] = 'None'
+  
+  #remove NA values
+  amen = master[!(is.na(master[,i])),]
+  
+  #assign cluster labels
+  #clusts = c()
+  clusts = rep(length(cutoffs[[i]]) + 1, nrow(amen))
+  for (k in 1:nrow(amen)) {
+    for (p in 1:length(cutoffs[[i]])) {
+      if (amen[k,i] < cutoffs[[i]][p]) {  
+          clusts[k] = p
+          break
+      }
+      # if (amen[k,i] >= cutoffs[[i]][length(cutoffs[[i]])]){
+      #   clusts[k] = length(cutoffs[[i]]) + 1
+      # }
+    }
+  }
+  amen$clust = clusts
+  
+  #overall pop column 
+  summary_table[1:8,1] = c(
+    printe(nrow(amen), nrow(amen)),
+    formatC(median(amen$PMS_DBPOP, na.rm = T), format="d", big.mark=","),
+    format(round(median(amen$'IOR_Index_of_remoteness', na.rm = T), 2), nsmall=2),
+    paste0(names(sort(table(amen$'PMS_CMATYPE'), decreasing=T)[1]), " (", format(round(unname(sort(table(amen$'PMS_CMATYPE'), decreasing=T)[1])*100/nrow(amen), 1), nsmall=1), "%)"),
+    paste0(names(sort(table(amen$PROVINCE), decreasing=T)[1]), " (", format(round(unname(sort(table(amen$PROVINCE), decreasing=T)[1])*100/nrow(amen), 1), nsmall=1), "%)"), 
+    #paste0(names(sort(table(amen$PROVINCE), decreasing=T)[2]), " (", format(round(unname(sort(table(amen$PROVINCE), decreasing=T)[1])*100/nrow(amen), 1), nsmall=1), "%)"),
+    #paste0(names(sort(table(amen$PROVINCE), decreasing=T)[3]), " (", format(round(unname(sort(table(amen$PROVINCE), decreasing=T)[1])*100/nrow(amen), 1), nsmall=1), "%)"),
+    paste0(names(sort(table(amen$'PMS_amenity_dense'), decreasing=T)[1]), " (", format(round(unname(sort(table(amen$'PMS_amenity_dense'), decreasing=T)[1])*100/nrow(amen), 1), nsmall=1), "%)"),
+    format(round(median(amen[,i], na.rm = T), 3), nsmall=3),
+    '0 - 1' 
+  )
+  
+  
+  for (j in 1:length(unique(clusts))){
+    # num of DBs
+    summary_table[1,j+1] = printe(nrow(amen[amen$clust == j,]), nrow(amen))
+    # median poulation
+    summary_table[2,j+1] = formatC(median(amen[amen$clust == j,'PMS_DBPOP'], na.rm = T), format="d", big.mark=",")
+    # IoR
+    summary_table[3,j+1] = format(round(median(amen[amen$clust == j,'IOR_Index_of_remoteness'], na.rm = T), 2), nsmall=2)
+    #CMA type
+    summary_table[4,j+1] = paste0(names(sort(table(amen[amen$clust == j,'PMS_CMATYPE']), decreasing=T)[1]), " (", format(round(unname(sort(table(amen[amen$clust == j,'PMS_CMATYPE']), decreasing=T)[1])*100/nrow(amen[amen$clust == j,]), 1), nsmall=1), "%)")
+    #province
+    summary_table[5,j+1] = c(
+      #top 3 provinces
+      paste0(names(sort(table(amen[amen$clust == j,'PROVINCE']), decreasing=T)[1]), " (", format(round(unname(sort(table(amen[amen$clust == j,'PROVINCE']), decreasing=T)[1])*100/nrow(amen[amen$clust == j,]), 1), nsmall=1), "%)") 
+      #paste0(names(sort(table(amen[amen$clust == j,'PROVINCE']), decreasing=T)[2]), " (", format(round(unname(sort(table(amen[amen$clust == j,'PROVINCE']), decreasing=T)[1])*100/nrow(amen[amen$clust == j,]), 1), nsmall=1), "%)"),
+      #paste0(names(sort(table(amen[amen$clust == j,'PROVINCE']), decreasing=T)[3]), " (", format(round(unname(sort(table(amen[amen$clust == j,'PROVINCE']), decreasing=T)[1])*100/nrow(amen[amen$clust == j,]), 1), nsmall=1), "%)")
+    )
+    #amenity dense
+    summary_table[6,j+1] = paste0(names(sort(table(amen[amen$clust == j,'PMS_amenity_dense']), decreasing=T)[1]), " (", format(round(unname(sort(table(amen[amen$clust == j,'PMS_amenity_dense']), decreasing=T)[1])*100/nrow(amen[amen$clust == j,]), 1), nsmall=1), "%)")
+    #amenity
+    summary_table[7,j+1] = format(round(median(amen[amen$clust == j,i], na.rm = T), 3), nsmall=3)
+    #range/cutoffs
+    if (j==1){ #first
+      summary_table[8,j+1] = paste('0 -', cutoffs[[i]][j])
+    } else if (j==length(unique(clusts))) { #last
+      summary_table[8,j+1] = paste(cutoffs[[i]][j-1], '- 1')
+    } else { #middle
+      summary_table[8,j+1] = paste(cutoffs[[i]][j-1], '-', cutoffs[[i]][j])
+    }
+  }
+  
+  #switch columns and rows
+  summary_table = t(summary_table)
+  
+  #change row and col names
+  row.names(summary_table) = c('Entire Population', paste("Cluster", 1:length(unique(amen$clust))))
+  colnames(summary_table) = c(var_names, labs[counter], 'Range')
+  
+  #write table to output file
+  #write(paste0('\\section*{', labs[counter], '} \n\n'), file = 'BLANK_all_tables.tex', append = TRUE)
+  write(print(xtable(summary_table, type = "latex", caption = labs[counter]), floating = TRUE, floating.environment = "sidewaystable"), file = 'BLANK_all_tables.tex', append = TRUE)
+  write('\n\n\n\n \\pagebreak \n ', file = 'BLANK_all_tables.tex', append = TRUE)
+  
+  rm(amen)
+  rm(summary_table)
+  counter = counter + 1
+}
+
+write('\n \\end{document}', file = 'BLANK_all_tables.tex', append = TRUE)
+```
+
+
+
+
+
+
+
