@@ -449,6 +449,40 @@ for (grup in grupscols){
 
 ```
 
+## Non-logged: adding to master df
+```{r}
+for (ameni in 1:length(amenities)){
+  cutoffs <- exp(c(filter(big_list[[ameni]][["df_minmax"]][[1]], type == "min" & include == 1)$x))-0.0001
+  
+  min_x <- 0
+  max_x <-  1.1
+  
+  # vector: min, cutoffs, max
+  group_boundaries <- c(min_x, cutoffs, max_x)
+  
+  # new col with interval val belongs to
+  master[,paste0("group",ameni)]  <- findInterval(master[,amenities[ameni]], group_boundaries)
+}
+
+# cols that start with 'group
+grupscols <- colnames(master)[grepl("^group", colnames(master))]
+
+# table(master$group1,useNA = "ifany")
+
+n=0
+for (grup in grupscols){
+  n = n+1
+  print(str_sub(amenities[n], 14))
+  print(t(table(master[,grup],useNA = "ifany")))
+}
+```
+
+```{r}
+exp(group_boundaries)-0.0001
+max(na.omit(master$PMS_prox_idx_emp))
+```
+
+
 ## summary statistics of IoR
 
 
