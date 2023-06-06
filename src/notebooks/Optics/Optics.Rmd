@@ -164,6 +164,17 @@ XiClusters
 XiClusters$clusters_xi
 ```
 
+```{r}
+exp(Data[11706]) - 0.0001
+exp(Data[12630]) - 0.0001
+```
+```{r}
+exp(max(Data)) - 0.0001
+```
+```{r}
+exp(min(Data)) - 0.0001
+```
+
 
 ```{r}
 dend <- as.dendrogram(XiClusters)
