@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.21)  6 JUN 2023 11:56
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.21)  6 JUN 2023 14:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**hdbscan_all_tables.tex
-(./hdbscan_all_tables.tex
+**appendix_methods.tex
+(./appendix_methods.tex
 LaTeX2e <2022-11-01> patch level 1
 L3 programming layer <2023-02-07>
 (/usr/local/texlive/2022/texmf-dist/tex/latex/base/article.cls
@@ -86,28 +86,47 @@ Package: ifthen 2022/04/13 v1.1d Standard LaTeX ifthen package (DPC)
 \rot@float@box=\box51
 \rot@mess@toks=\toks20
 )
+(/usr/local/texlive/2022/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
+\LTleft=\skip52
+\LTright=\skip53
+\LTpre=\skip54
+\LTpost=\skip55
+\LTchunksize=\count197
+\LTcapwidth=\dimen151
+\LT@head=\box52
+\LT@firsthead=\box53
+\LT@foot=\box54
+\LT@lastfoot=\box55
+\LT@gbox=\box56
+\LT@cols=\count198
+\LT@rows=\count199
+\c@LT@tables=\count266
+\c@LT@chunks=\count267
+\LT@p@ftn=\toks21
+)
 (/usr/local/texlive/2022/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count197
-\l__pdf_internal_box=\box52
+\l__color_backend_stack_int=\count268
+\l__pdf_internal_box=\box57
 )
-(./hdbscan_all_tables.aux)
-\openout1 = `hdbscan_all_tables.aux'.
+(./appendix_methods.aux)
+\openout1 = `appendix_methods.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -145,17 +164,17 @@ LaTeX Font Info:    ... okay on input line 10.
 
 (/usr/local/texlive/2022/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count198
-\scratchdimen=\dimen151
-\scratchbox=\box53
-\nofMPsegments=\count199
-\nofMParguments=\count266
-\everyMPshowfont=\toks21
-\MPscratchCnt=\count267
-\MPscratchDim=\dimen152
-\MPnumerator=\count268
-\makeMPintoPDFobject=\count269
-\everyMPtoPDFconversion=\toks22
+\scratchcounter=\count269
+\scratchdimen=\dimen152
+\scratchbox=\box58
+\nofMPsegments=\count270
+\nofMParguments=\count271
+\everyMPshowfont=\toks22
+\MPscratchCnt=\count272
+\MPscratchDim=\dimen153
+\MPnumerator=\count273
+\makeMPintoPDFobject=\count274
+\everyMPtoPDFconversion=\toks23
 ) (/usr/local/texlive/2022/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -165,31 +184,24 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 16.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 16.
+[1
 
-Overfull \hbox (27.52246pt too wide) in paragraph at lines 150--160
- [][] 
- []
-
-[1{/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-[2] [3] [4] [5] [6] [7] [8] [9] [10] (./hdbscan_all_tables.aux) ) 
+{/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+[2] [3] (./appendix_methods.aux) ) 
 Here is how much of TeX's memory you used:
- 2023 strings out of 476029
- 33519 string characters out of 5790172
- 1873346 words of memory out of 5000000
- 22496 multiletter control sequences out of 15000+600000
+ 2121 strings out of 476029
+ 35019 string characters out of 5790172
+ 1859346 words of memory out of 5000000
+ 22590 multiletter control sequences out of 15000+600000
  512287 words of font info for 32 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 72i,10n,76p,219b,262s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/te
-xlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
-Output written on hdbscan_all_tables.pdf (10 pages, 29004 bytes).
+ 72i,6n,76p,217b,182s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2022/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmr10.pfb>
+Output written on appendix_methods.pdf (3 pages, 22740 bytes).
 PDF statistics:
- 42 PDF objects out of 1000 (max. 8388607)
- 27 compressed objects within 1 object stream
+ 19 PDF objects out of 1000 (max. 8388607)
+ 11 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,5 +1,5 @@
 ---
-title: "HDBSCAN Profiles"
+title: "BLANK Profiles"
 author: "PMS"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
@@ -65,14 +65,14 @@ printe = function(count, p_rows){
 }
 
 # make output file
-file.create("hdbscan_all_tables.tex")
+file.create("BLANK_all_tables.tex")
 write('
   \\documentclass[10pt, a4paper]{article} \n
   \\usepackage[utf8]{inputenc} \n
   \\usepackage[margin=1in]{geometry} \n
   \\usepackage{rotating} \n
   \\begin{document} \n',
-  file = 'hdbscan_all_tables.tex', append = TRUE
+  file = 'BLANK_all_tables.tex', append = TRUE
 )
 ```
 
@@ -80,7 +80,7 @@ write('
 
 ```{r, echo=F}
 #cutoff values list
-cutoffs =  list(PMS_prox_idx_emp = 0.22985, PMS_prox_idx_pharma = c(0.01175, 0.0525), PMS_prox_idx_childcare = 0.009, PMS_prox_idx_health = 0.1052,PMS_prox_idx_grocery = c(0.0763, 0.0124), PMS_prox_idx_educpri = c(0.04495,0.22045, 0.1449), PMS_prox_idx_educsec = c(0.0576, 0.0863), PMS_prox_idx_lib = c(0.06575, 0.0691, 0.05465), PMS_prox_idx_parks = 0.01995,PMS_prox_idx_transit = 0.03875)
+cutoffs =  list()
 
 counter = 1
 for (i in amenities){
@@ -165,16 +165,16 @@ for (i in amenities){
   colnames(summary_table) = c(var_names, labs[counter], 'Range')
   
   #write table to output file
-  #write(paste0('\\section*{', labs[counter], '} \n\n'), file = 'hdbscan_all_tables.tex', append = TRUE)
-  write(print(xtable(summary_table, type = "latex", caption = labs[counter]), floating = TRUE, floating.environment = "sidewaystable"), file = 'hdbscan_all_tables.tex', append = TRUE)
-  write('\n\n\n\n \\pagebreak \n ', file = 'hdbscan_all_tables.tex', append = TRUE)
+  #write(paste0('\\section*{', labs[counter], '} \n\n'), file = 'BLANK_all_tables.tex', append = TRUE)
+  write(print(xtable(summary_table, type = "latex", caption = labs[counter]), floating = TRUE, floating.environment = "sidewaystable"), file = 'BLANK_all_tables.tex', append = TRUE)
+  write('\n\n\n\n \\pagebreak \n ', file = 'BLANK_all_tables.tex', append = TRUE)
   
   rm(amen)
   rm(summary_table)
   counter = counter + 1
 }
 
-write('\n \\end{document}', file = 'hdbscan_all_tables.tex', append = TRUE)
+write('\n \\end{document}', file = 'BLANK_all_tables.tex', append = TRUE)
 ```
 
 
