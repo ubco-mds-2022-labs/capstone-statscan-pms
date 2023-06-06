@@ -14,12 +14,17 @@ knitr::opts_chunk$set(echo = FALSE, warning=FALSE, fig.width=8, fig.height=6, fi
 
 * * *
 
-********* Remember!!! This is with the subsampled data! 
 
 
 ```{r}
 set.seed(2023)
 library(xtable)
+
+# loading data
+load('../../../../../local_data/codes/create_master/master_pms_df.Rdata')
+
+# covert populations to numeric from factor
+master$PMS_DBPOP = as.numeric(gsub("[^0-9.-]", "", as.character(master$PMS_DBPOP)))
 
 # amenity names
 amenities = c("PMS_prox_idx_emp", "PMS_prox_idx_pharma", "PMS_prox_idx_childcare", "PMS_prox_idx_health", "PMS_prox_idx_grocery", "PMS_prox_idx_educpri", "PMS_prox_idx_educsec", "PMS_prox_idx_lib", "PMS_prox_idx_parks", "PMS_prox_idx_transit")
@@ -40,12 +45,16 @@ amendense_new = c('Low', 'Med', 'High', 'Unreliable')
 
 #change words function
 switche = function(var, olist, nlist){
-  amen[,var] = as.character(amen[,var])
+  master[,var] = as.character(master[,var])
   for (i in 1:length(olist)){
-    amen[amen[,var] == olist[i], var] = nlist[i]
+    master[master[,var] == olist[i], var] = nlist[i]
   }
-  return(amen[,var])
+  return(master[,var])
 }
+
+#make more intuitive category names
+master[,'PMS_CMATYPE'] = switche('PMS_CMATYPE', cmatype_old, cmatype_new)
+  master[,'PMS_amenity_dense'] = switche('PMS_amenity_dense', amendense_old, amendense_new)
 
 #print functions
 printe = function(count, p_rows){
@@ -69,18 +78,34 @@ write('
 
 
 ```{r, echo=F}
+#cutoff values list
+cutoffs =  list(PMS_prox_idx_emp = 0.22985, PMS_prox_idx_pharma = c(0.01175, 0.0525), PMS_prox_idx_childcare = 0.009, PMS_prox_idx_health = 0.1052,PMS_prox_idx_grocery = c(0.0763, 0.0124), PMS_prox_idx_educpri = c(0.04495,0.22045, 0.1449), PMS_prox_idx_educsec = c(0.0576, 0.0863), PMS_prox_idx_lib = c(0.06575, 0.0691, 0.05465), PMS_prox_idx_parks = 0.01995,PMS_prox_idx_transit = 0.03875)
+
 counter = 1
 for (i in amenities){
   
   #producing table
   summary_table = data.frame()
   
-  #load data
-  load(paste0('../', i, '_results.Rdata'))
-  clusts = unique(amen$clust)
-  #amen[amen$PMS_CMATYPE == '','PMS_CMATYPE'] = 'None'
-  amen[,'PMS_CMATYPE'] = switche('PMS_CMATYPE', cmatype_old, cmatype_new)
-  amen[,'PMS_amenity_dense'] = switche('PMS_amenity_dense', amendense_old, amendense_new)
+  # #load data
+  # load(paste0('../', i, '_results.Rdata'))
+  # clusts = unique(amen$clust)
+  # #amen[amen$PMS_CMATYPE == '','PMS_CMATYPE'] = 'None'
+  
+  #remove NA values
+  amen = master[!(is.na(master[,i])),]
+  
+  #assign cluster labels
+  clusts = c()
+  for (k in 1:nrow(amen)) {
+    for (p in 1:length(cutoffs[[i]])) {
+      if (amen[k,i] < cutoffs[[i]][p]) {  
+          clusts[k] = p
+          break
+      }
+    }
+  }
+  amen$clust = clusts
   
   #overall pop column 
   summary_table[1:9,1] = c(
