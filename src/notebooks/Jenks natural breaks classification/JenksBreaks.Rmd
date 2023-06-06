@@ -440,14 +440,75 @@ rug_plot(res_grocery$cut_offs, Data_grocery)
 res_lib = do_everything(master_sample_log$PMS_prox_idx_lib, 2:10)
 ```
 
+
 ```{r}
 Data_lib <- data.frame(Value = na.omit(master_sample_log$PMS_prox_idx_lib))
 rug_plot(res_lib$cut_offs, Data_lib)
 ```
 
+```{r}
+print("Silhouette Coefficients")
+sill_quintiles <- c(res_emp$avg_sill_width, res_pharma$avg_sill_width, res_childcare$avg_sill_width, res_health$avg_sill_width, res_grocery$avg_sill_width, res_educpri$avg_sill_width, res_educsec$avg_sill_width, res_lib$avg_sill_width, res_parks$avg_sill_width, res_transit$avg_sill_width)
+sill_quintiles
+```
+
+```{r}
+print("Dunn Index")
+dunn_quintiles <- c(res_emp$dunn_index, res_pharma$dunn_index, res_childcare$dunn_index, res_health$dunn_index, res_grocery$dunn_index, res_educpri$dunn_index, res_educsec$dunn_index, res_lib$dunn_index, res_parks$dunn_index, res_transit$dunn_index)
+dunn_quintiles
+```
+
+```{r}
+print("Xie Beni")
+xie_beni_quintiles <- c(res_emp$xie_beni, res_pharma$xie_beni, res_childcare$xie_beni, res_health$xie_beni, res_grocery$xie_beni, res_educpri$xie_beni, res_educsec$xie_beni, res_lib$xie_beni, res_parks$xie_beni, res_transit$xie_beni)
+xie_beni_quintiles
+```
+
+```{r}
+print("Calinski Harabasz")
+calinski_harabasz_quintiles <- c(res_emp$calinski_harabasz, res_pharma$calinski_harabasz, res_childcare$calinski_harabasz, res_health$calinski_harabasz, res_grocery$calinski_harabasz, res_educpri$calinski_harabasz, res_educsec$calinski_harabasz, res_lib$calinski_harabasz, res_parks$calinski_harabasz, res_transit$calinski_harabasz)
+calinski_harabasz_quintiles
+```
+
+```{r}
+print("Davies Bouldin")
+davies_bouldin_quintiles <- c(res_emp$davies_bouldin, res_pharma$davies_bouldin, res_childcare$davies_bouldin, res_health$davies_bouldin, res_grocery$davies_bouldin, res_educpri$davies_bouldin, res_educsec$davies_bouldin, res_lib$davies_bouldin, res_parks$davies_bouldin, res_transit$davies_bouldin)
+davies_bouldin_quintiles
+```
+
+```{r}
+print("Number of clusters")
+no_c_clust <- c(res_emp$opt_n_clust, res_pharma$opt_n_clust, res_childcare$opt_n_clust, res_health$opt_n_clust, res_grocery$opt_n_clust, res_educpri$opt_n_clust, res_educsec$opt_n_clust, res_lib$opt_n_clust, res_parks$opt_n_clust, res_transit$opt_n_clust)
+no_c_clust
+```
+
+```{r}
+# print("Cut_offs") exp(unique(cutoffs)) - 0.0001
+cat("cut_offs_mclust <- list( \n",
+  "Emp", (exp(res_emp$breaks) - 0.0001), "\n", "Pharma", exp(res_pharma$breaks) - 0.0001, "\n", "Childcare", exp(res_childcare$breaks) - 0.0001, "\n", "Health", exp(res_health$breaks) - 0.0001, "\n", "Grocery", exp(res_grocery$breaks) - 0.0001, "\n", "Edupri", exp(res_educpri$breaks) -  0.0001, "\n", "Edusec", exp(res_educsec$breaks)- 0.0001, "\n", "Lib", exp(res_lib$breaks)- 0.0001, "\n", "Parks", exp(res_parks$breaks)- 0.0001, "\n", "Transit", exp(res_transit$breaks)- 0.0001)
+```
+
+
+```{r}
+cut_offs_jenks <- list(
+  PMS_prox_idx_emp = c(0, 0, 0.0003, 0.0011, 0.0032, 0.0083, 0.0194, 0.0441, 0.1076, 0.7249),
+  PMS_prox_idx_pharma = c(0.0018, 0.9857),
+  PMS_prox_idx_childcare = c(0.001, 0.0079, 0.0155, 0.0267, 0.0429, 0.0668, 0.1035, 0.1654, 0.2941, 0.9208),
+  PMS_prox_idx_health = c(0, 0.6759),
+  PMS_prox_idx_grocery = c(0.002, 0.7763),
+  PMS_prox_idx_educpri = c(0.0095, 0.7452),
+  PMS_prox_idx_educsec = c(0.0153, 0.8384),
+  PMS_prox_idx_lib = c(0.0166, 0.8665),
+  PMS_prox_idx_parks = c(0.0002, 0.823),
+  PMS_prox_idx_transit = c(0, 0.5926)
+)
+```
+
+
+<!--
 
 ```{r eval=False}
-Data_emp <- as.matrix(na.omit(master_sample_log$PMS_prox_idx_emp))
+Data_emp <- as.matrix(na.omit(master_log$PMS_prox_idx_emp))
 emp_breaks <- getJenksBreaks(Data_emp, 4, subset = NULL)
 ```
 
