@@ -395,33 +395,23 @@ cut_offs_manual <- list(
 )
 ```
 
+Essentially, for every amenity, add a new column (so 10 new cols today) that outlines which group it belongs to, according to the cutoff points.
 
-```{r eval = F}
-sil_kmeans_pam <- c(0.6251910, 0.5923426, 0.5728351, 0.5891724, 0.5561223, 0.5901501, 0.5577481, 0.5655205, 0.5793991, 0.5354237)
+```{r}
+for (ameni in 1:length(amenities)){
+  cutoffs <- c(filter(big_list[[ameni]][["df_minmax"]][[1]], type == "min" & include == 1)$x)
+  min_x <- big_list[[ameni]][["density"]][["x"]][1]
+  max_x <- big_list[[ameni]][["density"]][["x"]][length(big_list[[ameni]][["density"]][["x"]])]
+  
+  # vector: min, cutoffs, max
+  group_boundaries <- c(min_x, cutoffs, max_x)
+  
+  # new col with interval val belongs to
+  master_log[,paste0("group",ameni)]  <- findInterval(master_log[,ameni], group_boundaries)
+}
 
-dunn_kmeans_pam <- c(0.0049762117, 0.0008444133, 0.0007161396, 0.0077941279, 0.0007049463, 0.0003786560, 0.0017758166, 0.0032023605, 0.0004418321, 0.0029705301)
-
-xei_beni_kmeans_pam <- c(55792.1759, 1591.6493, 19154.7833, 55278.2559, 4520.3419, 548.2124, 20165.5443, 110838.5333, 3766.7252, 2168.3315)
-
-calinski_harabasz_kmeans_pam <- c(36371.960, 11854.182, 15190.339, 18858.442, 19255.211, 15238.574, 16406.098, 6138.014, 14512.118, 8940.283)
-
-davies_bouldin_kmeans_pam <- c(0.5887389, 0.6655722, 0.6862804, 0.6555938, 0.5812439, 0.6575715, 0.6209026, 0.7263383, 0.6942425, 0.7757473)
-
-num_of_clust_kmeans_pam <- c(2, 2, 2, 2, 8, 2, 4, 2, 2, 2)
-
-cut_offs_kmeans_pam <- list(
-  PMS_prox_idx_emp = c(-5.613122),
-  PMS_prox_idx_pharma = c(-3.632501),
-  PMS_prox_idx_childcare = c(-3.309075),
-  PMS_prox_idx_health = c(-6.053566),
-  PMS_prox_idx_grocery = c(-4.474180, -3.960692, -3.588131, -3.242913, -2.855102, -2.386510, -1.786776),
-  PMS_prox_idx_educpri = c(-2.491931),
-  PMS_prox_idx_educsec = c(-2.885996, -2.311123, -1.723731),
-  PMS_prox_idx_lib = c(-2.359692),
-  PMS_prox_idx_parks = c(-3.097766),
-  PMS_prox_idx_transit = c(-4.860083)
-)
 ```
+
 
 
 # Next Steps
