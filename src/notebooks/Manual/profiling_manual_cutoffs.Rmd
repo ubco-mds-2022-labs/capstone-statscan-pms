@@ -397,7 +397,8 @@ cut_offs_manual <- list(
 
 Essentially, for every amenity, add a new column (so 10 new cols today) that outlines which group it belongs to, according to the cutoff points.
 
-```{r}
+```{r eval = F}
+# log df
 # set the group for each prox value in each amenity: add 10 new cols
 for (ameni in 1:length(amenities)){
   cutoffs <- c(filter(big_list[[ameni]][["df_minmax"]][[1]], type == "min" & include == 1)$x)
@@ -412,9 +413,8 @@ for (ameni in 1:length(amenities)){
 }
 ```
 
-```{r fig.cap="Table of DBs per group for Emp"}
-# summary stats
-
+```{r  eval = F, fig.cap="Table of DBs per group for Emp"}
+# testing how to format table
 # gives # of DBs per group
 #table(master_log$group1)
 # make df of table
@@ -436,7 +436,8 @@ df_transDB <- header.true(df_transDB)
 
 ## How many DBs in each group
 
-```{r}
+```{r eval = F}
+# logged values
 # cols that start with 'group
 grupscols <- colnames(master_log)[grepl("^group", colnames(master_log))]
 
@@ -446,11 +447,10 @@ for (grup in grupscols){
   print(str_sub(amenities[n], 14))
   print(t(table(master_log[,grup],useNA = "ifany")))
 }
-
 ```
 
-## Non-logged: adding to master df
 ```{r}
+# set the group for each prox value in each amenity: add 10 new cols
 for (ameni in 1:length(amenities)){
   cutoffs <- exp(c(filter(big_list[[ameni]][["df_minmax"]][[1]], type == "min" & include == 1)$x))-0.0001
   
@@ -467,8 +467,6 @@ for (ameni in 1:length(amenities)){
 # cols that start with 'group
 grupscols <- colnames(master)[grepl("^group", colnames(master))]
 
-# table(master$group1,useNA = "ifany")
-
 n=0
 for (grup in grupscols){
   n = n+1
@@ -477,21 +475,14 @@ for (grup in grupscols){
 }
 ```
 
-```{r}
-exp(group_boundaries)-0.0001
-max(na.omit(master$PMS_prox_idx_emp))
-```
-
 
 ## summary statistics of IoR
 
 
-
 # Next Steps
 - ~~assign 'group' to each~~
-- metrics for each clusters
-- Investigate 'weight' of distribution for every suggested groups
 - ~~number of DB for each clusters~~
+- find way to format in table nicely --> makes sense Jonah's way per amenity
 - summary statistics of IoR for each cluster
 - population summary statistics
 - CMA type summary statistics
