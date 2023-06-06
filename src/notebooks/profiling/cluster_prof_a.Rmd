@@ -1,0 +1,206 @@
+---
+title: "profiling"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, 
+                      cache=TRUE, 
+                      warning = F,
+                      message = F,
+                      fig.align="center" 
+                      )
+```
+
+
+```{r}
+set.seed(2023)
+library(dplyr)
+library(cluster)
+library(ggplot2)
+library(factoextra)
+library(clusterCrit)
+library(clustertend)
+library(fpc)
+library(clusterSim)
+library(BAMMtools)
+load('../../../data/master_pms_df.Rdata')
+
+# Convert selected columns to numeric
+master <- master %>%
+  mutate(PMS_DBPOP = as.numeric(gsub(",", "", PMS_DBPOP)), # Dissemination block population
+         PMS_DAPOP = as.numeric(gsub(",", "", PMS_DAPOP)), # Dissemination area population
+         PMS_CSDPOP = as.numeric(gsub(",", "", PMS_CSDPOP)), # Census subdivision population
+         PMS_CMAPOP = as.numeric(gsub(",", "", PMS_CMAPOP)), # Census metropolitan area population
+         PMS_PRPOP = as.numeric(gsub(",", "", PMS_PRPOP)), # Province or territory population
+         # in_db_emp = as.numeric(in_db_emp),
+         # in_db_pharma = as.numeric(in_db_pharma),
+         # in_db_childcare = as.numeric(in_db_childcare),
+         # in_db_health = as.numeric(in_db_health),
+         # in_db_grocery = as.numeric(in_db_grocery),
+         # in_db_educpri = as.numeric(in_db_educpri),
+         # in_db_educsec = as.numeric(in_db_educsec),
+         # in_db_lib = as.numeric(in_db_lib),
+         # in_db_parks = as.numeric(in_db_parks),
+         # in_db_transit = as.numeric(in_db_transit),
+         PMS_prox_idx_emp = as.numeric(PMS_prox_idx_emp),
+         PMS_prox_idx_pharma = as.numeric(PMS_prox_idx_pharma),
+         PMS_prox_idx_childcare = as.numeric(PMS_prox_idx_childcare),
+         PMS_prox_idx_health = as.numeric(PMS_prox_idx_health),
+         PMS_prox_idx_grocery = as.numeric(PMS_prox_idx_grocery),
+         PMS_prox_idx_educpri = as.numeric(PMS_prox_idx_educpri),
+         PMS_prox_idx_educsec = as.numeric(PMS_prox_idx_educsec),
+         PMS_prox_idx_lib = as.numeric(PMS_prox_idx_lib),
+         PMS_prox_idx_parks = as.numeric(PMS_prox_idx_parks),
+         PMS_prox_idx_transit = as.numeric(PMS_prox_idx_transit),
+         DBUID = as.character(DBUID),
+         PMS_DAUID = as.character(PMS_DAUID),
+         PMS_CSDUID = as.character(PMS_CSDUID),
+         PMS_CMAUID = as.character(PMS_CMAUID),
+         PMS_CMAPUID = as.character(PMS_CMAPUID),
+         PMS_PRUID = as.character(PMS_PRUID),
+         PMS_suppressed = as.character(PMS_suppressed),
+         PMS_transit_na = as.character(PMS_suppressed))
+
+
+# Subset columns that start with "prox_idx"
+amenities <- colnames(master)[grepl("^PMS_prox_idx", colnames(master))]
+# master dataset - contains only proximity columns
+master_amenities <- master[, amenities]
+# variables to cluster with
+clust_vars = c('CSD_AREA', 'PMS_CSDPOP', 'PMS_DBPOP', 'IOR_Index_of_remoteness') #, 'PMS_CMATYPE')
+
+# subsampling data 
+perc = 3 #percentage of data to subsample
+subsample = (nrow(master)/100)*perc 
+master_sample = master[sample(nrow(master), subsample),]
+
+master_sample_log <- master_sample
+
+# log transform PMs
+for (i in amenities){
+  master_sample_log[,i] = log(master_sample[,i] + 0.0001)
+}
+
+master_amenities_log <- master_amenities
+
+for (i in amenities){
+  master_amenities_log[,i] = log(master_amenities[,i] + 0.0001)
+}
+```
+
+
+```{r}
+profiling <- function(df, c_name, cutoffs){
+  
+  # remove rows where proximity measure for c_name is not available
+  df_na <- df[complete.cases(df[, c_name]), ]
+  
+  # convert pms values into original scale 
+  cutoffs <- c(0, exp(unique(cutoffs)) - 0.0001, 1)
+  
+  # initialize the cluster number column as NA
+  df_na$cluster_no <- NA
+  
+  # assign cluster numbers to df
+  for (i in 1:nrow(df_na)) {
+    for (j in 1:length(cutoffs)){
+      if (df_na[, c_name][i] > cutoffs[j] && 
+        df_na[, c_name][i] < cutoffs[j+1]) {
+      df_na$cluster_no[i] <- j
+      } 
+    }
+  }
+  
+  # an empty data frame to store the results
+  result_table <- data.frame()
+
+  # calculate the column no's(unique db) per clusters
+  cluster_counts <- table(df_na$cluster_no)
+  # sort unique cluster numbers
+  sort_clust<- sort(unique(df_na$cluster_no))
+  
+  total_db <- nrow(df_na) # total no. of db's
+  total_dbpop <- sum(df_na$PMS_DBPOP, na.rm = T) # total db population
+  total_cmatype <- table(df_na$CMATYPE) # total CMATYPE info available
+  total_cmatype_na <- sum(is.na(df_na$CMATYPE)) # total NA CMATYPE
+  median_ior <- round(median(df_na$IOR_Index_of_remoteness, na.rm = T), 3) # overall ior median 
+  
+  # loop through the clusters
+  for (cluster in sort_clust) {
+    
+    # create columns for each cluster
+    col_name <- paste("Cluster", cluster, sep = "_")
+    
+    # db count per cluster
+    db_count <- cluster_counts[cluster]
+    # db percentage
+    db_percent <- round((db_count[[1]]/total_db)*100, 2)
+    # add db counts to result table
+    result_table["No. of DB's", col_name] <- paste(db_count[[1]], " (", db_percent, " %)", sep = "")
+    
+    # db population per cluster
+    dbpop_count <- sum(df_na$PMS_DBPOP[df_na$cluster_no == cluster], na.rm = T)
+    # db population percentage
+    dbpop_percent <- round((dbpop_count/total_dbpop)*100, 2)
+    # add db population to result table
+    result_table["DB_POP", col_name] <- paste(dbpop_count, " (", dbpop_percent, " %)", sep = "")
+    
+    # index of remoteness median
+    median_ior_cluster <- round(median(df_na$IOR_Index_of_remoteness
+                                 [df_na$cluster_no == cluster], na.rm = T),3)
+    # add index of remoteness median to result table
+    result_table["Median IOR", col_name] <- paste(median_ior_cluster)
+    
+    # unique values of CMATYPE for current cluster
+    cmatype_counts <- table(df_na$CMATYPE[df_na$cluster_no == cluster])
+    
+    # NA CMATYPE for current cluster
+    cmatype_counts_na <- sum(is.na(df_na$CMATYPE[df_na$cluster_no == cluster]))
+    # CMATYPE percentage
+    cmatype_counts_na_percent <- round((cmatype_counts_na/total_cmatype_na)*100,2)
+    # add NA CMATYPE to result table
+    result_table["NA CMATYPE", col_name] <- paste(cmatype_counts_na, 
+                                                  " (", cmatype_counts_na_percent, " %)", 
+                                                  sep = "")
+    
+    # loop through CMATYPE
+    for (cmatype in names(cmatype_counts)) {
+      # CMATYPE count in cluster
+      cmatype_count <- cmatype_counts[cmatype]
+      # print(cmatype_count)
+      # CMATYPE count total
+      cmatype_count_total <- total_cmatype[cmatype]
+      # print(cmatype_count_total)
+      # CMATYPE percentage
+      cmatype_percent <- round((cmatype_count / cmatype_count_total) * 100, 2)
+      # CMATYPE row
+      row_name <- paste("CMATYPE", cmatype, sep = "_")
+      # add CMATYPE count and percentage to result table
+      result_table[row_name, col_name] <- paste(cmatype_count, " (", cmatype_percent, " %)", sep = "")
+    }
+    
+  }
+  
+  # add totals
+  result_table <- cbind("Total" = c(paste(total_db, " (100 %)"),
+                                    paste(total_dbpop, " (100 %)"),
+                                    paste(median_ior),
+                                    paste(total_cmatype_na, " (100 %)"),
+                                    paste(total_cmatype, " (100 %)")
+                                    
+                                    ),
+                        result_table)
+  
+  # print result table
+  result_table
+}
+```
+
+
+```{r}
+breaks <- c(-6.26590139, -0.01430178)
+profiling(master_sample, "PMS_prox_idx_pharma", breaks)
+```
+

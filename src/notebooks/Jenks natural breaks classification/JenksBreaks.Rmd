@@ -9,6 +9,7 @@ output: pdf_document
 knitr::opts_chunk$set(echo = F, 
                       cache=TRUE, 
                       warning = F,
+                      message = F,
                       fig.align="center" 
                       )
 ```
@@ -249,7 +250,7 @@ do_everything = function(data, num){
   
   avg_sil_width <- mean(sil[, "sil_width"])
   
-  dunn_stats <- cluster.stats(dist(comp_data), clusts)
+  dunn_stats <- cluster.stats(dist(comp_data), clusts)$dunn
   
   xie_beni <- intCriteria(as.matrix(comp_data), 
                           as.integer(clusts), 
@@ -329,6 +330,15 @@ In the cutoff line figures below Blue vertical line indicates a cluster starting
 ```{r}
 Data_emp <- data.frame(Value = na.omit(master_sample_log$PMS_prox_idx_emp))
 rug_plot(res_emp$cut_offs, Data_emp)
+```
+
+
+```{r}
+# org_cutoffs <- data.frame(
+#   Cluster_no <- res_emp$cut_offs$Group,
+#   Start = exp(res_emp$cut_offs$Start) - 0.0001,
+#   End = exp(res_emp$cut_offs$End) - 0.0001
+# )
 ```
 
 
@@ -434,7 +444,7 @@ res_lib = do_everything(master_sample_log$PMS_prox_idx_lib, 2:10)
 Data_lib <- data.frame(Value = na.omit(master_sample_log$PMS_prox_idx_lib))
 rug_plot(res_lib$cut_offs, Data_lib)
 ```
-<!--
+
 
 ```{r eval=False}
 Data_emp <- as.matrix(na.omit(master_sample_log$PMS_prox_idx_emp))
