@@ -27,19 +27,19 @@ labs = c('Employment', 'Pharmacy', 'Child care', 'Health care', 'Grocery', 'Prim
 
 
 #cutoffs
-cquintiles = list(
-  PMS_prox_idx_emp = c(0.0004, 0.0030, 0.0127, 0.0368),
-  PMS_prox_idx_pharma = c(0.0098, 0.0193, 0.0341, 0.0641),
-  PMS_prox_idx_childcare = c(0.0152, 0.0348, 0.0636, 0.1167),
-  PMS_prox_idx_health = c(0.0007, 0.0032, 0.0074, 0.0184),
-  PMS_prox_idx_grocery = c(0.0221, 0.0348, 0.0555, 0.0985),
-  PMS_prox_idx_educpri = c(0.0416, 0.0720, 0.1105, 0.1720),
-  PMS_prox_idx_educsec = c(0.0421, 0.0586, 0.0910, 0.1492),
-  PMS_prox_idx_lib = c(0.0558, 0.0707, 0.0960, 0.1488),
-  PMS_prox_idx_parks = c(0.0203, 0.0372, 0.0614, 0.1050),
-  PMS_prox_idx_transit = c(0.0026, 0.0067, 0.0131, 0.0272)
-)
-
+cmanual = list(
+  PMS_prox_idx_emp = c(0.0000423603, 0.0001573125, 0.0002743458, 0.0005010775),
+  PMS_prox_idx_pharma = c(0.01142592, 0.01948168),
+  PMS_prox_idx_childcare = c(0.008407409, 0.013850871),
+  PMS_prox_idx_health = c(0.0000405736, 0.0001524638, 0.0002658077),
+  PMS_prox_idx_grocery = c(0.01208361, 0.01846220),
+  PMS_prox_idx_educpri = c(0.04965835, 0.08169011),
+  PMS_prox_idx_educsec = c(0.06609424),
+  PMS_prox_idx_lib = c(0.6149259),
+  PMS_prox_idx_parks = c(0.01834893, 0.02944933),
+  PMS_prox_idx_transit = c(0.0000390986, 0.0001481958, 0.0002512994, 0.0003514904)
+) 
+max_n = max(unlist(lapply(cmanual, length)))
 
 
 #g legend function
@@ -62,9 +62,9 @@ counter = 1
 for(i in amenities){
   temp = na.omit(master[,i])
   dt <- data.table(x=1:length(temp),y=temp)
-  dens <- density(dt$y)
+  dens <- density(dt$y, n=10000)
   df <- data.frame(x=dens$x, y=dens$y)
-  cutoff = cquintiles[[i]] #change this for different algorithms!
+  cutoff = cmanual[[i]] #change this for different algorithms!
   logged <- cutoff
   df$Cluster <- as.factor(as.numeric(cut(df$x, c(min(df$x), logged, max(df$x)),  include.lowest=T)))
   plt = ggplot(df, aes(x,y)) + geom_line() + geom_ribbon(aes(ymin=0, ymax=y, fill=Cluster)) + 
@@ -139,7 +139,7 @@ for(i in amenities){
   dt <- data.table(x=1:length(temp),y=temp)
   dens <- density(dt$y)
   df <- data.frame(x=dens$x, y=dens$y)
-  cutoff = cquintiles[[i]] #change this for different algorithms!
+  cutoff = cmanual[[i]] #change this for different algorithms!
   logged <- log(cutoff+0.0001)
   df$Cluster <- as.factor(as.numeric(cut(df$x, c(min(df$x), logged, max(df$x)),  include.lowest=T)))
   plt = ggplot(df, aes(x,y)) + geom_line() + geom_ribbon(aes(ymin=0, ymax=y, fill=Cluster)) + 
@@ -188,8 +188,8 @@ cutoffs = do.call(grid.arrange,list(grobs=p, layout_matrix=layout_mat))
 
 
 #export 
-ggsave("cutoffs_quintiles.png", cutoffs1, dpi = 400, width=8, height=5)
-ggsave("log_cutoffs_quintiles.png", cutoffs, dpi = 400, width=8, height=5)
+ggsave("cutoffs_manual.png", cutoffs1, dpi = 400, width=8, height=5)
+ggsave("log_cutoffs_manual.png", cutoffs, dpi = 400, width=8, height=5)
 
 
 
