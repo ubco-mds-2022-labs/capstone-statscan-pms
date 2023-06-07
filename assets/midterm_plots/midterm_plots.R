@@ -120,55 +120,71 @@ cquintiles = list(PMS_prox_idx_emp = c(0.012, 0.021, 0.036, 0.069),
                            PMS_prox_idx_transit = c(0.012, 0.021, 0.036, 0.069)
                            )
 
-cmixall = list(PMS_prox_idx_emp = 0.0036496679109546, PMS_prox_idx_pharma = 0.0265499501211147, 
-    PMS_prox_idx_childcare = 0.0363499570082516, PMS_prox_idx_health = 0.00254952738545688, 
-    PMS_prox_idx_grocery = 0.0484499555401056, PMS_prox_idx_educpri = 0.0856500165442711, 
-    PMS_prox_idx_educsec = c(0.0632495167816625, 0.140949977648391
-    ), PMS_prox_idx_lib = 0.0992995194339308, PMS_prox_idx_parks = 0.0447499861179105, 
-    PMS_prox_idx_transit = 0.00654980997440566)
+cmixall = list(
+  PMS_prox_idx_emp = c(0.003649668),
+  PMS_prox_idx_pharma = c(0.02654995),
+  PMS_prox_idx_childcare = c(0.03634996),
+  PMS_prox_idx_health = c(0.002549527),
+  PMS_prox_idx_grocery = c(0.04844996),
+  PMS_prox_idx_educpri = c(0.08565002),
+  PMS_prox_idx_educsec = c(0.06324952, 0.14094998),
+  PMS_prox_idx_lib = c(0.09929952),
+  PMS_prox_idx_parks = c(0.04474999),
+  PMS_prox_idx_transit = c(0.00654981)
+)
 
-cpamkmeans = list(PMS_prox_idx_emp = 0.00354965732265224, PMS_prox_idx_pharma = 0.0263499502919753, 
-    PMS_prox_idx_childcare = 0.0364499668413561, PMS_prox_idx_health = 0.00224946884447716, 
-    PMS_prox_idx_grocery = c(0.0112995659370951, 0.0189499271797888, 
-    0.0275499599355604, 0.038949976675303, 0.0574499507265309, 
-    0.0918500301533346, 0.167399317893989), PMS_prox_idx_educpri = 0.0826500219059937, 
-    PMS_prox_idx_educsec = c(0.0556991858613332, 0.0990498437413425, 
-    0.178299296897769), PMS_prox_idx_lib = 0.0943493091040467, 
-    PMS_prox_idx_parks = 0.0450499548102519, PMS_prox_idx_transit = 0.00764984062766953) 
+cpamkmeans = list(
+  PMS_prox_idx_emp = c(0.003549657),
+  PMS_prox_idx_pharma = c(0.02634995),
+  PMS_prox_idx_childcare = c(0.03644997),
+  PMS_prox_idx_health = c(0.002249469),
+  PMS_prox_idx_grocery = c(0.01129957, 0.01894993, 0.02754996, 0.03894998, 0.05744995, 0.09185003, 0.16739932),
+  PMS_prox_idx_educpri = c(0.08265002),
+  PMS_prox_idx_educsec = c(0.05569919, 0.09904984, 0.17829930),
+  PMS_prox_idx_lib = c(0.09434931),
+  PMS_prox_idx_parks = c(0.04504995),
+  PMS_prox_idx_transit = c(0.007649841)
+) 
 
-cmclust = list(PMS_prox_idx_emp = c(4.14213253644949e-05, 0.000447722382861175, 
-0.00124907379468787, 0.0033496379343892, 0.00854985258828782, 
-0.020649938420429, 0.051849977216652, 0.162949898378599), PMS_prox_idx_pharma = c(0.0064176656258352, 
-0.0107995366480914, 0.0181499306310357, 0.0331986640972552, 0.055421552515451, 
-0.0113612442533326), PMS_prox_idx_childcare = c(0.00187484177058108, 
-0.0668500138482712), PMS_prox_idx_health = c(0.000246410177823522, 
-0.00344964741551701, 0.00934986333014108), PMS_prox_idx_grocery = c(0.0116898298058918, 
-0.0072198386031646), PMS_prox_idx_educpri = c(0.0234991637948482, 
-0.0265082755680189, 0.0443998704967309, 0.0900500296893578, 0.13115004954825, 
-0.185000010995437), PMS_prox_idx_educsec = c(0.0347496912922471, 
-0.0345950934903355, 0.0438499848307019, 0.0617987062596693, 0.101149653016388, 
-0.143449981685184, 0.0854657664906577), PMS_prox_idx_lib = c(0.0487996030559252, 
-0.053799611978918, 0.0682490920317932, 0.0927483278964371, 0.116349101318268, 
-0.0416971133687469), PMS_prox_idx_parks = c(0.0825462357679255, 
-0.0159499266421358, 0.0324499645311814, 0.0463499913474011, 0.0623500026485389, 
-0.0844500172175564, 0.12194993679559), PMS_prox_idx_transit = c(0.00104891300114654, 
-0.0116498947015775)) 
+cmclust = list(
+  PMS_prox_idx_emp = c(0.00004142133, 0.0004477224, 0.001249074, 0.003349638, 0.008549853, 0.02064994, 0.05184998, 0.1629499),
+  PMS_prox_idx_pharma = c(0.006417666, 0.010799537, 0.018149931, 0.033198664, 0.055421553, 0.011361244),
+  PMS_prox_idx_childcare = c(0.001874842, 0.066850014),
+  PMS_prox_idx_health = c(0.0002464102, 0.0034496474, 0.0093498633),
+  PMS_prox_idx_grocery = c(0.011689830, 0.007219839),
+  PMS_prox_idx_educpri = c(0.02349916, 0.02650828, 0.04439987, 0.09005003, 0.13115005, 0.18500001),
+  PMS_prox_idx_educsec = c(0.03474969, 0.03459509, 0.04384998, 0.06179871, 0.10114965, 0.14344998, 0.08546577),
+  PMS_prox_idx_lib = c(0.04879960, 0.05379961, 0.06824909, 0.09274833, 0.11634910, 0.04169711),
+  PMS_prox_idx_parks = c(0.08254624, 0.01594993, 0.03244996, 0.04634999, 0.06235000, 0.08445002, 0.12194994),
+  PMS_prox_idx_transit = c(0.001048913, 0.011649895)
+)
 
 cmanual = list(
-  PMS_prox_idx_emp = c(0.0001423603, 0.0002573125, 0.0003743458, 0.0006010775),
-  PMS_prox_idx_pharma = c(0.01152592, 0.01958168),
-  PMS_prox_idx_childcare = c(0.008507409, 0.013950871),
-  PMS_prox_idx_health = c(0.0001405736, 0.0002524638, 0.0003658077),
-  PMS_prox_idx_grocery = c(0.01218361, 0.01856220),
-  PMS_prox_idx_educpri = c(0.04975835, 0.08179011),
-  PMS_prox_idx_educsec = c(0.06619424),
-  PMS_prox_idx_lib = c(0.6150259),
-  PMS_prox_idx_parks = c(0.01844893, 0.02954933),
-  PMS_prox_idx_transit = c(0.0001390986, 0.0002481958, 0.0003512994, 0.0004514904, 0.8553858919)
+  PMS_prox_idx_emp = c(0.0000423603, 0.0001573125, 0.0002743458, 0.0005010775),
+  PMS_prox_idx_pharma = c(0.01142592, 0.01948168),
+  PMS_prox_idx_childcare = c(0.008407409, 0.013850871),
+  PMS_prox_idx_health = c(0.0000405736, 0.0001524638, 0.0002658077),
+  PMS_prox_idx_grocery = c(0.01208361, 0.01846220),
+  PMS_prox_idx_educpri = c(0.04965835, 0.08169011),
+  PMS_prox_idx_educsec = c(0.06609424),
+  PMS_prox_idx_lib = c(0.6149259),
+  PMS_prox_idx_parks = c(0.01834893, 0.02944933),
+  PMS_prox_idx_transit = c(0.0000390986, 0.0001481958, 0.0002512994, 0.0003514904)
 )
 
 
-
+cjenks = list(
+  PMS_prox_idx_emp = c(0.0003, 0.0011, 0.0032, 0.0083, 0.0194, 0.0441, 0.1076, 0.7249),
+  PMS_prox_idx_pharma = c(0.0018, 0.9857),
+  PMS_prox_idx_childcare = c(0.001, 0.0079, 0.0155, 0.0267, 0.0429, 0.0668, 0.1035, 0.1654, 0.2941, 0.9208),
+  PMS_prox_idx_health = c(0.6759),
+  PMS_prox_idx_grocery = c(0.002, 0.7763),
+  PMS_prox_idx_educpri = c(0.0095, 0.7452),
+  PMS_prox_idx_educsec = c(0.0153, 0.8384),
+  PMS_prox_idx_lib = c(0.0166, 0.8665),
+  PMS_prox_idx_parks = c(0.0002, 0.823),
+  PMS_prox_idx_transit = c(0.5926)
+)
 
 
 
@@ -699,6 +715,67 @@ cutoffs6 = do.call(grid.arrange,list(grobs=p, layout_matrix=layout_mat))
 
 
 
+# jenks
+counter = 1
+p <- list()
+most = 0
+for(i in amenities){
+  temp = na.omit(master[,i])
+  dt <- data.table(x=1:length(temp),y=temp)
+  dens <- density(dt$y)
+  df <- data.frame(x=dens$x, y=dens$y)
+  cutoff = cjenks[[i]] #change this for different algorithms!
+  logged <- log(cutoff+0.0001)
+  df$Cluster <- as.factor(as.numeric(cut(df$x, c(min(df$x), logged, max(df$x)),  include.lowest=T)))
+  plt = ggplot(df, aes(x,y)) + geom_line() + geom_ribbon(aes(ymin=0, ymax=y, fill=Cluster)) + 
+    #scale_x_continuous(breaks=round(logged, 2)) + 
+    ylab('') + guides(fill = 'none') + 
+    theme(
+      #axis.text.x = element_text(angle = 45, vjust = 0.8, hjust=1, size=8), 
+      panel.grid.major = element_blank(), 
+      panel.grid.minor = element_blank(),
+      plot.margin=unit(c(0,0,0.1,0),"cm"),
+      plot.title = element_text(size = 10),
+      axis.ticks.y = element_blank(),
+      axis.text.y = element_blank(),
+      axis.text.x = element_blank(), #removes x axis labels
+      axis.ticks.x = element_blank() #removes x axis ticks
+    ) +
+    ggtitle(labs[counter])
+  if (is.null(cutoff[1])){
+    plt = plt + xlab("NO CLUSTERS DETECTED") + theme(axis.title.x = element_text(size = 7, color='gray'))
+  } else {
+    plt = plt + xlab(paste(round(cutoff, 3), collapse = ', ')) + theme(axis.title.x = element_text(size = 7, color='gray'))
+  }
+  p[[i]] = plt
+  if (length(cutoff) > most){
+    most = length(cutoff)
+    most_plt = ggplot(df, aes(x,y)) + geom_line() + geom_ribbon(aes(ymin=0, ymax=y, fill=Cluster)) + 
+      scale_x_continuous(breaks=round(logged, 2)) + 
+      guides(fill = guide_legend(title.position = "top", label.hjust = 0.5)) +
+      theme(
+        legend.direction = "horizontal"
+      ) 
+  }
+  counter = counter + 1 
+}
+
+p[[11]] = g_legend(most_plt)
+
+layout_mat <- rbind(c(1:4),
+                    c(5:8),
+                    c(9:11, 11))
+cutoffs7 = do.call(grid.arrange,list(grobs=p, layout_matrix=layout_mat))
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -717,6 +794,7 @@ ggsave("cutoffs_quintiles.png", cutoffs3, dpi = 400, width=8, height=5)
 ggsave("cutoffs_pamkmeans.png", cutoffs4, dpi = 400, width=8, height=5)
 ggsave("cutoffs_mclust.png", cutoffs5, dpi = 400, width=8, height=5)
 ggsave("cutoffs_manual.png", cutoffs6, dpi = 400, width=8, height=5)
+ggsave("cutoffs_jenks.png", cutoffs7, dpi = 400, width=8, height=5)
 
 
 
