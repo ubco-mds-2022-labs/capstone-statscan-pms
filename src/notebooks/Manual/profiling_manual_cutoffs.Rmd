@@ -19,9 +19,17 @@ library(ggplot2)
 library(tidyverse)
 library(gridExtra)
 library(kableExtra)
+library(cluster)
+library(clusterCrit)
 ```
 
 ```{r}
+set.seed(2023)
+# install.packages("clusterCrit_1.2.7.tar", repos = NULL, type = "source")
+# https://stackoverflow.com/questions/69639782/installing-gfortran-on-macbook-with-apple-m1-chip-for-use-in-r
+# gcc version 13.1.0
+
+
 load('../../../data/master_pms_df.Rdata')
 
 # Convert selected columns to numeric
@@ -366,7 +374,7 @@ kable(cbind(str_sub(amenities, 14), num_groups)) %>% kable_styling(latex_options
 ```
 
 Cut off values:
-```{r }
+```{r eval = F}
 # cluster values
 # for each amenity get x-values of minima
 # so each amenity has a list
@@ -374,24 +382,24 @@ Cut off values:
 # all in same df_minmax ezpz
 for (ameni in 1:length(amenities)){
   print(amenities[ameni])
-  print(exp(filter(big_list[[ameni]][["df_minmax"]][[1]], type == "min" & include == 1)$x))
+  print(exp(filter(big_list[[ameni]][["df_minmax"]][[1]], type == "min" & include == 1)$x)-0.0001)
 }
 ```
-```{r eval = F}
+```{r eval = F, echo=T}
 # i guess have to manually make this list ... ran the above for loop and copied the values here
-num_of_clust_manual <- c(5, 3, 3, 4, 3, 3, 2, 2, 3, 5)
+num_of_clust_manual <- c(5, 3, 3, 4, 3, 3, 2, 2, 3, 4)
 
 cut_offs_manual <- list(
-  PMS_prox_idx_emp = c(0.0001423603, 0.0002573125, 0.0003743458, 0.0006010775),
-  PMS_prox_idx_pharma = c(0.01152592, 0.01958168),
-  PMS_prox_idx_childcare = c(0.008507409, 0.013950871),
-  PMS_prox_idx_health = c(0.0001405736, 0.0002524638, 0.0003658077),
-  PMS_prox_idx_grocery = c(0.01218361, 0.01856220),
-  PMS_prox_idx_educpri = c(0.04975835, 0.08179011),
-  PMS_prox_idx_educsec = c(0.06619424),
-  PMS_prox_idx_lib = c(0.6150259),
-  PMS_prox_idx_parks = c(0.01844893, 0.02954933),
-  PMS_prox_idx_transit = c(0.0001390986, 0.0002481958, 0.0003512994, 0.0004514904, 0.8553858919)
+  PMS_prox_idx_emp = c(0.0000423603, 0.0001573125, 0.0002743458, 0.0005010775),
+  PMS_prox_idx_pharma = c(0.01142592, 0.01948168),
+  PMS_prox_idx_childcare = c(0.008407409, 0.013850871),
+  PMS_prox_idx_health = c(0.0000405736, 0.0001524638, 0.0002658077),
+  PMS_prox_idx_grocery = c(0.01208361, 0.01846220),
+  PMS_prox_idx_educpri = c(0.04965835, 0.08169011),
+  PMS_prox_idx_educsec = c(0.06609424),
+  PMS_prox_idx_lib = c(0.6149259),
+  PMS_prox_idx_parks = c(0.01834893, 0.02944933),
+  PMS_prox_idx_transit = c(0.0000390986, 0.0001481958, 0.0002512994, 0.0003514904)
 )
 ```
 
@@ -411,6 +419,8 @@ for (ameni in 1:length(amenities)){
   # new col with interval val belongs to
   master_log[,paste0("group",ameni)]  <- findInterval(master_log[,ameni], group_boundaries)
 }
+
+group_boundaries
 ```
 
 ```{r  eval = F, fig.cap="Table of DBs per group for Emp"}
@@ -453,7 +463,6 @@ for (grup in grupscols){
 # set the group for each prox value in each amenity: add 10 new cols
 for (ameni in 1:length(amenities)){
   cutoffs <- exp(c(filter(big_list[[ameni]][["df_minmax"]][[1]], type == "min" & include == 1)$x))-0.0001
-  
   min_x <- 0
   max_x <-  1.1
   
@@ -463,6 +472,9 @@ for (ameni in 1:length(amenities)){
   # new col with interval val belongs to
   master[,paste0("group",ameni)]  <- findInterval(master[,amenities[ameni]], group_boundaries)
 }
+
+# manually change for transit group 6 -> 5 (only 2 obs)
+master['group10'][master['group10'] == 6 & !is.na(master['group10'])] <- 5
 
 # cols that start with 'group
 grupscols <- colnames(master)[grepl("^group", colnames(master))]
@@ -475,8 +487,72 @@ for (grup in grupscols){
 }
 ```
 
+```{r}
+# subsample
+set.seed(2023)
+master_sample = master[sample(nrow(master), subsample),] #random sample: I checked and it is the same as if did earlier
+```
 
-## summary statistics of IoR
+# get metrics
+```{r}
+for (ameni in 1:length(amenities)){
+  # set up data
+  dataset <- master_sample[!is.na(master_sample[,amenities[ameni]]),amenities[ameni]]
+  clus <- master_sample[,grupscols[ameni]][!is.na(master_sample[,grupscols[ameni]])]
+  
+  # get metrics
+  sil_coef = intCriteria(as.matrix(dataset),as.integer(clus), 'Silhouette')$silhouette
+  xeni_beni = intCriteria(as.matrix(dataset),as.integer(clus), 'Xie_Beni')$xie_beni
+  davies = intCriteria(as.matrix(dataset),as.integer(clus), 'Davies_Bouldin')$davies_bouldin
+  dunn = intCriteria(as.matrix(dataset),as.integer(clus), 'Dunn')$dunn
+  calinski = intCriteria(as.matrix(dataset),as.integer(clus), 'Calinski_Harabasz')$calinski_harabasz
+  
+  # add to big list
+  coef_df <- as.data.frame(c(sil_coef, xeni_beni, davies, dunn, calinski), row.names = c('sil_coef', 'xeni_beni', 'davies', 'dunn', 'calinski'))
+  colnames(coef_df) <- 'coefval'
+  big_list[[ameni]][["coefs"]][[1]] <- coef_df
+}
+
+```
+```{r eval=F}
+# get out of big list in format Jonah wants: 
+
+# sil coef:
+for (coef in 1:nrow(coef_df)){
+  print(row.names(coef_df)[coef])
+  for (ameni in 1:length(amenities)){
+    print(big_list[[ameni]][["coefs"]][[1]][["coefval"]][coef])
+  }
+}
+library(stringr)
+```
+
+```{r eval=F}
+# copy past output from previous box into here to get 'clean'
+str_replace_all("1.008774
+[1] 0.800227
+[1] 0.7642339
+[1] 1.01061
+[1] 0.8163105
+[1] 0.6393068
+[1] 0.7133388
+[1] 0.1588381
+[1] 0.7019145
+[1] 0.8657572", fixed("\n[1]"), ",")
+
+```
+
+```{r eval=F}
+sil_manual <- c(0.600661, 0.3802132, 0.4034572, 0.6390608, 0.382051, 0.4507627, 0.4440815, 0.8780825, 0.4296511, 0.7392542)
+
+dunn_manual <- c(0.0001380643, 0.0001034982, 0.0001102657, 0.0001480166, 0.0001319609, 0.0001507159, 0.0005180005, 0.01045884, 0.0001260239, 0.0001688619)
+
+xie_beni_manual <- c(228435.9, 302128.8, 706508.7, 76132.71, 595812.7, 478823.5, 32085.14, 151.267, 317279.6, 71284.79)
+
+calinski_harabasz_manual <- c(255.8242, 639.4712, 542.9362, 102.8402, 219.6314, 2853.267, 2306.01, 1545.816, 1342.026, 25.83534)
+
+davies_bouldin_manual <- c(1.008774, 0.800227, 0.7642339, 1.01061, 0.8163105, 0.6393068, 0.7133388, 0.1588381, 0.7019145, 0.8657572)
+```
 
 
 # Next Steps
@@ -486,4 +562,8 @@ for (grup in grupscols){
 - summary statistics of IoR for each cluster
 - population summary statistics
 - CMA type summary statistics
+
+# Bug list
+- assumption that when slope 0, either minima or in between / not maxima (library)
+- manually removed last minima from transit
 
