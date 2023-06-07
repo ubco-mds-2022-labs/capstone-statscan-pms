@@ -81,6 +81,8 @@ write('
 ```{r, echo=F}
 #cutoff values list
 cutoffs =  list()
+cutoffs = lapply(cutoffs, sort)
+
 
 counter = 1
 for (i in amenities){
@@ -97,19 +99,7 @@ for (i in amenities){
   amen = master[!(is.na(master[,i])),]
   
   #assign cluster labels
-  #clusts = c()
-  clusts = rep(length(cutoffs[[i]]) + 1, nrow(amen))
-  for (k in 1:nrow(amen)) {
-    for (p in 1:length(cutoffs[[i]])) {
-      if (amen[k,i] < cutoffs[[i]][p]) {  
-          clusts[k] = p
-          break
-      }
-      # if (amen[k,i] >= cutoffs[[i]][length(cutoffs[[i]])]){
-      #   clusts[k] = length(cutoffs[[i]]) + 1
-      # }
-    }
-  }
+  clusts = findInterval(amen[,i], cutoffs[[i]]) + 1
   amen$clust = clusts
   
   #overall pop column 
