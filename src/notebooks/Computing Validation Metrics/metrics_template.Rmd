@@ -37,10 +37,11 @@ getMetrics <- function(master, cutoffs){
   davies_bouldin_vec <- c()
   
   for (amenity in names(cutoffs)) {
-    # subset the master data to be whole masterdataset but NA's removed for current ammenity (so labels match)
+    
+    # subset data for current amenity (so labels match)
     amenity_data <- na.omit(master[, amenity])
     
-    # initialize with default value (max cluster) and then change according to the condition... 
+    # initialize with default value (max cluster) and then change according to the condition
     labels <- rep(length(cutoffs[[amenity]]) + 1, length(amenity_data))
     
     # assign labels based off cutoffs
@@ -82,14 +83,13 @@ getMetrics <- function(master, cutoffs){
 ### Test function
 
 ```{r}
-# set.seed(2023)
+# set seed for sub sampling
+set.seed(2023)
+
 load('../../../data/master_pms_df.Rdata')
 
-amenity_data <- na.omit(master[, 'PMS_prox_idx_emp'])
-
-
-amenity_data
-perc = 3 #percentage of data to subsample
+#sub sample data
+perc = 3 #percentage of data to sub sample
 subsample = (nrow(master)/100)*perc 
 pms_subsample = master[sample(nrow(master), subsample),]
 
