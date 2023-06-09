@@ -91,8 +91,11 @@ for (i in 1:length(amenities)){
 		summary_table[j,1:length(anames)] = unname(all_coef[[j]][i,])
 	}
 	
-	#formatting dunn number
-	summary_table[2,] = format(round(summary_table[2,], 5), nsmall = 5)
+	#formatting numbers
+	summary_table[1,] = format(round(summary_table[1,], 2), nsmall = 2)
+	summary_table[2,] = format(round(as.numeric(summary_table[2,]), 5), nsmall = 5)
+	summary_table[3,] = format(round(as.numeric(summary_table[3,])), nsmall = 0)
+	summary_table[4,] = format(round(as.numeric(summary_table[4,]), 2), nsmall = 2)
 	 
 	#switching columns and rows
 	summary_table = t(summary_table)

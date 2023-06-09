@@ -1,5 +1,3 @@
-#plotting horizontal barplots for the number of people and number of DBs classified in each cluster (remote, not remote, etc.)
-
 set.seed(2023)
 library(ggplot2)
 library(tidyverse)
@@ -9,26 +7,21 @@ library(gridExtra)
 library(RColorBrewer)
 
 
-
 # load data
-load('../../../../local_data/codes/create_master/master_pms_df.Rdata')
+load('../../../../../local_data/codes/create_master/master_pms_df.Rdata')
 
-# covert populations to numeric from factor
-master$PMS_DBPOP = as.numeric(gsub("[^0-9.-]", "", as.character(master$PMS_DBPOP)))
+
+# subsampling data (if needed)
+#perc = 5 #percentage of data to subsample
+#subsample = (nrow(master)/100)*perc
+#master = master[sample(nrow(master), subsample),]
+
 
 #amenities
 amenities = c("PMS_prox_idx_emp", "PMS_prox_idx_pharma", "PMS_prox_idx_childcare", "PMS_prox_idx_health", "PMS_prox_idx_grocery", "PMS_prox_idx_educpri", "PMS_prox_idx_educsec", "PMS_prox_idx_lib", "PMS_prox_idx_parks", "PMS_prox_idx_transit")
 
 #labels
 labs = c('Employment', 'Pharmacy', 'Child care', 'Health care', 'Grocery', 'Primary Education', 'Secondary Education', 'Library', 'Parks', 'Transit')
-
-#g legend function
-g_legend <- function(a.gplot){
-  tmp <- ggplot_gtable(ggplot_build(a.gplot))
-  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
-  legend <- tmp$grobs[[leg]]
-  legend
-}
 
 
 
@@ -101,131 +94,106 @@ cmanual = list(
   PMS_prox_idx_transit = c(0.0000390986, 0.0001481958, 0.0002512994, 0.0003514904)
 )
 all_cutoffs = list(cquintiles, cmanual, chdbscan, cmixall, cmclust, cpamkmeans)
-all_cutoffs = lapply(all_cutoffs, function(x) lapply(x,sort))
-
-approaches = c('Quintiles', 'Min/Max', 'HDBSCAN', 'MixAll', 'MCLUST', 'PAM k-means')
-
+anames = c('Quintiles', 'Min/Max', 'HDBSCAN', 'MixAll', 'MCLUST', 'PAM k-means')
+#max_n = max(unlist(lapply(cmanual, length)))
 
 
-# produce 1 table per amenity
-counter = 1
-for (i in amenities){
-	#plot list
-	t = list()
 
-	#remove NA values
-	amen = master[!(is.na(master[,i])),]
- 	
- 	for (j in 1:length(approaches)){
- 		cutoffs = all_cutoffs[[j]]
- 		
- 		#assign cluster numbers
-		clusts = findInterval(amen[,i], cutoffs[[i]]) + 1
-	  amen[,approaches[j]] = clusts
- 	}
- 	
- 	#total population
- 	population = sum(amen$PMS_DBPOP, na.rm=T)
- 	
- 	#create plotting dataframe
-	df_long_count = amen[,approaches] %>% 
-		pivot_longer(cols = everything(), names_to = "variable", values_to = "value") %>% 
-		group_by(variable, value) %>% 
-		summarize(count = n()) %>% 
-		mutate(percent = count / sum(count))
-	df_long_pop = tibble()
-	for (approach in approaches){
-	  summed = amen %>%
-	    group_by(!!!syms(approach)) %>%
-	    summarize(total = sum(PMS_DBPOP, na.rm=T))
-	  percentages = summed %>%
-	    mutate(percentage = total / sum(total))
-	  percentages$variable = approach
-	  names(percentages)[1] = 'value'
-	  df_long_pop = bind_rows(percentages, df_long_pop)
-	}
-  #print(head(df_long_count))
-  #print(df_long_pop)
-  
-  #reassign factor levels for approaches
-  df_long_count$variable = factor(df_long_count$variable, levels=rev(approaches))
-  df_long_pop$variable = factor(df_long_pop$variable, levels=rev(approaches))
-  
-	
-  #re-assign factor numbers for coloring purposes
-  max_n = max(df_long_count$value)
-  for (approach in approaches){
-    len = max(df_long_count$value[df_long_count$variable == approach])
-    df_long_count[df_long_count$variable == approach,'value'] = round(seq(1, max_n, length.out = len))
-    df_long_pop[df_long_pop$variable == approach,'value'] = round(seq(1, max_n, length.out = len))
-  }
-  
-  
-	#make plot
-	t[[1]] = ggplot(df_long_count, aes(y = variable, x = percent, fill = as.factor(value))) +
-		geom_col(position = position_fill(reverse = TRUE)) +
-		scale_fill_manual(values = brewer.pal(max_n, "YlGnBu")) + 
-		xlab('') + ylab('') + guides(fill = 'none') + ggtitle('# of DBs') + 
-    theme( 
-      panel.grid.major = element_blank(), 
-      panel.grid.minor = element_blank(),
-      plot.margin=unit(c(0,0,0.1,0),"cm"),
-      plot.title = element_text(size = 10),
-      axis.ticks.y = element_blank(),
-      #axis.text.y = element_blank(),
-      axis.text.x = element_blank(), #removes x axis labels
-      #axis.ticks.x = element_blank() #removes x axis ticks
-    )
-	t[[2]] = ggplot(df_long_pop, aes(y = variable, x = percentage, fill = as.factor(value))) +
-		geom_col(position = position_fill(reverse = TRUE)) +
-		scale_fill_manual(values = brewer.pal(max_n, "YlGnBu")) + 
-		xlab('Proportion') + ylab('') + guides(fill = 'none') + ggtitle('Population') + 
-    theme( 
-      panel.grid.major = element_blank(), 
-      panel.grid.minor = element_blank(),
-      plot.margin=unit(c(0,0,0.1,0),"cm"),
-      plot.title = element_text(size = 10),
-      axis.ticks.y = element_blank(),
-      #axis.text.y = element_blank(),
-      #axis.text.x = element_blank(), #removes x axis labels
-      #axis.ticks.x = element_blank() #removes x axis ticks
-    )
-	legend_plt = ggplot(df_long_pop, aes(y = variable, x = percentage, fill = as.factor(value))) +
-		geom_col(position = "fill") + labs(fill=" ") +
-		scale_fill_manual(values = brewer.pal(max_n, "YlGnBu"), labels=c('Least Proximal', as.character(2:(max_n-1)), 'Most Proximal')) + 
-	  guides(fill = guide_legend(title.position = "top", label.hjust = 0.5, nrow=1)) + 
-		theme(
-        legend.direction = "horizontal",
-        legend.position = "bottom"
-		) 
-	
-	#arrange in grid
-	t[[3]] = g_legend(legend_plt)
 
-	layout_mat = rbind(c(1),
-                    c(1),
-                    c(1),
-                    #c(1),
-                    c(2),
-                    c(2),
-                    c(2),
-                    c(2),
-                    #c(2),
-                    #c(3),
-                    c(3) )
-	barp = do.call(grid.arrange,list(grobs=t, layout_matrix=layout_mat,top=labs[counter]))
-	
-	#export
-	ggsave(paste0(labs[counter], "_barplot.png"), barp, dpi = 400, width=8, height=5)
-  counter = counter + 1
+#g legend function
+g_legend <- function(a.gplot){
+  tmp <- ggplot_gtable(ggplot_build(a.gplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  legend
 }
 
 
 
 
+#log transform
+for (i in amenities){
+  master[,i] = log(master[,i]+0.0001)
+}
 
 
 
 
+counter = 1
+for (i in amenities){
+	most = 0
+	
+	#plot list
+	p = list()
+	
+	#make plot
+	temp = na.omit(master[,i])
+  dt <- data.table(x=1:length(temp),y=temp)
+  dens <- density(dt$y)
+  df <- data.frame(x=dens$x, y=dens$y)
+  
+  for (k in 1:length(all_cutoffs)){
+  	cutoff = all_cutoffs[[k]][[i]] 
+  logged <- log(cutoff+0.0001)
+  df$Cluster <- as.factor(as.numeric(cut(df$x, c(min(df$x), logged, max(df$x)),  include.lowest=T)))
+  plt = ggplot(df, aes(x,y)) + geom_line() + geom_ribbon(aes(ymin=0, ymax=y, fill=Cluster)) + 
+    #scale_x_continuous(breaks=round(logged, 2)) + 
+    ylab('') + guides(fill = 'none') + 
+    scale_fill_manual(values = brewer.pal(length(logged)+1, "YlGnBu")) + 
+    theme(
+      #axis.text.x = element_text(angle = 45, vjust = 0.8, hjust=1, size=8), 
+      panel.grid.major = element_blank(), 
+      panel.grid.minor = element_blank(),
+      plot.margin=unit(c(0,0,0.1,0),"cm"),
+      plot.title = element_text(size = 10),
+      axis.ticks.y = element_blank(),
+      axis.text.y = element_blank(),
+      axis.text.x = element_blank(), #removes x axis labels
+      axis.ticks.x = element_blank() #removes x axis ticks
+    ) +
+    ggtitle(anames[k])
+  if (is.null(cutoff[1])){
+    plt = plt + xlab("NO CLUSTERS DETECTED") + theme(axis.title.x = element_text(size = 7, color='gray'))
+  } else if (length(cutoff) > 5){
+    plt = plt + xlab(paste(round(cutoff, 3), collapse = ', ')) + theme(axis.title.x = element_text(size = 7, color='gray'))
+  } else {
+  	plt = plt + xlab(paste(round(cutoff, 5), collapse = ', ')) + theme(axis.title.x = element_text(size = 7, color='gray'))
+  }
+  p[[k]] = plt
+  if (length(cutoff) > most){
+    most = length(cutoff)
+    most_plt = ggplot(df, aes(x,y)) + geom_line() + geom_ribbon(aes(ymin=0, ymax=y, fill=Cluster)) + 
+      scale_x_continuous(breaks=round(logged, 2)) + 
+      guides(fill = guide_legend(title.position = "top", label.hjust = 0.5, nrow=1)) +
+      theme(
+        legend.direction = "horizontal"
+      ) + 
+      scale_fill_manual(values = brewer.pal(length(logged)+1, "YlGnBu")) 
+  	}
+  	
+  }
+  
+	
+	
+	p[[7]] = g_legend(most_plt)
+
+	layout_mat <- rbind(c(1:3),
+		                c(1:3),
+		                c(1:3),
+		                c(4:6), 
+		                c(4:6),
+		                c(4:6),
+		                c(rep(7,3))
+		                )
+	cutoffs = do.call(grid.arrange,list(grobs=p, layout_matrix=layout_mat))
+
+
+
+
+	#export 
+	ggsave(paste0(labs[counter], "_cutoffs.png"), cutoffs, dpi = 400, width=8, height=5)
+
+	counter = counter + 1 
+}
 
 

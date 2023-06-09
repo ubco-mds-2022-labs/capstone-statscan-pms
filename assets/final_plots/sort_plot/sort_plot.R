@@ -47,7 +47,7 @@ for(i in amenities){
   p[[i]] = plt
   counter = counter+1
 }
-t[[1]] = p[[10]]
+t[[1]] = p[[6]]
 
 
 
@@ -89,7 +89,7 @@ for(i in amenities){
   p[[i]] = plt
   counter = counter+1
 }
-t[[2]] = p[[10]] + ggtitle('Transit Log-transformed')
+t[[2]] = p[[6]] + ggtitle('Primary Education Log-transformed')
 
 
 layout_mat = rbind(c(1:4),
