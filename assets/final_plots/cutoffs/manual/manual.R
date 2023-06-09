@@ -87,7 +87,7 @@ for(i in amenities){
   if (is.null(cutoff[1])){
     plt = plt + xlab("NO CLUSTERS DETECTED") + theme(axis.title.x = element_text(size = 7, color='gray'))
   } else {
-    plt = plt + xlab(paste(round(cutoff, 4), collapse = ', ')) + theme(axis.title.x = element_text(size = 7, color='gray'))
+    plt = plt + xlab(paste(round(cutoff, 5), collapse = ', ')) + theme(axis.title.x = element_text(size = 7, color='gray'))
   }
   p[[i]] = plt
   if (length(cutoff) > most){
@@ -161,7 +161,7 @@ for(i in amenities){
   if (is.null(cutoff[1])){
     plt = plt + xlab("NO CLUSTERS DETECTED") + theme(axis.title.x = element_text(size = 7, color='gray'))
   } else {
-    plt = plt + xlab(paste(round(cutoff, 4), collapse = ', ')) + theme(axis.title.x = element_text(size = 7, color='gray'))
+    plt = plt + xlab(paste(round(cutoff, 5), collapse = ', ')) + theme(axis.title.x = element_text(size = 7, color='gray'))
   }
   p[[i]] = plt
   if (length(cutoff) > most){
