@@ -6,7 +6,7 @@ library(xtable)
 load('../../../../local_data/codes/create_master/master_pms_df.Rdata')
 
 #convert dbpop to numerical
-master[,'PMS_DBPOP'] = as.numeric(as.character(master[,'PMS_DBPOP']))
+master$PMS_DBPOP = as.numeric(gsub("[^0-9.-]", "", as.character(master$PMS_DBPOP)))
 
 # amenities
 amenities = c("PMS_prox_idx_emp", "PMS_prox_idx_pharma", "PMS_prox_idx_childcare", "PMS_prox_idx_health", "PMS_prox_idx_grocery", "PMS_prox_idx_educpri", "PMS_prox_idx_educsec", "PMS_prox_idx_lib", "PMS_prox_idx_parks", "PMS_prox_idx_transit")
@@ -43,6 +43,10 @@ for (i in num_vars){
 }
 
 
+#round dbpop column
+summary_table[11,] = format(round(summary_table[11,]), nsmall=0)
+
+
 #convert numbers to strings to prevent rounding
 summary_table = apply(summary_table, 1:2, as.character)
 
@@ -58,5 +62,5 @@ summary_table = t(summary_table)
 
 #export 
 print(summary_table)
-print(xtable(summary_table, type = "latex"), file = "summary_table.txt")
+print(xtable(summary_table, type = "latex"), file = "summary_table.txt", floating = TRUE, floating.environment = "sidewaystable")
 
