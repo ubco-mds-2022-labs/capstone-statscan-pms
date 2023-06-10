@@ -1,0 +1,114 @@
+---
+title: "Metrics Template"
+author: "PMS"
+date: "2023-06-07"
+output: pdf_document
+---
+
+```{r global_options, include=FALSE}
+## Set some options for knitr to apply globally
+knitr::opts_chunk$set(cache=TRUE,
+                      echo=FALSE,
+                      autodep=TRUE,
+                      message=FALSE,
+                      warning=FALSE,
+                      out.width="80%",
+                      fig.asp=0.75,
+                      fig.align='center',
+                      fig.pos = "H", 
+                      out.extra = "")
+```
+
+### getMetrics Function
+
+The getMetrics() function takes a data set (master) and the cutoff values and returns a data frame of the various metric values for each of the 10 amenities.
+
+```{r}
+library(cluster)
+library(fpc)
+library(clusterSim)
+library(clusterCrit)
+
+getMetrics <- function(master, cutoffs){
+  sil_vec <- c()
+  dunn_vec <- c()
+  xei_beni_vec <- c()
+  calinski_harabasz_vec <- c()
+  davies_bouldin_vec <- c()
+  
+  for (amenity in names(cutoffs)) {
+    
+    # subset data for current amenity (so labels match)
+    amenity_data <- na.omit(master[, amenity])
+    
+    # initialize with default value (max cluster) and then change according to the condition
+    labels <- rep(length(cutoffs[[amenity]]) + 1, length(amenity_data))
+    
+    # assign labels based off cutoffs
+    for (i in 1:length(amenity_data)) {
+      for (j in 1:length(cutoffs[[amenity]])) {
+        if (amenity_data[i] < cutoffs[[amenity]][j]) {  
+          labels[i] <- j
+          break
+        }
+      }
+    }
+    
+    clus_data <- amenity_data
+    clus_labels <- labels
+    
+    dunn_stats <- cluster.stats(dist(clus_data), clus_labels)
+    calinski_harabasz <- calinhara(clus_data, clus_labels)
+    xie_beni <- intCriteria(as.matrix(clus_data), as.integer(clus_labels), 'Xie_Beni')$xie_beni
+    davies_bouldin <- index.DB(clus_data, clus_labels)
+    sil_coef <- intCriteria(as.matrix(clus_data), as.integer(clus_labels),'Silhouette')$silhouette
+
+    sil_vec <- c(sil_vec, sil_coef)
+    dunn_vec <- c(dunn_vec, dunn_stats$dunn)
+    xei_beni_vec <- c(xei_beni_vec, xie_beni)
+    calinski_harabasz_vec <- c(calinski_harabasz_vec, calinski_harabasz)
+    davies_bouldin_vec <- c(davies_bouldin_vec, davies_bouldin$DB)
+  }
+  
+  metrics_df <- data.frame(silhouette = sil_vec,
+                           dunn = dunn_vec,
+                           xie_beni = xei_beni_vec,
+                           calinski_harabasz = calinski_harabasz_vec,
+                           davies_bouldin = davies_bouldin_vec)
+
+  return(metrics_df)
+}
+```
+
+### Test function
+
+```{r}
+# set seed for sub sampling
+set.seed(2023)
+
+load('../../../data/master_pms_df.Rdata')
+
+#sub sample data
+perc = 3 #percentage of data to sub sample
+subsample = (nrow(master)/100)*perc 
+pms_subsample = master[sample(nrow(master), subsample),]
+
+cut_offs_test <- list(
+  PMS_prox_idx_emp = c(0.0000423603, 0.0001573125, 0.0002743458, 0.0005010775),
+  PMS_prox_idx_pharma = c(0.01142592, 0.01948168),
+  PMS_prox_idx_childcare = c(0.008407409, 0.013850871),
+  PMS_prox_idx_health = c(0.0000405736, 0.0001524638, 0.0002658077),
+  PMS_prox_idx_grocery = c(0.01208361, 0.01846220),
+  PMS_prox_idx_educpri = c(0.04965835, 0.08169011),
+  PMS_prox_idx_educsec = c(0.06609424),
+  PMS_prox_idx_lib = c(0.6149259),
+  PMS_prox_idx_parks = c(0.01834893, 0.02944933),
+  PMS_prox_idx_transit = c(0.0000390986, 0.0001481958, 0.0002512994, 0.0003514904)
+)
+
+metrics <- getMetrics(pms_subsample, cut_offs_test)
+```
+
+```{r}
+metrics
+```

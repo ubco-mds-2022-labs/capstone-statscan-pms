@@ -81,6 +81,7 @@ write('
 ```{r, echo=F}
 #cutoff values list
 cutoffs =  list(PMS_prox_idx_emp = 0.22985, PMS_prox_idx_pharma = c(0.01175, 0.0525), PMS_prox_idx_childcare = 0.009, PMS_prox_idx_health = 0.1052,PMS_prox_idx_grocery = c(0.0763, 0.0124), PMS_prox_idx_educpri = c(0.04495,0.22045, 0.1449), PMS_prox_idx_educsec = c(0.0576, 0.0863), PMS_prox_idx_lib = c(0.06575, 0.0691, 0.05465), PMS_prox_idx_parks = 0.01995,PMS_prox_idx_transit = 0.03875)
+cutoffs = lapply(cutoffs, sort)
 
 counter = 1
 for (i in amenities){
@@ -97,19 +98,20 @@ for (i in amenities){
   amen = master[!(is.na(master[,i])),]
   
   #assign cluster labels
-  #clusts = c()
-  clusts = rep(length(cutoffs[[i]]) + 1, nrow(amen))
-  for (k in 1:nrow(amen)) {
-    for (p in 1:length(cutoffs[[i]])) {
-      if (amen[k,i] < cutoffs[[i]][p]) {  
-          clusts[k] = p
-          break
-      }
-      # if (amen[k,i] >= cutoffs[[i]][length(cutoffs[[i]])]){
-      #   clusts[k] = length(cutoffs[[i]]) + 1
-      # }
-    }
-  }
+  # #clusts = c()
+  # clusts = rep(length(cutoffs[[i]]) + 1, nrow(amen))
+  # for (k in 1:nrow(amen)) {
+  #   for (p in 1:length(cutoffs[[i]])) {
+  #     if (amen[k,i] < cutoffs[[i]][p]) {  
+  #         clusts[k] = p
+  #         break
+  #     }
+  #     # if (amen[k,i] >= cutoffs[[i]][length(cutoffs[[i]])]){
+  #     #   clusts[k] = length(cutoffs[[i]]) + 1
+  #     # }
+  #   }
+  # }
+  clusts = findInterval(amen[,i], cutoffs[[i]]) + 1
   amen$clust = clusts
   
   #overall pop column 
