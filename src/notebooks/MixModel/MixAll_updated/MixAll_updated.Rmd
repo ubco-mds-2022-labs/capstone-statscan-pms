@@ -97,6 +97,40 @@ for (amenity in ammenities) {
 head(results_df, 7)
 ```
 
+```{r}
+library(tidyr)
+results_df_2 <- results_df[2:8, ]
+# convert data to long format
+results_df_long <- pivot_longer(results_df_2, 
+                                cols = c(sil_coef, davies_bouldin, calinski_harabasz, dunn),
+                                names_to = "Coefficient", 
+                                values_to = "Value")
+
+
+# rename the coefficient names
+results_df_long <- results_df_long %>% 
+  mutate(Coefficient = case_when(
+    Coefficient == "sil_coef" ~ "Silhouette Coefficient",
+    Coefficient == "davies_bouldin" ~ "Davies Bouldin",
+    Coefficient == "calinski_harabasz" ~ "Calinski Harabasz",
+    Coefficient == "dunn" ~ "Dunn Index",
+    TRUE ~ Coefficient
+  ))
+
+# Plot coefficients for each number of clusters
+ggplot(results_df_long, aes(x = num_clusters, y = Value, color = Coefficient)) + 
+  geom_line(size = 1) + 
+  scale_color_manual(values = c("red", "blue", "green", "orange")) +
+  xlab("Number of Clusters") + 
+  ylab("Coefficient Value") + 
+  ggtitle("Coefficients vs Number of Clusters") +
+  facet_wrap(~Coefficient, scales = "free_y") + 
+  theme_minimal() +
+  guides(color = FALSE) 
+```
+
+
+
 ### Cutoff function
 
 ```{r, cache=TRUE}
