@@ -683,6 +683,91 @@ My total weekly hours are: `r  sum(mylog[which(mylog$week==current.week), 3])`
 <!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
 - This week, I didn't face any major roadblocks. As a team we're facing issues with choosing the right clustering technique based on validation metrics. Because different clustering techniques suggesting different number of clusters but we need to pick one for profiling.
 
+
+## Week 6
+
+<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first) -->
+```{r}
+current.week = current.week + 1
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-05"), 
+                       hours=2,
+                       description="Meetings",
+                       comments="Made slides & agendas, Instructor & Team meeting")
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-05"), 
+                       hours=4.67,
+                       description="Profiling",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-06"), 
+                       hours=0.5,
+                       description="Meeting",
+                       comments="Team meeting"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-06"), 
+                       hours=4.33,
+                       description="Report writing & Cutoffs",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-07"), 
+                       hours=6,
+                       description="Report writing & Team meeting",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-08"), 
+                       hours=6.5,
+                       description="Meet & Greet, Team dynamics, Jeff Meeting, Report check",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-09"), 
+                       hours=5,
+                       description="Team & Client Meeting, Report editing",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-10"), 
+                       hours=5,
+                       description="QGIS, Report editing",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-10"), 
+                       hours=1,
+                       description="Miscellaneous",
+                       comments="Reviewed Pull Requests, Stored Logs, etc."
+                       )
+
+kable(filter(mylog, week == current.week))
+```
+My total weekly hours are: `r  sum(mylog[which(mylog$week==current.week), 3])`
+
+### Weekly Reflection
+
+<!-- In this section, please write 5-7 sentences (in total) answering the following questions: -->
+
+<!-- 1. What was your most significant **individual contribution** to the project this week? -->
+- My most significant individual contribution to the project this week was writing first draft for some sections.
+
+<!-- 2. What was your most significant **team contribution** to the project this week? -->
+- My most significant team contribution was working on the final report.
+
+<!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
+- This week, I didn't face any major roadblocks.
+
 ## Summary Table
 
 <!-- To get the total for all the weekly hourly summary over each week use the following (requires the **dplyr** package) -->

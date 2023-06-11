@@ -258,6 +258,41 @@ My total weekly hours are: 26.42
     suggesting different number of clusters but we need to pick one for
     profiling.
 
+## Week 6
+
+<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first) -->
+
+| week | day        | hours | description                                             | comments                                         |
+|---:|:------|----:|:------------------------------|:--------------------------|
+|    6 | 2023-06-05 |  2.00 | Meetings                                                | Made slides & agendas, Instructor & Team meeting |
+|    6 | 2023-06-05 |  4.67 | Profiling                                               | NA                                               |
+|    6 | 2023-06-06 |  0.50 | Meeting                                                 | Team meeting                                     |
+|    6 | 2023-06-06 |  4.33 | Report writing & Cutoffs                                | NA                                               |
+|    6 | 2023-06-07 |  6.00 | Report writing & Team meeting                           | NA                                               |
+|    6 | 2023-06-08 |  6.50 | Meet & Greet, Team dynamics, Jeff Meeting, Report check | NA                                               |
+|    6 | 2023-06-09 |  5.00 | Team & Client Meeting, Report editing                   | NA                                               |
+|    6 | 2023-06-10 |  5.00 | QGIS, Report editing                                    | NA                                               |
+|    6 | 2023-06-10 |  1.00 | Miscellaneous                                           | Reviewed Pull Requests, Stored Logs, etc.        |
+
+My total weekly hours are: 35
+
+### Weekly Reflection
+
+<!-- In this section, please write 5-7 sentences (in total) answering the following questions: -->
+<!-- 1. What was your most significant **individual contribution** to the project this week? -->
+
+-   My most significant individual contribution to the project this week
+    was writing first draft for some sections.
+
+<!-- 2. What was your most significant **team contribution** to the project this week? -->
+
+-   My most significant team contribution was working on the final
+    report.
+
+<!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
+
+-   This week, I didn’t face any major roadblocks.
+
 ## Summary Table
 
 <!-- To get the total for all the weekly hourly summary over each week use the following (requires the **dplyr** package) -->
@@ -269,3 +304,4 @@ My total weekly hours are: 26.42
 |    3 |              37.57 |
 |    4 |              26.00 |
 |    5 |              26.42 |
+|    6 |              35.00 |
