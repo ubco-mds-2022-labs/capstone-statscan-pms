@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.21)  10 JUN 2023 08:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.21)  10 JUN 2023 17:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -630,7 +630,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.3}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.269 \section
+l.275 \section
               {Methods} [3]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -645,21 +645,8 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.396 \section
+l.402 \section
               {Results} [4]
-<../../assets/final_plots//./distributions/compare_distributions.png, id=228, 5
-78.16pt x 216.81pt>
-File: ../../assets/final_plots//./distributions/compare_distributions.png Graph
-ic file (type png)
-<use ../../assets/final_plots//./distributions/compare_distributions.png>
-Package pdftex.def Info: ../../assets/final_plots//./distributions/compare_dist
-ributions.png  used on input line 514.
-(pdftex.def)             Requested size: 462.52863pt x 173.44823pt.
-
-Overfull \hbox (9.56073pt too wide) in paragraph at lines 514--515
- [][] 
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -669,12 +656,22 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [5]
-Overfull \hbox (18.66125pt too wide) in paragraph at lines 527--543
- [][] 
- []
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
+<../../assets/final_plots//./distributions/compare_distributions.png, id=366, 5
+78.16pt x 216.81pt>
+File: ../../assets/final_plots//./distributions/compare_distributions.png Graph
+ic file (type png)
+<use ../../assets/final_plots//./distributions/compare_distributions.png>
+Package pdftex.def Info: ../../assets/final_plots//./distributions/compare_dist
+ributions.png  used on input line 527.
+(pdftex.def)             Requested size: 452.9679pt x 169.86208pt.
+<../../assets/final_plots//./vat/primaryeducation_vat_log.png, id=369, 578.16pt
+ x 361.35pt>
+File: ../../assets/final_plots//./vat/primaryeducation_vat_log.png Graphic file
+ (type png)
+<use ../../assets/final_plots//./vat/primaryeducation_vat_log.png>
+Package pdftex.def Info: ../../assets/final_plots//./vat/primaryeducation_vat_l
+og.png  used on input line 584.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -685,6 +682,24 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [6 <../../assets/final_plots//./distributions/compare_distributions.png>]
+<../../assets/final_plots//./sort_plot/sort_comparison.png, id=375, 578.16pt x 
+216.81pt>
+File: ../../assets/final_plots//./sort_plot/sort_comparison.png Graphic file (t
+ype png)
+<use ../../assets/final_plots//./sort_plot/sort_comparison.png>
+Package pdftex.def Info: ../../assets/final_plots//./sort_plot/sort_comparison.
+png  used on input line 604.
+(pdftex.def)             Requested size: 452.9679pt x 169.86208pt.
+<../../assets/final_plots//./cutoffs/by_amenity/Primary Education_cutoffs.png, 
+id=377, 578.16pt x 361.35pt>
+File: ../../assets/final_plots//./cutoffs/by_amenity/Primary Education_cutoffs.
+png Graphic file (type png)
+<use ../../assets/final_plots//./cutoffs/by_amenity/Primary Education_cutoffs.p
+ng>
+Package pdftex.def Info: ../../assets/final_plots//./cutoffs/by_amenity/Primary
+ Education_cutoffs.png  used on input line 651.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -693,7 +708,18 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[7]
+[7 <../../assets/final_plots//./vat/primaryeducation_vat_log.png> <../../assets
+/final_plots//./sort_plot/sort_comparison.png>]
+<../../assets/final_plots//./barplot_comparison/Primary Education_barplot.png, 
+id=386, 578.16pt x 361.35pt>
+File: ../../assets/final_plots//./barplot_comparison/Primary Education_barplot.
+png Graphic file (type png)
+<use ../../assets/final_plots//./barplot_comparison/Primary Education_barplot.p
+ng>
+Package pdftex.def Info: ../../assets/final_plots//./barplot_comparison/Primary
+ Education_barplot.png  used on input line 787.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -702,7 +728,8 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[8]
+[8 <../../assets/final_plots//./cutoffs/by_amenity/Primary Education_cutoffs.pn
+g>]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -711,8 +738,8 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[9]
-No file PMS_final_report.bbl.
+[9 <../../assets/final_plots//./barplot_comparison/Primary Education_barplot.pn
+g>]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -740,6 +767,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [12]
+No file PMS_final_report.bbl.
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -748,28 +776,578 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[13] (./PMS_final_report.aux)
+[13]
+Overfull \hbox (3.60959pt too wide) in paragraph at lines 1004--1004
+[]|\OT1/cmr/m/it/10.95 Employment| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1004--1004
+[]|\OT1/cmr/m/it/10.95 Amenity
+ []
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[14]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[15]
+Overfull \vbox (125.7571pt too high) has occurred while \output is active []
+
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[16]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[17]
+<../../assets/final_plots//./outliers/boxplot.png, id=430, 578.16pt x 361.35pt>
+
+File: ../../assets/final_plots//./outliers/boxplot.png Graphic file (type png)
+<use ../../assets/final_plots//./outliers/boxplot.png>
+Package pdftex.def Info: ../../assets/final_plots//./outliers/boxplot.png  used
+ on input line 1054.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+<../../assets/final_plots//./outliers/logged_boxplot.png, id=431, 578.16pt x 36
+1.35pt>
+File: ../../assets/final_plots//./outliers/logged_boxplot.png Graphic file (typ
+e png)
+<use ../../assets/final_plots//./outliers/logged_boxplot.png>
+Package pdftex.def Info: ../../assets/final_plots//./outliers/logged_boxplot.pn
+g  used on input line 1066.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+<../../assets/final_plots//./distributions/distributions.png, id=432, 578.16pt 
+x 361.35pt>
+File: ../../assets/final_plots//./distributions/distributions.png Graphic file 
+(type png)
+<use ../../assets/final_plots//./distributions/distributions.png>
+Package pdftex.def Info: ../../assets/final_plots//./distributions/distribution
+s.png  used on input line 1078.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[18 <../../assets/final_plots//./outliers/boxplot.png> <../../assets/final_plot
+s//./outliers/logged_boxplot.png>]
+<../../assets/final_plots//./distributions/log_distributions.png, id=437, 578.1
+6pt x 361.35pt>
+File: ../../assets/final_plots//./distributions/log_distributions.png Graphic f
+ile (type png)
+<use ../../assets/final_plots//./distributions/log_distributions.png>
+Package pdftex.def Info: ../../assets/final_plots//./distributions/log_distribu
+tions.png  used on input line 1090.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+<../../assets/final_plots//./sort_plot/sort_plot.png, id=438, 578.16pt x 361.35
+pt>
+File: ../../assets/final_plots//./sort_plot/sort_plot.png Graphic file (type pn
+g)
+<use ../../assets/final_plots//./sort_plot/sort_plot.png>
+Package pdftex.def Info: ../../assets/final_plots//./sort_plot/sort_plot.png  u
+sed on input line 1102.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[19 <../../assets/final_plots//./distributions/distributions.png> <../../assets
+/final_plots//./distributions/log_distributions.png>]
+<../../assets/final_plots//./sort_plot/log_sort_plot.png, id=443, 578.16pt x 36
+1.35pt>
+File: ../../assets/final_plots//./sort_plot/log_sort_plot.png Graphic file (typ
+e png)
+<use ../../assets/final_plots//./sort_plot/log_sort_plot.png>
+Package pdftex.def Info: ../../assets/final_plots//./sort_plot/log_sort_plot.pn
+g  used on input line 1114.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+<../../assets/final_plots//./vat/emp_vat_log.png, id=444, 578.16pt x 361.35pt>
+File: ../../assets/final_plots//./vat/emp_vat_log.png Graphic file (type png)
+<use ../../assets/final_plots//./vat/emp_vat_log.png>
+Package pdftex.def Info: ../../assets/final_plots//./vat/emp_vat_log.png  used 
+on input line 1127.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[20 <../../assets/final_plots//./sort_plot/sort_plot.png> <../../assets/final_p
+lots//./sort_plot/log_sort_plot.png>]
+<../../assets/final_plots//./vat/pharma_vat_log.png, id=449, 578.16pt x 361.35p
+t>
+File: ../../assets/final_plots//./vat/pharma_vat_log.png Graphic file (type png
+)
+<use ../../assets/final_plots//./vat/pharma_vat_log.png>
+Package pdftex.def Info: ../../assets/final_plots//./vat/pharma_vat_log.png  us
+ed on input line 1140.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+<../../assets/final_plots//./vat/childcare_vat_log.png, id=450, 578.16pt x 361.
+35pt>
+File: ../../assets/final_plots//./vat/childcare_vat_log.png Graphic file (type 
+png)
+<use ../../assets/final_plots//./vat/childcare_vat_log.png>
+Package pdftex.def Info: ../../assets/final_plots//./vat/childcare_vat_log.png 
+ used on input line 1151.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[21 <../../assets/final_plots//./vat/emp_vat_log.png> <../../assets/final_plots
+//./vat/pharma_vat_log.png>]
+<../../assets/final_plots//./vat/healthcare_vat_log.png, id=456, 578.16pt x 361
+.35pt>
+File: ../../assets/final_plots//./vat/healthcare_vat_log.png Graphic file (type
+ png)
+<use ../../assets/final_plots//./vat/healthcare_vat_log.png>
+Package pdftex.def Info: ../../assets/final_plots//./vat/healthcare_vat_log.png
+  used on input line 1164.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+<../../assets/final_plots//./vat/grocery_vat_log.png, id=457, 578.16pt x 361.35
+pt>
+File: ../../assets/final_plots//./vat/grocery_vat_log.png Graphic file (type pn
+g)
+<use ../../assets/final_plots//./vat/grocery_vat_log.png>
+Package pdftex.def Info: ../../assets/final_plots//./vat/grocery_vat_log.png  u
+sed on input line 1176.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[22 <../../assets/final_plots//./vat/childcare_vat_log.png> <../../assets/final
+_plots//./vat/healthcare_vat_log.png>]
+<../../assets/final_plots//./vat/secondaryeducation_vat_log.png, id=462, 578.16
+pt x 361.35pt>
+File: ../../assets/final_plots//./vat/secondaryeducation_vat_log.png Graphic fi
+le (type png)
+<use ../../assets/final_plots//./vat/secondaryeducation_vat_log.png>
+Package pdftex.def Info: ../../assets/final_plots//./vat/secondaryeducation_vat
+_log.png  used on input line 1189.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+<../../assets/final_plots//./vat/library_vat_log.png, id=463, 578.16pt x 361.35
+pt>
+File: ../../assets/final_plots//./vat/library_vat_log.png Graphic file (type pn
+g)
+<use ../../assets/final_plots//./vat/library_vat_log.png>
+Package pdftex.def Info: ../../assets/final_plots//./vat/library_vat_log.png  u
+sed on input line 1202.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[23 <../../assets/final_plots//./vat/grocery_vat_log.png> <../../assets/final_p
+lots//./vat/secondaryeducation_vat_log.png>]
+<../../assets/final_plots//./vat/parks_vat_log.png, id=468, 578.16pt x 361.35pt
+>
+File: ../../assets/final_plots//./vat/parks_vat_log.png Graphic file (type png)
+
+<use ../../assets/final_plots//./vat/parks_vat_log.png>
+Package pdftex.def Info: ../../assets/final_plots//./vat/parks_vat_log.png  use
+d on input line 1215.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+<../../assets/final_plots//./vat/transit_vat_log.png, id=469, 578.16pt x 361.35
+pt>
+File: ../../assets/final_plots//./vat/transit_vat_log.png Graphic file (type pn
+g)
+<use ../../assets/final_plots//./vat/transit_vat_log.png>
+Package pdftex.def Info: ../../assets/final_plots//./vat/transit_vat_log.png  u
+sed on input line 1230.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[24 <../../assets/final_plots//./vat/library_vat_log.png> <../../assets/final_p
+lots//./vat/parks_vat_log.png>]
+<../../assets/final_plots//./cutoffs/by_amenity/Employment_cutoffs.png, id=474,
+ 578.16pt x 361.35pt>
+File: ../../assets/final_plots//./cutoffs/by_amenity/Employment_cutoffs.png Gra
+phic file (type png)
+<use ../../assets/final_plots//./cutoffs/by_amenity/Employment_cutoffs.png>
+Package pdftex.def Info: ../../assets/final_plots//./cutoffs/by_amenity/Employm
+ent_cutoffs.png  used on input line 1244.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+<../../assets/final_plots//./cutoffs/by_amenity/Pharmacy_cutoffs.png, id=475, 5
+78.16pt x 361.35pt>
+File: ../../assets/final_plots//./cutoffs/by_amenity/Pharmacy_cutoffs.png Graph
+ic file (type png)
+<use ../../assets/final_plots//./cutoffs/by_amenity/Pharmacy_cutoffs.png>
+Package pdftex.def Info: ../../assets/final_plots//./cutoffs/by_amenity/Pharmac
+y_cutoffs.png  used on input line 1258.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[25 <../../assets/final_plots//./vat/transit_vat_log.png> <../../assets/final_p
+lots//./cutoffs/by_amenity/Employment_cutoffs.png>]
+<../../assets/final_plots//./cutoffs/by_amenity/Child care_cutoffs.png, id=480,
+ 578.16pt x 361.35pt>
+File: ../../assets/final_plots//./cutoffs/by_amenity/Child care_cutoffs.png Gra
+phic file (type png)
+<use ../../assets/final_plots//./cutoffs/by_amenity/Child care_cutoffs.png>
+Package pdftex.def Info: ../../assets/final_plots//./cutoffs/by_amenity/Child c
+are_cutoffs.png  used on input line 1273.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+<../../assets/final_plots//./cutoffs/by_amenity/Health care_cutoffs.png, id=481
+, 578.16pt x 361.35pt>
+File: ../../assets/final_plots//./cutoffs/by_amenity/Health care_cutoffs.png Gr
+aphic file (type png)
+<use ../../assets/final_plots//./cutoffs/by_amenity/Health care_cutoffs.png>
+Package pdftex.def Info: ../../assets/final_plots//./cutoffs/by_amenity/Health 
+care_cutoffs.png  used on input line 1288.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[26 <../../assets/final_plots//./cutoffs/by_amenity/Pharmacy_cutoffs.png> <../.
+./assets/final_plots//./cutoffs/by_amenity/Child care_cutoffs.png>]
+<../../assets/final_plots//./cutoffs/by_amenity/Grocery_cutoffs.png, id=486, 57
+8.16pt x 361.35pt>
+File: ../../assets/final_plots//./cutoffs/by_amenity/Grocery_cutoffs.png Graphi
+c file (type png)
+<use ../../assets/final_plots//./cutoffs/by_amenity/Grocery_cutoffs.png>
+Package pdftex.def Info: ../../assets/final_plots//./cutoffs/by_amenity/Grocery
+_cutoffs.png  used on input line 1303.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+<../../assets/final_plots//./cutoffs/by_amenity/Secondary Education_cutoffs.png
+, id=487, 578.16pt x 361.35pt>
+File: ../../assets/final_plots//./cutoffs/by_amenity/Secondary Education_cutoff
+s.png Graphic file (type png)
+<use ../../assets/final_plots//./cutoffs/by_amenity/Secondary Education_cutoffs
+.png>
+Package pdftex.def Info: ../../assets/final_plots//./cutoffs/by_amenity/Seconda
+ry Education_cutoffs.png  used on input line 1318.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[27 <../../assets/final_plots//./cutoffs/by_amenity/Health care_cutoffs.png> <.
+./../assets/final_plots//./cutoffs/by_amenity/Grocery_cutoffs.png>]
+<../../assets/final_plots//./cutoffs/by_amenity/Library_cutoffs.png, id=493, 57
+8.16pt x 361.35pt>
+File: ../../assets/final_plots//./cutoffs/by_amenity/Library_cutoffs.png Graphi
+c file (type png)
+<use ../../assets/final_plots//./cutoffs/by_amenity/Library_cutoffs.png>
+Package pdftex.def Info: ../../assets/final_plots//./cutoffs/by_amenity/Library
+_cutoffs.png  used on input line 1333.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+<../../assets/final_plots//./cutoffs/by_amenity/Parks_cutoffs.png, id=494, 578.
+16pt x 361.35pt>
+File: ../../assets/final_plots//./cutoffs/by_amenity/Parks_cutoffs.png Graphic 
+file (type png)
+<use ../../assets/final_plots//./cutoffs/by_amenity/Parks_cutoffs.png>
+Package pdftex.def Info: ../../assets/final_plots//./cutoffs/by_amenity/Parks_c
+utoffs.png  used on input line 1348.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[28 <../../assets/final_plots//./cutoffs/by_amenity/Secondary Education_cutoffs
+.png> <../../assets/final_plots//./cutoffs/by_amenity/Library_cutoffs.png>]
+<../../assets/final_plots//./cutoffs/by_amenity/Transit_cutoffs.png, id=499, 57
+8.16pt x 361.35pt>
+File: ../../assets/final_plots//./cutoffs/by_amenity/Transit_cutoffs.png Graphi
+c file (type png)
+<use ../../assets/final_plots//./cutoffs/by_amenity/Transit_cutoffs.png>
+Package pdftex.def Info: ../../assets/final_plots//./cutoffs/by_amenity/Transit
+_cutoffs.png  used on input line 1363.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+<../../assets/final_plots//./barplot_comparison/Employment_barplot.png, id=500,
+ 578.16pt x 361.35pt>
+File: ../../assets/final_plots//./barplot_comparison/Employment_barplot.png Gra
+phic file (type png)
+<use ../../assets/final_plots//./barplot_comparison/Employment_barplot.png>
+Package pdftex.def Info: ../../assets/final_plots//./barplot_comparison/Employm
+ent_barplot.png  used on input line 1381.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[29 <../../assets/final_plots//./cutoffs/by_amenity/Parks_cutoffs.png> <../../a
+ssets/final_plots//./cutoffs/by_amenity/Transit_cutoffs.png>]
+<../../assets/final_plots//./barplot_comparison/Pharmacy_barplot.png, id=505, 5
+78.16pt x 361.35pt>
+File: ../../assets/final_plots//./barplot_comparison/Pharmacy_barplot.png Graph
+ic file (type png)
+<use ../../assets/final_plots//./barplot_comparison/Pharmacy_barplot.png>
+Package pdftex.def Info: ../../assets/final_plots//./barplot_comparison/Pharmac
+y_barplot.png  used on input line 1394.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+<../../assets/final_plots//./barplot_comparison/Child care_barplot.png, id=506,
+ 578.16pt x 361.35pt>
+File: ../../assets/final_plots//./barplot_comparison/Child care_barplot.png Gra
+phic file (type png)
+<use ../../assets/final_plots//./barplot_comparison/Child care_barplot.png>
+Package pdftex.def Info: ../../assets/final_plots//./barplot_comparison/Child c
+are_barplot.png  used on input line 1408.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[30 <../../assets/final_plots//./barplot_comparison/Employment_barplot.png> <..
+/../assets/final_plots//./barplot_comparison/Pharmacy_barplot.png>]
+<../../assets/final_plots//./barplot_comparison/Health care_barplot.png, id=511
+, 578.16pt x 361.35pt>
+File: ../../assets/final_plots//./barplot_comparison/Health care_barplot.png Gr
+aphic file (type png)
+<use ../../assets/final_plots//./barplot_comparison/Health care_barplot.png>
+Package pdftex.def Info: ../../assets/final_plots//./barplot_comparison/Health 
+care_barplot.png  used on input line 1422.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+<../../assets/final_plots//./barplot_comparison/Grocery_barplot.png, id=512, 57
+8.16pt x 361.35pt>
+File: ../../assets/final_plots//./barplot_comparison/Grocery_barplot.png Graphi
+c file (type png)
+<use ../../assets/final_plots//./barplot_comparison/Grocery_barplot.png>
+Package pdftex.def Info: ../../assets/final_plots//./barplot_comparison/Grocery
+_barplot.png  used on input line 1436.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[31 <../../assets/final_plots//./barplot_comparison/Child care_barplot.png> <..
+/../assets/final_plots//./barplot_comparison/Health care_barplot.png>]
+<../../assets/final_plots//./barplot_comparison/Secondary Education_barplot.png
+, id=517, 578.16pt x 361.35pt>
+File: ../../assets/final_plots//./barplot_comparison/Secondary Education_barplo
+t.png Graphic file (type png)
+<use ../../assets/final_plots//./barplot_comparison/Secondary Education_barplot
+.png>
+Package pdftex.def Info: ../../assets/final_plots//./barplot_comparison/Seconda
+ry Education_barplot.png  used on input line 1450.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+<../../assets/final_plots//./barplot_comparison/Library_barplot.png, id=518, 57
+8.16pt x 361.35pt>
+File: ../../assets/final_plots//./barplot_comparison/Library_barplot.png Graphi
+c file (type png)
+<use ../../assets/final_plots//./barplot_comparison/Library_barplot.png>
+Package pdftex.def Info: ../../assets/final_plots//./barplot_comparison/Library
+_barplot.png  used on input line 1464.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[32 <../../assets/final_plots//./barplot_comparison/Grocery_barplot.png> <../..
+/assets/final_plots//./barplot_comparison/Secondary Education_barplot.png>]
+<../../assets/final_plots//./barplot_comparison/Parks_barplot.png, id=523, 578.
+16pt x 361.35pt>
+File: ../../assets/final_plots//./barplot_comparison/Parks_barplot.png Graphic 
+file (type png)
+<use ../../assets/final_plots//./barplot_comparison/Parks_barplot.png>
+Package pdftex.def Info: ../../assets/final_plots//./barplot_comparison/Parks_b
+arplot.png  used on input line 1478.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+<../../assets/final_plots//./barplot_comparison/Transit_barplot.png, id=524, 57
+8.16pt x 361.35pt>
+File: ../../assets/final_plots//./barplot_comparison/Transit_barplot.png Graphi
+c file (type png)
+<use ../../assets/final_plots//./barplot_comparison/Transit_barplot.png>
+Package pdftex.def Info: ../../assets/final_plots//./barplot_comparison/Transit
+_barplot.png  used on input line 1492.
+(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[33 <../../assets/final_plots//./barplot_comparison/Library_barplot.png> <../..
+/assets/final_plots//./barplot_comparison/Parks_barplot.png>]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[34 <../../assets/final_plots//./barplot_comparison/Transit_barplot.png>]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[35]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[36]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[37]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[38]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[39]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[40] (./PMS_final_report.aux)
 Package rerunfilecheck Info: File `PMS_final_report.out' has not changed.
-(rerunfilecheck)             Checksum: B405DAF4F8557E4FB625899322D2D3B5;4829.
+(rerunfilecheck)             Checksum: 2963315F2FAA9EFC786AD4E290CD9EA9;4832.
  ) 
 Here is how much of TeX's memory you used:
- 13896 strings out of 476029
- 221712 string characters out of 5790172
- 1872346 words of memory out of 5000000
- 34101 multiletter control sequences out of 15000+600000
+ 14397 strings out of 476029
+ 242909 string characters out of 5790172
+ 1913346 words of memory out of 5000000
+ 34473 multiletter control sequences out of 15000+600000
  518467 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,11n,76p,293b,446s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,12n,76p,592b,563s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb>
 </usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
 usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr
 /local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on PMS_final_report.pdf (17 pages, 220369 bytes).
+Output written on PMS_final_report.pdf (44 pages, 30001573 bytes).
 PDF statistics:
- 313 PDF objects out of 1000 (max. 8388607)
- 278 compressed objects within 3 object streams
- 59 named destinations out of 1000 (max. 500000)
- 294 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 623 PDF objects out of 1000 (max. 8388607)
+ 521 compressed objects within 6 object streams
+ 146 named destinations out of 1000 (max. 500000)
+ 479 words of extra memory for PDF output out of 10000 (max. 10000000)
 
