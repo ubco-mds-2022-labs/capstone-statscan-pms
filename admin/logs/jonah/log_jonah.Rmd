@@ -421,6 +421,87 @@ We need to decide on a criterion/metric for comparing our modeling approaches. T
 
 
 
+## Week 6
+
+Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first)
+```{r}
+current.week = current.week + 1
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-05"), 
+                       hours=6,
+                       description="creating cluster profiling tables, team meeting, instructor meeting",
+                       comments="10-4"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-06"), 
+                       hours=7,
+                       description="creating profiling tables, creating appendix methods tables, creating barplots",
+                       comments="10-5"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-07"), 
+                       hours=5.5,
+                       description="tweaking barplots, updating cutoff plots for report",
+                       comments="10-330"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-08"), 
+                       hours=7.75,
+                       description="meet and greet, jeff meeting, coding tables",
+                       comments="930-515"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-09"), 
+                       hours=4.75,
+                       description="client meeting, coding tables and figures for final report, TeX typesetting",
+                       comments="10-215, 930PM-10"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-10"), 
+                       hours=2.75,
+                       description="latex stuff, fixing summary table",
+                       comments="8-845, 345-545"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-11"), 
+                       hours=3.75,
+                       description="proofreading/editing final report doc, typesetting report doc and send to jerome, fill out logs",
+                       comments="830-930AM, 945PM-12:30"
+                       )
+
+
+kable(filter(mylog, week == current.week))
+```
+My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the following questions:
+
+1. What was your most significant **individual contribution** to the project this week?
+
+My most significant individual contribution this week was coding the latex tables using `xtable`, as well as typesetting the final report doc in LaTeX. 
+
+
+1. What was your most significant **team contribution** to the project this week?
+
+My most significant team contribution this week was helping to draft and edit the final report so that we were able to complete the first draft to send to our client. 
+
+
+1. Are there any major blockers or roadblocks preventing you from proceeding on your project?
+
+No, not right now. Full steam ahead. 
+
+
+
+
 
 
 
