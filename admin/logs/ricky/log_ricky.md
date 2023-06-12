@@ -218,6 +218,32 @@ analysis of the different metrics and techniques we use, and knowledge
 of how they work and how the results may be interpreted, as different
 metrics give different results.
 
+## Week 6
+
+| week | day        | hours | description       | comments                |
+|-----:|:-----------|------:|:------------------|:------------------------|
+|    6 | 2023-06-05 |   2.0 | Meetings          | prep + daily            |
+|    6 | 2023-06-05 |   4.0 | Cluster profiling | NA                      |
+|    6 | 2023-06-06 |   1.0 | Reading           | reading dt report       |
+|    6 | 2023-06-07 |   2.0 | Meeting           | prep + daily            |
+|    6 | 2023-06-07 |   3.5 | cutoffs + metrics | NA                      |
+|    6 | 2023-06-07 |   1.5 | Draft report      | NA                      |
+|    6 | 2023-06-08 |   3.5 | Misc              | team dynamics, MDS grad |
+|    6 | 2023-06-08 |   1.0 | Meetings          | Jeff meeting, prep      |
+|    6 | 2023-06-08 |   2.5 | Report draft      | NA                      |
+|    6 | 2023-06-09 |   4.5 | Report editing    | NA                      |
+|    6 | 2023-06-10 |   5.0 | Report editing    | NA                      |
+|    6 | 2023-06-11 |   2.0 | Report editing    | NA                      |
+|    6 | 2023-06-11 |   1.0 | Weekly misc       | logs, emails, etc       |
+
+### Weekly Reflection
+
+My most significant individual contribution was my work done adding to,
+reviewing, and editing the draft final report. Our most significant
+individual contribution was clustering profiling. Roadblocks expected
+this upcoming week are similar to outlined last week, where we might
+have conflicting beliefs on how to build and finalize the report.
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use
@@ -230,3 +256,4 @@ the following (requires the **dplyr** package)
 |    3 |               20.0 |
 |    4 |               26.0 |
 |    5 |               31.0 |
+|    6 |               33.5 |
