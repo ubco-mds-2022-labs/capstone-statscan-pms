@@ -263,6 +263,47 @@ scheduled for the 8th, a few days later than we would like. We may end
 up just choosing something, and then going back and fixing it once we
 get some ideas from Jeff.
 
+## Week 6
+
+Add individual contributions here (be sure to call the **tidyverse** and
+**knitr** package first)
+
+| week | day        | hours | description                                                                                     | comments               |
+|---:|:------|---:|:---------------------------------------------|:-----------|
+|    6 | 2023-06-05 |  6.00 | creating cluster profiling tables, team meeting, instructor meeting                             | 10-4                   |
+|    6 | 2023-06-06 |  7.00 | creating profiling tables, creating appendix methods tables, creating barplots                  | 10-5                   |
+|    6 | 2023-06-07 |  5.50 | tweaking barplots, updating cutoff plots for report                                             | 10-330                 |
+|    6 | 2023-06-08 |  7.75 | meet and greet, jeff meeting, coding tables                                                     | 930-515                |
+|    6 | 2023-06-09 |  4.75 | client meeting, coding tables and figures for final report, TeX typesetting                     | 10-215, 930PM-10       |
+|    6 | 2023-06-10 |  2.75 | latex stuff, fixing summary table                                                               | 8-845, 345-545         |
+|    6 | 2023-06-11 |  3.75 | proofreading/editing final report doc, typesetting report doc and send to jerome, fill out logs | 830-930AM, 945PM-12:30 |
+
+My total weekly hours are: 37.5
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week?
+
+My most significant individual contribution this week was coding the
+latex tables using `xtable`, as well as typesetting the final report doc
+in LaTeX.
+
+1.  What was your most significant **team contribution** to the project
+    this week?
+
+My most significant team contribution this week was helping to draft and
+edit the final report so that we were able to complete the first draft
+to send to our client.
+
+1.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project?
+
+No, not right now. Full steam ahead.
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use
@@ -275,3 +316,4 @@ the following (requires the **dplyr** package)
 |    3 |              31.00 |
 |    4 |              25.25 |
 |    5 |              30.25 |
+|    6 |              37.50 |
