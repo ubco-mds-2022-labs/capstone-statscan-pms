@@ -514,6 +514,105 @@ Participating in our team dynamics meeting. I felt it was super valuable to gaug
 3. Are there any major blockers or roadblocks preventing you from proceeding on your project?
 I think its important that we can find an agreed upon way to find a best clustering algorithm with the results we have thus far so we can highlight the group profiles. 
 
+```{r}
+current.week = current.week + 1
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-06-05"),
+                    hours = 2,
+                    description = "Meetings - team/mentor + slides",
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-06-05"),
+                    hours = 6,
+                    description = "Coding profiling algo/template",
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-06-06"),
+                    hours = 1,
+                    description = "Meeting",
+                    comments = "Moderating team meeting/ discussing profiling approaches"
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-06-06"),
+                    hours = 3,
+                    description = "final draft",
+                    comments = "Writing on algos"
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-06-07"),
+                    hours = 2.5,
+                    description = "getting metrics for manual + metrics template algo",
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-06-07"),
+                    hours = 2,
+                    description = "explanation on clustering algos - final draft",
+                    comments = NA
+                    )
+
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-06-08"),
+                    hours = 7,
+                    description = "team dynamics/MDS social + Jeff meeting + final draft",
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-06-09"),
+                    hours = 4.5,
+                    description = 'meeting team/client + final draft',
+                    comments = "taking minutes in client meeting"
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-06-10"),
+                    hours = 2.5,
+                    description = 'final draft review',
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-06-11"),
+                    hours = 1,
+                    description = 'final draft edit algo',
+                    comments = "edit algo part annex"
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-06-11"),
+                    hours = 1,
+                    description = 'logs + git + random',
+                    comments = NA
+                    )
+
+kable(filter(mylog, week == current.week))
+```
+My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the following questions:
+
+1. What was your most significant **individual contribution** to the project this week?
+Writing algorithm sections in the annex for implemented algos.
+
+2. What was your most significant **team contribution** to the project this week?
+Jeff meeting and overall draft fro report.
+
+3. Are there any major blockers or roadblocks preventing you from proceeding on your project?
+No, everything seems to be in place in terms of progress.
+
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use the following (requires the **dplyr** package)

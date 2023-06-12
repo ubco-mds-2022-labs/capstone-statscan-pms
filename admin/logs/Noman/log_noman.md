@@ -196,6 +196,38 @@ following questions:
     an agreed upon way to find a best clustering algorithm with the
     results we have thus far so we can highlight the group profiles.
 
+| week | day        | hours | description                                           | comments                                                 |
+|---:|:------|---:|:---------------------------|:-----------------------------|
+|    6 | 2023-06-05 |   2.0 | Meetings - team/mentor + slides                       | NA                                                       |
+|    6 | 2023-06-05 |   6.0 | Coding profiling algo/template                        | NA                                                       |
+|    6 | 2023-06-06 |   1.0 | Meeting                                               | Moderating team meeting/ discussing profiling approaches |
+|    6 | 2023-06-06 |   3.0 | final draft                                           | Writing on algos                                         |
+|    6 | 2023-06-07 |   2.5 | getting metrics for manual + metrics template algo    | NA                                                       |
+|    6 | 2023-06-07 |   2.0 | explanation on clustering algos - final draft         | NA                                                       |
+|    6 | 2023-06-08 |   7.0 | team dynamics/MDS social + Jeff meeting + final draft | NA                                                       |
+|    6 | 2023-06-09 |   4.5 | meeting team/client + final draft                     | taking minutes in client meeting                         |
+|    6 | 2023-06-10 |   2.5 | final draft review                                    | NA                                                       |
+|    6 | 2023-06-11 |   1.0 | final draft edit algo                                 | edit algo part annex                                     |
+|    6 | 2023-06-11 |   1.0 | logs + git + random                                   | NA                                                       |
+
+My total weekly hours are: 32.5
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week? Writing algorithm sections in the annex for
+    implemented algos.
+
+2.  What was your most significant **team contribution** to the project
+    this week? Jeff meeting and overall draft fro report.
+
+3.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project? No, everything seems to be in place in
+    terms of progress.
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use
@@ -208,3 +240,4 @@ the following (requires the **dplyr** package)
 |    3 |              22.50 |
 |    4 |              26.00 |
 |    5 |              28.50 |
+|    6 |              32.50 |
