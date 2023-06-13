@@ -144,8 +144,22 @@ for (i in amenities){
 	  names(percentages)[1] = 'value'
 	  df_long_pop = bind_rows(percentages, df_long_pop)
 	}
-  #print(head(df_long_count))
-  #print(df_long_pop)
+
+  
+  #add number of clusters to var names
+  per_count = c()
+  for (p in rev(approaches)){
+  	per_count = c(per_count, length(which(df_long_count$variable==p)))
+  }
+  #df_long_count$variable = paste0(df_long_count$variable, " (", rep(per, per), ")")
+  
+  per_pop = c()
+  for (p in rev(approaches)){
+  	per_pop = c(per_pop, length(which(df_long_pop$variable==p)))
+  }
+  #df_long_pop$variable = paste0(df_long_pop$variable, " (", rep(per, per), ")")
+  
+  
   
   #reassign factor levels for approaches
   df_long_count$variable = factor(df_long_count$variable, levels=rev(approaches))
@@ -159,6 +173,11 @@ for (i in amenities){
     df_long_count[df_long_count$variable == approach,'value'] = round(seq(1, max_n, length.out = len))
     df_long_pop[df_long_pop$variable == approach,'value'] = round(seq(1, max_n, length.out = len))
   }
+
+
+  #print(head(df_long_count))
+  #print(df_long_pop)
+
   
   
 	#make plot
@@ -175,7 +194,8 @@ for (i in amenities){
       #axis.text.y = element_blank(),
       axis.text.x = element_blank(), #removes x axis labels
       #axis.ticks.x = element_blank() #removes x axis ticks
-    )
+    ) + 
+    scale_y_discrete(labels = paste0(rev(approaches), " (", per_count, ")"))
 	t[[2]] = ggplot(df_long_pop, aes(y = variable, x = percentage, fill = as.factor(value))) +
 		geom_col(position = position_fill(reverse = TRUE)) +
 		scale_fill_manual(values = brewer.pal(max_n, "YlGnBu")) + 
@@ -189,7 +209,8 @@ for (i in amenities){
       #axis.text.y = element_blank(),
       #axis.text.x = element_blank(), #removes x axis labels
       #axis.ticks.x = element_blank() #removes x axis ticks
-    )
+    ) + 
+    scale_y_discrete(labels = paste0(rev(approaches), " (", per_pop, ")"))
 	legend_plt = ggplot(df_long_pop, aes(y = variable, x = percentage, fill = as.factor(value))) +
 		geom_col(position = "fill") + labs(fill=" ") +
 		scale_fill_manual(values = brewer.pal(max_n, "YlGnBu"), labels=c('Least Proximal', as.character(2:(max_n-1)), 'Most Proximal')) + 
