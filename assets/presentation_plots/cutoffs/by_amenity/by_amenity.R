@@ -149,7 +149,9 @@ for (i in amenities){
       axis.ticks.y = element_blank(),
       axis.text.y = element_blank(),
       axis.text.x = element_blank(), #removes x axis labels
-      axis.ticks.x = element_blank() #removes x axis ticks
+      axis.ticks.x = element_blank(), #removes x axis ticks
+      plot.background = element_rect(fill = "#f3f5f600", colour = "#f3f5f600"),
+      panel.background = element_rect(fill = "#f3f5f600", colour = "#f3f5f600")
     ) +
     ggtitle(anames[k])
   if (is.null(cutoff[1])){
@@ -166,7 +168,9 @@ for (i in amenities){
       scale_x_continuous(breaks=round(logged, 2)) + 
       guides(fill = guide_legend(title.position = "top", label.hjust = 0.5, nrow=1)) +
       theme(
-        legend.direction = "horizontal"
+        legend.direction = "horizontal",
+        plot.background = element_rect(fill = "#f3f5f600", colour = "#f3f5f600"),
+      panel.background = element_rect(fill = "#f3f5f600", colour = "#f3f5f600")
       ) + 
       scale_fill_manual(values = brewer.pal(length(logged)+1, "YlOrRd")) 
   	}

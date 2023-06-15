@@ -33,7 +33,9 @@ bp = ggplot(df, aes(x = variable, y = value, fill=TRUE)) +
       axis.ticks.y = element_blank(),
       axis.text.y = element_blank(),
       #axis.text.x = element_blank(), 
-      axis.ticks.x = element_blank() #removes x axis ticks
+      axis.ticks.x = element_blank(), #removes x axis ticks
+      plot.background = element_rect(fill = "#f3f5f600", colour = "#f3f5f600"),
+      panel.background = element_rect(fill = "#c0c0c000", colour = "#c0c0c000"),
       )
   
   
@@ -63,7 +65,9 @@ bp_log = ggplot(df, aes(x = variable, y = value, fill=TRUE)) +
       axis.ticks.y = element_blank(),
       axis.text.y = element_blank(),
       #axis.text.x = element_blank(), 
-      axis.ticks.x = element_blank() #removes x axis ticks
+      axis.ticks.x = element_blank(), #removes x axis ticks
+      plot.background = element_rect(fill = "#f3f5f600", colour = "#f3f5f600"),
+      panel.background = element_rect(fill = "#c0c0c000", colour = "#c0c0c000"),
       )
   
   

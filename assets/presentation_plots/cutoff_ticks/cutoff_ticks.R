@@ -7,21 +7,6 @@ library(gridExtra)
 library(RColorBrewer)
 
 
-# load data
-load('../../../../../local_data/codes/create_master/master_pms_df.Rdata')
-
-
-# subsampling data (if needed)
-#perc = 5 #percentage of data to subsample
-#subsample = (nrow(master)/100)*perc
-#master = master[sample(nrow(master), subsample),]
-
-
-#amenities
-amenities = c("PMS_prox_idx_emp", "PMS_prox_idx_pharma", "PMS_prox_idx_childcare", "PMS_prox_idx_health", "PMS_prox_idx_grocery", "PMS_prox_idx_educpri", "PMS_prox_idx_educsec", "PMS_prox_idx_lib", "PMS_prox_idx_parks", "PMS_prox_idx_transit")
-
-#labels
-labs = c('Employment', 'Pharmacy', 'Child care', 'Health care', 'Grocery', 'Primary Education', 'Secondary Education', 'Library', 'Parks', 'Transit')
 
 
 
@@ -93,84 +78,51 @@ cmanual = list(
   PMS_prox_idx_parks = c(0.01834893, 0.02944933),
   PMS_prox_idx_transit = c(0.0000390986, 0.0001481958, 0.0002512994, 0.0003514904)
 )
-all_cutoffs = list(cquintiles, cmanual, chdbscan, cmixall, cmclust, cpamkmeans)
-anames = c('Quintiles', 'Min-Max', 'HDBSCAN', 'MixAll', 'MCLUST', 'PAM k-means')
-#max_n = max(unlist(lapply(cmanual, length)))
 
+# put all in same list
+cutoff_list <- list(cquintiles, cmanual, chdbscan, cmixall, cmclust, cpamkmeans )
 
+names(cutoff_list) <- c("Quintiles", "Minima", "HDBSCAN", "MixAll", "MCLUST", "PAM k-means" )
 
+# amen number
+ameni = 6 #pri educ
+# initialize df with first
+df_cutof <- cbind(rep(names(cutoff_list)[1], length(cutoff_list[[1]][[ameni]])), log(cutoff_list[[1]][["PMS_prox_idx_educpri"]]+0.0001))
 
-#g legend function
-g_legend <- function(a.gplot){
-  tmp <- ggplot_gtable(ggplot_build(a.gplot))
-  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
-  legend <- tmp$grobs[[leg]]
-  legend
+# add
+for (algo in 2:length(cutoff_list)){
+  # add to temporary
+  # add to full
+  df_cutof <- rbind(df_cutof, cbind(rep(names(cutoff_list)[algo], length(cutoff_list[[algo]][[ameni]])), log(cutoff_list[[algo]][[ameni]]+0.0001)))
 }
+colnames(df_cutof) <- c('algo', 'cutoff')
+df_cutof <- as.data.frame(df_cutof)
 
+#print(df_cutof)
 
-
-
-#log transform
-for (i in amenities){
-  master[,i] = log(master[,i]+0.0001)
-}
-
-
-
-counter = 6
-for (i in amenities[6]){
-	#most = 0
-	
-	#plot list
-	#p = list()
-	
-	#make plot
-	temp = na.omit(master[,i])
-  dt <- data.table(x=1:length(temp),y=temp)
-  dens <- density(dt$y)
-  df <- data.frame(x=dens$x, y=dens$y)
-  
-  for (k in 1:length(all_cutoffs)){
-  	cutoff = all_cutoffs[[k]][[i]] 
-  logged <- log(cutoff+0.0001)
-  df$Cluster <- as.factor(as.numeric(cut(df$x, c(min(df$x), logged, max(df$x)),  include.lowest=T)))
-  plt = ggplot(df, aes(x,y)) + geom_line() + geom_ribbon(aes(ymin=0, ymax=y, fill=Cluster)) + 
-    #scale_x_continuous(breaks=round(logged, 2)) + 
-    ylab('') + guides(fill = 'none') + 
-    scale_fill_manual(values = brewer.pal(length(logged)+1, "YlOrRd")) + 
-    theme(
-      #axis.text.x = element_text(angle = 45, vjust = 0.8, hjust=1, size=8), 
-      panel.grid.major = element_blank(), 
-      panel.grid.minor = element_blank(),
-      plot.margin=unit(c(0,0,0.1,0),"cm"),
-      plot.title = element_text(size = 10),
-      axis.ticks.y = element_blank(),
-      axis.text.y = element_blank(),
-      axis.text.x = element_blank(), #removes x axis labels
-      axis.ticks.x = element_blank(), #removes x axis ticks
-      plot.background = element_rect(fill = "#f3f5f600", colour = "#f3f5f600"),
+# make plot
+plt = ggplot(df_cutof,aes(x = as.numeric(as.character(cutoff)),y = algo)) + 
+  #geom_rect(aes(xmin = log(0.0001), xmax = log(as.numeric(cquintiles[[ameni]][1])+0.0001), ymin = -Inf, ymax = Inf), alpha = .02, fill = "#B10026", show.legend = F) + 
+  #geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][2])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][3])+0.0001),ymin = -Inf, ymax = Inf), alpha = .02, fill = "#B10026",show.legend = F) + 
+  #geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][4])+0.0001), xmax = log(1.0001),ymin = -Inf, ymax = Inf), alpha = .02, fill = "#B10026",show.legend = F)+ 
+  geom_point(shape="|",size=9, col="#B10026") + labs(title = "Primary Education Cutoffs", x = "Cutoffs", y=' ') + 
+  theme(
+  	#panel.grid.major = element_blank(),
+  	panel.grid.major.x = element_line(size = 0.8),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    plot.background = element_rect(fill = "#f3f5f600", colour = "#f3f5f600"),
       panel.background = element_rect(fill = "#f3f5f600", colour = "#f3f5f600")
-    ) + xlim(-5, 0) 
-    #ggtitle(anames[k])
-  if (is.null(cutoff[1])){
-    plt = plt + xlab("NO CLUSTERS DETECTED") + theme(axis.title.x = element_text(size = 7, color='black'))
-  } else if (length(cutoff) > 5){
-    plt = plt + xlab(paste(round(cutoff, 3), collapse = ', ')) + theme(axis.title.x = element_text(size = 7, color='black'))
-  } else {
-  	plt = plt + xlab(paste(round(cutoff, 5), collapse = ', ')) + theme(axis.title.x = element_text(size = 7, color='black'))
-  }
-  
-#export 
-	ggsave(paste0(anames[k], "_", labs[counter], "_cutoffs.png"), plt, dpi = 400, width=4, height=2)  
+  ) + 
+  scale_y_discrete(labels = rev(c("Quintiles", "Minima", "HDBSCAN", "MixAll", "MCLUST", "PAM k-means")))  +
+  scale_x_continuous(breaks=log(c(0.02, seq(0.05,1,0.05))+0.0001), labels=c(0.02, seq(0.05,1,0.05)), lim=c(-4, -1))
+  #xlim(-5, 0)
   
   
-  	}
-  	
-
-
-
-	counter = counter + 1 
-}
-
-
+ 
+#export
+ggsave("cutoff_ticks.png", plt, dpi = 400, width=8, height=4)
+  
+  

@@ -212,7 +212,7 @@ for (i in amenities[6]){
 	#expand data
 	longtable = pivot_longer(summary_table, cols='nums')
 	
-	print(summary_table)
+	#print(summary_table)
 	
 	finaldf = data.frame()
 	scale_values = function(x){(x-min(x))/(max(x)-min(x))}
@@ -233,24 +233,33 @@ for (i in amenities[6]){
 	finaldf = rbind(testdf, finaldf)
 	
 	#finaldf$y = scale_values(finaldf$y)
-	print(finaldf)
+	#print(finaldf)
 	
 
 	#create plot and save it
 	plt = ggplot(finaldf, aes(y = y, x = x, group=name, col=name)) +
-		geom_line() + #geom_point() +
-		#scale_fill_manual(values = brewer.pal(max_n, "YlOrRd")) + 
+		geom_line(linewidth=1.5) + #geom_point() +
+		scale_color_manual(values = brewer.pal(4, "Dark2"), labels=c('Median\nDB Population', 'Median \nIoR * 100', '% CMA', '% Low\nAmenity Dense')) + 
 		xlab('') + ylab('') + #guides(fill = 'none') + 
 		#ggtitle('# of DBs') + 
+		labs(color=" ") +
+		scale_x_continuous(labels=c("Least Proximal Cluster", "Most Proximal Cluster"), breaks=c(2, max_n)) + 
+		guides(color = guide_legend(byrow = TRUE)) + 
     theme( 
+      legend.spacing.y = unit(0.3, 'cm'),
       panel.grid.major = element_blank(), 
       panel.grid.minor = element_blank(),
-      plot.margin=unit(c(0,0,0.1,0),"cm"),
+      plot.margin=unit(c(0.2,0.2,0.2,0.2),"cm"),
       plot.title = element_text(size = 10),
       #axis.ticks.y = element_blank(),
-      #axis.text.y = element_blank(),
-      axis.text.x = element_blank(), #removes x axis labels
-      axis.ticks.x = element_blank() #removes x axis ticks
+      axis.text.y = element_text(size = 12, color = "black"),
+      axis.text.x = element_text(size = 12, color = "black"),
+      #axis.ticks.x = element_blank(), #removes x axis ticks
+      plot.background = element_rect(fill = "#f3f5f600", colour = "#f3f5f600"),
+      panel.background = element_rect(fill = "#c0c0c000", colour = "#c0c0c000"),
+      legend.key = element_rect(fill = '#c0c0c000'),
+      legend.background = element_rect(fill = '#f3f5f600'),
+      legend.text = element_text(size = 12, color = "black")
     ) 
 
 	#export

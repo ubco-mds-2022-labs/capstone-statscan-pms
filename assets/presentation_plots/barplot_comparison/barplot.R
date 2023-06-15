@@ -193,7 +193,9 @@ for (i in amenities){
       axis.ticks.y = element_blank(),
       #axis.text.y = element_blank(),
       axis.text.x = element_blank(), #removes x axis labels
-      #axis.ticks.x = element_blank() #removes x axis ticks
+      #axis.ticks.x = element_blank(), #removes x axis ticks
+      plot.background = element_rect(fill = "#f3f5f600", colour = "#f3f5f600"),
+      #panel.background = element_rect(fill = "#f3f5f600", colour = "#f3f5f600")
     ) + 
     scale_y_discrete(labels = paste0(rev(approaches), " (", per_count, ")"))
 	t[[2]] = ggplot(df_long_pop, aes(y = variable, x = percentage, fill = as.factor(value))) +
