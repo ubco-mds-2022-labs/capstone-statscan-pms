@@ -94,7 +94,7 @@ cmanual = list(
   PMS_prox_idx_transit = c(0.0000390986, 0.0001481958, 0.0002512994, 0.0003514904)
 )
 all_cutoffs = list(cquintiles, cmanual, chdbscan, cmixall, cmclust, cpamkmeans)
-anames = c('Quintiles', 'Min/Max', 'HDBSCAN', 'MixAll', 'MCLUST', 'PAM k-means')
+anames = c('Quintiles', 'Minima', 'HDBSCAN', 'MixAll', 'MCLUST', 'PAM k-means')
 #max_n = max(unlist(lapply(cmanual, length)))
 
 
@@ -170,7 +170,9 @@ for (i in amenities){
       theme(
         legend.direction = "horizontal",
         plot.background = element_rect(fill = "#f3f5f600", colour = "#f3f5f600"),
-      panel.background = element_rect(fill = "#f3f5f600", colour = "#f3f5f600")
+      panel.background = element_rect(fill = "#f3f5f600", colour = "#f3f5f600"),
+      legend.key = element_rect(fill = '#c0c0c000'),
+      legend.background = element_rect(fill = '#f3f5f600')
       ) + 
       scale_fill_manual(values = brewer.pal(length(logged)+1, "YlOrRd")) 
   	}
@@ -192,10 +194,11 @@ for (i in amenities){
 	cutoffs = do.call(grid.arrange,list(grobs=p, layout_matrix=layout_mat))
 
 
-
+	cutoffs_bg = cowplot::ggdraw(cutoffs) + 
+  theme(plot.background = element_rect(fill="#f3f5f600", color = NA))
 
 	#export 
-	ggsave(paste0(labs[counter], "_cutoffs.png"), cutoffs, dpi = 400, width=8, height=5)
+	ggsave(paste0(labs[counter], "_cutoffs.png"), cutoffs_bg, dpi = 800, width=8, height=5)
 
 	counter = counter + 1 
 }

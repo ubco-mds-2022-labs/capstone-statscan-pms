@@ -239,7 +239,7 @@ for (i in amenities[6]){
 	#create plot and save it
 	plt = ggplot(finaldf, aes(y = y, x = x, group=name, col=name)) +
 		geom_line(linewidth=1.5) + #geom_point() +
-		scale_color_manual(values = brewer.pal(4, "Dark2"), labels=c('Median\nDB Population', 'Median \nIoR * 100', '% CMA', '% Low\nAmenity Dense')) + 
+		scale_color_manual(values = brewer.pal(4, "Set1"), labels=c('% Low\nAmenity Dense', '% CMA', 'Median \nIoR * 100', 'Median\nDB Population')) + 
 		xlab('') + ylab('') + #guides(fill = 'none') + 
 		#ggtitle('# of DBs') + 
 		labs(color=" ") +
