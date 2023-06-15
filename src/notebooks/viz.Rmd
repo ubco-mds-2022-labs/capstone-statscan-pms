@@ -15,6 +15,7 @@ library(tidyverse)
 
 library(data.table)
 library(gridExtra)
+library(RColorBrewer)
 
 
 ###################
@@ -210,33 +211,399 @@ cjenks = list(
 # for every item in names(cutofflist)
 
 # put all in same list
-cutoff_list <- list(cquintiles, cmanual, chdbscan, cmixall, cjenks, cmclust, cpamkmeans )
+cutoff_list <- list(cmanual, chdbscan, cmixall, cmclust, cpamkmeans )
 
-names(cutoff_list) <- c("cquintiles", "cmanual", "chdbscan", "cmixall", "cjenks", "cmclust", "cpamkmeans" )
+names(cutoff_list) <- c("cmanual", "chdbscan", "cmixall","cmclust", "cpamkmeans" )
 
+# Employment
+ameni = 1 
 # initialize df with first
-df_cutof <- cbind(rep(names(cutoff_list)[1], length(cutoff_list[[1]][["PMS_prox_idx_emp"]])), cutoff_list[[1]][["PMS_prox_idx_emp"]])
+df_cutof <- cbind(rep(names(cutoff_list)[1], length(cutoff_list[[1]][[ameni]])), log(cutoff_list[[1]][["PMS_prox_idx_emp"]]+0.0001))
 
 # add
 for (algo in 2:length(cutoff_list)){
   # add to temporary
   # add to full
-  df_cutof <- rbind(df_cutof, cbind(rep(names(cutoff_list)[algo], length(cutoff_list[[algo]][["PMS_prox_idx_emp"]])), cutoff_list[[algo]][["PMS_prox_idx_emp"]]))
+  df_cutof <- rbind(df_cutof, cbind(rep(names(cutoff_list)[algo], length(cutoff_list[[algo]][[ameni]])), log(cutoff_list[[algo]][[ameni]]+0.0001)))
 }
 colnames(df_cutof) <- c('algo', 'cutoff')
-
 df_cutof <- as.data.frame(df_cutof)
 
+# make plot
+ggplot(df_cutof,aes(x = as.numeric(cutoff),y = algo)) + 
+  geom_rect(aes(xmin = log(0.0001), xmax = log(as.numeric(cquintiles[[ameni]][1])+0.0001), ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue", show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][1])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][2])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "grey",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][2])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][3])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][3])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][4])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "grey",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][4])+0.0001), xmax = log(1.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue",show.legend = F)+ 
+  geom_point(shape="|",size=4) + labs(title = "Employment", x = "Cutoffs", y = "Method", subtitle = "Each band represents 20% of the DBs")
 
-ggplot(df_cutof,aes(x = as.numeric(cutoff),y = algo))+geom_point(shape="|",size=4) + xlim(0,1) + labs(title = "Employment", x = "Cutoffs", y = "Method")
 
-# maybe want overlaying in different colours?
+# all on same line
+# ggplot(df_cutof,aes(x = as.numeric(cutoff), y = 0, color = algo))+geom_point(shape="|",size=4) + labs(title = "Employment", x = "Cutoffs", y = "Method")
+```
 
-ggplot(df_cutof,aes(x = as.numeric(cutoff), y = 0, color = algo))+geom_point(shape="|",size=4) + xlim(0,1) + labs(title = "Employment", x = "Cutoffs", y = "Method")
+We can see that mclust has a lot more cutoffs that seem uniformely spaced on the log transform. The fourth cutoff for mclust is clost the the cutoffs for pamkmeans and mixall, but the manual cutoff and the hdbscan cutoff do not find a cutoff at that value. The hdbscan only settled on one cutoff, which is different from all other methods: mclust's last cutoff comes the closest to it in its vincinety, but doesn't seem equal. The manual cutoffs seem to all be concentrated within the second group of mclust cutoffs. Whether they are statistically equal or similar is a different question, whose answer cannot be answered with a visual assessment. It makes sense that pamkmenas and mixall find similar cutoffs, as the algorithms are similar. Overall, it seems like for the Employment amenity, the cutoff values are not similar across methods. 
+
+
+```{r}
+ameni = 2 
+# initialize df with first
+df_cutof <- cbind(rep(names(cutoff_list)[1], length(cutoff_list[[1]][[ameni]])), log(cutoff_list[[1]][[ameni]]+0.0001))
+
+# add
+for (algo in 2:length(cutoff_list)){
+  # add to temporary
+  # add to full
+  df_cutof <- rbind(df_cutof, cbind(rep(names(cutoff_list)[algo], length(cutoff_list[[algo]][[ameni]])), log(cutoff_list[[algo]][[ameni]]+0.0001)))
+}
+colnames(df_cutof) <- c('algo', 'cutoff')
+df_cutof <- as.data.frame(df_cutof)
+
+# make plot
+ggplot(df_cutof,aes(x = as.numeric(cutoff),y = algo)) + 
+  geom_rect(aes(xmin = log(0.0001), xmax = log(as.numeric(cquintiles[[ameni]][1])+0.0001), ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue", show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][1])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][2])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "grey",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][2])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][3])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][3])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][4])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "grey",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][4])+0.0001), xmax = log(1.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue",show.legend = F)+ 
+  geom_point(shape="|",size=4) + labs(title = amenities[ameni], x = "Cutoffs", y = "Method", subtitle = "Each band represents 20% of the DBs")
+```
+
+Here, all the cutoffs points for the minima method are completely different from all the other cutoff points, as we see them on the left side of the plot. It seems like the HDBSCAN cutoffs are somewhat aligned with some of those from the MCLUST algoritm, which has extra cutoffs that are not aligned with other methods. Again, the pamkmeans singular cutoff is pretty aligned with that of the mixall, but they are not really aligned with any other.
+
+```{r}
+ameni = 3 
+# initialize df with first
+df_cutof <- cbind(rep(names(cutoff_list)[1], length(cutoff_list[[1]][[ameni]])), log(cutoff_list[[1]][[ameni]]+0.0001))
+
+# add
+for (algo in 2:length(cutoff_list)){
+  # add to temporary
+  # add to full
+  df_cutof <- rbind(df_cutof, cbind(rep(names(cutoff_list)[algo], length(cutoff_list[[algo]][[ameni]])), log(cutoff_list[[algo]][[ameni]]+0.0001)))
+}
+colnames(df_cutof) <- c('algo', 'cutoff')
+df_cutof <- as.data.frame(df_cutof)
+
+# make plot
+ggplot(df_cutof,aes(x = as.numeric(cutoff),y = algo)) + 
+  geom_rect(aes(xmin = log(0.0001), xmax = log(as.numeric(cquintiles[[ameni]][1])+0.0001), ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue", show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][1])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][2])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "grey",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][2])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][3])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][3])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][4])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "grey",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][4])+0.0001), xmax = log(1.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue",show.legend = F)+ 
+  geom_point(shape="|",size=4) + labs(title = amenities[ameni], x = "Cutoffs", y = "Method", subtitle = "Each band represents 20% of the DBs")
+```
+Similar trend for childscare, minima cutoffs are far from any other. Here, the only cutoffs that are similar to each other are those of pamkmeans and mixall: all other ones are very dissimilar.
+
+```{r}
+ameni = 4 
+# initialize df with first
+df_cutof <- cbind(rep(names(cutoff_list)[1], length(cutoff_list[[1]][[ameni]])), log(cutoff_list[[1]][[ameni]]+0.0001))
+
+# add
+for (algo in 2:length(cutoff_list)){
+  # add to temporary
+  # add to full
+  df_cutof <- rbind(df_cutof, cbind(rep(names(cutoff_list)[algo], length(cutoff_list[[algo]][[ameni]])), log(cutoff_list[[algo]][[ameni]]+0.0001)))
+}
+colnames(df_cutof) <- c('algo', 'cutoff')
+df_cutof <- as.data.frame(df_cutof)
+
+# make plot
+ggplot(df_cutof,aes(x = as.numeric(cutoff),y = algo)) + 
+  geom_rect(aes(xmin = log(0.0001), xmax = log(as.numeric(cquintiles[[ameni]][1])+0.0001), ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue", show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][1])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][2])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "grey",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][2])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][3])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][3])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][4])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "grey",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][4])+0.0001), xmax = log(1.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue",show.legend = F)+ 
+  geom_point(shape="|",size=4) + labs(title = amenities[ameni], x = "Cutoffs", y = "Method", subtitle = "Each band represents 20% of the DBs")
+```
+For Healthcare, the pamkemans and mixall are still similar to each other although not as much as for the past few amenities. They are again not similar to any other method. The first MCLUST cutoff is similar to the third minima cutoff. All other cutoffs are not similar to each other.
+
+```{r}
+ameni = 5 
+# initialize df with first
+df_cutof <- cbind(rep(names(cutoff_list)[1], length(cutoff_list[[1]][[ameni]])), log(cutoff_list[[1]][[ameni]]+0.0001))
+
+# add
+for (algo in 2:length(cutoff_list)){
+  # add to temporary
+  # add to full
+  df_cutof <- rbind(df_cutof, cbind(rep(names(cutoff_list)[algo], length(cutoff_list[[algo]][[ameni]])), log(cutoff_list[[algo]][[ameni]]+0.0001)))
+}
+colnames(df_cutof) <- c('algo', 'cutoff')
+df_cutof <- as.data.frame(df_cutof)
+
+# make plot
+ggplot(df_cutof,aes(x = as.numeric(cutoff),y = algo)) + 
+  geom_rect(aes(xmin = log(0.0001), xmax = log(as.numeric(cquintiles[[ameni]][1])+0.0001), ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue", show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][1])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][2])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "grey",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][2])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][3])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][3])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][4])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "grey",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][4])+0.0001), xmax = log(1.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue",show.legend = F)+ 
+  geom_point(shape="|",size=4) + labs(title = amenities[ameni], x = "Cutoffs", y = "Method", subtitle = "Each band represents 20% of the DBs")
+```
+
+We see for the first time so far a big disagreement between the pamkmeans and the mixall methods: the former found a lot more cutoffs, almost equidistance from each other (on log scale). The mixall singular cutoff point falls between the fourth and the fifth of the k-means. The 2nd MCLUST custoff is somwhat aligned with the first cutoff of the pamkmeans, the first cutoff of the HDBSCAN, and the first cutoff of the minima method. Any other cutoffs doesn't seem aligned across the methods.
+
+```{r}
+ameni = 6 
+# initialize df with first
+df_cutof <- cbind(rep(names(cutoff_list)[1], length(cutoff_list[[1]][[ameni]])), log(cutoff_list[[1]][[ameni]]+0.0001))
+
+# add
+for (algo in 2:length(cutoff_list)){
+  # add to temporary
+  # add to full
+  df_cutof <- rbind(df_cutof, cbind(rep(names(cutoff_list)[algo], length(cutoff_list[[algo]][[ameni]])), log(cutoff_list[[algo]][[ameni]]+0.0001)))
+}
+colnames(df_cutof) <- c('algo', 'cutoff')
+df_cutof <- as.data.frame(df_cutof)
+
+# make plot
+ggplot(df_cutof,aes(x = as.numeric(cutoff),y = algo)) + 
+  geom_rect(aes(xmin = log(0.0001), xmax = log(as.numeric(cquintiles[[ameni]][1])+0.0001), ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue", show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][1])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][2])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "grey",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][2])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][3])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][3])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][4])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "grey",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][4])+0.0001), xmax = log(1.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue",show.legend = F)+ 
+  geom_point(shape="|",size=4) + labs(title = amenities[ameni], x = "Cutoffs", y = "Method", subtitle = "Each band represents 20% of the DBs")
+```
+```{r}
+ameni = 7 
+# initialize df with first
+df_cutof <- cbind(rep(names(cutoff_list)[1], length(cutoff_list[[1]][[ameni]])), log(cutoff_list[[1]][[ameni]]+0.0001))
+
+# add
+for (algo in 2:length(cutoff_list)){
+  # add to temporary
+  # add to full
+  df_cutof <- rbind(df_cutof, cbind(rep(names(cutoff_list)[algo], length(cutoff_list[[algo]][[ameni]])), log(cutoff_list[[algo]][[ameni]]+0.0001)))
+}
+colnames(df_cutof) <- c('algo', 'cutoff')
+df_cutof <- as.data.frame(df_cutof)
+
+# make plot
+ggplot(df_cutof,aes(x = as.numeric(cutoff),y = algo)) + 
+  geom_rect(aes(xmin = log(0.0001), xmax = log(as.numeric(cquintiles[[ameni]][1])+0.0001), ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue", show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][1])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][2])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "grey",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][2])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][3])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][3])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][4])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "grey",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][4])+0.0001), xmax = log(1.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue",show.legend = F)+ 
+  geom_point(shape="|",size=4) + labs(title = amenities[ameni], x = "Cutoffs", y = "Method", subtitle = "Each band represents 20% of the DBs")
+```
+
+```{r}
+ameni = 8 
+# initialize df with first
+df_cutof <- cbind(rep(names(cutoff_list)[1], length(cutoff_list[[1]][[ameni]])), log(cutoff_list[[1]][[ameni]]+0.0001))
+
+# add
+for (algo in 2:length(cutoff_list)){
+  # add to temporary
+  # add to full
+  df_cutof <- rbind(df_cutof, cbind(rep(names(cutoff_list)[algo], length(cutoff_list[[algo]][[ameni]])), log(cutoff_list[[algo]][[ameni]]+0.0001)))
+}
+colnames(df_cutof) <- c('algo', 'cutoff')
+df_cutof <- as.data.frame(df_cutof)
+
+# make plot
+ggplot(df_cutof,aes(x = as.numeric(cutoff),y = algo)) + 
+  geom_rect(aes(xmin = log(0.0001), xmax = log(as.numeric(cquintiles[[ameni]][1])+0.0001), ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue", show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][1])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][2])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "grey",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][2])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][3])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][3])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][4])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "grey",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][4])+0.0001), xmax = log(1.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue",show.legend = F)+ 
+  geom_point(shape="|",size=4) + labs(title = amenities[ameni], x = "Cutoffs", y = "Method", subtitle = "Each band represents 20% of the DBs")
+```
+
+```{r}
+ameni = 9 
+# initialize df with first
+df_cutof <- cbind(rep(names(cutoff_list)[1], length(cutoff_list[[1]][[ameni]])), log(cutoff_list[[1]][[ameni]]+0.0001))
+
+# add
+for (algo in 2:length(cutoff_list)){
+  # add to temporary
+  # add to full
+  df_cutof <- rbind(df_cutof, cbind(rep(names(cutoff_list)[algo], length(cutoff_list[[algo]][[ameni]])), log(cutoff_list[[algo]][[ameni]]+0.0001)))
+}
+colnames(df_cutof) <- c('algo', 'cutoff')
+df_cutof <- as.data.frame(df_cutof)
+
+# make plot
+ggplot(df_cutof,aes(x = as.numeric(cutoff),y = algo)) + 
+  geom_rect(aes(xmin = log(0.0001), xmax = log(as.numeric(cquintiles[[ameni]][1])+0.0001), ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue", show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][1])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][2])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "grey",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][2])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][3])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][3])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][4])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "grey",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][4])+0.0001), xmax = log(1.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue",show.legend = F)+ 
+  geom_point(shape="|",size=4) + labs(title = amenities[ameni], x = "Cutoffs", y = "Method", subtitle = "Each band represents 20% of the DBs")
+```
+
+```{r}
+ameni = 10 
+# initialize df with first
+df_cutof <- cbind(rep(names(cutoff_list)[1], length(cutoff_list[[1]][[ameni]])), log(cutoff_list[[1]][[ameni]]+0.0001))
+
+# add
+for (algo in 2:length(cutoff_list)){
+  # add to temporary
+  # add to full
+  df_cutof <- rbind(df_cutof, cbind(rep(names(cutoff_list)[algo], length(cutoff_list[[algo]][[ameni]])), log(cutoff_list[[algo]][[ameni]]+0.0001)))
+}
+colnames(df_cutof) <- c('algo', 'cutoff')
+df_cutof <- as.data.frame(df_cutof)
+
+# make plot
+ggplot(df_cutof,aes(x = as.numeric(cutoff),y = algo)) + 
+  geom_rect(aes(xmin = log(0.0001), xmax = log(as.numeric(cquintiles[[ameni]][1])+0.0001), ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue", show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][1])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][2])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "grey",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][2])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][3])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][3])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][4])+0.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "grey",show.legend = F) + 
+  geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][4])+0.0001), xmax = log(1.0001),ymin = -Inf, ymax = Inf), alpha = .05, fill = "lightblue",show.legend = F)+ 
+  geom_point(shape="|",size=4) + labs(title = amenities[ameni], x = "Cutoffs", y = "Method", subtitle = "Each band represents 20% of the DBs")
 ```
 
 
 
+## Barplots
+```{r fig.height=10, fig.width=6}
+labs = c('Employment', 'Pharmacy', 'Child care', 'Health care', 'Grocery', 'Primary Education', 'Secondary Education', 'Library', 'Parks', 'Transit')
+all_cutoffs = list(cquintiles, cmanual, chdbscan, cmixall, cmclust, cpamkmeans)
+all_cutoffs = lapply(all_cutoffs, function(x) lapply(x,sort))
 
+approaches = c('Quintiles', 'Min/Max', 'HDBSCAN', 'MixAll', 'MCLUST', 'PAM k-means')
+# produce 1 table per amenity
+counter = 1
+#for (i in amenities){
+	#plot list
+i = amenities[1]
+	t = list()
 
+	#remove NA values
+	amen = master[!(is.na(master[,i])),]
+ 	
+ 	for (j in 1:length(approaches)){
+ 		cutoffs = all_cutoffs[[j]]
+ 		
+ 		#assign cluster numbers
+		clusts = findInterval(amen[,i], cutoffs[[i]]) + 1
+	  amen[,approaches[j]] = clusts
+ 	}
+ 	
+ 	#total population
+ 	population = sum(amen$PMS_DBPOP, na.rm=T)
+ 	
+ 	#create plotting dataframe
+	df_long_count = amen[,approaches] %>% 
+		pivot_longer(cols = everything(), names_to = "variable", values_to = "value") %>% 
+		group_by(variable, value) %>% 
+		summarize(count = n()) %>% 
+		mutate(percent = count / sum(count))
+	df_long_pop = tibble()
+	for (approach in approaches){
+	  summed = amen %>%
+	    group_by(!!!syms(approach)) %>%
+	    summarize(total = sum(PMS_DBPOP, na.rm=T))
+	  percentages = summed %>%
+	    mutate(percentage = total / sum(total))
+	  percentages$variable = approach
+	  names(percentages)[1] = 'value'
+	  df_long_pop = bind_rows(percentages, df_long_pop)
+	}
+  #print(head(df_long_count))
+  #print(df_long_pop)
+  
+  #reassign factor levels for approaches
+  df_long_count$variable = factor(df_long_count$variable, levels=rev(approaches))
+  df_long_pop$variable = factor(df_long_pop$variable, levels=rev(approaches))
+  
+	
+  #re-assign factor numbers for coloring purposes
+  max_n = max(df_long_count$value)
+  for (approach in approaches){
+    len = max(df_long_count$value[df_long_count$variable == approach])
+    df_long_count[df_long_count$variable == approach,'value'] = round(seq(1, max_n, length.out = len))
+    df_long_pop[df_long_pop$variable == approach,'value'] = round(seq(1, max_n, length.out = len))
+  }
+  
+  
+	#make plot
+	t[[1]] = ggplot(df_long_count, aes(y = variable, x = percent, fill = as.factor(value))) +
+		geom_col(position = position_fill(reverse = TRUE)) +
+		scale_fill_manual(values = brewer.pal(max_n, "YlGnBu")) + 
+		xlab('') + ylab('') + guides(fill = 'none') + ggtitle('# of DBs') + 
+    theme( 
+      panel.grid.major = element_blank(), 
+      panel.grid.minor = element_blank(),
+      plot.margin=unit(c(0,0,0.1,0),"cm"),
+      plot.title = element_text(size = 10),
+      axis.ticks.y = element_blank(),
+      #axis.text.y = element_blank(),
+      axis.text.x = element_blank(), #removes x axis labels
+      #axis.ticks.x = element_blank() #removes x axis ticks
+    )
+# 	t[[2]] = ggplot(df_long_pop, aes(y = variable, x = percentage, fill = as.factor(value))) +
+# 		geom_col(position = position_fill(reverse = TRUE)) +
+# 		scale_fill_manual(values = brewer.pal(max_n, "YlGnBu")) + 
+# 		xlab('Proportion') + ylab('') + guides(fill = 'none') + ggtitle('Population') + 
+#     theme( 
+#       panel.grid.major = element_blank(), 
+#       panel.grid.minor = element_blank(),
+#       plot.margin=unit(c(0,0,0.1,0),"cm"),
+#       plot.title = element_text(size = 10),
+#       axis.ticks.y = element_blank(),
+#       #axis.text.y = element_blank(),
+#       #axis.text.x = element_blank(), #removes x axis labels
+#       #axis.ticks.x = element_blank() #removes x axis ticks
+#     )
+	legend_plt = ggplot(df_long_pop, aes(y = variable, x = percentage, fill = as.factor(value))) +
+		geom_col(position = "fill") + labs(fill=" ") +
+		scale_fill_manual(values = brewer.pal(max_n, "YlGnBu"), labels=c('Least Proximal', as.character(2:(max_n-1)), 'Most Proximal')) + 
+	  guides(fill = guide_legend(title.position = "top", label.hjust = 0.5, nrow=1)) + 
+		theme(
+        legend.direction = "horizontal",
+        legend.position = "bottom"
+		) 
+	
+	#arrange in grid
+	t[[2]] = g_legend(legend_plt)
+
+	layout_mat = rbind(c(1),
+                    c(1),
+                    c(1),
+                    #c(1),
+                    c(2),
+                    c(2),
+                    c(2),
+                    c(2),
+                    #c(2),
+                    #c(3),
+                    c(3) )
+	barp = do.call(grid.arrange,list(grobs=t, layout_matrix=layout_mat,top=labs[counter]))
+	
+	#export
+	#ggsave(paste0(labs[counter], "_barplot.png"), barp, dpi = 400, width=8, height=5)
+  #counter = counter + 1
+#}
+```
+```{r}
+ ggplot(df_long_count, aes(y = variable, x = percent, fill = as.factor(value))) +
+		geom_col(position = position_fill(reverse = TRUE)) + geom_text(aes(label = 'text'), position = position_stack(vjust = 0.5)) +
+		scale_fill_manual(values = brewer.pal(max_n, "YlGnBu")) + 
+		xlab('') + ylab('') + guides(fill = 'none') + ggtitle('# of DBs') + 
+    theme( 
+      panel.grid.major = element_blank(), 
+      panel.grid.minor = element_blank(),
+      plot.margin=unit(c(0,0,0.1,0),"cm"),
+      plot.title = element_text(size = 10),
+      axis.ticks.y = element_blank(),
+      #axis.text.y = element_blank(),
+      axis.text.x = element_blank(), #removes x axis labels
+      #axis.ticks.x = element_blank() #removes x axis ticks
+    )
+```
 
