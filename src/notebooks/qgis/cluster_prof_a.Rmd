@@ -1,0 +1,134 @@
+---
+title: "profiling"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, 
+                      cache=TRUE, 
+                      warning = F,
+                      message = F,
+                      fig.align="center" 
+                      )
+```
+
+
+```{r}
+set.seed(2023)
+library(dplyr)
+library(cluster)
+library(ggplot2)
+library(factoextra)
+library(clusterCrit)
+library(clustertend)
+library(fpc)
+library(clusterSim)
+library(BAMMtools)
+load('../../../data/master_pms_df.Rdata')
+
+# Convert selected columns to numeric
+master <- master %>%
+  mutate(PMS_DBPOP = as.numeric(gsub(",", "", PMS_DBPOP)), # Dissemination block population
+         PMS_DAPOP = as.numeric(gsub(",", "", PMS_DAPOP)), # Dissemination area population
+         PMS_CSDPOP = as.numeric(gsub(",", "", PMS_CSDPOP)), # Census subdivision population
+         PMS_CMAPOP = as.numeric(gsub(",", "", PMS_CMAPOP)), # Census metropolitan area population
+         PMS_PRPOP = as.numeric(gsub(",", "", PMS_PRPOP)), # Province or territory population
+         # in_db_emp = as.numeric(in_db_emp),
+         # in_db_pharma = as.numeric(in_db_pharma),
+         # in_db_childcare = as.numeric(in_db_childcare),
+         # in_db_health = as.numeric(in_db_health),
+         # in_db_grocery = as.numeric(in_db_grocery),
+         # in_db_educpri = as.numeric(in_db_educpri),
+         # in_db_educsec = as.numeric(in_db_educsec),
+         # in_db_lib = as.numeric(in_db_lib),
+         # in_db_parks = as.numeric(in_db_parks),
+         # in_db_transit = as.numeric(in_db_transit),
+         PMS_prox_idx_emp = as.numeric(PMS_prox_idx_emp),
+         PMS_prox_idx_pharma = as.numeric(PMS_prox_idx_pharma),
+         PMS_prox_idx_childcare = as.numeric(PMS_prox_idx_childcare),
+         PMS_prox_idx_health = as.numeric(PMS_prox_idx_health),
+         PMS_prox_idx_grocery = as.numeric(PMS_prox_idx_grocery),
+         PMS_prox_idx_educpri = as.numeric(PMS_prox_idx_educpri),
+         PMS_prox_idx_educsec = as.numeric(PMS_prox_idx_educsec),
+         PMS_prox_idx_lib = as.numeric(PMS_prox_idx_lib),
+         PMS_prox_idx_parks = as.numeric(PMS_prox_idx_parks),
+         PMS_prox_idx_transit = as.numeric(PMS_prox_idx_transit),
+         DBUID = as.character(DBUID),
+         PMS_DAUID = as.character(PMS_DAUID),
+         PMS_CSDUID = as.character(PMS_CSDUID),
+         PMS_CMAUID = as.character(PMS_CMAUID),
+         PMS_CMAPUID = as.character(PMS_CMAPUID),
+         PMS_PRUID = as.character(PMS_PRUID),
+         PMS_suppressed = as.character(PMS_suppressed),
+         PMS_transit_na = as.character(PMS_suppressed))
+
+
+# Subset columns that start with "prox_idx"
+amenities <- colnames(master)[grepl("^PMS_prox_idx", colnames(master))]
+# master dataset - contains only proximity columns
+# master_amenities <- master[, amenities]
+# variables to cluster with
+# clust_vars = c('CSD_AREA', 'PMS_CSDPOP', 'PMS_DBPOP', 'IOR_Index_of_remoteness') #, 'PMS_CMATYPE')
+
+# subsampling data 
+# perc = 3 #percentage of data to subsample
+# subsample = (nrow(master)/100)*perc 
+# master_sample = master[sample(nrow(master), subsample),]
+master_sample <- master[master$PRNAME %in% c("British Columbia / Colombie-Britannique"), ]
+
+```
+
+
+```{r}
+profiling <- function(df, c_name, cutoffs){
+  
+  df_na <- df[, c("DBUID", "PRNAME", c_name)]
+  
+  # remove rows where proximity measure for c_name is not available
+  df_na <- df_na[complete.cases(df[, c_name]), ]
+  
+  df_na <- df_na[order(df_na[, c_name]), ]  # Sort the dataframe by c_name column
+  # convert pms values into original scale 
+  # cutoffs <- c(0, exp(unique(cutoffs)) - 0.0001, 1)
+  
+  cutoffs <- c(0, unique(cutoffs), 1)
+  
+  # initialize the cluster number column as NA
+  df_na$cluster_no <- NA
+  
+  # assign cluster numbers to df
+  for (i in 1:nrow(df_na)) {
+    for (j in 1:length(cutoffs)){
+      if (df_na[, c_name][i] >= cutoffs[j] && 
+        df_na[, c_name][i] < cutoffs[j+1]) {
+      df_na$cluster_no[i] <- j
+      } 
+    }
+  }
+  
+  return(df_na)
+}
+```
+
+
+```{r}
+# breaks <- c(-7.967887, -5.640907, -4.661755) # mclust health
+breaks <- c(0.04495, 0.1449, 0.22045) # hdbscan primary education
+res <- profiling(master_sample, "PMS_prox_idx_educpri", breaks)
+```
+
+```{r}
+write.csv(res, "res_df.csv", row.names = FALSE)
+```
+
+```{r}
+head(iris)
+```
+
+```{r}
+iris <- iris[order(iris[, "Sepal.Width"])]
+df_na <- df_na[order(df_na$c_name), ]
+head(iris)
+```
+
