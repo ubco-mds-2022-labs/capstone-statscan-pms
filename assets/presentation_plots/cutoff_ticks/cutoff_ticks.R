@@ -84,45 +84,56 @@ cutoff_list <- list(cquintiles, cmanual, chdbscan, cmixall, cmclust, cpamkmeans 
 
 names(cutoff_list) <- c("Quintiles", "Minima", "HDBSCAN", "MixAll", "MCLUST", "PAM k-means" )
 
-# amen number
-ameni = 6 #pri educ
-# initialize df with first
-df_cutof <- cbind(rep(names(cutoff_list)[1], length(cutoff_list[[1]][[ameni]])), log(cutoff_list[[1]][["PMS_prox_idx_educpri"]]+0.0001))
 
-# add
-for (algo in 2:length(cutoff_list)){
-  # add to temporary
-  # add to full
-  df_cutof <- rbind(df_cutof, cbind(rep(names(cutoff_list)[algo], length(cutoff_list[[algo]][[ameni]])), log(cutoff_list[[algo]][[ameni]]+0.0001)))
+amenities = c("PMS_prox_idx_emp", "PMS_prox_idx_pharma", "PMS_prox_idx_childcare", "PMS_prox_idx_health", "PMS_prox_idx_grocery", "PMS_prox_idx_educpri", "PMS_prox_idx_educsec", "PMS_prox_idx_lib", "PMS_prox_idx_parks", "PMS_prox_idx_transit")
+
+#labels
+labs = c('Employment', 'Pharmacy', 'Child care', 'Health care', 'Grocery', 'Primary Education', 'Secondary Education', 'Library', 'Parks', 'Transit')
+
+
+
+
+for (k in 1:length(amenities)){
+	# amen number
+	ameni = k #pri educ
+	# initialize df with first
+	df_cutof <- cbind(rep(names(cutoff_list)[1], length(cutoff_list[[1]][[ameni]])), log(cutoff_list[[1]][[amenities[k]]]+0.0001))
+
+	# add
+	for (algo in 2:length(cutoff_list)){
+	  # add to temporary
+	  # add to full
+	  df_cutof <- rbind(df_cutof, cbind(rep(names(cutoff_list)[algo], length(cutoff_list[[algo]][[ameni]])), log(cutoff_list[[algo]][[ameni]]+0.0001)))
+	}
+	colnames(df_cutof) <- c('algo', 'cutoff')
+	df_cutof <- as.data.frame(df_cutof)
+
+	#print(df_cutof)
+
+	# make plot
+	plt = ggplot(df_cutof,aes(x = as.numeric(as.character(cutoff)),y = algo)) + 
+	  #geom_rect(aes(xmin = log(0.0001), xmax = log(as.numeric(cquintiles[[ameni]][1])+0.0001), ymin = -Inf, ymax = Inf), alpha = .02, fill = "#B10026", show.legend = F) + 
+	  #geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][2])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][3])+0.0001),ymin = -Inf, ymax = Inf), alpha = .02, fill = "#B10026",show.legend = F) + 
+	  #geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][4])+0.0001), xmax = log(1.0001),ymin = -Inf, ymax = Inf), alpha = .02, fill = "#B10026",show.legend = F)+ 
+	  geom_point(shape="|",size=12, col="#B10026") + labs(title = paste(labs[k], "Cutoffs"), x = "Cutoffs", y=' ') + 
+	  theme(
+	  	#panel.grid.major = element_blank(),
+	  	panel.grid.major.x = element_line(size = 0.8),
+		panel.grid.minor.x = element_blank(),
+		panel.grid.minor = element_blank(),
+		panel.grid.major.y = element_blank(),
+		axis.ticks.y = element_blank(),
+		plot.background = element_rect(fill = "#f3f5f600", colour = "#f3f5f600"),
+		  panel.background = element_rect(fill = "#f3f5f600", colour = "#f3f5f600")
+	  ) + 
+	  scale_y_discrete(labels = rev(c("Quintiles", "Minima", "HDBSCAN", "MixAll", "MCLUST", "PAM k-means")))  +
+	  scale_x_continuous(breaks=log(c(0.0002, 0.002, 0.02, seq(0.05,1,0.05))+0.0001), labels=c(0.0002, 0.002, 0.02, seq(0.05,1,0.05)), lim=c(min(as.numeric(as.character(df_cutof$cutoff))), -1.5))
+	  #xlim(-5, 0)
+	  
+	  
+	 
+	#export
+	ggsave(paste0(labs[k], "_ticks.png"), plt, dpi = 400, width=8, height=4)
 }
-colnames(df_cutof) <- c('algo', 'cutoff')
-df_cutof <- as.data.frame(df_cutof)
 
-#print(df_cutof)
-
-# make plot
-plt = ggplot(df_cutof,aes(x = as.numeric(as.character(cutoff)),y = algo)) + 
-  #geom_rect(aes(xmin = log(0.0001), xmax = log(as.numeric(cquintiles[[ameni]][1])+0.0001), ymin = -Inf, ymax = Inf), alpha = .02, fill = "#B10026", show.legend = F) + 
-  #geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][2])+0.0001), xmax = log(as.numeric(cquintiles[[ameni]][3])+0.0001),ymin = -Inf, ymax = Inf), alpha = .02, fill = "#B10026",show.legend = F) + 
-  #geom_rect(aes(xmin = log(as.numeric(cquintiles[[ameni]][4])+0.0001), xmax = log(1.0001),ymin = -Inf, ymax = Inf), alpha = .02, fill = "#B10026",show.legend = F)+ 
-  geom_point(shape="|",size=9, col="#B10026") + labs(title = "Primary Education Cutoffs", x = "Cutoffs", y=' ') + 
-  theme(
-  	#panel.grid.major = element_blank(),
-  	panel.grid.major.x = element_line(size = 0.8),
-    panel.grid.minor.x = element_blank(),
-    panel.grid.minor = element_blank(),
-    panel.grid.major.y = element_blank(),
-    axis.ticks.y = element_blank(),
-    plot.background = element_rect(fill = "#f3f5f600", colour = "#f3f5f600"),
-      panel.background = element_rect(fill = "#f3f5f600", colour = "#f3f5f600")
-  ) + 
-  scale_y_discrete(labels = rev(c("Quintiles", "Minima", "HDBSCAN", "MixAll", "MCLUST", "PAM k-means")))  +
-  scale_x_continuous(breaks=log(c(0.02, seq(0.05,1,0.05))+0.0001), labels=c(0.02, seq(0.05,1,0.05)), lim=c(-4, -1))
-  #xlim(-5, 0)
-  
-  
- 
-#export
-ggsave("cutoff_ticks.png", plt, dpi = 400, width=8, height=4)
-  
   
