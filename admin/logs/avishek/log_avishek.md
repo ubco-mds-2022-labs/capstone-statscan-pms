@@ -305,9 +305,9 @@ My total weekly hours are: 35
 |    7 | 2023-06-14 |  6.00 | Slides, Team Meeting & Visualization        | NA                                        |
 |    7 | 2023-06-15 |  6.50 | Slides & Visualization                      | NA                                        |
 |    7 | 2023-06-16 |  6.00 | Client meeting and Slides editing with team | NA                                        |
-|    7 | 2023-06-10 |  1.00 | Miscellaneous                               | Reviewed Pull Requests, Stored Logs, etc. |
+|    7 | 2023-06-10 |  0.50 | Miscellaneous                               | Reviewed Pull Requests, Stored Logs, etc. |
 
-My total weekly hours are: 31.08
+My total weekly hours are: 30.58
 
 ### Weekly Reflection
 
@@ -338,4 +338,4 @@ My total weekly hours are: 31.08
 |    4 |              26.00 |
 |    5 |              26.42 |
 |    6 |              35.00 |
-|    7 |              31.08 |
+|    7 |              30.58 |
