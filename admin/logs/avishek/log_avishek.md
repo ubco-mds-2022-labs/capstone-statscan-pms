@@ -293,6 +293,39 @@ My total weekly hours are: 35
 
 -   This week, I didn’t face any major roadblocks.
 
+## Week 7
+
+<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first) -->
+
+| week | day        | hours | description                                 | comments                                  |
+|----:|:-------|----:|:---------------------------|:--------------------------|
+|    7 | 2023-06-12 |  6.00 | Meetings & Report Writing                   | Instructor & Team meeting                 |
+|    7 | 2023-06-13 |  4.58 | Report Writing                              | NA                                        |
+|    7 | 2023-06-13 |  1.00 | Visualization                               | QGIS                                      |
+|    7 | 2023-06-14 |  6.00 | Slides, Team Meeting & Visualization        | NA                                        |
+|    7 | 2023-06-15 |  6.50 | Slides & Visualization                      | NA                                        |
+|    7 | 2023-06-16 |  6.00 | Client meeting and Slides editing with team | NA                                        |
+|    7 | 2023-06-10 |  1.00 | Miscellaneous                               | Reviewed Pull Requests, Stored Logs, etc. |
+
+My total weekly hours are: 31.08
+
+### Weekly Reflection
+
+<!-- In this section, please write 5-7 sentences (in total) answering the following questions: -->
+<!-- 1. What was your most significant **individual contribution** to the project this week? -->
+
+-   My most significant individual contribution to the project this week
+    was making QGIS cluster visualizations on map.
+
+<!-- 2. What was your most significant **team contribution** to the project this week? -->
+
+-   My most significant team contribution was working on the final slide
+    deck.
+
+<!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
+
+-   This week, I didn’t face any major roadblocks.
+
 ## Summary Table
 
 <!-- To get the total for all the weekly hourly summary over each week use the following (requires the **dplyr** package) -->
@@ -305,3 +338,4 @@ My total weekly hours are: 35
 |    4 |              26.00 |
 |    5 |              26.42 |
 |    6 |              35.00 |
+|    7 |              31.08 |

@@ -768,6 +768,76 @@ My total weekly hours are: `r  sum(mylog[which(mylog$week==current.week), 3])`
 <!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
 - This week, I didn't face any major roadblocks.
 
+## Week 7
+
+<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first) -->
+```{r}
+current.week = current.week + 1
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-12"), 
+                       hours=6,
+                       description="Meetings & Report Writing",
+                       comments="Instructor & Team meeting")
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-13"), 
+                       hours=4.58,
+                       description="Report Writing",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-13"), 
+                       hours=1,
+                       description="Visualization",
+                       comments="QGIS"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-14"), 
+                       hours=6,
+                       description="Slides, Team Meeting & Visualization",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-15"), 
+                       hours=6.5,
+                       description="Slides & Visualization",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-16"), 
+                       hours=6,
+                       description="Client meeting and Slides editing with team",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-10"), 
+                       hours=1,
+                       description="Miscellaneous",
+                       comments="Reviewed Pull Requests, Stored Logs, etc."
+                       )
+
+kable(filter(mylog, week == current.week))
+```
+My total weekly hours are: `r  sum(mylog[which(mylog$week==current.week), 3])`
+
+### Weekly Reflection
+
+<!-- In this section, please write 5-7 sentences (in total) answering the following questions: -->
+
+<!-- 1. What was your most significant **individual contribution** to the project this week? -->
+- My most significant individual contribution to the project this week was making QGIS cluster visualizations on map.
+
+<!-- 2. What was your most significant **team contribution** to the project this week? -->
+- My most significant team contribution was working on the final slide deck.
+
+<!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
+- This week, I didn't face any major roadblocks.
+
 ## Summary Table
 
 <!-- To get the total for all the weekly hourly summary over each week use the following (requires the **dplyr** package) -->
