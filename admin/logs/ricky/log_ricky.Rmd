@@ -570,7 +570,7 @@ kable(filter(mylog, week == current.week))
 ### Weekly Reflection
 My most significant individual contribution was my work done adding to, reviewing, and editing the draft final report. Our most significant individual contribution was clustering profiling. Roadblocks expected this upcoming week are similar to outlined last week, where we might have conflicting beliefs on how to build and finalize the report. 
 
-## Week 6
+## Week 7
 ```{r}
 current.week = current.week + 1
 mylog <- mylog %>% add_row(week = current.week,

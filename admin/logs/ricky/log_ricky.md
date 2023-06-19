@@ -244,7 +244,7 @@ individual contribution was clustering profiling. Roadblocks expected
 this upcoming week are similar to outlined last week, where we might
 have conflicting beliefs on how to build and finalize the report.
 
-## Week 6
+## Week 7
 
 | week | day        | hours | description     | comments                                |
 |-----:|:----------|------:|:--------------|:----------------------------------|
