@@ -120,6 +120,7 @@ Firas Moosvi, Ph.D – University of British-Columbia
 \thispagestyle{empty}
 {
   \hypersetup{linkcolor=black}
+  \small
   \listoffigures
 }
 \thispagestyle{empty}
@@ -140,7 +141,7 @@ Firas Moosvi, Ph.D – University of British-Columbia
 \thispagestyle{empty}
 \section*{Acknowledgements}
 
-We want to express our gratitude to Jerome Blanchet, who served as our industry advisor from Statistics Canada. We are also thankful to Professor Dr. Firas Moosvi and Irene Vrbik, who guided us as our capstone project advisors. Additionally, we appreciate the support and feedback provided by our TA, Jesse Ghashti. Their consistent guidance helped us to successfully complete our Master's of Data Science Capstone project within a tight timeframe of two months.
+We want to express our gratitude to Jerome Blanchet, who served as our industry advisor from Statistics Canada. We are also thankful to Professor Dr. Firas Moosvi and Irene Vrbik, who guided us as our capstone project advisors. Additionally, we appreciate the support and feedback provided by our TA, Jesse Ghashti. Their consistent guidance helped us to successfully complete our Master's of Data Science Capstone project within a tight two-month timeframe.
 
 
 
@@ -339,6 +340,30 @@ We started with an exploratory data analysis to familiarize ourselves with the d
 
 
 In order to better understand the structure of the data, we performed an exploratory data analysis (EDA). We analyzed numerical variables (all ten amenities plus DB population) in the PMD using summary statistics, and we counted unique values for categorical variables. We also visualized the distributions of each of the ten amenities using density plots, both before and after a log-transformation (an epsilon value of 0.0001 was added prior to log-transforming in order to avoid infinite values). Finally, we identified outliers via boxplots, validated them using Rosner's test, and counted them before and after log-transformation.
+
+
+
+
+\subsection{Log Transformation}
+
+text
+
+
+
+
+
+
+
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{./distributions/logtransform.png}
+\caption[Log-transform]{A line plot showing the log function with several different bases.}\label{logtransform}
+\end{figure}
+
+
 
 
 
@@ -605,14 +630,6 @@ The distributions of the proximity scores for all amenities are heavily right-sk
 
 
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.6\textwidth]{./distributions/logtransform.png}
-\caption[Log-transform]{A line plot showing the log function with several different bases.}\label{logtransform}
-\end{figure}
-
-
-
 
 Log-transforming the data is critically important to clustering, and helps reveal the underlying structure. Data points near zero in the non-transformed data are ``clumped'' around particular values, as opposed to being smoothly distributed. This preference for particular values is what creates the miniature peaks that can be seen on the left hand side of the log-transformed density distribution in the employment amenity in Figure~\ref{logdendist} of Appendix section \ref{extra}. These miniature peaks most likely represent real clusters in the data, and are not simply an artifact of the transformation itself.
 \par
@@ -626,17 +643,17 @@ Before log-transforming the data, a significant number of outliers were present 
 \begin{table}[h]
 \centering
 \caption[Number of outliers]{The number of outliers in each amenity in the PMD before and after log-transformation.}\label{outliercounts}
-\resizebox{\textwidth}{!}{\begin{tabular}{|r|llll|}
+\resizebox{0.8\textwidth}{!}{\begin{tabular}{|r|llll|}
   \hline
- & Counts & Percentages & Log Transformed Counts & Log Transformed Percentages \\
+ & Counts & Percentages & Log Counts & Log Percentages \\
   \hline
 Employment & 45,390 & 9.27 & 0 & 0.00 \\
   Pharmacy & 13,416 & 2.74 & 478 & 0.10 \\
   Childcare & 15,397 & 3.14 & 140 & 0.03 \\
   Healthcare & 31,007 & 6.33 & 50 & 0.01 \\
   Grocery & 11,904 & 2.43 & 794 & 0.16 \\
-  Pri. Educ. & 10,205 & 2.08 & 98 & 0.02 \\
-  Sec. Educ. & 8,683 & 1.77 & 215 & 0.04 \\
+  Primary Education & 10,205 & 2.08 & 98 & 0.02 \\
+  Secondary Education & 8,683 & 1.77 & 215 & 0.04 \\
   Library & 8,867 & 1.81 & 2,295 & 0.47 \\
   Parks & 12,703 & 2.59 & 910 & 0.19 \\
   Transit & 14,165 & 2.89 & 3,596 & 0.73 \\
@@ -780,7 +797,7 @@ Quintiles & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 \\
 \begin{table}[H]
 \centering
 \caption[Primary education validation metrics]{The validation metric values for each clustering approach for the primary education amenity.}\label{prieducmetrics}
-\resizebox{0.6\textwidth}{!}{\begin{tabular}{|r|llll|}
+\resizebox{0.7\textwidth}{!}{\begin{tabular}{|r|llll|}
   \hline
  & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
   \hline
@@ -868,6 +885,12 @@ Entire Population & 225,359 (100.0\%) & 61 & 0.12 & CMA (65.6\%) & Ontario (24.3
 
 
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./cutoff_ticks/Primary Education_ticks.png}
+\caption[Primary Education cutoff comparison]{Cutoff values compared for the primary education amenity for all clustering approaches.}\label{prieducticks}
+\end{figure}
+
 
 
 
@@ -901,7 +924,7 @@ In Figure~\ref{employmentbarplot} in the appendix, we can see that the methods p
 \par
 Overall, we can see how the proportions of DBs and proportions of total population in each cluster differs across methods. We see that MixAll and PAM k-means have similar proportions of both in their two clusters. We can also see that in the Quintiles method, there are equal number of DBs per cluster, as that is what the method is by definition. Despite that, we see that the proportions of population are not equal, but each subsequent cluster contains greater proportions of population. This is not exactly the case for every amenity. This suggests that for Employment, the DBs that have higher proximity values also have higher populations on average than the DBs with lower proximity values to employment. This trend is similar for all the methods: groups with larger proximities hold generally a larger proportion of the population than the proportion of DBs.
 \par
-Table~\ref{employmentprofiles} shows the summary statistics for every cluster. We see that the summary statistics differ across groups. For the most part, the median population of each cluster increases as the median proximity score increases, suggesting that areas with higher employment proximity scores generally also have higher populations. The median Index of Remoteness generally decreases as the median proximity score increases.
+Table~\ref{employmentprofiles} shows the summary statistics for every cluster. We see that the summary statistics differ across groups. For the most part, the median population of each cluster increases as the median proximity score increases, suggesting that areas with higher employment proximity scores generally also have higher populations. The median IoR generally decreases as the median proximity score increases.
 \par
 Table~\ref{employmentvalid} shows the validation metric values for each clustering approach. The best Silhouette coefficient is from the HDBSCAN method, which also has the best Davies Bouldin index. The best Dunn index is from the PAM k-means (followed closely by the MixAll), and the best Calinski Harabasz is from the Mclust method.
 \par
@@ -924,7 +947,7 @@ Overall, it seems that for the employment amenity, the cutoff values are not sim
 \begin{table}[H]
 \centering
 \caption[Employment validation metrics]{The validation metric values for each clustering approach for the employment amenity.}\label{employmentvalid}
-\resizebox{0.6\textwidth}{!}{
+\resizebox{0.7\textwidth}{!}{
 \begin{tabular}{|r|llll|}
   \hline
  & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
@@ -991,6 +1014,27 @@ Entire Population & 423,602 (100.0\%) & 38 & 0.16 & CMA (48.3\%) & Ontario (18.2
 
 
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./cutoffs/by_amenity/Employment_cutoffs.png}
+\caption[Employment cutoffs]{Cut-offs values shown on the log-transformed density plots for all clustering approaches for the employment amenity.}\label{employmentcutoffs}
+\end{figure}
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./cutoff_ticks/Employment_ticks.png}
+\caption[Employment cutoff comparison]{Cutoff values compared for the employment amenity for all clustering approaches.}\label{employmentticks}
+\end{figure}
+
+
+
+
+
+
+
+
 
 \pagebreak
 \justifying
@@ -1022,7 +1066,7 @@ Overall, the cutoff values are not similar to each other apart from a few and th
 \begin{table}[H]
 \centering
 \caption[Pharmacy validation metrics]{The validation metric values for each clustering approach for the pharmacy amenity.}\label{pharmacyvalid}
-\resizebox{0.6\textwidth}{!}{
+\resizebox{0.7\textwidth}{!}{
 \begin{tabular}{|r|llll|}
   \hline
  & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
@@ -1086,6 +1130,25 @@ Entire Population & 178,521 (100.0\%) & 63 & 0.11 & CMA (71.7\%) & Ontario (27.4
 
 
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./cutoffs/by_amenity/Pharmacy_cutoffs.png}
+\caption[Pharmacy cutoffs]{Cut-offs values shown on the log-transformed density plots for all clustering approaches for the pharmacy amenity.}\label{pharmacycutoffs}
+\end{figure}
+
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./cutoff_ticks/Pharmacy_ticks.png}
+\caption[Pharmacy cutoff comparison]{Cutoff values compared for the pharmacy amenity for all clustering approaches.}\label{pharmacyticks}
+\end{figure}
+
+
+
+
+
 
 
 
@@ -1118,7 +1181,7 @@ Overall, the cutoff values are mostly dissimilar from each other, but the groups
 \begin{table}[H]
 \centering
 \caption[Child care validation metrics]{The validation metric values for each clustering approach for the child care amenity.}\label{childcarevalid}
-\resizebox{0.6\textwidth}{!}{
+\resizebox{0.7\textwidth}{!}{
 \begin{tabular}{|r|llll|}
  \hline
  & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
@@ -1177,6 +1240,24 @@ Entire Population & 243,964 (100.0\%) & 62 & 0.11 & CMA (68.3\%) & Ontario (23.9
 
 
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./cutoffs/by_amenity/Child care_cutoffs.png}
+\caption[Child care cutoffs]{Cut-offs values shown on the log-transformed density plots for all clustering approaches for the child care amenity.}\label{childcarecutoffs}
+\end{figure}
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./cutoff_ticks/Child care_ticks.png}
+\caption[Child care cutoff comparison]{Cutoff values compared for the child care amenity for all clustering approaches.}\label{childcareticks}
+\end{figure}
+
+
+
+
+
 
 \pagebreak
 \justifying
@@ -1206,7 +1287,7 @@ Overall, the cutoff values are mostly dissimilar from each other and the validat
 \begin{table}[H]
 \centering
 \caption[Health care validation metrics]{The validation metric values for each clustering approach for the health care amenity.}\label{healthcarevalid}
-\resizebox{0.6\textwidth}{!}{
+\resizebox{0.7\textwidth}{!}{
 \begin{tabular}{|r|llll|}
   \hline
  & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
@@ -1267,6 +1348,27 @@ Entire Population & 300,465 (100.0\%) & 55 & 0.13 & CMA (62.2\%) & Ontario (22.8
 
 
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./cutoffs/by_amenity/Health care_cutoffs.png}
+\caption[Health care cutoffs]{Cut-offs values shown on the log-transformed density plots for all clustering approaches for the health care amenity.}\label{healthcarecutoffs}
+\end{figure}
+
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./cutoff_ticks/Health care_ticks.png}
+\caption[Health care cutoff comparison]{Cutoff values compared for the health care amenity for all clustering approaches.}\label{healthcareticks}
+\end{figure}
+
+
+
+
+
+
+
 
 
 \pagebreak
@@ -1297,7 +1399,7 @@ Based on this analysis, it strongly suggests that cluster 1 should have a cutoff
 \begin{table}[H]
 \centering
 \caption[Grocery validation metrics]{The validation metric values for each clustering approach for the grocery amenity.}\label{groceryvalid}
-\resizebox{0.6\textwidth}{!}{
+\resizebox{0.7\textwidth}{!}{
 \begin{tabular}{|r|llll|}
   \hline
  & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
@@ -1363,6 +1465,28 @@ Entire Population & 141,063 (100.0\%) & 61 & 0.11 & CMA (69.3\%) & Ontario (25.1
 
 
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./cutoffs/by_amenity/Grocery_cutoffs.png}
+\caption[Grocery cutoffs]{Cut-offs values shown on the log-transformed density plots for all clustering approaches for the grocery amenity.}\label{grocerycutoffs}
+\end{figure}
+
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./cutoff_ticks/Grocery_ticks.png}
+\caption[Grocery cutoff comparison]{Cutoff values compared for the grocery amenity for all clustering approaches.}\label{groceryticks}
+\end{figure}
+
+
+
+
+
+
+
+
 
 \pagebreak
 \justifying
@@ -1407,7 +1531,7 @@ Based on this analysis, it suggests that cluster 1 for the secondary education a
 \begin{table}[H]
 \centering
 \caption[Secondary education validation metrics]{The validation metric values for each clustering approach for the secondary education amenity.}\label{seceducvalid}
-\resizebox{0.6\textwidth}{!}{
+\resizebox{0.7\textwidth}{!}{
 \begin{tabular}{|r|llll|}
   \hline
  & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
@@ -1474,6 +1598,28 @@ Entire Population & 141,213 (100.0\%) & 58 & 0.14 & CMA (62.5\%) & Ontario (18.2
 
 
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./cutoffs/by_amenity/Secondary Education_cutoffs.png}
+\caption[Secondary education cutoffs]{Cut-offs values shown on the log-transformed density plots for all clustering approaches for the secondary education amenity.}\label{seceduccutoffs}
+\end{figure}
+
+
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./cutoff_ticks/Secondary Education_ticks.png}
+\caption[Secondary Education cutoff comparison]{Cutoff values compared for the secondary education amenity for all clustering approaches.}\label{seceducticks}
+\end{figure}
+
+
+
+
+
+
+
 
 
 \pagebreak
@@ -1501,7 +1647,7 @@ Based on this analysis, it suggests that the cutoff for the first cluster may be
 \begin{table}[H]
 \centering
 \caption[Library validation metrics]{The validation metric values for each clustering approach for the library amenity.}\label{libraryvalid}
-\resizebox{0.6\textwidth}{!}{
+\resizebox{0.7\textwidth}{!}{
 \begin{tabular}{|r|llll|}
  \hline
  & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
@@ -1567,6 +1713,27 @@ Entire Population & 112,655 (100.0\%) & 48 & 0.14 & CMA (54.4\%) & Ontario (21.4
 
 
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./cutoffs/by_amenity/Library_cutoffs.png}
+\caption[Library cutoffs]{Cut-offs values shown on the log-transformed density plots for all clustering approaches for the library amenity.}\label{librarycutoffs}
+\end{figure}
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./cutoff_ticks/Library_ticks.png}
+\caption[Library cutoff comparison]{Cutoff values compared for the library amenity for all clustering approaches.}\label{libraryticks}
+\end{figure}
+
+
+
+
+
+
+
+
 
 
 \pagebreak
@@ -1595,7 +1762,7 @@ Based on this analysis, we can conclude that although none of these methods agre
 \begin{table}[H]
 \centering
 \caption[Parks validation metrics]{The validation metric values for each clustering approach for the parks amenity.}\label{parksvalid}
-\resizebox{0.6\textwidth}{!}{
+\resizebox{0.7\textwidth}{!}{
 \begin{tabular}{|r|llll|}
   \hline
  & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
@@ -1660,6 +1827,27 @@ Entire Population & 234,068 (100.0\%) & 62 & 0.11 & CMA (68.4\%) & Ontario (25.3
 
 
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./cutoffs/by_amenity/Parks_cutoffs.png}
+\caption[Parks cutoffs]{Cut-offs values shown on the log-transformed density plots for all clustering approaches for the parks amenity.}\label{parkscutoffs}
+\end{figure}
+
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./cutoff_ticks/Parks_ticks.png}
+\caption[Parks cutoff comparison]{Cutoff values compared for the parks amenity for all clustering approaches.}\label{parksticks}
+\end{figure}
+
+
+
+
+
+
+
 
 
 \pagebreak
@@ -1688,7 +1876,7 @@ Based on this analysis, it is evident that different clustering techniques yield
 \begin{table}[H]
 \centering
 \caption[Transit validation metrics]{The validation metric values for each clustering approach for the transit amenity.}\label{transitvalid}
-\resizebox{0.6\textwidth}{!}{
+\resizebox{0.7\textwidth}{!}{
 \begin{tabular}{|r|llll|}
   \hline
  & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
@@ -1744,6 +1932,27 @@ Entire Population & 181,305 (100.0\%) & 73 & 0.10 & CMA (89.8\%) & Ontario (31.9
 \end{tabular}
 }
 \end{table}
+
+
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./cutoffs/by_amenity/Transit_cutoffs.png}
+\caption[Transit cutoffs]{Cut-offs values shown on the log-transformed density plots for all clustering approaches for the transit amenity.}\label{transitcutoffs}
+\end{figure}
+
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./cutoff_ticks/Transit_ticks.png}
+\caption[Transit cutoff comparison]{Cutoff values compared for the transit amenity for all clustering approaches.}\label{transitticks}
+\end{figure}
+
+
 
 
 
@@ -2137,7 +2346,7 @@ Moreover, these findings are not helpful for profiling purposes as they ignore t
 \begin{table}[H]
 \centering
 \caption[Acronyms]{All acronyms used in this report.}\label{acronyms}
-\resizebox{0.6\textwidth}{!}{
+\resizebox{0.7\textwidth}{!}{
 \begin{tabular}{|c|l|}
 \hline
 \textbf{Acronym}  &  \textbf{Full Name} \\
@@ -2168,7 +2377,7 @@ IoR & Index of Remoteness \\
 \begin{table}[H]
 \centering
 \caption[Mathematical Symbols]{All mathematical symbols used in this report.}\label{mathsymbols}
-\resizebox{0.45\textwidth}{!}{
+\resizebox{0.55\textwidth}{!}{
 \begin{tabular}{|c|l|}
 \hline
 \textbf{Symbol}  &  \textbf{Meaning} \\
@@ -2195,25 +2404,26 @@ $\epsilon$ & OPTICS maximum separation distance \\
 \resizebox{\textwidth}{!}{
 \begin{tabular}{|r|llllllllll|}
   \hline
- & Employment & Pharmacy & Childcare & Healthcare & Grocery & Pri. Educ. & Sec. Educ. & Library & Parks & Transit \\
+Moments & Employment & Pharmacy & Childcare & Healthcare & Grocery & Pri. Educ. & Sec. Educ. & Library & Parks & Transit \\ 
   \hline
-1 Dec. & -8.51719 & -4.87961 & -4.82831 & -8.11173 & -4.23361 & -3.44202 & -3.28341 & -2.97789 & -4.35831 & -6.72543 \\
-  2 Dec. & -7.6009 & -4.61522 & -4.1799 & -7.1309 & -3.80766 & -3.17725 & -3.16534 & -2.88419 & -3.89222 & -5.9145 \\
-  3 Dec. & -6.57128 & -4.21991 & -3.7214 & -6.2659 & -3.54046 & -2.84215 & -3.02413 & -2.77259 & -3.57913 & -5.3817 \\
-  4 Dec. & -5.77635 & -3.94248 & -3.35527 & -5.71383 & -3.35527 & -2.6297 & -2.83532 & -2.6479 & -3.28876 & -4.99083 \\
-  5 Dec. & -5.02069 & -3.66126 & -3.04282 & -5.27851 & -3.13499 & -2.40684 & -2.59561 & -2.50715 & -3.0324 & -4.65646 \\
-  6 Dec. & -4.35831 & -3.37553 & -2.75357 & -4.89285 & -2.88957 & -2.20184 & -2.3958 & -2.34237 & -2.78872 & -4.32754 \\
-  7 Dec. & -3.82585 & -3.08347 & -2.46864 & -4.49184 & -2.63109 & -1.98997 & -2.1698 & -2.14644 & -2.53326 & -3.98998 \\
-  8 Dec. & -3.29954 & -2.74575 & -2.14729 & -3.98998 & -2.31668 & -1.75968 & -1.9018 & -1.90448 & -2.25284 & -3.60087 \\
-  9 Dec. & -2.62141 & -2.31871 & -1.74183 & -3.3697 & -1.87015 & -1.45629 & -1.54693 & -1.55732 & -1.90046 & -3.11677 \\
-  Min. & -9.21034 & -9.21034 & -9.21034 & -9.21034 & -8.517193 & -7.600902 & -7.418581 & -8.517193 & -9.21034 & -9.21034 \\
-  Median & -5.02069 & -3.66126 & -3.04282 & -5.27851 & -3.13499 & -2.40684 & -2.59561 & -2.50715 & -3.0324 & -4.65646 \\
-  Mean & -5.30642 & -3.60872 & -3.14453 & -5.50353 & -3.08437 & -2.41781 & -2.51013 & -2.36977 & -3.06704 & -4.80398 \\
-  Max. & 1e-04 & 1e-04 & 1e-04 & 1e-04 & 1e-04 & 1e-04 & 1e-04 & 1e-04 & 1e-04 & 1e-04 \\
-  Std. Dev. & 2.1556 & 0.9607 & 1.1298 & 1.7612 & 0.9114 & 0.7301 & 0.668 & 0.5789 & 0.9174 & 1.4123 \\
-  Skew & -0.237 & 0.363 & -0.208 & -0.344 & 0.132 & 0.112 & 0.605 & 1.024 & -0.154 & -0.55 \\
-  Kurtosis & 2 & 2.54 & 2.43 & 2.53 & 2.85 & 2.32 & 2.63 & 4.14 & 3.04 & 3.21 \\
-   \hline
+10\% Dec. & -8.5172 & -4.8796 & -4.8283 & -8.1117 & -4.2336 & -3.4420 & -3.2834 & -2.9779 & -4.3583 & -6.7254 \\ 
+  20\% Dec. & -7.6009 & -4.6152 & -4.1799 & -7.1309 & -3.8077 & -3.1773 & -3.1653 & -2.8842 & -3.8922 & -5.9145 \\ 
+  30\% Dec. & -6.5713 & -4.2199 & -3.7214 & -6.2659 & -3.5405 & -2.8422 & -3.0241 & -2.7726 & -3.5791 & -5.3817 \\ 
+  40\% Dec. & -5.7764 & -3.9425 & -3.3553 & -5.7138 & -3.3553 & -2.6297 & -2.8353 & -2.6479 & -3.2888 & -4.9908 \\ 
+  50\% Dec. & -5.0207 & -3.6613 & -3.0428 & -5.2785 & -3.1350 & -2.4068 & -2.5956 & -2.5072 & -3.0324 & -4.6565 \\ 
+  60\% Dec. & -4.3583 & -3.3755 & -2.7536 & -4.8929 & -2.8896 & -2.2018 & -2.3958 & -2.3424 & -2.7887 & -4.3275 \\ 
+  70\% Dec. & -3.8258 & -3.0835 & -2.4686 & -4.4918 & -2.6311 & -1.9900 & -2.1698 & -2.1464 & -2.5333 & -3.9900 \\ 
+  80\% Dec. & -3.2995 & -2.7458 & -2.1473 & -3.9900 & -2.3167 & -1.7597 & -1.9018 & -1.9045 & -2.2528 & -3.6009 \\ 
+  90\% Dec. & -2.6214 & -2.3187 & -1.7418 & -3.3697 & -1.8702 & -1.4563 & -1.5469 & -1.5573 & -1.9005 & -3.1168 \\ 
+   \arrayrulecolor{gray!50}\hline
+  Min. & -9.2103 & -9.2103 & -9.2103 & -9.2103 & -8.5172 & -7.6009 & -7.4186 & -8.5172 & -9.2103 & -9.2103 \\ 
+  Median & -5.0207 & -3.6613 & -3.0428 & -5.2785 & -3.1350 & -2.4068 & -2.5956 & -2.5072 & -3.0324 & -4.6565 \\ 
+  Mean & -5.3064 & -3.6087 & -3.1445 & -5.5035 & -3.0844 & -2.4178 & -2.5101 & -2.3698 & -3.0670 & -4.8040 \\ 
+  Max. & 0.0001 & 0.0001 & 0.0001 & 0.0001 & 0.0001 & 0.0001 & 0.0001 & 0.0001 & 0.0001 & 0.0001 \\ 
+  Std. Dev. & 2.1556 & 0.9607 & 1.1298 & 1.7612 & 0.9114 & 0.7301 & 0.6680 & 0.5789 & 0.9174 & 1.4123 \\ 
+  Skew & -0.2371 & 0.3630 & -0.2076 & -0.3443 & 0.1324 & 0.1125 & 0.6055 & 1.0242 & -0.1541 & -0.5501 \\ 
+  Kurtosis & 2.0032 & 2.5437 & 2.4316 & 2.5304 & 2.8460 & 2.3186 & 2.6266 & 4.1390 & 3.0366 & 3.2069 \\ 
+    \arrayrulecolor{black}\hline
 \end{tabular}
 }
 \end{table}
@@ -2408,147 +2618,6 @@ $\epsilon$ & OPTICS maximum separation distance \\
 \includegraphics[width=\textwidth]{./vat/transit_vat_log.png}
 \caption[Transit VAT plot]{VAT plot for the log-transformed transit amenity.}\label{transitvat}
 \end{figure}
-
-
-
-
-
-
-
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./cutoffs/by_amenity/Employment_cutoffs.png}
-\caption[Employment cutoffs]{Cut-offs values shown on the log-transformed density plots for all clustering approaches employment amenity.}\label{employmentcutoffs}
-\end{figure}
-
-
-
-
-
-
-
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./cutoffs/by_amenity/Pharmacy_cutoffs.png}
-\caption[Pharmacy cutoffs]{Cut-offs values shown on the log-transformed density plots for all clustering approaches pharmacy amenity.}\label{pharmacycutoffs}
-\end{figure}
-
-
-
-
-
-
-
-
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./cutoffs/by_amenity/Child care_cutoffs.png}
-\caption[Child care cutoffs]{Cut-offs values shown on the log-transformed density plots for all clustering approaches child care amenity.}\label{childcarecutoffs}
-\end{figure}
-
-
-
-
-
-
-
-
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./cutoffs/by_amenity/Health care_cutoffs.png}
-\caption[Health care cutoffs]{Cut-offs values shown on the log-transformed density plots for all clustering approaches health care amenity.}\label{healthcarecutoffs}
-\end{figure}
-
-
-
-
-
-
-
-
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./cutoffs/by_amenity/Grocery_cutoffs.png}
-\caption[Grocery cutoffs]{Cut-offs values shown on the log-transformed density plots for all clustering approaches grocery amenity.}\label{grocerycutoffs}
-\end{figure}
-
-
-
-
-
-
-
-
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./cutoffs/by_amenity/Secondary Education_cutoffs.png}
-\caption[Secondary education cutoffs]{Cut-offs values shown on the log-transformed density plots for all clustering approaches secondary education amenity.}\label{seceduccutoffs}
-\end{figure}
-
-
-
-
-
-
-
-
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./cutoffs/by_amenity/Library_cutoffs.png}
-\caption[Library cutoffs]{Cut-offs values shown on the log-transformed density plots for all clustering approaches library amenity.}\label{librarycutoffs}
-\end{figure}
-
-
-
-
-
-
-
-
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./cutoffs/by_amenity/Parks_cutoffs.png}
-\caption[Parks cutoffs]{Cut-offs values shown on the log-transformed density plots for all clustering approaches parks amenity.}\label{parkscutoffs}
-\end{figure}
-
-
-
-
-
-
-
-
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./cutoffs/by_amenity/Transit_cutoffs.png}
-\caption[Transit cutoffs]{Cut-offs values shown on the log-transformed density plots for all clustering approaches transit amenity.}\label{transitcutoffs}
-\end{figure}
-
-
-
-
-
-
-
-
 
 
 
