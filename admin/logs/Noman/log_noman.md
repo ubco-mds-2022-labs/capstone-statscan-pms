@@ -228,6 +228,37 @@ following questions:
     proceeding on your project? No, everything seems to be in place in
     terms of progress.
 
+| week | day        | hours | description                                                                    | comments             |
+|---:|:------|----:|:-------------------------------------------|:------------|
+|    7 | 2023-06-12 |   6.0 | Mentor slides + Team Meeting + Mentor Meeting + Final Report                   | NA                   |
+|    7 | 2023-06-13 |   5.0 | Team Meeting + Final Report                                                    | NA                   |
+|    7 | 2023-06-14 |   6.0 | Team Meeting + final presentationn slides prototype                            | NA                   |
+|    7 | 2023-06-15 |   5.0 | Team meeting + Final pres slides + TA meeting + client agenda                  | NA                   |
+|    7 | 2023-06-16 |   4.5 | Team meetings + final presentation + brainstorming final section + merge edits | NA                   |
+|    7 | 2023-06-18 |   2.0 | Final pres                                                                     | Brainstorming script |
+|    7 | 2023-06-18 |   0.5 | logs + git + random                                                            | NA                   |
+
+My total weekly hours are: 29
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week? Merging Jesse’s suggested edits with our clients
+    edits into one document and working on last section of presentation
+    prototype.
+
+2.  What was your most significant **team contribution** to the project
+    this week? Working with our team to get finish final presentation
+    slides drafted along with final edits for the report to get to our
+    client for review.
+
+3.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project? No roadblocks as we move into our final
+    week.
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use
@@ -241,3 +272,4 @@ the following (requires the **dplyr** package)
 |    4 |              26.00 |
 |    5 |              28.50 |
 |    6 |              32.50 |
+|    7 |              29.00 |
