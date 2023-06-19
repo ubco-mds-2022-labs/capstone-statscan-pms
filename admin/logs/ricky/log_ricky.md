@@ -244,6 +244,34 @@ individual contribution was clustering profiling. Roadblocks expected
 this upcoming week are similar to outlined last week, where we might
 have conflicting beliefs on how to build and finalize the report.
 
+## Week 6
+
+| week | day        | hours | description     | comments                                |
+|-----:|:----------|------:|:--------------|:----------------------------------|
+|    7 | 2023-06-12 |  2.00 | Meetings        | prep + daily, instructor                |
+|    7 | 2023-06-12 |  1.50 | Viz brainstorm  | rugplot, barplot                        |
+|    7 | 2023-06-12 |  3.50 | Report analysis | NA                                      |
+|    7 | 2023-06-13 |  0.50 | Meeting         | daily                                   |
+|    7 | 2023-06-13 |  2.00 | Report analysis | NA                                      |
+|    7 | 2023-06-13 |  2.50 | Report editing  | NA                                      |
+|    7 | 2023-06-14 |  0.75 | Meeting         | daily                                   |
+|    7 | 2023-06-14 |  2.50 | presentation    | design, draft, slides                   |
+|    7 | 2023-06-14 |  2.00 | Report editing  | NA                                      |
+|    7 | 2023-06-15 |  1.00 | Report editing  | NA                                      |
+|    7 | 2023-06-15 |  2.00 | Meetings        | daily, TA, prep                         |
+|    7 | 2023-06-15 |  5.00 | presentation    | slides                                  |
+|    7 | 2023-06-16 |  2.00 | Meetings        | client, team                            |
+|    7 | 2023-06-16 |  5.00 | presentation    | slides                                  |
+|    7 | 2023-06-16 |  0.50 | Misc            | pull requests, logs, git conflicts, etc |
+
+### Weekly Reflection
+
+My most significant individual contribution is my attention to detail in
+editing and my search for an appropriate presentation design. Our most
+significant team contribution is wrapping up the discussion and
+conclusion of the final report as well as the draft for our
+presentation. We do not have any roadblocks.
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use
@@ -251,9 +279,10 @@ the following (requires the **dplyr** package)
 
 | week | total_weekly_hours |
 |-----:|-------------------:|
-|    1 |               23.0 |
-|    2 |               32.5 |
-|    3 |               20.0 |
-|    4 |               26.0 |
-|    5 |               31.0 |
-|    6 |               33.5 |
+|    1 |              23.00 |
+|    2 |              32.50 |
+|    3 |              20.00 |
+|    4 |              26.00 |
+|    5 |              31.00 |
+|    6 |              33.50 |
+|    7 |              32.75 |
