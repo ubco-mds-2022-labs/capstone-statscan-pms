@@ -26,38 +26,40 @@ summary_table = data.frame()
 
 for (i in num_vars){
 	#deciles
-	summary_table[i, 1:9] = round(quantile(master[,i], probs = seq(.1, .9, by = .1), na.rm=T), 5)
+	summary_table[i, 1:9] = format(round(quantile(master[,i], probs = seq(.1, .9, by = .1), na.rm=T), 4), nsmall=4, scientific = FALSE)
 	#min, mean, median, max, std dev
 	summary_table[i, 10:14] = c(
-		round(min(master[,i], na.rm=T), 6),
-		round(median(master[,i], na.rm=T), 5),
-		round(mean(master[,i], na.rm=T), 5),
-		round(max(master[,i], na.rm=T), 5),
-		round(sd(master[,i], na.rm=T), 4)
+		format(round(min(master[,i], na.rm=T), 4), nsmall=4, scientific = FALSE),
+		format(round(median(master[,i], na.rm=T), 4), nsmall=4, scientific = FALSE),
+		format(round(mean(master[,i], na.rm=T), 4), nsmall=4, scientific = FALSE),
+		format(round(max(master[,i], na.rm=T), 4), nsmall=4, scientific = FALSE),
+		format(round(sd(master[,i], na.rm=T), 4), nsmall=4, scientific = FALSE)
 	)
 	#skew and kurtosis
 	summary_table[i, 15:16] = c(
-		round(skewness(master[,i], na.rm=T), 3),
-		round(kurtosis(master[,i], na.rm=T), 2)
+		format(round(skewness(master[,i], na.rm=T), 3), nsmall=3, scientific = FALSE),
+		format(round(kurtosis(master[,i], na.rm=T), 2), nsmall=2, scientific = FALSE)
 	)
 }
 
+#print(summary_table)
 
 #round dbpop column
-summary_table[11,] = format(round(summary_table[11,]), nsmall=0)
+summary_table[11,] = format(round(as.numeric(summary_table[11,])), nsmall=0)
 
 
 #convert numbers to strings to prevent rounding
-summary_table = apply(summary_table, 1:2, as.character)
-
-
-#change row and col names
-colnames(summary_table) = c(paste(1:9, 'Dec.'), 'Min.', 'Median', 'Mean', 'Max.', 'Std. Dev.', 'Skew', 'Kurtosis')
-row.names(summary_table) = c(labs, "DB Pop.")
+#summary_table = apply(summary_table, 1:2, as.character)
 
 
 #flip rows and cols
 summary_table = t(summary_table)
+
+
+#change row and col names
+row.names(summary_table) = c(paste0((1:9)*10, '% Dec.'), 'Min.', 'Median', 'Mean', 'Max.', 'Std. Dev.', 'Skew', 'Kurtosis')
+colnames(summary_table) = c(labs, "DB Pop.")
+
 
 
 #export 

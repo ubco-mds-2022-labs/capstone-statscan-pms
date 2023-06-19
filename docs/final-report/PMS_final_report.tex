@@ -20,26 +20,46 @@
 \usepackage{rotating}
 \usepackage{tabularx}
 \usepackage{booktabs}
+\usepackage{ragged2e}
 
 \newcommand{\comment}[1]{}
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
-\fancyhf{}
-\rhead{MDS Capstone}
-\lhead{\thepage}
+%\fancyhf{}
+%\rhead{MDS Capstone}
+%\lhead{\thepage}
+
+\fancypagestyle{firststyle}
+{
+   %\fancyhf{}
+   \renewcommand{\headrulewidth}{0pt}
+   \rhead{\includegraphics[width=4cm]{/logos/ubco.png}}
+   \lhead{\includegraphics[width=4cm]{/logos/statscan.png}}
+   \cfoot{}
+}
+
+
+
+
 
 \begin{document}
 \begin{center}
+$ $
+
+\vspace{2 pc}
 \textsc{A Report} \par
 \small{\textsc{For the}} \par
-\Large{\textsc{SEGMENTATION OF STATISTICS CANADA’S PROXIMITY MEASURES}}
+\Large{\textsc{Segmentation of the Statistics Canada’s Set of Proximity Measures – A
+Clustering Algorithm Approach}}
 \par
 \vspace{0.917 pc} %Creates a paragraph line break.
 \par
 \normalsize{ }
 
-\thispagestyle{empty}
+%\thispagestyle{empty}
+\thispagestyle{firststyle}
+
 
 \vspace{8 pc} %Creates a paragraph line break.
 
@@ -47,23 +67,36 @@
 \par
 June 2023
 \par
-\vspace{8pc}
+\vspace{10pc}
 
-Ricky Heinrich \par
-Noman Mohammad \par
-Avishek Saha \par
-Jonah Edmundson
+\begin{small}
+Authors: \par
+Ricky Heinrich, The University of British Columbia \par
+Noman Mohammad, The University of British Columbia \par
+Avishek Saha, The University of British Columbia \par
+Jonah Edmundson, The University of British Columbia
+\end{small}
 
 
 %\vspace{0.917 pc} %Creates a paragraph line break.
 %\vspace{0.917 pc} %Creates a paragraph line break.
 \par
 \vfill
-\thispagestyle{empty}
+%\thispagestyle{empty}
 \par
+\begin{footnotesize}
+Report delivered to \par
+Jerome Blanchet, Ms.S and \par
+Bjenk Ellefsen, Ph.D – \par
+Statistics Canada, Center for Special Business Projects, Data Exploration and Integration Lab, and \par
+Firas Moosvi, Ph.D – University of British-Columbia
+\end{footnotesize}
+
+\comment{
 \noindent\small{Statistics Canada Liaison - Jérôme Blanchet, Bjenk Ellefsen}
 \par
 \noindent\small{UBCO Project Supervisor - His Excellency Dr. Firas Moosvi}
+}
 \par
 \vspace{2pc}
 \par
@@ -77,12 +110,18 @@ Jonah Edmundson
 
 \thispagestyle{empty}
 \setcounter{tocdepth}{2} %toc depth
-\tableofcontents
+{
+  \hypersetup{linkcolor=black}
+  \tableofcontents
+}
 \thispagestyle{empty}
 
 \pagebreak
 \thispagestyle{empty}
-\listoffigures
+{
+  \hypersetup{linkcolor=black}
+  \listoffigures
+}
 \thispagestyle{empty}
 
 \vspace{2pc}
@@ -90,18 +129,60 @@ Jonah Edmundson
 \pagebreak
 \thispagestyle{empty}
 %\small{\listoftables}
-\listoftables
+{
+  \hypersetup{linkcolor=black}
+  \listoftables
+}
 \pagebreak
 
 
+
+\thispagestyle{empty}
+\section*{Acknowledgements}
+
+We want to express our gratitude to Jerome Blanchet, who served as our industry advisor from Statistics Canada. We are also thankful to Professor Dr. Firas Moosvi and Irene Vrbik, who guided us as our capstone project advisors. Additionally, we appreciate the support and feedback provided by our TA, Jesse Ghashti. Their consistent guidance helped us to successfully complete our Master's of Data Science Capstone project within a tight timeframe of two months.
+
+
+
+
+
+
+
+\pagebreak
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Executive Summary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\par
+
+\fancyhf{}
+\setcounter{page}{1}
+\rhead{MDS Capstone}
+\lhead{\thepage}
+
+\normalsize
+The Proximity Measure Database (PMD) developed by the Data Exploration and Integration Lab (DEIL) at Statistics Canada serves to provide a granular measure of proximity to services and amenities to inform planning and policy questions (Alasia et al., 2021). The PMD contains continuous measures for 10 amenities at a `dissemination block' (DB) level, the most granular area defined by StatCan (Statistics Canada, 2021). In an urban area, a DB corresponds to a city block, whereas in rural areas they are areas ``bounded by roads or other natural features'' (Alasia et al., 2021). Our project aims to apply clustering algorithms to segment proximity measures for various amenities as provided by Statistics Canada. This clustering will allow for the continuous PMD metrics to be summarized as categorical variables. The insights gained from this segmentation may help policymakers and urban planners to make better decisions and plans for community development.
+\par
+The analysis began with exploratory data analysis, examining missing values, the distribution of proximity measures, outliers, and the impact of log-transformation on proximity measures. Outliers were validated using Rosner's outlier test. Univariate clustering was then conducted, applying clustering techniques to individual amenity log-transformed proximity measures. Before clustering each amenity, a clustering tendency check was performed to ensure the data was suitable for clustering, as clustering techniques can produce clusters even when data is not inherently clusterable. Various clustering techniques were applied, including density-based (hdbscan, optics), distribution-based (MixAll, GMM, Jenks Natural Breaks), and centroid-based (PAM) methods. Different clustering validation metrics such as silhouette coefficient, Dunn index, and davies bouldin were utilized to determine the appropriate number of clusters for each algorithm and assess the quality of clustering results. Finally, cluster profiling incorporated additional variables such as the Index of Remoteness, number of dissemination blocks, and dissemination block population to gain insights about the clusters.
+
+
+
+
+[Summary of the results of the project]
+
+[Conclusions at a level suitable for public consumption]
+
+
+
+
+
+
+
+
+\pagebreak
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \par
-
-\setcounter{page}{1}
-
-\normalsize
 Each individual lives somewhere and inhabits physical space. Unless one lives completely removed from others, amenities such as schools, places of employment, and healthcare facilities are usually present in the built environment. These amenities serve to make residents’ lives better, and their distribution is often the result of careful policy and planning by governing bodies. Like people, they inhabit physical space, and not everybody is equidistant from them. As Alasia et al. (2021) outline, ``having physical access to basic services and amenities is a key determinant of social inclusion, their capacity to meet basic needs, and their ability to fully participate in social and economic development.'' Therefore, it is imperative for these governing bodies to make deliberate, well-informed decisions as to the location of new amenities and services.
 \par
 The Proximity Measure Database (PMD) developed by the Data Exploration and Integration Lab (DEIL) at Statistics Canada serves to provide a granular measure of proximity to services and amenities to inform planning and policy questions (Alasia et al., 2021). The PMD contains continuous measures for 10 amenities at a ‘dissemination block’ (DB) level, the most granular area defined by StatCan (Statistics Canada, 2021). In an urban area, a DB corresponds to a city block, whereas in rural regions they are areas ``bounded by roads or other natural features'' (Alasia et al., 2021). Thus, DBs differ broadly in their size as well as in their proximity to these amenities.
@@ -134,14 +215,30 @@ The methodology used to generate the PMD is presented in Measuring proximity to 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{./PMD_viewer/PMD_viewer.png}
-\caption[Proximity Measures Data Viewer]{Statistics Canada’s Proximity Measures Data Viewer showing the proximity to the primary education amenity in Kelowna’s (BC) downtown sector.}\label{pmdviewer}
+\includegraphics[width=\textwidth]{./PMD_viewer/PMD_viewer2.png}
+\caption[Proximity Measures Data Viewer]{Statistics Canada’s Proximity Measures Data Viewer showing the proximity to the primary education amenity in Vancouver (top left), Edmonton (top right), Toronto (bottom left) and Calgary (bottom right).}\label{pmdviewer}
 \end{figure}
 
 
 A `sister' measure to the PMD is the Index of Remoteness, whose creation is outlined in \textit{Measuring remoteness and accessibility - A set of indices for Canadian communities} by Alasia et. al. A key factor affecting socioeconomic and health outcomes is geographic proximity to population and service centers. As a result, it is an important factor to consider when analyzing and implementing policies and programmes. Statistics Canada developed an Index of Remoteness of communities to measure this factor. The distance to all the population centers (defined by Statistics Canada as areas with a population of at least 1000 and no fewer than 400 person per square kilometers) in a given travel radius, as well as their population size, are taken into account when calculating the index for each populated community (census subdivisions) (Government of Canada, Statistics Canada, 2023). This index was generated as a continuous measure, which was then cut into categories, as outlined in \textit{Developing Meaningful Categories for Distinguishing Levels of Remoteness in Canada} by Subedi et. al. They present five approaches to categorize the continuous measure, which included methods like Jenks natural breaks, k-means, and quintile classification. They aimed to examine various ways to group the continuous remoteness index values of Canadian CSDs into meaningful categories (Government of Canada, Statistics Canada et al., 2020b, August 11). This is similar to our goal of categorizing the continuous proximity measures of amenities.
 \par
 The Jenks natural breaks classification and k-means classification techniques are examples of distribution based and centroid based techniques, respectively. Another type of clustering techniques that may be appropriate for our project are density based methods (Geospatial Analysis 6th Edition, 2021 Update - De Smith, Goodchild, Longley and Colleagues, 2021). As Kassambara, a Bioinformatics R\&D Scientist at Veracytes, outlines in his self-published book, the selection of an appropriate clustering technique depends on the nature of the data under investigation. He explains how before applying clustering techniques, it is crucial to assess the clustering tendency to ensure meaningful results, as clustering algorithms may identify clusters even in cases where no clear clusters exist in the data. Additionally, determining the optimal number of clusters is a vital step in the process. Once clustering techniques have been applied, it is important to evaluate their performance using cluster validation statistics such as the silhouette coefficient, Dunn index, and Xie-Beni index. These metrics assist in identifying the most suitable clustering technique for the given data. By considering these factors, researchers can make informed decisions and select the appropriate clustering methodology for specific analysis (Kassambara, 2017b).
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./IoR/ior_spatial.png}
+\caption[IoR Distribution]{The spatial distribution of the 2021 Index of Remoteness over census subdivisions in Canada.}\label{iorspatial}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./IoR/air_cost.png}
+\caption[IoR Cost-Distance Model]{A scatter plot showing the Index of Remoteness cost-distance model for travelling by air.}\label{aircost}
+\end{figure}
+
 
 
 
@@ -372,7 +469,7 @@ We've outlined earlier reasons for which DBs may not have proximity measures. Ta
 
 % latex table generated in R 3.6.3 by xtable 1.8-4 package
 % Tue May 30 13:11:59 2023
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption[Missing data]{Counts and percentages of missing values of numerical variables in the PMD.}\label{missingdata}
 \begin{tabular}{|r|cc|}
@@ -384,12 +481,12 @@ Employment & 423,602 & 86.5 \\
   Childcare & 243,964 & 49.8 \\
   Healthcare & 300,465 & 61.4 \\
   Grocery & 141,063 & 28.8 \\
-  Pri. Educ. & 225,359 & 46.0 \\
-  Sec. Educ. & 141,213 & 28.8 \\
+  Primary Education & 225,359 & 46.0 \\
+  Secondary Education & 141,213 & 28.8 \\
   Library & 112,655 & 23.0 \\
   Parks & 234,068 & 47.8 \\
   Transit & 181,305 & 37.0 \\
-  DB Pop. & 487,526 & 99.6 \\
+  DB Population & 487,526 & 99.6 \\
    \hline
 \end{tabular}
 \end{table}
@@ -406,30 +503,31 @@ Table~\ref{summary} shows the summary statistics for the numerical variables in 
 
 % latex table generated in R 3.6.3 by xtable 1.8-4 package
 % Sat Jun 10 08:13:30 2023
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption[Summary table]{Summary statistics of numerical variables in the PMD.}\label{summary}
-\resizebox{\textwidth}{!}{\begin{tabular}{|r|lllllllllll|}
+\resizebox{\textwidth}{!}{\begin{tabular}{|r|llllllllll!{\color{gray!50}\vrule}l|}
   \hline
- & Employment & Pharmacy & Childcare & Healthcare & Grocery & Pri. Educ. & Sec. Educ. & Library & Parks & Transit & DB Pop. \\
+Moments & Employment & Pharmacy & Childcare & Healthcare & Grocery & Pri. Educ. & Sec. Educ. & Library & Parks & Transit & DB Pop. \\
   \hline
-1 Dec. & 1e-04 & 0.0075 & 0.0079 & 2e-04 & 0.0144 & 0.0319 & 0.0374 & 0.0508 & 0.0127 & 0.0011 & 0 \\
-  2 Dec. & 4e-04 & 0.0098 & 0.0152 & 7e-04 & 0.0221 & 0.0416 & 0.0421 & 0.0558 & 0.0203 & 0.0026 & 0 \\
-  3 Dec. & 0.0013 & 0.0146 & 0.0241 & 0.0018 & 0.0289 & 0.0582 & 0.0485 & 0.0624 & 0.0278 & 0.0045 & 5 \\
-  4 Dec. & 0.003 & 0.0193 & 0.0348 & 0.0032 & 0.0348 & 0.072 & 0.0586 & 0.0707 & 0.0372 & 0.0067 & 16 \\
-  5 Dec. & 0.0065 & 0.0256 & 0.0476 & 0.005 & 0.0434 & 0.09 & 0.0745 & 0.0814 & 0.0481 & 0.0094 & 29 \\
-  6 Dec. & 0.0127 & 0.0341 & 0.0636 & 0.0074 & 0.0555 & 0.1105 & 0.091 & 0.096 & 0.0614 & 0.0131 & 45 \\
-  7 Dec. & 0.0217 & 0.0457 & 0.0846 & 0.0111 & 0.0719 & 0.1366 & 0.1141 & 0.1168 & 0.0793 & 0.0184 & 66 \\
-  8 Dec. & 0.0368 & 0.0641 & 0.1167 & 0.0184 & 0.0985 & 0.172 & 0.1492 & 0.1488 & 0.105 & 0.0272 & 100 \\
-  9 Dec. & 0.0726 & 0.0983 & 0.1751 & 0.0343 & 0.154 & 0.233 & 0.2128 & 0.2106 & 0.1494 & 0.0442 & 173 \\
-  Min. & 0 & 0 & 0 & 0 & 1e-04 & 4e-04 & 5e-04 & 1e-04 & 0 & 0 & 0 \\
-  Median & 0.0065 & 0.0256 & 0.0476 & 0.005 & 0.0434 & 0.09 & 0.0745 & 0.0814 & 0.0481 & 0.0094 & 29 \\
-  Mean & 0.02541 & 0.04438 & 0.07584 & 0.01372 & 0.06991 & 0.11617 & 0.104 & 0.11462 & 0.0692 & 0.01805 & 72 \\
-  Max. & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 7607 \\
-  Std. Dev. & 0.0491 & 0.0579 & 0.0874 & 0.0279 & 0.0783 & 0.0917 & 0.0869 & 0.0978 & 0.0685 & 0.027 & 146 \\
-  Skew & 4.656 & 4.555 & 2.807 & 7.041 & 3.201 & 1.963 & 2.462 & 3.439 & 2.824 & 5.692 & 8 \\
-  Kurtosis & 38.08 & 37.81 & 14.82 & 95.45 & 17.83 & 8.72 & 11.84 & 18.48 & 17.2 & 72.96 & 152 \\
-   \hline
+10\% Dec. & 0.0001 & 0.0075 & 0.0079 & 0.0002 & 0.0144 & 0.0319 & 0.0374 & 0.0508 & 0.0127 & 0.0011 &    0 \\ 
+  20\% Dec. & 0.0004 & 0.0098 & 0.0152 & 0.0007 & 0.0221 & 0.0416 & 0.0421 & 0.0558 & 0.0203 & 0.0026 &    0 \\ 
+  30\% Dec. & 0.0013 & 0.0146 & 0.0241 & 0.0018 & 0.0289 & 0.0582 & 0.0485 & 0.0624 & 0.0278 & 0.0045 &    5 \\ 
+  40\% Dec. & 0.0030 & 0.0193 & 0.0348 & 0.0032 & 0.0348 & 0.0720 & 0.0586 & 0.0707 & 0.0372 & 0.0067 &   16 \\ 
+  50\% Dec. & 0.0065 & 0.0256 & 0.0476 & 0.0050 & 0.0434 & 0.0900 & 0.0745 & 0.0814 & 0.0481 & 0.0094 &   29 \\ 
+  60\% Dec. & 0.0127 & 0.0341 & 0.0636 & 0.0074 & 0.0555 & 0.1105 & 0.0910 & 0.0960 & 0.0614 & 0.0131 &   45 \\ 
+  70\% Dec. & 0.0217 & 0.0457 & 0.0846 & 0.0111 & 0.0719 & 0.1366 & 0.1141 & 0.1168 & 0.0793 & 0.0184 &   66 \\ 
+  80\% Dec. & 0.0368 & 0.0641 & 0.1167 & 0.0184 & 0.0985 & 0.1720 & 0.1492 & 0.1488 & 0.1050 & 0.0272 &  100 \\ 
+  90\% Dec. & 0.0726 & 0.0983 & 0.1751 & 0.0343 & 0.1540 & 0.2330 & 0.2128 & 0.2106 & 0.1494 & 0.0442 &  173 \\
+    \arrayrulecolor{gray!50}\hline 
+  Min. & 0.0000 & 0.0000 & 0.0000 & 0.0000 & 0.0001 & 0.0004 & 0.0005 & 0.0001 & 0.0000 & 0.0000 &    0 \\ 
+  Median & 0.0065 & 0.0256 & 0.0476 & 0.0050 & 0.0434 & 0.0900 & 0.0745 & 0.0814 & 0.0481 & 0.0094 &   29 \\ 
+  Mean & 0.0254 & 0.0444 & 0.0758 & 0.0137 & 0.0699 & 0.1162 & 0.1040 & 0.1146 & 0.0692 & 0.0181 &   72 \\ 
+  Max. & 1.0000 & 1.0000 & 1.0000 & 1.0000 & 1.0000 & 1.0000 & 1.0000 & 1.0000 & 1.0000 & 1.0000 & 7607 \\ 
+  Std. Dev. & 0.0491 & 0.0579 & 0.0874 & 0.0279 & 0.0783 & 0.0917 & 0.0869 & 0.0978 & 0.0685 & 0.0270 &  146 \\ 
+  Skew & 4.656 & 4.555 & 2.807 & 7.041 & 3.201 & 1.963 & 2.462 & 3.439 & 2.824 & 5.692 &    8 \\ 
+  Kurtosis & 38.08 & 37.81 & 14.82 & 95.45 & 17.83 & 8.72 & 11.84 & 18.48 & 17.20 & 72.96 &  152 \\ 
+\arrayrulecolor{black}\hline
 \end{tabular}}
 \end{table}
 
@@ -441,10 +539,10 @@ Table~\ref{summary} shows the summary statistics for the numerical variables in 
 
 
 %%%%%%%%%%%%
-\begin{longtable}[H]{|l|c|}
-\caption[Summary of cateogrical variables]{Summary statistics for categorical variables in the PMD.}\label{categorical}
-\endfirsthead
-\endhead
+\begin{table}[H]
+\centering
+\caption[Summary of categorical variables]{Summary statistics for categorical variables in the PMD.}\label{categorical}
+\begin{tabular}{|l|l|}
 \hline
 \textbf{Variable}  & \textbf{Counts}  \\
 \hline
@@ -482,7 +580,8 @@ Table~\ref{summary} shows the summary statistics for the numerical variables in 
 \indent\indent \textit{Not suppressed (0)} & 484,309 \\
 \indent\indent \textit{Info. Suppressed (1)} & 5,367 \\
 \hline
-\end{longtable}
+\end{tabular}
+\end{table}
 
 
 
@@ -502,6 +601,16 @@ The distributions of the proximity scores for all amenities are heavily right-sk
 \includegraphics[width=\textwidth]{./distributions/compare_distributions.png}
 \caption[Comparison of distributions]{Distribution of the proximity measure to primary education services before and after log-transformation.}\label{comparedist}
 \end{figure}
+
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{./distributions/logtransform.png}
+\caption[Log-transform]{A line plot showing the log function with several different bases.}\label{logtransform}
+\end{figure}
+
 
 
 
@@ -645,7 +754,7 @@ We have applied many clustering algorithms, the details of which are outlined in
  & Emp. & Pharm. & Child. & Health. & Groc. & Pri. Educ. & Sec. Educ. & Lib. & Parks & Transit \\
   \hline
 Quintiles & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 \\
-  Min/Max & 5 & 3 & 3 & 4 & 3 & 3 & 2 & 2 & 3 & 4 \\
+  Minima identification & 5 & 3 & 3 & 4 & 3 & 3 & 2 & 2 & 3 & 4 \\
   HDBSCAN & 2 & 3 & 2 & 2 & 3 & 4 & 3 & 4 & 2 & 2 \\
   MixAll & 2 & 2 & 2 & 2 & 2 & 2 & 3 & 2 & 2 & 2 \\
   MCLUST & 9 & 7 & 3 & 4 & 3 & 7 & 8 & 7 & 8 & 3 \\
@@ -668,10 +777,10 @@ Quintiles & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 \\
 
 % latex table generated in R 3.6.3 by xtable 1.8-4 package
 % Fri Jun  9 10:09:08 2023
-\begin{longtable}[H]{|r|llll|}
-\caption[Primary education validation metrics]{ The validation metric values for each clustering approach for the primary education amenity.}\label{prieducmetrics}
-\endfirsthead
-\endhead
+\begin{table}[H]
+\centering
+\caption[Primary education validation metrics]{The validation metric values for each clustering approach for the primary education amenity.}\label{prieducmetrics}
+\resizebox{0.6\textwidth}{!}{\begin{tabular}{|r|llll|}
   \hline
  & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
   \hline
@@ -685,9 +794,11 @@ PAM k-means & \cellcolor{gray!25} 0.59 & 0.00038 & 15239 & 0.66 \\
    \hline
 MCLUST & 0.46 & \cellcolor{gray!25} 0.00043 & \cellcolor{gray!25} 18424 & 0.65 \\
    \hline
-Min/Max & 0.45 & 0.00015 &  2853 & \cellcolor{gray!25} 0.64 \\
+Minima identification & 0.45 & 0.00015 &  2853 & \cellcolor{gray!25} 0.64 \\
    \hline
-\end{longtable}
+\end{tabular}
+}
+\end{table}
 
 
 
@@ -699,7 +810,7 @@ Min/Max & 0.45 & 0.00015 &  2853 & \cellcolor{gray!25} 0.64 \\
 
 
 
-
+\justifying
 \subsubsection{Cluster Profiles}
 
 
@@ -721,9 +832,9 @@ Entire Population & 225,359 (100.0\%) & 61 & 0.12 & CMA (65.6\%) & Ontario (24.3
  \rowcolor{gray!25} Quintiles C3 & 45,503 (20.2\%) & 60 & 0.12 & CMA (65.4\%) & Ontario (24.9\%) & Low (84.6\%) & 0.090 & 0.0720 - 0.1105 \\
 \rowcolor{gray!25}  Quintiles C4 & 45,120 (20.0\%) & 67 & 0.11 & CMA (73.7\%) & Ontario (29.9\%) & Low (77.3\%) & 0.137 & 0.1105 - 0.1720 \\
  \rowcolor{gray!25} Quintiles C5 & 45,104 (20.0\%) & 77 & 0.10 & CMA (79.3\%) & Ontario (29.9\%) & Low (61.9\%) & 0.233 & 0.1720 - 1 \\
-  Min/Max C1 & 57,009 (25.3\%) & 47 & 0.15 & CMA (52.6\%) & Ontario (17.1\%) & Low (92.9\%) & 0.034 & 0 - 0.0497 \\
-  Min/Max C2 & 45,865 (20.4\%) & 53 & 0.14 & CMA (59.7\%) & Ontario (21.2\%) & Low (88.4\%) & 0.066 & 0.0497 - 0.0817 \\
-  Min/Max C3 & 122,485 (54.4\%) & 69 & 0.11 & CMA (73.9\%) & Ontario (28.8\%) & Low (73.3\%) & 0.146 & 0.0817 - 1 \\
+  Minima identification C1 & 57,009 (25.3\%) & 47 & 0.15 & CMA (52.6\%) & Ontario (17.1\%) & Low (92.9\%) & 0.034 & 0 - 0.0497 \\
+  Minima identification C2 & 45,865 (20.4\%) & 53 & 0.14 & CMA (59.7\%) & Ontario (21.2\%) & Low (88.4\%) & 0.066 & 0.0497 - 0.0817 \\
+  Minima identification C3 & 122,485 (54.4\%) & 69 & 0.11 & CMA (73.9\%) & Ontario (28.8\%) & Low (73.3\%) & 0.146 & 0.0817 - 1 \\
  \rowcolor{gray!25} HDBSCAN C1 & 50,263 (22.3\%) & 47 & 0.15 & CMA (53.0\%) & Ontario (17.2\%) & Low (93.0\%) & 0.033 & 0 - 0.0449 \\
 \rowcolor{gray!25}  HDBSCAN C2 & 113,383 (50.3\%) & 59 & 0.12 & CMA (64.3\%) & Ontario (24.3\%) & Low (84.9\%) & 0.085 & 0.0449 - 0.1449 \\
  \rowcolor{gray!25} HDBSCAN C3 & 35,780 (15.9\%) & 70 & 0.11 & CMA (76.4\%) & Ontario (29.9\%) & Low (71.8\%) & 0.174 & 0.1449 - 0.2204 \\
@@ -772,21 +883,493 @@ Entire Population & 225,359 (100.0\%) & 61 & 0.12 & CMA (65.6\%) & Ontario (24.3
 \section{Analysis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In this section, we provide an analysis of the segmentation results for the primary education amenity. For the interpretation of all other amenities, please see section~\ref{appendix:analysis} of the Appendix.
-
-
-\subsection{Comparison of Approaches}
-
-The number of clusters identified for the primary education amenity varies considerably between algorithms. While MixAll and PAM k-means find only two clusters, MCLUST finds seven. While the majority of the cutoff values also vary between algorithms, there is some consistency. For example, the min/max method and HDBSCAN seem to agree as to the cutoff value between clusters 1 and 2. Additionally, min/max, MixAll and PAM k-means are all able to find the density sparse region around 0.082 (figure~\ref{prieduccutoffs}). Despite the overall variation in cutoff values between approaches, there is not one algorithm that clearly outcompetes the others. This can be seen by comparing the different approaches using common clustering validation metrics (table~\ref{prieducmetrics}). MixAll and PAM k-means maximize the silhouette coefficient, whereas MCLUST maximizes the Dunn and Calinski Harabasz indices. Finally, the min/max method minimizes the Davies Bouldin index. Therefore, it is unclear which algorithm produces the `best’ cutoff values.
-
-
-
-
+In this section, we provide an analysis of the segmentation results for the primary education amenity. %For the interpretation of all other amenities, please see section~\ref{appendix:analysis} of the Appendix.
+In general, when analyzing various amenities and their clustering results, a pattern emerges where the median proximity measure or cluster range is directly related to the median DB population and median IoR. As the proximity measure or range increases, the median DB population also tends to increase and median IoR tends to decrease. This pattern suggests that areas with higher population tend to be less remote and have better access to amenities.
+\par
+However, it's important to note that this pattern may not hold true for every clustering technique in all amenities. In the case of amenities like pharmacies, the clustering results obtained from MCLUST may not precisely follow this pattern for the median DB population. This discrepancy could be attributed to MCLUST identifying multiple clusters, some of which may be relatively small in terms of no of observations included in that cluster, resulting in a narrower range of data and affecting the representation of the median.
+\par
+Overall, while the general trend of increasing median DB population with higher proximity measures holds across multiple amenities and clustering techniques, there may be variations and exceptions in specific cases, particularly when the clustering results include small clusters with limited population.
+\par
+Moreover, upon examining table~\ref{employmentprofiles} to table~\ref{transitprofiles}, it becomes evident that all amenities demonstrate a low mode of amenity density for the entire population of Canada. This observation holds true not only for the overall population but also for the majority of individual clusters. This aligns with the findings from the EDA, which indicated that approximately 90\% of the DBs in Canada exhibit a low level of amenity density.
 
 
 
-\subsection{Interpretation of Cluster Profiles}
+\pagebreak
+\subsection{Employment}
 
+In Figure~\ref{employmentbarplot} in the appendix, we can see that the methods provide mostly different numbers of groups at different cutoff points. Mclust has a lot more cutoffs, providing nine almost balanced groups, in terms of number of DBs. The fourth cutoff for Mclust is close to the cutoffs for PAM k-means and MixAll, but the Minima identification and the HBDSCAN methods do not find a cutoff at that value. The HDBSCAN only settled on one cutoff, which is different from all other methods: Mclust's last cutoff comes the closest to it. The Minima identification cutoffs seem to all be concentrated almost within the second group of Mclust cutoffs. Whether they are statistically equal or similar is a different question, whose answer cannot be answered with a visual assessment. It makes sense that PAM k-means and MixAll find similar cutoffs, as the algorithms are similar.
+\par
+Overall, we can see how the proportions of DBs and proportions of total population in each cluster differs across methods. We see that MixAll and PAM k-means have similar proportions of both in their two clusters. We can also see that in the Quintiles method, there are equal number of DBs per cluster, as that is what the method is by definition. Despite that, we see that the proportions of population are not equal, but each subsequent cluster contains greater proportions of population. This is not exactly the case for every amenity. This suggests that for Employment, the DBs that have higher proximity values also have higher populations on average than the DBs with lower proximity values to employment. This trend is similar for all the methods: groups with larger proximities hold generally a larger proportion of the population than the proportion of DBs.
+\par
+Table~\ref{employmentprofiles} shows the summary statistics for every cluster. We see that the summary statistics differ across groups. For the most part, the median population of each cluster increases as the median proximity score increases, suggesting that areas with higher employment proximity scores generally also have higher populations. The median Index of Remoteness generally decreases as the median proximity score increases.
+\par
+Table~\ref{employmentvalid} shows the validation metric values for each clustering approach. The best Silhouette coefficient is from the HDBSCAN method, which also has the best Davies Bouldin index. The best Dunn index is from the PAM k-means (followed closely by the MixAll), and the best Calinski Harabasz is from the Mclust method.
+\par
+Overall, it seems that for the employment amenity, the cutoff values are not similar across methods and the validation metrics don’t have a consensus, suggesting that the proximity measures are not easily grouped algorithmically. However, the groups are somewhat characteristically distinct.
+
+
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./barplot_comparison/Employment_barplot.png}
+\caption[Employment profile barplot]{Proportion of DBs and population in each cluster for all approaches for the employment amenity.}\label{employmentbarplot}
+\end{figure}
+
+
+
+
+
+\begin{table}[H]
+\centering
+\caption[Employment validation metrics]{The validation metric values for each clustering approach for the employment amenity.}\label{employmentvalid}
+\resizebox{0.6\textwidth}{!}{
+\begin{tabular}{|r|llll|}
+  \hline
+ & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
+  \hline
+Quintiles & 0.35 & 0.00000 &  3545 & 0.95 \\
+   \hline
+MixAll & 0.62 & 0.00492 & 35404 & 0.60 \\
+   \hline
+HDBSCAN & \cellcolor{gray!25} 0.69 & 0.00338 &  3656 & \cellcolor{gray!25} 0.40 \\
+   \hline
+PAM k-means & 0.63 & \cellcolor{gray!25} 0.00498 & 36372 & 0.59 \\
+   \hline
+MCLUST & 0.59 & 0.00126 & \cellcolor{gray!25} 98539 & 0.56 \\
+   \hline
+Minima identification & 0.60 & 0.00014 &   256 & 1.01 \\
+   \hline
+\end{tabular}
+}
+\end{table}
+
+
+
+
+
+\begin{table}[H]
+\centering
+\caption[Employment cluster profiles]{Summary statistics for each cluster found by all approaches for the employment amenity. DB Population, IoR and proximity value show the median, while CMA Type, Province and Amenity Dense show the mode.}\label{employmentprofiles}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|r|llllllll|}
+  \hline
+ & \# of DBs & DB Population & Median IoR & CMA Type & Province & Amenity Dense & Employment & Range \\
+  \hline
+Entire Population & 423,602 (100.0\%) & 38 & 0.16 & CMA (48.3\%) & Ontario (18.2\%) & Low (90.1\%) & 0.006 & 0 - 1 \\
+\rowcolor{gray!25}  Quintiles C1 & 78,014 (18.4\%) & 10 & 0.29 & None (80.9\%) & NovaScotia (6.5\%) & Low (100.0\%) & 0.000 & 0 - 4e-04 \\
+ \rowcolor{gray!25} Quintiles C2 & 89,705 (21.2\%) & 23 & 0.24 & None (69.6\%) & Ontario (9.2\%) & Low (99.9\%) & 0.001 & 4e-04 - 0.0030 \\
+\rowcolor{gray!25}  Quintiles C3 & 85,928 (20.3\%) & 41 & 0.20 & CMA (34.2\%) & Ontario (12.7\%) & Low (97.8\%) & 0.006 & 0.0030 - 0.0127 \\
+\rowcolor{gray!25}  Quintiles C4 & 85,096 (20.1\%) & 65 & 0.11 & CMA (79.7\%) & Ontario (26.9\%) & Low (89.9\%) & 0.022 & 0.0127 - 0.0368 \\
+\rowcolor{gray!25}  Quintiles C5 & 84,859 (20.0\%) & 83 & 0.06 & CMA (99.5\%) & Ontario (37.2\%) & Low (62.8\%) & 0.072 & 0.0368 - 1 \\
+  Minima identification C1 & 29,831 (7.0\%) & 5 & 0.32 & None (83.6\%) & NovaScotia (8.8\%) & Low (100.0\%) & 0.000 & 0 - 0.0000 \\
+  Minima identification C2 & 22,179 (5.2\%) & 10 & 0.30 & None (81.2\%) & NovaScotia (5.6\%) & Low (100.0\%) & 0.000 & 0.0000 - 2e-04 \\
+  Minima identification C3 & 14,893 (3.5\%) & 10 & 0.27 & None (78.3\%) & Ontario (6.7\%) & Low (100.0\%) & 0.000 & 2e-04 - 3e-04 \\
+  Minima identification C4 & 26,887 (6.3\%) & 17 & 0.23 & None (75.4\%) & Ontario (8.6\%) & Low (100.0\%) & 0.000 & 3e-04 - 5e-04 \\
+  Minima identification C5 & 329,812 (77.9\%) & 50 & 0.14 & CMA (59.1\%) & Ontario (21.9\%) & Low (87.2\%) & 0.014 & 5e-04 - 1 \\
+\rowcolor{gray!25}  HDBSCAN C1 & 419,062 (98.9\%) & 38 & 0.16 & CMA (47.7\%) & Ontario (17.9\%) & Low (90.9\%) & 0.006 & 0 - 0.2298 \\
+\rowcolor{gray!25}  HDBSCAN C2 & 4,540 (1.1\%) & 122 & 0.03 & CMA (100.0\%) & Ontario (44.9\%) & Med (45.9\%) & 0.292 & 0.2298 - 1 \\
+  MixAll C1 & 179,334 (42.3\%) & 16 & 0.27 & None (73.6\%) & Ontario (7.2\%) & Low (99.9\%) & 0.000 & 0 - 0.0036 \\
+  MixAll C2 & 244,268 (57.7\%) & 63 & 0.11 & CMA (73.3\%) & Ontario (26.3\%) & Low (82.8\%) & 0.023 & 0.0036 - 1 \\
+\rowcolor{gray!25}  MCLUST C1 & 29,831 (7.0\%) & 5 & 0.32 & None (83.6\%) & NovaScotia (8.8\%) & Low (100.0\%) & 0.000 & 0 - 0.0000 \\
+\rowcolor{gray!25}  MCLUST C2 & 56,902 (13.4\%) & 10 & 0.27 & None (78.6\%) & Ontario (6.3\%) & Low (100.0\%) & 0.000 & 0.0000 - 4e-04 \\
+ \rowcolor{gray!25} MCLUST C3 & 39,730 (9.4\%) & 20 & 0.24 & None (72.7\%) & Ontario (9.4\%) & Low (99.9\%) & 0.001 & 4e-04 - 0.0012 \\
+ \rowcolor{gray!25} MCLUST C4 & 48,188 (11.4\%) & 27 & 0.25 & None (64.2\%) & Ontario (9.3\%) & Low (99.7\%) & 0.002 & 0.0012 - 0.0033 \\
+ \rowcolor{gray!25} MCLUST C5 & 53,628 (12.7\%) & 38 & 0.21 & None (37.2\%) & Ontario (11.3\%) & Low (98.5\%) & 0.005 & 0.0033 - 0.0085 \\
+\rowcolor{gray!25}  MCLUST C6 & 64,056 (15.1\%) & 57 & 0.14 & CMA (61.2\%) & Ontario (19.1\%) & Low (93.8\%) & 0.014 & 0.0085 - 0.0206 \\
+ \rowcolor{gray!25} MCLUST C7 & 69,082 (16.3\%) & 71 & 0.10 & CMA (91.8\%) & Ontario (34.7\%) & Low (85.2\%) & 0.032 & 0.0206 - 0.0518 \\
+\rowcolor{gray!25}  MCLUST C8 & 51,824 (12.2\%) & 82 & 0.06 & CMA (99.8\%) & Ontario (36.4\%) & Low (63.8\%) & 0.081 & 0.0518 - 0.1629 \\
+ \rowcolor{gray!25} MCLUST C9 & 10,361 (2.4\%) & 118 & 0.03 & CMA (100.0\%) & Quebec (37.9\%) & Med (46.0\%) & 0.219 & 0.1629 - 1 \\
+  PAM k-means C1 & 177,804 (42.0\%) & 16 & 0.27 & None (73.8\%) & Ontario (7.1\%) & Low (99.9\%) & 0.000 & 0 - 0.0035 \\
+  PAM k-means C2 & 245,798 (58.0\%) & 62 & 0.11 & CMA (73.0\%) & Ontario (26.2\%) & Low (82.9\%) & 0.023 & 0.0035 - 1 \\
+   \hline
+\end{tabular}
+}
+\end{table}
+
+
+
+
+
+\pagebreak
+\justifying
+\subsection{Pharmacy}
+
+In Figure~\ref{pharmacybarplot} of the appendix, we see again how for the most part, cutoff values across methods do not align. It seems like the first Minima identification and HDBSCAN cutoffs are close with the third Mclust cutoff, which may indicate robustness. Again, the MixAll cutoff is nearly identical to the PAM k-means cutoff. HDBSCAN’s second cutoff is somewhat close to Mclust’s 6th cutoff. In this case, Mclust settles on some very small groups amongst other more equi-sized. We see that overall, the proportions of population in each cluster are similar to the proportions of DBs in each cluster.
+\par
+In Table~\ref{pharmacyprofiles}, we see that the median IoR for each group is more constant, especially relative to the Employment median IoR. The case is similar for the median population. We also see that in every group, the majority CMA type is CMA. This suggests that the proximity measures for the Pharmacy amenity are not as correlated to the populations or remoteness, and the groups are not characteristically distinct from each other.
+\par
+Table~\ref{pharmacyvalid} shows the validation metric values for each clustering approach. The best Silhouette coefficient is tied amongst the MixAll and the PAM k-means methods. MixAll performs the best according to all the other metrics, although the PAM k-means values are pretty similar, which was expected given the results from Table~\ref{pharmacyprofiles} and Figure~\ref{pharmacybarplot}.
+\par
+Overall, the cutoff values are not similar to each other apart from a few and the groups are not characteristically distinct, suggesting that the pharmacy proximity measures are not distinctly groupable. The method with the best validation metrics is the MixAll algorithm, which only provides 2 groups.
+
+
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./barplot_comparison/Pharmacy_barplot.png}
+\caption[Pharmacy profile barplot]{Proportion of DBs and population in each cluster for all approaches for the pharmacy amenity.}\label{pharmacybarplot}
+\end{figure}
+
+
+
+
+
+\centering
+\begin{table}[H]
+\centering
+\caption[Pharmacy validation metrics]{The validation metric values for each clustering approach for the pharmacy amenity.}\label{pharmacyvalid}
+\resizebox{0.6\textwidth}{!}{
+\begin{tabular}{|r|llll|}
+  \hline
+ & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
+  \hline
+Quintiles & 0.43 & 0.00000 &  1409 &  1.01 \\
+   \hline
+MixAll & \cellcolor{gray!25} 0.59 & \cellcolor{gray!25} 0.00105 & \cellcolor{gray!25}12007 & \cellcolor{gray!25} 0.66 \\
+   \hline
+HDBSCAN & 0.44 & 0.00000 &  4571 &  0.80 \\
+   \hline
+PAM k-means & \cellcolor{gray!25} 0.59 & 0.00084 & 11854 &  0.67 \\
+   \hline
+MCLUST & 0.48 & 0.00020 &  4928 & 25.17 \\
+   \hline
+Minima identification & 0.38 & 0.00010 &   639 &  0.80 \\
+   \hline
+\end{tabular}
+}
+\end{table}
+
+
+
+
+\begin{table}[H]
+\centering
+\caption[Pharmacy cluster profiles]{Summary statistics for each cluster found by all approaches for the pharmacy amenity. DB Population, IoR and proximity value show the median, while CMA Type, Province and Amenity Dense show the mode.}\label{pharmacyprofiles}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|r|llllllll|}
+  \hline
+ & \# of DBs & DB Population & Median IoR & CMA Type & Province & Amenity Dense & Pharmacy & Range \\
+  \hline
+Entire Population & 178,521 (100.0\%) & 63 & 0.11 & CMA (71.7\%) & Ontario (27.4\%) & Low (76.4\%) & 0.026 & 0 - 1 \\
+ \rowcolor{gray!25} Quintiles C1 & 34,980 (19.6\%) & 60 & 0.13 & CMA (64.1\%) & Ontario (21.8\%) & Low (91.5\%) & 0.007 & 0 - 0.0098 \\
+ \rowcolor{gray!25} Quintiles C2 & 36,365 (20.4\%) & 60 & 0.12 & CMA (66.8\%) & Ontario (24.4\%) & Low (88.7\%) & 0.014 & 0.0098 - 0.0193 \\
+ \rowcolor{gray!25} Quintiles C3 & 35,730 (20.0\%) & 63 & 0.11 & CMA (72.1\%) & Ontario (28.5\%) & Low (81.3\%) & 0.026 & 0.0193 - 0.0341 \\
+\rowcolor{gray!25}  Quintiles C4 & 35,697 (20.0\%) & 66 & 0.11 & CMA (75.0\%) & Ontario (30.9\%) & Low (72.0\%) & 0.046 & 0.0341 - 0.0641 \\
+ \rowcolor{gray!25} Quintiles C5 & 35,749 (20.0\%) & 71 & 0.08 & CMA (80.3\%) & Ontario (31.6\%) & Low (48.5\%) & 0.098 & 0.0641 - 1 \\
+  Minima identification C1 & 41,305 (23.1\%) & 59 & 0.13 & CMA (63.9\%) & Ontario (22.0\%) & Low (91.6\%) & 0.008 & 0 - 0.0114 \\
+  Minima identification C2 & 30,505 (17.1\%) & 60 & 0.11 & CMA (67.7\%) & Ontario (24.7\%) & Low (87.9\%) & 0.015 & 0.0114 - 0.0195 \\
+  Minima identification C3 & 106,711 (59.8\%) & 66 & 0.11 & CMA (75.8\%) & Ontario (30.3\%) & Low (67.2\%) & 0.046 & 0.0195 - 1 \\
+\rowcolor{gray!25}  HDBSCAN C1 & 42,510 (23.8\%) & 59 & 0.13 & CMA (63.9\%) & Ontario (22.0\%) & Low (91.6\%) & 0.008 & 0 - 0.0118 \\
+\rowcolor{gray!25}  HDBSCAN C2 & 90,111 (50.5\%) & 63 & 0.11 & CMA (71.5\%) & Ontario (27.9\%) & Low (81.2\%) & 0.025 & 0.0118 - 0.0525 \\
+\rowcolor{gray!25}  HDBSCAN C3 & 45,900 (25.7\%) & 70 & 0.09 & CMA (79.2\%) & Ontario (31.5\%) & Low (52.9\%) & 0.085 & 0.0525 - 1 \\
+  MixAll C1 & 91,454 (51.2\%) & 60 & 0.12 & CMA (66.7\%) & Ontario (24.1\%) & Low (88.6\%) & 0.013 & 0 - 0.0265 \\
+  MixAll C2 & 87,067 (48.8\%) & 67 & 0.10 & CMA (77.0\%) & Ontario (30.9\%) & Low (63.6\%) & 0.055 & 0.0265 - 1 \\
+ \rowcolor{gray!25} MCLUST C1 & 3,222 (1.8\%) & 70 & 0.14 & CMA (60.5\%) & Ontario (20.7\%) & Low (93.5\%) & 0.006 & 0 - 0.0064 \\
+ \rowcolor{gray!25} MCLUST C2 & 35,979 (20.2\%) & 59 & 0.13 & CMA (64.3\%) & Ontario (22.0\%) & Low (91.4\%) & 0.008 & 0.0064 - 0.0108 \\
+ \rowcolor{gray!25} MCLUST C3 & 2,075 (1.2\%) & 56 & 0.13 & CMA (61.8\%) & Ontario (23.1\%) & Low (92.8\%) & 0.011 & 0.0108 - 0.0114 \\
+ \rowcolor{gray!25} MCLUST C4 & 26,864 (15.0\%) & 60 & 0.11 & CMA (67.5\%) & Ontario (24.7\%) & Low (88.1\%) & 0.015 & 0.0114 - 0.0181 \\
+ \rowcolor{gray!25} MCLUST C5 & 37,376 (20.9\%) & 62 & 0.11 & CMA (71.8\%) & Ontario (28.1\%) & Low (82.0\%) & 0.025 & 0.0181 - 0.0332 \\
+ \rowcolor{gray!25} MCLUST C6 & 30,077 (16.8\%) & 65 & 0.11 & CMA (74.9\%) & Ontario (30.8\%) & Low (73.1\%) & 0.042 & 0.0332 - 0.0554 \\
+ \rowcolor{gray!25} MCLUST C7 & 42,928 (24.0\%) & 70 & 0.09 & CMA (79.5\%) & Ontario (31.5\%) & Low (51.8\%) & 0.088 & 0.0554 - 1 \\
+  PAM k-means C1 & 90,986 (51.0\%) & 60 & 0.12 & CMA (66.6\%) & Ontario (24.1\%) & Low (88.7\%) & 0.013 & 0 - 0.0263 \\
+  PAM k-means C2 & 87,535 (49.0\%) & 67 & 0.10 & CMA (77.0\%) & Ontario (30.9\%) & Low (63.7\%) & 0.055 & 0.0263 - 1 \\
+   \hline
+\end{tabular}
+}
+\end{table}
+
+
+
+
+
+
+
+
+
+\pagebreak
+\justifying
+\subsection{Child care}
+
+In Figure~\ref{childcarebarplot} we see the proportion of DBs and population in each cluster for each method. We again can observe that most cutoff values don’t align with each other. Again, the MixAll and the PAM k-means are matching. The first HBSCAN and Minima identification cutoffs are otherwise the only ones somewhat aligned. The Mclust cutoff aligns with the third Quintile cutoff, but since the Quintile method is blind to the data, it isn’t of any significance. We see that the proportions of population are somewhat shifted relative to the proportion of DBs, suggesting that there may be slight differences in populations correlated with differences in proximity values.
+\par
+Table~\ref{childcareprofiles} shows the summary statistics for each method and cluster for the Childcare amenity. An anomaly lies in the MCLUST C1: the median population is much larger. The number of DBs is also very small; it may be indicative that other cluster’s medians are affected by a large number of DBs with very small populations.The median IoR seem to be dissimilar in different groups as the median proximity value increases. The CMA types of clusters with lower proximity values are of majority type not CMA, whereas those with higher proximity values in majority CMA types.
+\par
+Table~\ref{childcarevalid} shows the validation metric values for each clustering approach. MCLUST has the best Silhouette coefficient (MixAll runner up) and the best Davies Bouldin index (MixAll runner up).  PAM-means has the best Dunn index (MixAll runner up), and MixAll the best Calinski Harabasz value (PAM k-means runner up). These results suggest that since MixAll is consistently in the top 2 relative to the other methods, it may be the best, even though it only finds 2 groups.
+\par
+Overall, the cutoff values are mostly dissimilar from each other, but the groups do hold different characteristics from each other, suggesting that the proximity values may be clusterable using different methods and/or in cohort with additional variables.
+
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./barplot_comparison/Child care_barplot.png}
+\caption[Child care profile barplot]{Proportion of DBs and population in each cluster for all approaches for the child care amenity.}\label{childcarebarplot}
+\end{figure}
+
+
+
+
+\centering
+\begin{table}[H]
+\centering
+\caption[Child care validation metrics]{The validation metric values for each clustering approach for the child care amenity.}\label{childcarevalid}
+\resizebox{0.6\textwidth}{!}{
+\begin{tabular}{|r|llll|}
+ \hline
+ & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
+  \hline
+Quintiles & 0.44 & 0.00000 &  3696 & 0.79 \\
+   \hline
+MixAll & 0.58 & 0.00067 & \cellcolor{gray!25} 15949 & 0.67 \\
+   \hline
+HDBSCAN & 0.44 & 0.00000 &  3854 & 1.77 \\
+   \hline
+PAM k-means & 0.57 & \cellcolor{gray!25} 0.00072 & 15190 & 0.69 \\
+   \hline
+MCLUST & \cellcolor{gray!25} 0.60 & 0.00032 &  9951 & \cellcolor{gray!25} 0.64 \\
+   \hline
+Minima identification & 0.40 & 0.00011 &   543 & 0.76 \\
+   \hline
+\end{tabular}
+}
+\end{table}
+
+
+
+
+\begin{table}[H]
+\centering
+\caption[Child care cluster profiles]{Summary statistics for each cluster found by all approaches for the child care amenity. DB Population, IoR and proximity value show the median, while CMA Type, Province and Amenity Dense show the mode.}\label{childcareprofiles}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|r|llllllll|}
+  \hline
+ & \# of DBs & DB Population & Median IoR & CMA Type & Province & Amenity Dense & Childcare & Range \\
+  \hline
+Entire Population & 243,964 (100.0\%) & 62 & 0.11 & CMA (68.3\%) & Ontario (23.9\%) & Low (82.7\%) & 0.048 & 0 - 1 \\
+ \rowcolor{gray!25} Quintiles C1 & 48,703 (20.0\%) & 41 & 0.18 & CMA (46.5\%) & Ontario (20.9\%) & Low (96.2\%) & 0.008 & 0 - 0.0152 \\
+ \rowcolor{gray!25} Quintiles C2 & 48,757 (20.0\%) & 55 & 0.13 & CMA (60.8\%) & Ontario (29.4\%) & Low (91.3\%) & 0.024 & 0.0152 - 0.0348 \\
+\rowcolor{gray!25}  Quintiles C3 & 48,909 (20.0\%) & 66 & 0.11 & CMA (71.5\%) & Ontario (28.3\%) & Low (84.4\%) & 0.048 & 0.0348 - 0.0636 \\
+ \rowcolor{gray!25} Quintiles C4 & 48,776 (20.0\%) & 69 & 0.11 & CMA (77.0\%) & Ontario (23.8\%) & Low (78.4\%) & 0.085 & 0.0636 - 0.1167 \\
+\rowcolor{gray!25}  Quintiles C5 & 48,819 (20.0\%) & 80 & 0.08 & CMA (85.7\%) & Quebec (35.3\%) & Low (63.4\%) & 0.175 & 0.1167 - 1 \\
+  Minima identification C1 & 26,274 (10.8\%) & 40 & 0.19 & CMA (43.6\%) & Ontario (18.9\%) & Low (96.9\%) & 0.006 & 0 - 0.0084 \\
+  Minima identification C2 & 18,663 (7.6\%) & 43 & 0.16 & CMA (49.7\%) & Ontario (23.2\%) & Low (95.4\%) & 0.011 & 0.0084 - 0.0139 \\
+  Minima identification C3 & 199,027 (81.6\%) & 67 & 0.11 & CMA (73.3\%) & Ontario (24.6\%) & Low (79.7\%) & 0.062 & 0.0139 - 1 \\
+ \rowcolor{gray!25} HDBSCAN C1 & 27,765 (11.4\%) & 40 & 0.19 & CMA (43.5\%) & Ontario (18.9\%) & Low (96.9\%) & 0.006 & 0 - 0.0090 \\
+\rowcolor{gray!25}  HDBSCAN C2 & 216,199 (88.6\%) & 65 & 0.11 & CMA (71.5\%) & Ontario (24.5\%) & Low (80.9\%) & 0.056 & 0.0090 - 1 \\
+  MixAll C1 & 100,768 (41.3\%) & 49 & 0.15 & CMA (54.1\%) & Ontario (25.3\%) & Low (93.5\%) & 0.016 & 0 - 0.0363 \\
+  MixAll C2 & 143,196 (58.7\%) & 71 & 0.11 & CMA (78.3\%) & Ontario (22.9\%) & Low (75.2\%) & 0.086 & 0.0363 - 1 \\
+\rowcolor{gray!25}  MCLUST C1 & 172 (0.1\%) & 231 & 0.29 & None (66.9\%) & Quebec (8.7\%) & Low (100.0\%) & 0.001 & 0 - 0.0019 \\
+\rowcolor{gray!25}  MCLUST C2 & 150,501 (61.7\%) & 55 & 0.14 & CMA (60.1\%) & Ontario (26.2\%) & Low (90.3\%) & 0.025 & 0.0019 - 0.0669 \\
+ \rowcolor{gray!25} MCLUST C3 & 93,291 (38.2\%) & 74 & 0.10 & CMA (81.6\%) & Quebec (22.7\%) & Low (70.5\%) & 0.120 & 0.0669 - 1 \\
+  PAM k-means C1 & 100,954 (41.4\%) & 49 & 0.15 & CMA (54.1\%) & Ontario (25.3\%) & Low (93.5\%) & 0.016 & 0 - 0.0364 \\
+  PAM k-means C2 & 143,010 (58.6\%) & 71 & 0.11 & CMA (78.3\%) & Ontario (22.8\%) & Low (75.1\%) & 0.086 & 0.0364 - 1 \\
+   \hline
+\end{tabular}
+}
+\end{table}
+
+
+
+
+
+
+\pagebreak
+\justifying
+\subsection{Health care}
+
+In Figure~\ref{healthcarebarplot} we see the proportion of DBs and population in each cluster for each method for the Healthcare amenity. In this case, it seems like none of the cutoffs align across methods: even the MixAll and PAM k-means don’t exactly agree, although they are still close to each other. The Minima identification method finds most clusters at lower proximity values, whereas the HDBSCAN’s cutoff is at a high proximity value. It seems like cutoffs for the population proportions are shifted left relative to the proportions of DBs, suggesting a trend with the population values and proximity values.
+\par
+Table~\ref{healthcareprofiles} shows the summary statistics for each cluster. In this case, there are many cases where the majority CMA type is not CMA. The median population seem to differ across groups, as well as the median IoR. The proportion of DBs within groups is not constant, as we had seen in Figure~\ref{healthcarebarplot}.
+\par
+Table~\ref{healthcarevalid} shows the validation metric values for each clustering approach. HDBSCAN has the best silhouette coefficient by over 9 points as well as the best Davies-Bouldin result. The PAMk-means has the best Dunn index, although the MixAll method’s value follows closely. The Mclust algorithm has the best Calinski Harabasz measure.
+\par
+Overall, the cutoff values are mostly dissimilar from each other and the validation metrics mostly don’t agree with each other, but the groups do hold different characteristics from each other, suggesting that the proximity values may be clusterable using different methods and/or in cohort with additional variables.
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./barplot_comparison/Health care_barplot.png}
+\caption[Health care profile barplot]{Proportion of DBs and population in each cluster for all approaches for the health care amenity.}\label{healthcarebarplot}
+\end{figure}
+
+
+
+
+
+\centering
+\begin{table}[H]
+\centering
+\caption[Health care validation metrics]{The validation metric values for each clustering approach for the health care amenity.}\label{healthcarevalid}
+\resizebox{0.6\textwidth}{!}{
+\begin{tabular}{|r|llll|}
+  \hline
+ & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
+  \hline
+Quintiles & 0.39 & 0.00000 &  1724 & 1.13 \\
+   \hline
+MixAll & 0.58 & 0.00707 & 18546 & 0.68 \\
+   \hline
+HDBSCAN & \cellcolor{gray!25} 0.73 & \cellcolor{gray!25} 0.00291 &  2260 & \cellcolor{gray!25} 0.35 \\
+   \hline
+PAM k-means & 0.59 & 0.00779 & 18858 & 0.66 \\
+   \hline
+MCLUST & 0.52 & 0.00234 & \cellcolor{gray!25} 23477 & 0.64 \\
+   \hline
+Minima identification & 0.64 & 0.00015 &   103 & 1.01 \\
+   \hline
+\end{tabular}
+}
+\end{table}
+
+
+
+
+\begin{table}[H]
+\centering
+\caption[Health care cluster profiles]{Summary statistics for each cluster found by all approaches for the health care amenity. DB Population, IoR and proximity value show the median, while CMA Type, Province and Amenity Dense show the mode.}\label{healthcareprofiles}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|r|llllllll|}
+  \hline
+ & \# of DBs & DB Population & Median IoR & CMA Type & Province & Amenity Dense & Healthcare & Range \\
+  \hline
+Entire Population & 300,465 (100.0\%) & 55 & 0.13 & CMA (62.2\%) & Ontario (22.8\%) & Low (86.0\%) & 0.005 & 0 - 1 \\
+\rowcolor{gray!25}  Quintiles C1 & 56,525 (18.8\%) & 26 & 0.20 & None (48.0\%) & Ontario (12.1\%) & Low (99.7\%) & 0.000 & 0 - 7e-04 \\
+\rowcolor{gray!25}  Quintiles C2 & 61,910 (20.6\%) & 48 & 0.15 & CMA (50.9\%) & Ontario (15.4\%) & Low (97.1\%) & 0.002 & 7e-04 - 0.0032 \\
+ \rowcolor{gray!25} Quintiles C3 & 61,500 (20.5\%) & 66 & 0.11 & CMA (69.5\%) & Ontario (25.6\%) & Low (91.7\%) & 0.005 & 0.0032 - 0.0074 \\
+ \rowcolor{gray!25} Quintiles C4 & 60,378 (20.1\%) & 65 & 0.11 & CMA (71.4\%) & Ontario (28.7\%) & Low (83.4\%) & 0.011 & 0.0074 - 0.0184 \\
+ \rowcolor{gray!25} Quintiles C5 & 60,152 (20.0\%) & 71 & 0.10 & CMA (85.2\%) & Ontario (31.7\%) & Low (58.5\%) & 0.034 & 0.0184 - 1 \\
+  Minima identification C1 & 14,556 (4.8\%) & 23 & 0.19 & None (56.5\%) & Ontario (14.7\%) & Low (99.8\%) & 0.000 & 0 - 0.0000 \\
+  Minima identification C2 & 14,259 (4.7\%) & 26 & 0.20 & None (48.7\%) & Ontario (12.6\%) & Low (99.8\%) & 0.000 & 0.0000 - 2e-04 \\
+  Minima identification C3 & 8,086 (2.7\%) & 26 & 0.20 & None (44.4\%) & Ontario (11.4\%) & Low (99.6\%) & 0.000 & 2e-04 - 3e-04 \\
+  Minima identification C4 & 263,564 (87.7\%) & 60 & 0.12 & CMA (66.6\%) & Ontario (24.2\%) & Low (84.1\%) & 0.006 & 3e-04 - 1 \\
+ \rowcolor{gray!25} HDBSCAN C1 & 295,804 (98.4\%) & 54 & 0.13 & CMA (61.7\%) & Ontario (22.6\%) & Low (87.0\%) & 0.005 & 0 - 0.1052 \\
+\rowcolor{gray!25}  HDBSCAN C2 & 4,661 (1.6\%) & 102 & 0.03 & CMA (95.4\%) & Ontario (38.3\%) & Med (43.5\%) & 0.142 & 0.1052 - 1 \\
+  MixAll C1 & 106,196 (35.3\%) & 35 & 0.19 & None (40.2\%) & Ontario (13.2\%) & Low (98.7\%) & 0.001 & 0 - 0.0025 \\
+  MixAll C2 & 194,269 (64.7\%) & 67 & 0.11 & CMA (74.4\%) & Ontario (28.1\%) & Low (79.0\%) & 0.010 & 0.0025 - 1 \\
+\rowcolor{gray!25}  MCLUST C1 & 36,901 (12.3\%) & 25 & 0.20 & None (50.8\%) & Ontario (13.2\%) & Low (99.7\%) & 0.000 & 0 - 2e-04 \\
+\rowcolor{gray!25}  MCLUST C2 & 87,182 (29.0\%) & 44 & 0.16 & CMA (48.3\%) & Ontario (14.6\%) & Low (97.4\%) & 0.001 & 2e-04 - 0.0034 \\
+ \rowcolor{gray!25} MCLUST C3 & 74,409 (24.8\%) & 67 & 0.11 & CMA (70.5\%) & Ontario (26.7\%) & Low (90.2\%) & 0.006 & 0.0034 - 0.0093 \\
+ \rowcolor{gray!25} MCLUST C4 & 101,973 (33.9\%) & 68 & 0.10 & CMA (79.4\%) & Ontario (30.5\%) & Low (68.1\%) & 0.022 & 0.0093 - 1 \\
+  PAM k-means C1 & 99,871 (33.2\%) & 34 & 0.19 & None (41.2\%) & Ontario (12.9\%) & Low (98.9\%) & 0.000 & 0 - 0.0022 \\
+  PAM k-means C2 & 200,594 (66.8\%) & 66 & 0.11 & CMA (73.8\%) & Ontario (27.8\%) & Low (79.6\%) & 0.010 & 0.0022 - 1 \\
+   \hline
+\end{tabular}
+}
+\end{table}
+
+
+
+
+
+
+
+\pagebreak
+\justifying
+\subsection{Grocery}
+
+Looking at the summary statistics in Table~\ref{groceryprofiles} for the grocery amenity, we observe that the first cluster cutoffs are quite similar among the Minima identification, HDBSCAN, and PAM k-means clustering approaches. The cutoffs range from 0 to 0.0121, 0 to 0.0124, and 0 to 0.0113, respectively. Consequently, these clusters also exhibit similar numbers of DBs and DB population, as shown in Figure~\ref{grocerybarplot}. However, these techniques do not agree on the cutoffs for the remaining data.
+\par
+On the other hand, the quintiles technique simply divides the data into five equal parts, which does not align with the cutoffs obtained from any other clustering techniques. Similarly, the Mixall clustering cutoffs do not match with those of any other technique for any of the clusters.
+\par
+Table~\ref{groceryvalid} provides insights into the performance metrics, such as the Silhouette coefficient and Calinski Harabasz. Silhouette coefficient and Dunn index suggest that the MCLUST algorithm clusters the grocery amenity data better, dividing it into three groups. On the other hand, the Calinski Harabasz and Davies Bouldin indices favor PAM k-means as the better performer, clustering the grocery amenity into eight groups. Interestingly, the first cluster identified by PAM k-means is further divided into two clusters by MCLUST, while the rest of the data, where MCLUST identifies only one cluster, is separated into seven clusters by PAM k-means.
+\par
+Based on this analysis, it strongly suggests that cluster 1 should have a cutoff range of 0 to 0.0113, as suggested by the Pam Kmeans technique. This suggestion is supported by the validation from two metrics indicating its better performance and also almost matches with the cutoff range of the first cluster identified by the other two clustering techniques (Minima identification and HDBSCAN). However, for the remaining data, none of the techniques agree on the cutoffs, indicating a lack of consensus.
+
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./barplot_comparison/Grocery_barplot.png}
+\caption[Grocery profile barplot]{Proportion of DBs and population in each cluster for all approaches for the grocery amenity.}\label{grocerybarplot}
+\end{figure}
+
+
+
+
+\centering
+\begin{table}[H]
+\centering
+\caption[Grocery validation metrics]{The validation metric values for each clustering approach for the grocery amenity.}\label{groceryvalid}
+\resizebox{0.6\textwidth}{!}{
+\begin{tabular}{|r|llll|}
+  \hline
+ & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
+  \hline
+Quintiles & 0.40 & 0.00000 &  1787 & 0.83 \\
+   \hline
+MixAll & 0.55 & 0.00071 &  7461 & 0.76 \\
+   \hline
+HDBSCAN & 0.49 & 0.00000 &  1953 & 1.16 \\
+   \hline
+PAM k-means & 0.56 & 0.00070 & \cellcolor{gray!25} 19255 & \cellcolor{gray!25} 0.58 \\
+   \hline
+MCLUST & \cellcolor{gray!25} 0.59 & \cellcolor{gray!25} 0.00115 &  1960 & 0.69 \\
+   \hline
+Minima identification & 0.38 & 0.00013 &   220 & 0.82 \\
+   \hline
+\end{tabular}
+}
+\end{table}
+
+
+
+
+\begin{table}[H]
+\centering
+\caption[Grocery cluster profiles]{Summary statistics for each cluster found by all approaches for the grocery amenity. DB Population, IoR and proximity value show the median, while CMA Type, Province and Amenity Dense show the mode.}\label{groceryprofiles}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|r|llllllll|}
+  \hline
+ & \# of DBs & DB Population & Median IoR & CMA Type & Province & Amenity Dense & Grocery & Range \\
+  \hline
+Entire Population & 141,063 (100.0\%) & 61 & 0.11 & CMA (69.3\%) & Ontario (25.1\%) & Low (70.1\%) & 0.043 & 0 - 1 \\
+ \rowcolor{gray!25} Quintiles C1 & 27,762 (19.7\%) & 65 & 0.11 & CMA (71.9\%) & Ontario (28.1\%) & Low (81.9\%) & 0.014 & 0 - 0.0221 \\
+ \rowcolor{gray!25} Quintiles C2 & 28,569 (20.3\%) & 56 & 0.13 & CMA (61.3\%) & Ontario (23.2\%) & Low (80.6\%) & 0.029 & 0.0221 - 0.0348 \\
+ \rowcolor{gray!25} Quintiles C3 & 28,266 (20.0\%) & 58 & 0.12 & CMA (64.6\%) & Ontario (25.1\%) & Low (74.7\%) & 0.043 & 0.0348 - 0.0555 \\
+ \rowcolor{gray!25} Quintiles C4 & 28,248 (20.0\%) & 58 & 0.11 & CMA (68.5\%) & Ontario (24.9\%) & Low (67.3\%) & 0.072 & 0.0555 - 0.0985 \\
+ \rowcolor{gray!25} Quintiles C5 & 28,218 (20.0\%) & 74 & 0.08 & CMA (80.3\%) & Ontario (24.5\%) & Low (46.2\%) & 0.154 & 0.0985 - 1 \\
+  Minima identification C1 & 11,600 (8.2\%) & 67 & 0.11 & CMA (73.5\%) & Ontario (28.6\%) & Low (82.5\%) & 0.009 & 0 - 0.0121 \\
+  Minima identification C2 & 10,766 (7.6\%) & 66 & 0.11 & CMA (72.7\%) & Ontario (28.9\%) & Low (81.6\%) & 0.016 & 0.0121 - 0.0185 \\
+  Minima identification C3 & 118,697 (84.1\%) & 60 & 0.11 & CMA (68.6\%) & Ontario (24.5\%) & Low (67.9\%) & 0.053 & 0.0185 - 1 \\
+\rowcolor{gray!25}  HDBSCAN C1 & 11,799 (8.4\%) & 67 & 0.11 & CMA (73.4\%) & Ontario (28.5\%) & Low (82.6\%) & 0.009 & 0 - 0.0124 \\
+ \rowcolor{gray!25} HDBSCAN C2 & 89,898 (63.7\%) & 58 & 0.12 & CMA (65.2\%) & Ontario (25.0\%) & Low (76.8\%) & 0.035 & 0.0124 - 0.0763 \\
+\rowcolor{gray!25}  HDBSCAN C3 & 39,366 (27.9\%) & 69 & 0.10 & CMA (77.4\%) & Ontario (24.5\%) & Low (51.2\%) & 0.126 & 0.0763 - 1 \\
+  MixAll C1 & 77,110 (54.7\%) & 60 & 0.12 & CMA (66.0\%) & Ontario (25.4\%) & Low (79.9\%) & 0.027 & 0 - 0.0484 \\
+  MixAll C2 & 63,953 (45.3\%) & 64 & 0.11 & CMA (73.3\%) & Ontario (24.8\%) & Low (58.4\%) & 0.090 & 0.0484 - 1 \\
+\rowcolor{gray!25}  MCLUST C1 & 1,615 (1.1\%) & 77 & 0.11 & CMA (66.8\%) & Ontario (27.1\%) & Low (85.8\%) & 0.007 & 0 - 0.0072 \\
+\rowcolor{gray!25}  MCLUST C2 & 9,542 (6.8\%) & 66 & 0.11 & CMA (74.8\%) & Ontario (28.9\%) & Low (81.9\%) & 0.009 & 0.0072 - 0.0117 \\
+ \rowcolor{gray!25} MCLUST C3 & 129,906 (92.1\%) & 61 & 0.11 & CMA (68.9\%) & Ontario (24.9\%) & Low (69.1\%) & 0.048 & 0.0117 - 1 \\
+  PAM k-means C1 & 10,674 (7.6\%) & 68 & 0.11 & CMA (73.8\%) & Ontario (28.6\%) & Low (82.6\%) & 0.008 & 0 - 0.0113 \\
+  PAM k-means C2 & 12,384 (8.8\%) & 66 & 0.11 & CMA (72.6\%) & Ontario (28.8\%) & Low (81.5\%) & 0.016 & 0.0113 - 0.0189 \\
+  PAM k-means C3 & 15,758 (11.2\%) & 55 & 0.14 & CMA (60.9\%) & Ontario (23.2\%) & Low (81.8\%) & 0.023 & 0.0189 - 0.0275 \\
+  PAM k-means C4 & 25,218 (17.9\%) & 57 & 0.13 & CMA (63.1\%) & Ontario (24.0\%) & Low (79.0\%) & 0.033 & 0.0275 - 0.0389 \\
+  PAM k-means C5 & 22,468 (15.9\%) & 58 & 0.12 & CMA (65.2\%) & Ontario (25.2\%) & Low (73.4\%) & 0.047 & 0.0389 - 0.0574 \\
+  PAM k-means C6 & 23,558 (16.7\%) & 58 & 0.11 & CMA (68.2\%) & Ontario (24.8\%) & Low (67.8\%) & 0.071 & 0.0574 - 0.0919 \\
+  PAM k-means C7 & 18,749 (13.3\%) & 67 & 0.10 & CMA (75.1\%) & Ontario (25.7\%) & Low (56.1\%) & 0.119 & 0.0919 - 0.1674 \\
+  PAM k-means C8 & 12,254 (8.7\%) & 85 & 0.06 & CMA (86.1\%) & Quebec (31.8\%) & Med (40.8\%) & 0.232 & 0.1674 - 1 \\
+   \hline
+\end{tabular}
+}
+\end{table}
+
+
+
+
+
+
+\pagebreak
+\justifying
+\subsection{Primary Education}
+
+The number of clusters identified for the primary education amenity varies considerably between algorithms. While MixAll and PAM k-means find only two clusters, MCLUST finds seven. While the majority of the cutoff values also vary between algorithms, there is some consistency. For example, the Minima identification method and HDBSCAN seem to agree as to the cutoff value between clusters 1 and 2. Additionally, Minima identification, MixAll and PAM k-means are all able to find the density sparse region around 0.082 (figure~\ref{prieduccutoffs}). Despite the overall variation in cutoff values between approaches, there is not one algorithm that clearly outcompetes the others. This can be seen by comparing the different approaches using common clustering validation metrics (table~\ref{prieducmetrics}). MixAll and PAM k-means maximize the silhouette coefficient, whereas MCLUST maximizes the Dunn and Calinski Harabasz indices. Finally, the Minima identification method minimizes the Davies Bouldin index. Therefore, it is unclear which algorithm produces the `best’ cutoff values.
+\par
 Table~\ref{prieducprofile} shows that proximity to primary education is highest in densely populated cities. This is supported by the fact that clusters with higher proximity to primary education also have: a higher percentage of DBs in CMAs, a lower percentage of low amenity dense DBs, and a lower median IoR. Another interesting trend is that clusters with increased proximity to primary education also have more DBs in Ontario. This is likely because Ontario has a higher percentage of DBs in CMAs. Indeed, Ottawa and Toronto are found in Ontario.
 \par
 While the mode of the categorical variables remains the same for most clusters, MCLUST is able to identify a unique cluster of DBs that does not follow the consensus. MCLUST’s cluster 1 seems to be finding a small number of DBs that are rural (non-CMA), decently populated, and spread out fairly evenly across all of Canada. 100\% of these DBs have low amenity density, and their proximity to primary education is the lowest of any cluster identified. While this cluster consists of only a very small percentage of the total number of DBs, the profile of this cluster differs significantly enough to be considered a valid, unique cluster.
@@ -799,6 +1382,382 @@ While the mode of the categorical variables remains the same for most clusters, 
 
 
 \pagebreak
+\justifying
+\subsection{Secondary Education}
+
+By analyzing the summary statistics in Table~\ref{seceducprofiles} for the secondary education amenity, we find that HDBSCAN and PAM k-means show similar cutoffs for cluster 1, ranging from 0 to 0.0576 and 0 to 0.0557, respectively. Consequently, both approaches exhibit similar numbers of DBs and population in Figure~\ref{seceducbarplot} for this cluster. However, for the remaining data, the cutoffs do not align. While HDBSCAN identifies two additional clusters, PAM k-means finds three clusters, and the cutoffs for these clusters are different.
+\par
+Examining the performance metrics in Table~\ref{seceducvalid} for this amenity, the Silhouette coefficient suggests that the MixAll method performs better in clustering. However, the Dunn index and Calinski Harabasz index favor PAM k-means, while the Davies Bouldin index suggests MCLUST.
+\par
+Based on this analysis, it suggests that cluster 1 for the secondary education amenity should have a cutoff range of approximately 0 to 0.0557, as suggested by PAM k-means. This suggestion is supported by the validation from two metrics and is also consistent with HDBSCAN. However, for the remaining data, there is no consensus among the techniques regarding the cutoffs.
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./barplot_comparison/Secondary Education_barplot.png}
+\caption[Secondary education profile barplot]{Proportion of DBs and population in each cluster for all approaches for the secondary education amenity.}\label{seceducbarplot}
+\end{figure}
+
+
+
+
+
+\centering
+\begin{table}[H]
+\centering
+\caption[Secondary education validation metrics]{The validation metric values for each clustering approach for the secondary education amenity.}\label{seceducvalid}
+\resizebox{0.6\textwidth}{!}{
+\begin{tabular}{|r|llll|}
+  \hline
+ & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
+  \hline
+Quintiles & 0.44 & 0.00000 &  2686 & 0.75 \\
+   \hline
+MixAll & \cellcolor{gray!25} 0.58 & 0.00028 & 13920 & 0.63 \\
+   \hline
+HDBSCAN & 0.41 & 0.00018 &  2710 & 1.37 \\
+   \hline
+PAM k-means & 0.56 & \cellcolor{gray!25} 0.00178 & \cellcolor{gray!25} 16406 & 0.62 \\
+   \hline
+MCLUST & 0.48 & 0.00040 &  7936 & \cellcolor{gray!25} 0.59 \\
+   \hline
+Minima identification & 0.44 & 0.00052 &  2306 & 0.71 \\
+   \hline
+\end{tabular}
+}
+\end{table}
+
+
+
+
+\begin{table}[H]
+\centering
+\caption[Secondary education cluster profiles]{Summary statistics for each cluster found by all approaches for the secondary education amenity. DB Population, IoR and proximity value show the median, while CMA Type, Province and Amenity Dense show the mode.}\label{seceducprofiles}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|r|llllllll|}
+  \hline
+ & \# of DBs & DB Population & Median IoR & CMA Type & Province & Amenity Dense & Sec. Educ. & Range \\
+  \hline
+Entire Population & 141,213 (100.0\%) & 58 & 0.14 & CMA (62.5\%) & Ontario (18.2\%) & Low (77.2\%) & 0.074 & 0 - 1 \\
+ \rowcolor{gray!25} Quintiles C1 & 28,202 (20.0\%) & 58 & 0.13 & CMA (63.4\%) & Ontario (25.6\%) & Low (82.8\%) & 0.037 & 0 - 0.0421 \\
+\rowcolor{gray!25}  Quintiles C2 & 28,226 (20.0\%) & 55 & 0.14 & CMA (60.1\%) & Ontario (23.5\%) & Low (82.7\%) & 0.048 & 0.0421 - 0.0586 \\
+\rowcolor{gray!25}  Quintiles C3 & 28,260 (20.0\%) & 53 & 0.15 & CMA (58.4\%) & Ontario (18.6\%) & Low (80.7\%) & 0.074 & 0.0586 - 0.0910 \\
+\rowcolor{gray!25}  Quintiles C4 & 28,273 (20.0\%) & 58 & 0.14 & CMA (62.7\%) & Ontario (14.2\%) & Low (74.0\%) & 0.114 & 0.0910 - 0.1492 \\
+\rowcolor{gray!25}  Quintiles C5 & 28,252 (20.0\%) & 67 & 0.11 & CMA (67.6\%) & BritishColumbia (23.8\%) & Low (66.0\%) & 0.213 & 0.1492 - 1 \\
+  Minima identification C1 & 63,449 (44.9\%) & 56 & 0.14 & CMA (61.0\%) & Ontario (24.2\%) & Low (82.9\%) & 0.043 & 0 - 0.0661 \\
+  Minima identification C2 & 77,764 (55.1\%) & 60 & 0.14 & CMA (63.7\%) & BritishColumbia (15.5\%) & Low (72.6\%) & 0.122 & 0.0661 - 1 \\
+ \rowcolor{gray!25} HDBSCAN C1 & 55,741 (39.5\%) & 57 & 0.13 & CMA (61.8\%) & Ontario (24.6\%) & Low (82.8\%) & 0.042 & 0 - 0.0576 \\
+ \rowcolor{gray!25} HDBSCAN C2 & 25,135 (17.8\%) & 53 & 0.15 & CMA (58.0\%) & Ontario (19.1\%) & Low (81.3\%) & 0.072 & 0.0576 - 0.0863 \\
+ \rowcolor{gray!25} HDBSCAN C3 & 60,337 (42.7\%) & 62 & 0.14 & CMA (64.9\%) & BritishColumbia (17.8\%) & Low (70.4\%) & 0.143 & 0.0863 - 1 \\
+  MixAll C1 & 61,440 (43.5\%) & 56 & 0.13 & CMA (61.2\%) & Ontario (24.3\%) & Low (82.9\%) & 0.043 & 0 - 0.0632 \\
+  MixAll C2 & 48,748 (34.5\%) & 56 & 0.14 & CMA (60.8\%) & Ontario (16.2\%) & Low (77.0\%) & 0.092 & 0.0632 - 0.1409 \\
+  MixAll C3 & 31,025 (22.0\%) & 66 & 0.11 & CMA (67.4\%) & BritishColumbia (23.2\%) & Low (66.5\%) & 0.204 & 0.1409 - 1 \\
+\rowcolor{gray!25}  MCLUST C1 & 3,273 (2.3\%) & 62 & 0.14 & CMA (61.3\%) & Ontario (24.4\%) & Low (84.8\%) & 0.034 & 0 - 0.0346 \\
+ \rowcolor{gray!25} MCLUST C2 & 996 (0.7\%) & 62 & 0.12 & CMA (65.4\%) & Ontario (28.7\%) & Low (80.9\%) & 0.035 & 0.0346 - 0.0347 \\
+\rowcolor{gray!25}  MCLUST C3 & 28,454 (20.1\%) & 57 & 0.13 & CMA (63.4\%) & Ontario (25.5\%) & Low (82.5\%) & 0.039 & 0.0347 - 0.0438 \\
+ \rowcolor{gray!25} MCLUST C4 & 27,303 (19.3\%) & 54 & 0.14 & CMA (59.1\%) & Ontario (23.0\%) & Low (83.0\%) & 0.051 & 0.0438 - 0.0618 \\
+ \rowcolor{gray!25} MCLUST C5 & 20,457 (14.5\%) & 53 & 0.15 & CMA (58.3\%) & Ontario (18.6\%) & Low (81.0\%) & 0.074 & 0.0618 - 0.0855 \\
+ \rowcolor{gray!25} MCLUST C6 & 11,341 (8.0\%) & 56 & 0.15 & CMA (61.1\%) & Ontario (16.3\%) & Low (76.5\%) & 0.093 & 0.0855 - 0.1011 \\
+\rowcolor{gray!25}  MCLUST C7 & 19,329 (13.7\%) & 59 & 0.14 & CMA (63.1\%) & Ontario (13.7\%) & Low (73.3\%) & 0.120 & 0.1011 - 0.1434 \\
+\rowcolor{gray!25}  MCLUST C8 & 30,060 (21.3\%) & 67 & 0.11 & CMA (67.5\%) & BritishColumbia (23.4\%) & Low (66.3\%) & 0.207 & 0.1434 - 1 \\
+  PAM k-means C1 & 53,475 (37.9\%) & 57 & 0.13 & CMA (62.0\%) & Ontario (24.8\%) & Low (82.7\%) & 0.041 & 0 - 0.0557 \\
+  PAM k-means C2 & 37,062 (26.2\%) & 54 & 0.15 & CMA (58.7\%) & Ontario (18.5\%) & Low (80.3\%) & 0.076 & 0.0557 - 0.0990 \\
+  PAM k-means C3 & 30,221 (21.4\%) & 59 & 0.14 & CMA (63.5\%) & BritishColumbia (15.4\%) & Low (72.5\%) & 0.129 & 0.0990 - 0.1783 \\
+  PAM k-means C4 & 20,455 (14.5\%) & 69 & 0.11 & CMA (68.9\%) & BritishColumbia (25.2\%) & Low (64.3\%) & 0.243 & 0.1783 - 1 \\
+   \hline
+\end{tabular}
+}
+\end{table}
+
+
+
+
+
+
+
+\pagebreak
+\justifying
+\subsection{Library}
+
+Analyzing the summary statistics in Table~\ref{libraryprofiles} for the library amenity, we observe that MixAll and PAM k-means have similar cutoffs for the first cluster, ranging from 0 to 0.0993 and 0 to 0.0943, respectively. Additionally, both clustering techniques suggest the presence of 2 clusters, indicating a similar cutoff for cluster 2 as well. On the other hand, HDBSCAN identifies the first cluster in the range of 0 to 0.0546, which aligns with MCLUST if we combine the first three clusters of MCLUST with a cutoff range of 0 to 0.0538. The fourth cluster from MCLUST is similar to HDBSCAN if we combine HDBSCAN's cluster 2 and 3. For the remaining data, HDBSCAN identifies only one cluster, while MCLUST finds 3 additional clusters. Apart from MixAll and PAM k-means, none of the other techniques agree with each other in terms of the number of clusters. Furthermore, the cutoffs are not the same, although some of them may be similar by default or when combining multiple clusters into one for comparison with other techniques.
+\par
+Upon examining the validation metrics in Table~\ref{libraryvalid}, we find that the Silhouette coefficient, Dunn index, and Davies Bouldin index suggest that the Minima identification algorithm performs better in clustering this amenity, dividing the data into 2 groups. However, the Calinski Harabasz index suggests that MixAll performs better, also clustering the data into 2 groups, but with significantly different cutoffs compared to the Minima identification algorithm.
+\par
+Based on this analysis, it suggests that the cutoff for the first cluster may be around 0.0538, and the cutoff for the second cluster may be near 0.0682, as both MCLUST and HDBSCAN find cutoffs in close proximity to these values. The cutoff for the third cluster may be near 0.0993, as PAM k-means, MCLUST, and MixAll identify cutoffs in the vicinity of this value.
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./barplot_comparison/Library_barplot.png}
+\caption[Library profile barplot]{Proportion of DBs and population in each cluster for all approaches for the library amenity.}\label{librarybarplot}
+\end{figure}
+
+
+
+
+\centering
+\begin{table}[H]
+\centering
+\caption[Library validation metrics]{The validation metric values for each clustering approach for the library amenity.}\label{libraryvalid}
+\resizebox{0.6\textwidth}{!}{
+\begin{tabular}{|r|llll|}
+ \hline
+ & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
+  \hline
+Quintiles & 0.43 & 0.00000 & 1386 & 0.84 \\
+   \hline
+MixAll & 0.58 & 0.00243 & \cellcolor{gray!25} 7174 & 0.70 \\
+   \hline
+HDBSCAN & 0.47 & 0.00028 & 1395 & 0.69 \\
+   \hline
+PAM k-means & 0.57 & 0.00320 & 6138 & 0.73 \\
+   \hline
+MCLUST & 0.49 & 0.00167 & 4323 & 0.68 \\
+   \hline
+Minima identification & \cellcolor{gray!25} 0.88 & \cellcolor{gray!25} 0.01046 & 1546 & \cellcolor{gray!25} 0.16 \\
+   \hline
+\end{tabular}
+}
+\end{table}
+
+
+
+
+
+
+\begin{table}[H]
+\centering
+\caption[Library cluster profiles]{Summary statistics for each cluster found by all approaches for the library amenity. DB Population, IoR and proximity value show the median, while CMA Type, Province and Amenity Dense show the mode.}\label{libraryprofiles}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|r|llllllll|}
+  \hline
+ & \# of DBs & DB Population & Median IoR & CMA Type & Province & Amenity Dense & Library & Range \\
+  \hline
+Entire Population & 112,655 (100.0\%) & 48 & 0.14 & CMA (54.4\%) & Ontario (21.4\%) & Low (62.6\%) & 0.081 & 0 - 1 \\
+\rowcolor{gray!25}  Quintiles C1 & 21,995 (19.5\%) & 61 & 0.12 & CMA (63.2\%) & Ontario (24.0\%) & Low (64.7\%) & 0.050 & 0 - 0.0558 \\
+\rowcolor{gray!25}  Quintiles C2 & 22,988 (20.4\%) & 56 & 0.13 & CMA (59.6\%) & Ontario (23.3\%) & Low (63.8\%) & 0.062 & 0.0558 - 0.0707 \\
+ \rowcolor{gray!25} Quintiles C3 & 21,932 (19.5\%) & 48 & 0.15 & CMA (52.1\%) & Ontario (20.6\%) & Low (63.2\%) & 0.080 & 0.0707 - 0.0960 \\
+ \rowcolor{gray!25} Quintiles C4 & 23,117 (20.5\%) & 44 & 0.15 & CMA (51.1\%) & Ontario (20.4\%) & Low (60.1\%) & 0.116 & 0.0960 - 0.1488 \\
+ \rowcolor{gray!25} Quintiles C5 & 22,623 (20.1\%) & 33 & 0.17 & CMA (45.8\%) & Ontario (18.8\%) & Low (61.3\%) & 0.211 & 0.1488 - 1 \\
+  Minima identification C1 & 111,546 (99.0\%) & 48 & 0.14 & CMA (54.6\%) & Ontario (21.5\%) & Low (62.5\%) & 0.080 & 0 - 0.6149 \\
+  Minima identification C2 & 1,109 (1.0\%) & 19 & 0.22 & None (49.4\%) & Ontario (14.1\%) & Low (71.2\%) & 0.719 & 0.6149 - 1 \\
+\rowcolor{gray!25}  HDBSCAN C1 & 20,209 (17.9\%) & 62 & 0.12 & CMA (63.3\%) & Ontario (24.1\%) & Low (64.7\%) & 0.050 & 0 - 0.0546 \\
+\rowcolor{gray!25}  HDBSCAN C2 & 18,620 (16.5\%) & 56 & 0.13 & CMA (60.3\%) & Ontario (23.5\%) & Low (63.9\%) & 0.060 & 0.0546 - 0.0658 \\
+\rowcolor{gray!25}  HDBSCAN C3 & 4,331 (3.8\%) & 55 & 0.13 & CMA (58.9\%) & Ontario (22.7\%) & Low (63.9\%) & 0.067 & 0.0658 - 0.0691 \\
+ \rowcolor{gray!25} HDBSCAN C4 & 69,495 (61.7\%) & 42 & 0.15 & CMA (49.9\%) & Ontario (20.0\%) & Low (61.6\%) & 0.115 & 0.0691 - 1 \\
+  MixAll C1 & 69,474 (61.7\%) & 55 & 0.14 & CMA (58.0\%) & Ontario (22.5\%) & Low (63.8\%) & 0.063 & 0 - 0.0993 \\
+  MixAll C2 & 43,181 (38.3\%) & 38 & 0.15 & CMA (48.4\%) & Ontario (19.6\%) & Low (60.6\%) & 0.152 & 0.0993 - 1 \\
+\rowcolor{gray!25}  MCLUST C1 & 268 (0.2\%) & 114 & 0.30 & None (83.6\%) & NovaScotia (3.4\%) & Low (100.0\%) & 0.029 & 0 - 0.0417 \\
+\rowcolor{gray!25}  MCLUST C2 & 6,381 (5.7\%) & 63 & 0.11 & CMA (65.7\%) & Ontario (25.2\%) & Low (64.4\%) & 0.048 & 0.0417 - 0.0488 \\
+\rowcolor{gray!25}  MCLUST C3 & 11,854 (10.5\%) & 60 & 0.12 & CMA (63.3\%) & Ontario (23.9\%) & Low (64.1\%) & 0.051 & 0.0488 - 0.0538 \\
+ \rowcolor{gray!25} MCLUST C4 & 23,791 (21.1\%) & 56 & 0.13 & CMA (60.2\%) & Ontario (23.5\%) & Low (63.9\%) & 0.060 & 0.0538 - 0.0682 \\
+ \rowcolor{gray!25} MCLUST C5 & 22,881 (20.3\%) & 49 & 0.14 & CMA (53.2\%) & Ontario (20.9\%) & Low (63.1\%) & 0.079 & 0.0682 - 0.0927 \\
+\rowcolor{gray!25}  MCLUST C6 & 13,289 (11.8\%) & 45 & 0.15 & CMA (50.7\%) & Ontario (19.9\%) & Low (61.5\%) & 0.103 & 0.0927 - 0.1163 \\
+\rowcolor{gray!25}  MCLUST C7 & 34,191 (30.4\%) & 36 & 0.16 & CMA (47.6\%) & Ontario (19.4\%) & Low (60.6\%) & 0.170 & 0.1163 - 1 \\
+  PAM k-means C1 & 66,047 (58.6\%) & 55 & 0.13 & CMA (58.5\%) & Ontario (22.7\%) & Low (63.9\%) & 0.062 & 0 - 0.0943 \\
+  PAM k-means C2 & 46,608 (41.4\%) & 38 & 0.15 & CMA (48.5\%) & Ontario (19.6\%) & Low (60.8\%) & 0.146 & 0.0943 - 1 \\
+   \hline
+\end{tabular}
+}
+\end{table}
+
+
+
+
+
+
+
+\pagebreak
+\justifying
+\subsection{Parks}
+
+Examining Table~\ref{parksprofiles} for the parks amenity, we observe that MixAll and PAM k-means have similar cutoffs for the first cluster, ranging from 0 to 0.0447 and 0 to 0.0450, respectively. Additionally, both techniques find only 2 clusters, indicating a similar result for cluster 2 as well. MCLUST also identifies a cutoff near this range, but it consists of 3 clusters within the 0 to 0.0463 range. MCLUST further finds 5 other clusters for the remaining data. Apart from these findings, none of the other cutoffs match across all the approaches for the park's amenity. Figure~\ref{parksbarplot} demonstrates that the number of DBs and DB population aligns with these cutoff combinations.
+\par
+Analyzing the validation metrics in Table~\ref{parksvalid} for clustering techniques applied to parks, we find that the Silhouette coefficient and Davies Bouldin index suggest that PAM k-means performs better in clustering this amenity, while the Dunn index favors MixAll and the Calinski Harabasz index suggests MCLUST.
+\par
+Based on this analysis, we can conclude that although none of these methods agree exactly on the cutoffs, and the validation metrics also do not unanimously support one technique, the first cluster cutoff may be around 0.0183, as three techniques (Minima identification, HDBSCAN, and MCLUST) find cutoffs near this value. The second cluster cutoff may be around 0.0450, as MixAll, MCLUST, and PAM k-means identify a cutoff point close to this value, MixAll and PAM k-means supported by the validation metrics. The remaining data may belong to a single cluster, as suggested by MixAll and PAM k-means.
+
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./barplot_comparison/Parks_barplot.png}
+\caption[Parks profile barplot]{Proportion of DBs and population in each cluster for all approaches for the parks amenity.}\label{parksbarplot}
+\end{figure}
+
+
+
+
+\centering
+\begin{table}[H]
+\centering
+\caption[Parks validation metrics]{The validation metric values for each clustering approach for the parks amenity.}\label{parksvalid}
+\resizebox{0.6\textwidth}{!}{
+\begin{tabular}{|r|llll|}
+  \hline
+ & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
+  \hline
+Quintiles & 0.48 & 0.00000 &  4676 & 0.74 \\
+   \hline
+MixAll & 0.57 & \cellcolor{gray!25} 0.00052 & 14414 & 0.70 \\
+   \hline
+HDBSCAN & 0.36 & 0.00000 &  4008 & 4.06 \\
+   \hline
+PAM k-means & \cellcolor{gray!25} 0.58 & 0.00044 & 14512 & \cellcolor{gray!25} 0.69 \\
+   \hline
+MCLUST & 0.46 & 0.00011 & \cellcolor{gray!25} 17244 & 0.96 \\
+   \hline
+Minima identification & 0.43 & 0.00013 &  1342 & 0.70 \\
+   \hline
+\end{tabular}
+}
+\end{table}
+
+
+
+
+\begin{table}[H]
+\centering
+\caption[Parks cluster profiles]{Summary statistics for each cluster found by all approaches for the parks amenity. DB Population, IoR and proximity value show the median, while CMA Type, Province and Amenity Dense show the mode.}\label{parksprofiles}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|r|llllllll|}
+  \hline
+ & \# of DBs & DB Population & Median IoR & CMA Type & Province & Amenity Dense & Parks & Range \\
+  \hline
+Entire Population & 234,068 (100.0\%) & 62 & 0.11 & CMA (68.4\%) & Ontario (25.3\%) & Low (82.3\%) & 0.048 & 0 - 1 \\
+\rowcolor{gray!25}  Quintiles C1 & 46,782 (20.0\%) & 45 & 0.16 & CMA (47.2\%) & Ontario (16.1\%) & Low (95.7\%) & 0.013 & 0 - 0.0203 \\
+\rowcolor{gray!25}  Quintiles C2 & 46,761 (20.0\%) & 55 & 0.13 & CMA (61.0\%) & Ontario (22.4\%) & Low (90.1\%) & 0.028 & 0.0203 - 0.0372 \\
+\rowcolor{gray!25}  Quintiles C3 & 46,859 (20.0\%) & 65 & 0.11 & CMA (70.1\%) & Ontario (28.0\%) & Low (83.7\%) & 0.048 & 0.0372 - 0.0614 \\
+\rowcolor{gray!25}  Quintiles C4 & 46,808 (20.0\%) & 71 & 0.11 & CMA (77.3\%) & Ontario (30.3\%) & Low (77.3\%) & 0.079 & 0.0614 - 0.1050 \\
+ \rowcolor{gray!25} Quintiles C5 & 46,858 (20.0\%) & 72 & 0.11 & CMA (86.1\%) & Ontario (29.4\%) & Low (65.1\%) & 0.149 & 0.1050 - 1 \\
+  Minima identification C1 & 42,995 (18.4\%) & 45 & 0.16 & CMA (47.1\%) & Ontario (16.0\%) & Low (95.7\%) & 0.012 & 0 - 0.0183 \\
+  Minima identification C2 & 31,335 (13.4\%) & 52 & 0.14 & CMA (58.4\%) & Ontario (21.0\%) & Low (91.7\%) & 0.024 & 0.0183 - 0.0294 \\
+  Minima identification C3 & 159,738 (68.2\%) & 68 & 0.11 & CMA (76.0\%) & Ontario (28.6\%) & Low (76.9\%) & 0.071 & 0.0294 - 1 \\
+\rowcolor{gray!25}  HDBSCAN C1 & 45,949 (19.6\%) & 45 & 0.16 & CMA (47.1\%) & Ontario (16.1\%) & Low (95.7\%) & 0.013 & 0 - 0.0200 \\
+\rowcolor{gray!25}  HDBSCAN C2 & 188,119 (80.4\%) & 66 & 0.11 & CMA (73.5\%) & Ontario (27.5\%) & Low (79.1\%) & 0.061 & 0.0200 - 1 \\
+  MixAll C1 & 110,198 (47.1\%) & 52 & 0.14 & CMA (56.1\%) & Ontario (20.3\%) & Low (91.8\%) & 0.023 & 0 - 0.0447 \\
+  MixAll C2 & 123,870 (52.9\%) & 70 & 0.11 & CMA (79.3\%) & Ontario (29.6\%) & Low (74.0\%) & 0.087 & 0.0447 - 1 \\
+\rowcolor{gray!25}  MCLUST C1 & 36,926 (15.8\%) & 45 & 0.16 & CMA (46.9\%) & Ontario (15.9\%) & Low (95.7\%) & 0.012 & 0 - 0.0159 \\
+ \rowcolor{gray!25} MCLUST C2 & 44,867 (19.2\%) & 52 & 0.14 & CMA (57.4\%) & Ontario (20.7\%) & Low (91.9\%) & 0.024 & 0.0159 - 0.0324 \\
+\rowcolor{gray!25}  MCLUST C3 & 31,713 (13.5\%) & 62 & 0.11 & CMA (66.4\%) & Ontario (25.9\%) & Low (86.1\%) & 0.039 & 0.0324 - 0.0463 \\
+ \rowcolor{gray!25} MCLUST C4 & 28,343 (12.1\%) & 67 & 0.11 & CMA (72.0\%) & Ontario (28.9\%) & Low (82.3\%) & 0.054 & 0.0463 - 0.0624 \\
+ \rowcolor{gray!25} MCLUST C5 & 25,512 (10.9\%) & 71 & 0.11 & CMA (76.6\%) & Ontario (30.8\%) & Low (78.6\%) & 0.072 & 0.0624 - 0.0825 \\
+ \rowcolor{gray!25} MCLUST C6 & 1,974 (0.8\%) & 71 & 0.10 & CMA (79.2\%) & Ontario (31.0\%) & Low (74.7\%) & 0.084 & 0.0825 - 0.0845 \\
+ \rowcolor{gray!25} MCLUST C7 & 28,802 (12.3\%) & 72 & 0.11 & CMA (79.3\%) & Ontario (29.6\%) & Low (74.2\%) & 0.100 & 0.0845 - 0.1219 \\
+\rowcolor{gray!25}  MCLUST C8 & 35,931 (15.4\%) & 72 & 0.11 & CMA (87.8\%) & Ontario (29.3\%) & Low (62.9\%) & 0.168 & 0.1219 - 1 \\
+  PAM k-means C1 & 110,802 (47.3\%) & 52 & 0.14 & CMA (56.2\%) & Ontario (20.4\%) & Low (91.7\%) & 0.023 & 0 - 0.0450 \\
+  PAM k-means C2 & 123,266 (52.7\%) & 70 & 0.11 & CMA (79.3\%) & Ontario (29.6\%) & Low (73.9\%) & 0.088 & 0.0450 - 1 \\
+   \hline
+\end{tabular}
+}
+\end{table}
+
+
+
+
+
+
+
+
+\pagebreak
+\justifying
+\subsection{Transit}
+
+Examining Table~\ref{transitprofiles} for the transit amenity, we observe that although the number of clusters matches in HDBSCAN, MixAll, and PAM k-means, none of the cutoffs align across all these clustering techniques. This trend is also reflected in the number of DBs and DB population, as shown in Figure~\ref{transitbarplot}. While the combination of the first two clusters from the quintile method matches the cutoff for the first cluster in MixAll, we should not consider it since the quintile method does not determine cutoffs based on the underlying data.
+\par
+Analyzing the validation metrics in Table~\ref{transitvalid} for clustering techniques applied to transit, we find that MCLUST performs better in clustering the transit amenity, as suggested by the Calinski Harabasz and Davies Bouldin indices. However, the Dunn index favors MixAll, and the Silhouette index suggests Minima identification as the better performers.
+\par
+Based on this analysis, it is evident that different clustering techniques yield different cutoffs, and the validation metrics also suggest different techniques without any common cutoffs. Therefore, it is not possible to emphasize any particular cutoffs for clustering in this case.
+
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./barplot_comparison/Transit_barplot.png}
+\caption[Transit profile barplot]{Proportion of DBs and population in each cluster for all approaches for the transit amenity.}\label{transitbarplot}
+\end{figure}
+
+
+
+
+\centering
+\begin{table}[H]
+\centering
+\caption[Transit validation metrics]{The validation metric values for each clustering approach for the transit amenity.}\label{transitvalid}
+\resizebox{0.6\textwidth}{!}{
+\begin{tabular}{|r|llll|}
+  \hline
+ & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
+  \hline
+Quintiles & 0.42 & 0.00000 &  1519 & 1.00 \\
+   \hline
+MixAll & 0.55 & \cellcolor{gray!25} 0.00355 &  9466 & 0.76 \\
+   \hline
+HDBSCAN & 0.27 & 0.00000 &   958 & 2.46 \\
+   \hline
+PAM k-means & 0.54 & 0.00297 &  8940 & 0.78 \\
+   \hline
+MCLUST & 0.58 & 0.00249 & \cellcolor{gray!25} 11502 & \cellcolor{gray!25} 0.64 \\
+   \hline
+Minima identification & \cellcolor{gray!25} 0.74 & 0.00017 &    26 & 0.87 \\
+   \hline
+\end{tabular}
+}
+\end{table}
+
+
+
+
+\begin{table}[H]
+\centering
+\caption[Transit cluster profiles]{Summary statistics for each cluster found by all approaches for the transit amenity. DB Population, IoR and proximity value show the median, while CMA Type, Province and Amenity Dense show the mode.}\label{transitprofiles}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|r|llllllll|}
+  \hline
+ & \# of DBs & DB Population & Median IoR & CMA Type & Province & Amenity Dense & Transit & Range \\
+  \hline
+Entire Population & 181,305 (100.0\%) & 73 & 0.10 & CMA (89.8\%) & Ontario (31.9\%) & Low (76.9\%) & 0.009 & 0 - 1 \\
+ \rowcolor{gray!25} Quintiles C1 & 35,411 (19.5\%) & 58 & 0.11 & CMA (73.7\%) & Ontario (31.6\%) & Low (94.3\%) & 0.001 & 0 - 0.0026 \\
+\rowcolor{gray!25}  Quintiles C2 & 36,983 (20.4\%) & 75 & 0.10 & CMA (86.6\%) & Ontario (33.3\%) & Low (91.7\%) & 0.004 & 0.0026 - 0.0067 \\
+\rowcolor{gray!25}  Quintiles C3 & 36,255 (20.0\%) & 74 & 0.11 & CMA (92.0\%) & Ontario (30.5\%) & Low (85.8\%) & 0.009 & 0.0067 - 0.0131 \\
+\rowcolor{gray!25}  Quintiles C4 & 36,300 (20.0\%) & 73 & 0.10 & CMA (96.8\%) & Ontario (30.2\%) & Low (72.3\%) & 0.018 & 0.0131 - 0.0272 \\
+ \rowcolor{gray!25} Quintiles C5 & 36,356 (20.1\%) & 85 & 0.06 & CMA (99.4\%) & Ontario (34.1\%) & Med (46.7\%) & 0.044 & 0.0272 - 1 \\
+  Minima identification C1 & 1,014 (0.6\%) & 37 & 0.15 & CMA (48.3\%) & Ontario (29.7\%) & Low (95.6\%) & 0.000 & 0 - 0.0000 \\
+  Minima identification C2 & 2,474 (1.4\%) & 38 & 0.13 & CMA (56.8\%) & Ontario (26.6\%) & Low (93.9\%) & 0.000 & 0.0000 - 1e-04 \\
+  Minima identification C3 & 2,082 (1.1\%) & 36 & 0.13 & CMA (59.5\%) & Ontario (27.2\%) & Low (92.5\%) & 0.000 & 1e-04 - 3e-04 \\
+  Minima identification C4 & 1,923 (1.1\%) & 43 & 0.13 & CMA (66.8\%) & Ontario (30.8\%) & Low (95.3\%) & 0.000 & 3e-04 - 4e-04 \\
+  Minima identification C5 & 173,812 (95.9\%) & 74 & 0.10 & CMA (91.1\%) & Ontario (32.1\%) & Low (76.2\%) & 0.010 & 4e-04 - 1 \\
+\rowcolor{gray!25}  HDBSCAN C1 & 158,674 (87.5\%) & 71 & 0.10 & CMA (88.4\%) & Ontario (31.4\%) & Low (83.2\%) & 0.008 & 0 - 0.0388 \\
+\rowcolor{gray!25}  HDBSCAN C2 & 22,631 (12.5\%) & 90 & 0.06 & CMA (99.8\%) & Ontario (35.8\%) & Med (49.3\%) & 0.056 & 0.0388 - 1 \\
+  MixAll C1 & 71,659 (39.5\%) & 67 & 0.11 & CMA (80.2\%) & Ontario (32.5\%) & Low (93.0\%) & 0.003 & 0 - 0.0065 \\
+  MixAll C2 & 109,646 (60.5\%) & 76 & 0.09 & CMA (96.1\%) & Ontario (31.6\%) & Low (66.4\%) & 0.018 & 0.0065 - 1 \\
+\rowcolor{gray!25}  MCLUST C1 & 17,469 (9.6\%) & 47 & 0.13 & CMA (66.9\%) & Ontario (30.6\%) & Low (94.8\%) & 0.000 & 0 - 0.0010 \\
+\rowcolor{gray!25}  MCLUST C2 & 84,840 (46.8\%) & 73 & 0.10 & CMA (87.0\%) & Ontario (32.1\%) & Low (90.5\%) & 0.005 & 0.0010 - 0.0116 \\
+\rowcolor{gray!25}  MCLUST C3 & 78,996 (43.6\%) & 78 & 0.07 & CMA (97.8\%) & Ontario (32.0\%) & Low (58.5\%) & 0.025 & 0.0116 - 1 \\
+  PAM k-means C1 & 79,536 (43.9\%) & 68 & 0.11 & CMA (81.2\%) & Ontario (32.3\%) & Low (92.7\%) & 0.003 & 0 - 0.0076 \\
+  PAM k-means C2 & 101,769 (56.1\%) & 76 & 0.09 & CMA (96.5\%) & Ontario (31.7\%) & Low (64.6\%) & 0.020 & 0.0076 - 1 \\
+   \hline
+\end{tabular}
+}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+
+
+\pagebreak
+\justifying
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Discussion}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -830,7 +1789,7 @@ There are many other potential avenues for future research in the clustering of 
 
 The current project aimed to explore segmentation of continuous proximity measures in the Proximity Measure Database (PMD) developed by Statistics Canada. The goal was to create intuitive and understandable categorical measures for amenities, which could inform decision-making processes for policymakers and urban planners. By categorizing the proximity measures, it becomes easier to prioritize efforts in enhancing access and promoting social and economic sustainability within communities.
 \par
-The project employed various clustering methods, including min/max, HDBSCAN, MixAll, MCLUST, and PAM K-means algorithms to determine optimal cutoff values and cluster boundaries for each amenity. Additionally, cluster validation metrics such as the Silhouette coefficient, Dunn index, Calinski-Harabasz, and Davies-Bouldin were used to evaluate the performance of each clustering technique and determine the appropriate number of clusters.
+The project employed various clustering methods, including Minima identification, HDBSCAN, MixAll, MCLUST, and PAM K-means algorithms to determine optimal cutoff values and cluster boundaries for each amenity. Additionally, cluster validation metrics such as the Silhouette coefficient, Dunn index, Calinski-Harabasz, and Davies-Bouldin were used to evaluate the performance of each clustering technique and determine the appropriate number of clusters.
 \par
 The results showed that the PMD had a low clustering tendency, even after log-transformation. Indeed, clustering techniques produced diverse outcomes, and there was no single algorithm that consistently outperformed others. The overall lack of consistency  serves to demonstrate the lack of obvious clusters within the proximity measures of the PMD.
 \par
@@ -920,139 +1879,14 @@ Dissemination block (DB)}. \sloppy\url{https://www12.statcan.gc.ca/census-recens
 
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagebreak
 \appendix
 \section{Appendix}
 
 
-\subsection{Analysis of Amenities}\label{appendix:analysis}
-
-
-In general, when analyzing various amenities and their clustering results, a pattern emerges where the median proximity measure or cluster range is directly related to the median DB population and median IoR. As the proximity measure or range increases, the median DB population also tends to increase and median IoR tends to decrease. This pattern suggests that areas with higher population tend to be less remote and have better access to amenities.
-\par
-However, it's important to note that this pattern may not hold true for every clustering technique in all amenities. In the case of amenities like pharmacies, the clustering results obtained from MCLUST may not precisely follow this pattern for the median DB population. This discrepancy could be attributed to MCLUST identifying multiple clusters, some of which may be relatively small in terms of no of observations included in that cluster, resulting in a narrower range of data and affecting the representation of the median.
-\par
-Overall, while the general trend of increasing median DB population with higher proximity measures holds across multiple amenities and clustering techniques, there may be variations and exceptions in specific cases, particularly when the clustering results include small clusters with limited population.
-\par
-Moreover, upon examining table~\ref{employmentprofiles} to table~\ref{transitprofiles}, it becomes evident that all amenities demonstrate a low mode of amenity density for the entire population of Canada. This observation holds true not only for the overall population but also for the majority of individual clusters. This aligns with the findings from the EDA, which indicated that approximately 90\% of the DBs in Canada exhibit a low level of amenity density.
-
-
-
-\subsubsection{Employment}
-
-In Figure~\ref{employmentbarplot} in the appendix, we can see that the methods provide mostly different numbers of groups at different cutoff points. Mclust has a lot more cutoffs, providing nine almost balanced groups, in terms of number of DBs. The fourth cutoff for Mclust is close to the cutoffs for PAM k-means and MixAll, but the Min/Max and the HBDSCAN methods do not find a cutoff at that value. The HDBSCAN only settled on one cutoff, which is different from all other methods: Mclust's last cutoff comes the closest to it. The Min/Max cutoffs seem to all be concentrated almost within the second group of Mclust cutoffs. Whether they are statistically equal or similar is a different question, whose answer cannot be answered with a visual assessment. It makes sense that PAM k-means and MixAll find similar cutoffs, as the algorithms are similar.
-\par
-Overall, we can see how the proportions of DBs and proportions of total population in each cluster differs across methods. We see that MixAll and PAM k-means have similar proportions of both in their two clusters. We can also see that in the Quintiles method, there are equal number of DBs per cluster, as that is what the method is by definition. Despite that, we see that the proportions of population are not equal, but each subsequent cluster contains greater proportions of population. This is not exactly the case for every amenity. This suggests that for Employment, the DBs that have higher proximity values also have higher populations on average than the DBs with lower proximity values to employment. This trend is similar for all the methods: groups with larger proximities hold generally a larger proportion of the population than the proportion of DBs.
-\par
-Table~\ref{employmentprofiles} shows the summary statistics for every cluster. We see that the summary statistics differ across groups. For the most part, the median population of each cluster increases as the median proximity score increases, suggesting that areas with higher employment proximity scores generally also have higher populations. The median Index of Remoteness generally decreases as the median proximity score increases.
-\par
-Table~\ref{employmentvalid} shows the validation metric values for each clustering approach. The best Silhouette coefficient is from the HDBSCAN method, which also has the best Davies Bouldin index. The best Dunn index is from the PAM k-means (followed closely by the MixAll), and the best Calinski Harabasz is from the Mclust method.
-\par
-Overall, it seems that for the employment amenity, the cutoff values are not similar across methods and the validation metrics don’t have a consensus, suggesting that the proximity measures are not easily grouped algorithmically. However, the groups are somewhat characteristically distinct.
-
-
-
-
-\subsubsection{Pharmacy}
-
-In Figure~\ref{pharmacybarplot} of the appendix, we see again how for the most part, cutoff values across methods do not align. It seems like the first Min/Max and HDBSCAN cutoffs are close with the third Mclust cutoff, which may indicate robustness. Again, the MixAll cutoff is nearly identical to the PAM k-means cutoff. HDBSCAN’s second cutoff is somewhat close to Mclust’s 6th cutoff. In this case, Mclust settles on some very small groups amongst other more equi-sized. We see that overall, the proportions of population in each cluster are similar to the proportions of DBs in each cluster.
-\par
-In Table~\ref{pharmacyprofiles}, we see that the median IoR for each group is more constant, especially relative to the Employment median IoR. The case is similar for the median population. We also see that in every group, the majority CMA type is CMA. This suggests that the proximity measures for the Pharmacy amenity are not as correlated to the populations or remoteness, and the groups are not characteristically distinct from each other.
-\par
-Table~\ref{pharmacyvalid} shows the validation metric values for each clustering approach. The best Silhouette coefficient is tied amongst the MixAll and the PAM k-means methods. MixAll performs the best according to all the other metrics, although the PAM k-means values are pretty similar, which was expected given the results from Table~\ref{pharmacyprofiles} and Figure~\ref{pharmacybarplot}.
-\par
-Overall, the cutoff values are not similar to each other apart from a few and the groups are not characteristically distinct, suggesting that the pharmacy proximity measures are not distinctly groupable. The method with the best validation metrics is the MixAll algorithm, which only provides 2 groups.
-
-
-
-
-\subsubsection{Child care}
-
-In Figure~\ref{childcarebarplot} we see the proportion of DBs and population in each cluster for each method. We again can observe that most cutoff values don’t align with each other. Again, the MixAll and the PAM k-means are matching. The first HBSCAN and Min/Max cutoffs are otherwise the only ones somewhat aligned. The Mclust cutoff aligns with the third Quintile cutoff, but since the Quintile method is blind to the data, it isn’t of any significance. We see that the proportions of population are somewhat shifted relative to the proportion of DBs, suggesting that there may be slight differences in populations correlated with differences in proximity values.
-\par
-Table~\ref{childcareprofiles} shows the summary statistics for each method and cluster for the Childcare amenity. An anomaly lies in the MCLUST C1: the median population is much larger. The number of DBs is also very small; it may be indicative that other cluster’s medians are affected by a large number of DBs with very small populations.The median IoR seem to be dissimilar in different groups as the median proximity value increases. The CMA types of clusters with lower proximity values are of majority type not CMA, whereas those with higher proximity values in majority CMA types.
-\par
-Table~\ref{childcarevalid} shows the validation metric values for each clustering approach. MCLUST has the best Silhouette coefficient (MixAll runner up) and the best Davies Bouldin index (MixAll runner up).  PAM-means has the best Dunn index (MixAll runner up), and MixAll the best Calinski Harabasz value (PAM k-means runner up). These results suggest that since MixAll is consistently in the top 2 relative to the other methods, it may be the best, even though it only finds 2 groups.
-\par
-Overall, the cutoff values are mostly dissimilar from each other, but the groups do hold different characteristics from each other, suggesting that the proximity values may be clusterable using different methods and/or in cohort with additional variables.
-
-
-
-\subsubsection{Health care}
-
-In Figure~\ref{healthcarebarplot} we see the proportion of DBs and population in each cluster for each method for the Healthcare amenity. In this case, it seems like none of the cutoffs align across methods: even the MixAll and PAM k-means don’t exactly agree, although they are still close to each other. The Min/Max method finds most clusters at lower proximity values, whereas the HDBSCAN’s cutoff is at a high proximity value. It seems like cutoffs for the population proportions are shifted left relative to the proportions of DBs, suggesting a trend with the population values and proximity values.
-\par
-Table~\ref{healthcareprofiles} shows the summary statistics for each cluster. In this case, there are many cases where the majority CMA type is not CMA. The median population seem to differ across groups, as well as the median IoR. The proportion of DBs within groups is not constant, as we had seen in Figure~\ref{healthcarebarplot}.
-\par
-Table~\ref{healthcarevalid} shows the validation metric values for each clustering approach. HDBSCAN has the best silhouette coefficient by over 9 points as well as the best Davies-Bouldin result. The PAMk-means has the best Dunn index, although the MixAll method’s value follows closely. The Mclust algorithm has the best Calinski Harabasz measure.
-\par
-Overall, the cutoff values are mostly dissimilar from each other and the validation metrics mostly don’t agree with each other, but the groups do hold different characteristics from each other, suggesting that the proximity values may be clusterable using different methods and/or in cohort with additional variables.
-
-
-
-
-\subsubsection{Grocery}
-
-Looking at the summary statistics in Table~\ref{groceryprofiles} for the grocery amenity, we observe that the first cluster cutoffs are quite similar among the min/max, HDBSCAN, and PAM k-means clustering approaches. The cutoffs range from 0 to 0.0121, 0 to 0.0124, and 0 to 0.0113, respectively. Consequently, these clusters also exhibit similar numbers of DBs and DB population, as shown in Figure~\ref{grocerybarplot}. However, these techniques do not agree on the cutoffs for the remaining data.
-\par
-On the other hand, the quintiles technique simply divides the data into five equal parts, which does not align with the cutoffs obtained from any other clustering techniques. Similarly, the Mixall clustering cutoffs do not match with those of any other technique for any of the clusters.
-\par
-Table~\ref{groceryvalid} provides insights into the performance metrics, such as the Silhouette coefficient and Calinski Harabasz. Silhouette coefficient and Dunn index suggest that the MCLUST algorithm clusters the grocery amenity data better, dividing it into three groups. On the other hand, the Calinski Harabasz and Davies Bouldin indices favor PAM k-means as the better performer, clustering the grocery amenity into eight groups. Interestingly, the first cluster identified by PAM k-means is further divided into two clusters by MCLUST, while the rest of the data, where MCLUST identifies only one cluster, is separated into seven clusters by PAM k-means.
-\par
-Based on this analysis, it strongly suggests that cluster 1 should have a cutoff range of 0 to 0.0113, as suggested by the Pam Kmeans technique. This suggestion is supported by the validation from two metrics indicating its better performance and also almost matches with the cutoff range of the first cluster identified by the other two clustering techniques (Min/Max and HDBSCAN). However, for the remaining data, none of the techniques agree on the cutoffs, indicating a lack of consensus.
-
-
-
-\subsubsection{Secondary Education}
-
-By analyzing the summary statistics in Table~\ref{seceducprofiles} for the secondary education amenity, we find that HDBSCAN and PAM k-means show similar cutoffs for cluster 1, ranging from 0 to 0.0576 and 0 to 0.0557, respectively. Consequently, both approaches exhibit similar numbers of DBs and population in Figure~\ref{seceducbarplot} for this cluster. However, for the remaining data, the cutoffs do not align. While HDBSCAN identifies two additional clusters, PAM k-means finds three clusters, and the cutoffs for these clusters are different.
-\par
-Examining the performance metrics in Table~\ref{seceducvalid} for this amenity, the Silhouette coefficient suggests that the MixAll method performs better in clustering. However, the Dunn index and Calinski Harabasz index favor PAM k-means, while the Davies Bouldin index suggests MCLUST.
-\par
-Based on this analysis, it suggests that cluster 1 for the secondary education amenity should have a cutoff range of approximately 0 to 0.0557, as suggested by PAM k-means. This suggestion is supported by the validation from two metrics and is also consistent with HDBSCAN. However, for the remaining data, there is no consensus among the techniques regarding the cutoffs.
-
-
-
-\subsubsection{Library}
-
-Analyzing the summary statistics in Table~\ref{libraryprofiles} for the library amenity, we observe that MixAll and PAM k-means have similar cutoffs for the first cluster, ranging from 0 to 0.0993 and 0 to 0.0943, respectively. Additionally, both clustering techniques suggest the presence of 2 clusters, indicating a similar cutoff for cluster 2 as well. On the other hand, HDBSCAN identifies the first cluster in the range of 0 to 0.0546, which aligns with MCLUST if we combine the first three clusters of MCLUST with a cutoff range of 0 to 0.0538. The fourth cluster from MCLUST is similar to HDBSCAN if we combine HDBSCAN's cluster 2 and 3. For the remaining data, HDBSCAN identifies only one cluster, while MCLUST finds 3 additional clusters. Apart from MixAll and PAM k-means, none of the other techniques agree with each other in terms of the number of clusters. Furthermore, the cutoffs are not the same, although some of them may be similar by default or when combining multiple clusters into one for comparison with other techniques.
-\par
-Upon examining the validation metrics in Table~\ref{libraryvalid}, we find that the Silhouette coefficient, Dunn index, and Davies Bouldin index suggest that the Min/Max algorithm performs better in clustering this amenity, dividing the data into 2 groups. However, the Calinski Harabasz index suggests that MixAll performs better, also clustering the data into 2 groups, but with significantly different cutoffs compared to the Min/Max algorithm.
-\par
-Based on this analysis, it suggests that the cutoff for the first cluster may be around 0.0538, and the cutoff for the second cluster may be near 0.0682, as both MCLUST and HDBSCAN find cutoffs in close proximity to these values. The cutoff for the third cluster may be near 0.0993, as PAM k-means, MCLUST, and MixAll identify cutoffs in the vicinity of this value.
-
-
-
-\subsubsection{Parks}
-
-Examining Table~\ref{parksprofiles} for the parks amenity, we observe that MixAll and PAM k-means have similar cutoffs for the first cluster, ranging from 0 to 0.0447 and 0 to 0.0450, respectively. Additionally, both techniques find only 2 clusters, indicating a similar result for cluster 2 as well. MCLUST also identifies a cutoff near this range, but it consists of 3 clusters within the 0 to 0.0463 range. MCLUST further finds 5 other clusters for the remaining data. Apart from these findings, none of the other cutoffs match across all the approaches for the park's amenity. Figure~\ref{parksbarplot} demonstrates that the number of DBs and DB population aligns with these cutoff combinations.
-\par
-Analyzing the validation metrics in Table~\ref{parksvalid} for clustering techniques applied to parks, we find that the Silhouette coefficient and Davies Bouldin index suggest that PAM k-means performs better in clustering this amenity, while the Dunn index favors MixAll and the Calinski Harabasz index suggests MCLUST.
-\par
-Based on this analysis, we can conclude that although none of these methods agree exactly on the cutoffs, and the validation metrics also do not unanimously support one technique, the first cluster cutoff may be around 0.0183, as three techniques (Min/Max, HDBSCAN, and MCLUST) find cutoffs near this value. The second cluster cutoff may be around 0.0450, as MixAll, MCLUST, and PAM k-means identify a cutoff point close to this value, MixAll and PAM k-means supported by the validation metrics. The remaining data may belong to a single cluster, as suggested by MixAll and PAM k-means.
-
-
-
-
-\subsubsection{Transit}
-
-Examining Table~\ref{transitprofiles} for the transit amenity, we observe that although the number of clusters matches in HDBSCAN, MixAll, and PAM k-means, none of the cutoffs align across all these clustering techniques. This trend is also reflected in the number of DBs and DB population, as shown in Figure~\ref{transitbarplot}. While the combination of the first two clusters from the quintile method matches the cutoff for the first cluster in MixAll, we should not consider it since the quintile method does not determine cutoffs based on the underlying data.
-\par
-Analyzing the validation metrics in Table~\ref{transitvalid} for clustering techniques applied to transit, we find that MCLUST performs better in clustering the transit amenity, as suggested by the Calinski Harabasz and Davies Bouldin indices. However, the Dunn index favors MixAll, and the Silhouette index suggests Min/Max as the better performers.
-\par
-Based on this analysis, it is evident that different clustering techniques yield different cutoffs, and the validation metrics also suggest different techniques without any common cutoffs. Therefore, it is not possible to emphasize any particular cutoffs for clustering in this case.
-
-
-
-
-
-
-
-
-
-
-\pagebreak
 \subsection{Successful Methods}\label{appendix:successful}
 
 
@@ -1189,7 +2023,7 @@ Initially, VarselLCM was utilized for multivariate clustering. However, upon obs
 
 
 
-\pagebreak 
+\pagebreak
 \subsection{Unsuccessful Methods}
 
 \subsubsection{OPTICS}
@@ -1290,6 +2124,62 @@ Moreover, these findings are not helpful for profiling purposes as they ignore t
 \hline
 \hline
 \end{tabularx}
+}
+\end{table}
+
+
+
+
+
+
+
+\centering
+\begin{table}[H]
+\centering
+\caption[Acronyms]{All acronyms used in this report.}\label{acronyms}
+\resizebox{0.6\textwidth}{!}{
+\begin{tabular}{|c|l|}
+\hline
+\textbf{Acronym}  &  \textbf{Full Name} \\
+  \hline
+PMD & Proximity Measures Database \\
+ DEIL &  Data Exploration and Integration Lab \\
+ DB &  Dissemination Block \\
+ StatCan  &  Statistics Canada \\
+IoR & Index of Remoteness \\
+ CSD & Census Subdivision \\
+  EDA & Exploratory data analysis \\
+ VAT  &  Visual Assessment of Tendency \\
+ HDBSCAN  &  Hierarchical Density-Based Spatial Clustering of Applications with Noise \\
+ PAM  & Partitioning Around Medoids  \\
+ OPTICS  & Ordering Points To Identify Clustering Structure \\
+  CMA &  Census Metropolitan Area \\
+ CA  &  Census Agglomeration \\
+  \hline
+\end{tabular}
+}
+\end{table}
+
+
+
+
+
+\centering
+\begin{table}[H]
+\centering
+\caption[Mathematical Symbols]{All mathematical symbols used in this report.}\label{mathsymbols}
+\resizebox{0.45\textwidth}{!}{
+\begin{tabular}{|c|l|}
+\hline
+\textbf{Symbol}  &  \textbf{Meaning} \\
+  \hline
+\textit{k} & Number of clusters \\
+$\theta$ & MixAll hyperparameter \\
+\textit{t} & MixAll probability \\
+\textit{p} & MixAll mixture proportion \\
+$\epsilon$ & OPTICS maximum separation distance \\
+  \hline
+\end{tabular}
 }
 \end{table}
 
@@ -1664,815 +2554,13 @@ Moreover, these findings are not helpful for profiling purposes as they ignore t
 
 
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./barplot_comparison/Employment_barplot.png}
-\caption[Employment profile barplot]{Proportion of DBs and population in each cluster for all approaches for the employment amenity.}\label{employmentbarplot}
-\end{figure}
 
 
 
 
 
 
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./barplot_comparison/Pharmacy_barplot.png}
-\caption[Pharmacy profile barplot]{Proportion of DBs and population in each cluster for all approaches for the pharmacy amenity.}\label{pharmacybarplot}
-\end{figure}
-
-
-
-
-
-
-
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./barplot_comparison/Child care_barplot.png}
-\caption[Child care profile barplot]{Proportion of DBs and population in each cluster for all approaches for the child care amenity.}\label{childcarebarplot}
-\end{figure}
-
-
-
-
-
-
-
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./barplot_comparison/Health care_barplot.png}
-\caption[Health care profile barplot]{Proportion of DBs and population in each cluster for all approaches for the health care amenity.}\label{healthcarebarplot}
-\end{figure}
-
-
-
-
-
-
-
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./barplot_comparison/Grocery_barplot.png}
-\caption[Grocery profile barplot]{Proportion of DBs and population in each cluster for all approaches for the grocery amenity.}\label{grocerybarplot}
-\end{figure}
-
-
-
-
-
-
-
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./barplot_comparison/Secondary Education_barplot.png}
-\caption[Secondary education profile barplot]{Proportion of DBs and population in each cluster for all approaches for the secondary education amenity.}\label{seceducbarplot}
-\end{figure}
-
-
-
-
-
-
-
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./barplot_comparison/Library_barplot.png}
-\caption[Library profile barplot]{Proportion of DBs and population in each cluster for all approaches for the library amenity.}\label{librarybarplot}
-\end{figure}
-
-
-
-
-
-
-
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./barplot_comparison/Parks_barplot.png}
-\caption[Parks profile barplot]{Proportion of DBs and population in each cluster for all approaches for the parks amenity.}\label{parksbarplot}
-\end{figure}
-
-
-
-
-
-
-
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{./barplot_comparison/Transit_barplot.png}
-\caption[Transit profile barplot]{Proportion of DBs and population in each cluster for all approaches for the transit amenity.}\label{transitbarplot}
-\end{figure}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\begin{table}[H]
-\centering
-\caption[Employment cluster profiles]{Summary statistics for each cluster found by all approaches for the employment amenity. DB Population, IoR and proximity value show the median, while CMA Type, Province and Amenity Dense show the mode.}\label{employmentprofiles}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{|r|llllllll|}
-  \hline
- & \# of DBs & DB Population & Median IoR & CMA Type & Province & Amenity Dense & Employment & Range \\
-  \hline
-Entire Population & 423,602 (100.0\%) & 38 & 0.16 & CMA (48.3\%) & Ontario (18.2\%) & Low (90.1\%) & 0.006 & 0 - 1 \\
-\rowcolor{gray!25}  Quintiles C1 & 78,014 (18.4\%) & 10 & 0.29 & None (80.9\%) & NovaScotia (6.5\%) & Low (100.0\%) & 0.000 & 0 - 4e-04 \\
- \rowcolor{gray!25} Quintiles C2 & 89,705 (21.2\%) & 23 & 0.24 & None (69.6\%) & Ontario (9.2\%) & Low (99.9\%) & 0.001 & 4e-04 - 0.0030 \\
-\rowcolor{gray!25}  Quintiles C3 & 85,928 (20.3\%) & 41 & 0.20 & CMA (34.2\%) & Ontario (12.7\%) & Low (97.8\%) & 0.006 & 0.0030 - 0.0127 \\
-\rowcolor{gray!25}  Quintiles C4 & 85,096 (20.1\%) & 65 & 0.11 & CMA (79.7\%) & Ontario (26.9\%) & Low (89.9\%) & 0.022 & 0.0127 - 0.0368 \\
-\rowcolor{gray!25}  Quintiles C5 & 84,859 (20.0\%) & 83 & 0.06 & CMA (99.5\%) & Ontario (37.2\%) & Low (62.8\%) & 0.072 & 0.0368 - 1 \\
-  Min/Max C1 & 29,831 (7.0\%) & 5 & 0.32 & None (83.6\%) & NovaScotia (8.8\%) & Low (100.0\%) & 0.000 & 0 - 0.0000 \\
-  Min/Max C2 & 22,179 (5.2\%) & 10 & 0.30 & None (81.2\%) & NovaScotia (5.6\%) & Low (100.0\%) & 0.000 & 0.0000 - 2e-04 \\
-  Min/Max C3 & 14,893 (3.5\%) & 10 & 0.27 & None (78.3\%) & Ontario (6.7\%) & Low (100.0\%) & 0.000 & 2e-04 - 3e-04 \\
-  Min/Max C4 & 26,887 (6.3\%) & 17 & 0.23 & None (75.4\%) & Ontario (8.6\%) & Low (100.0\%) & 0.000 & 3e-04 - 5e-04 \\
-  Min/Max C5 & 329,812 (77.9\%) & 50 & 0.14 & CMA (59.1\%) & Ontario (21.9\%) & Low (87.2\%) & 0.014 & 5e-04 - 1 \\
-\rowcolor{gray!25}  HDBSCAN C1 & 419,062 (98.9\%) & 38 & 0.16 & CMA (47.7\%) & Ontario (17.9\%) & Low (90.9\%) & 0.006 & 0 - 0.2298 \\
-\rowcolor{gray!25}  HDBSCAN C2 & 4,540 (1.1\%) & 122 & 0.03 & CMA (100.0\%) & Ontario (44.9\%) & Med (45.9\%) & 0.292 & 0.2298 - 1 \\
-  MixAll C1 & 179,334 (42.3\%) & 16 & 0.27 & None (73.6\%) & Ontario (7.2\%) & Low (99.9\%) & 0.000 & 0 - 0.0036 \\
-  MixAll C2 & 244,268 (57.7\%) & 63 & 0.11 & CMA (73.3\%) & Ontario (26.3\%) & Low (82.8\%) & 0.023 & 0.0036 - 1 \\
-\rowcolor{gray!25}  MCLUST C1 & 29,831 (7.0\%) & 5 & 0.32 & None (83.6\%) & NovaScotia (8.8\%) & Low (100.0\%) & 0.000 & 0 - 0.0000 \\
-\rowcolor{gray!25}  MCLUST C2 & 56,902 (13.4\%) & 10 & 0.27 & None (78.6\%) & Ontario (6.3\%) & Low (100.0\%) & 0.000 & 0.0000 - 4e-04 \\
- \rowcolor{gray!25} MCLUST C3 & 39,730 (9.4\%) & 20 & 0.24 & None (72.7\%) & Ontario (9.4\%) & Low (99.9\%) & 0.001 & 4e-04 - 0.0012 \\
- \rowcolor{gray!25} MCLUST C4 & 48,188 (11.4\%) & 27 & 0.25 & None (64.2\%) & Ontario (9.3\%) & Low (99.7\%) & 0.002 & 0.0012 - 0.0033 \\
- \rowcolor{gray!25} MCLUST C5 & 53,628 (12.7\%) & 38 & 0.21 & None (37.2\%) & Ontario (11.3\%) & Low (98.5\%) & 0.005 & 0.0033 - 0.0085 \\
-\rowcolor{gray!25}  MCLUST C6 & 64,056 (15.1\%) & 57 & 0.14 & CMA (61.2\%) & Ontario (19.1\%) & Low (93.8\%) & 0.014 & 0.0085 - 0.0206 \\
- \rowcolor{gray!25} MCLUST C7 & 69,082 (16.3\%) & 71 & 0.10 & CMA (91.8\%) & Ontario (34.7\%) & Low (85.2\%) & 0.032 & 0.0206 - 0.0518 \\
-\rowcolor{gray!25}  MCLUST C8 & 51,824 (12.2\%) & 82 & 0.06 & CMA (99.8\%) & Ontario (36.4\%) & Low (63.8\%) & 0.081 & 0.0518 - 0.1629 \\
- \rowcolor{gray!25} MCLUST C9 & 10,361 (2.4\%) & 118 & 0.03 & CMA (100.0\%) & Quebec (37.9\%) & Med (46.0\%) & 0.219 & 0.1629 - 1 \\
-  PAM k-means C1 & 177,804 (42.0\%) & 16 & 0.27 & None (73.8\%) & Ontario (7.1\%) & Low (99.9\%) & 0.000 & 0 - 0.0035 \\
-  PAM k-means C2 & 245,798 (58.0\%) & 62 & 0.11 & CMA (73.0\%) & Ontario (26.2\%) & Low (82.9\%) & 0.023 & 0.0035 - 1 \\
-   \hline
-\end{tabular}
-}
-\end{table}
-
-
-
-
-
-
-
-
-
-\begin{table}[H]
-\centering
-\caption[Pharmacy cluster profiles]{Summary statistics for each cluster found by all approaches for the pharmacy amenity. DB Population, IoR and proximity value show the median, while CMA Type, Province and Amenity Dense show the mode.}\label{pharmacyprofiles}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{|r|llllllll|}
-  \hline
- & \# of DBs & DB Population & Median IoR & CMA Type & Province & Amenity Dense & Pharmacy & Range \\
-  \hline
-Entire Population & 178,521 (100.0\%) & 63 & 0.11 & CMA (71.7\%) & Ontario (27.4\%) & Low (76.4\%) & 0.026 & 0 - 1 \\
- \rowcolor{gray!25} Quintiles C1 & 34,980 (19.6\%) & 60 & 0.13 & CMA (64.1\%) & Ontario (21.8\%) & Low (91.5\%) & 0.007 & 0 - 0.0098 \\
- \rowcolor{gray!25} Quintiles C2 & 36,365 (20.4\%) & 60 & 0.12 & CMA (66.8\%) & Ontario (24.4\%) & Low (88.7\%) & 0.014 & 0.0098 - 0.0193 \\
- \rowcolor{gray!25} Quintiles C3 & 35,730 (20.0\%) & 63 & 0.11 & CMA (72.1\%) & Ontario (28.5\%) & Low (81.3\%) & 0.026 & 0.0193 - 0.0341 \\
-\rowcolor{gray!25}  Quintiles C4 & 35,697 (20.0\%) & 66 & 0.11 & CMA (75.0\%) & Ontario (30.9\%) & Low (72.0\%) & 0.046 & 0.0341 - 0.0641 \\
- \rowcolor{gray!25} Quintiles C5 & 35,749 (20.0\%) & 71 & 0.08 & CMA (80.3\%) & Ontario (31.6\%) & Low (48.5\%) & 0.098 & 0.0641 - 1 \\
-  Min/Max C1 & 41,305 (23.1\%) & 59 & 0.13 & CMA (63.9\%) & Ontario (22.0\%) & Low (91.6\%) & 0.008 & 0 - 0.0114 \\
-  Min/Max C2 & 30,505 (17.1\%) & 60 & 0.11 & CMA (67.7\%) & Ontario (24.7\%) & Low (87.9\%) & 0.015 & 0.0114 - 0.0195 \\
-  Min/Max C3 & 106,711 (59.8\%) & 66 & 0.11 & CMA (75.8\%) & Ontario (30.3\%) & Low (67.2\%) & 0.046 & 0.0195 - 1 \\
-\rowcolor{gray!25}  HDBSCAN C1 & 42,510 (23.8\%) & 59 & 0.13 & CMA (63.9\%) & Ontario (22.0\%) & Low (91.6\%) & 0.008 & 0 - 0.0118 \\
-\rowcolor{gray!25}  HDBSCAN C2 & 90,111 (50.5\%) & 63 & 0.11 & CMA (71.5\%) & Ontario (27.9\%) & Low (81.2\%) & 0.025 & 0.0118 - 0.0525 \\
-\rowcolor{gray!25}  HDBSCAN C3 & 45,900 (25.7\%) & 70 & 0.09 & CMA (79.2\%) & Ontario (31.5\%) & Low (52.9\%) & 0.085 & 0.0525 - 1 \\
-  MixAll C1 & 91,454 (51.2\%) & 60 & 0.12 & CMA (66.7\%) & Ontario (24.1\%) & Low (88.6\%) & 0.013 & 0 - 0.0265 \\
-  MixAll C2 & 87,067 (48.8\%) & 67 & 0.10 & CMA (77.0\%) & Ontario (30.9\%) & Low (63.6\%) & 0.055 & 0.0265 - 1 \\
- \rowcolor{gray!25} MCLUST C1 & 3,222 (1.8\%) & 70 & 0.14 & CMA (60.5\%) & Ontario (20.7\%) & Low (93.5\%) & 0.006 & 0 - 0.0064 \\
- \rowcolor{gray!25} MCLUST C2 & 35,979 (20.2\%) & 59 & 0.13 & CMA (64.3\%) & Ontario (22.0\%) & Low (91.4\%) & 0.008 & 0.0064 - 0.0108 \\
- \rowcolor{gray!25} MCLUST C3 & 2,075 (1.2\%) & 56 & 0.13 & CMA (61.8\%) & Ontario (23.1\%) & Low (92.8\%) & 0.011 & 0.0108 - 0.0114 \\
- \rowcolor{gray!25} MCLUST C4 & 26,864 (15.0\%) & 60 & 0.11 & CMA (67.5\%) & Ontario (24.7\%) & Low (88.1\%) & 0.015 & 0.0114 - 0.0181 \\
- \rowcolor{gray!25} MCLUST C5 & 37,376 (20.9\%) & 62 & 0.11 & CMA (71.8\%) & Ontario (28.1\%) & Low (82.0\%) & 0.025 & 0.0181 - 0.0332 \\
- \rowcolor{gray!25} MCLUST C6 & 30,077 (16.8\%) & 65 & 0.11 & CMA (74.9\%) & Ontario (30.8\%) & Low (73.1\%) & 0.042 & 0.0332 - 0.0554 \\
- \rowcolor{gray!25} MCLUST C7 & 42,928 (24.0\%) & 70 & 0.09 & CMA (79.5\%) & Ontario (31.5\%) & Low (51.8\%) & 0.088 & 0.0554 - 1 \\
-  PAM k-means C1 & 90,986 (51.0\%) & 60 & 0.12 & CMA (66.6\%) & Ontario (24.1\%) & Low (88.7\%) & 0.013 & 0 - 0.0263 \\
-  PAM k-means C2 & 87,535 (49.0\%) & 67 & 0.10 & CMA (77.0\%) & Ontario (30.9\%) & Low (63.7\%) & 0.055 & 0.0263 - 1 \\
-   \hline
-\end{tabular}
-}
-\end{table}
-
-
-
-
-
-
-
-
-
-
-\begin{table}[H]
-\centering
-\caption[Child care cluster profiles]{Summary statistics for each cluster found by all approaches for the child care amenity. DB Population, IoR and proximity value show the median, while CMA Type, Province and Amenity Dense show the mode.}\label{childcareprofiles}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{|r|llllllll|}
-  \hline
- & \# of DBs & DB Population & Median IoR & CMA Type & Province & Amenity Dense & Childcare & Range \\
-  \hline
-Entire Population & 243,964 (100.0\%) & 62 & 0.11 & CMA (68.3\%) & Ontario (23.9\%) & Low (82.7\%) & 0.048 & 0 - 1 \\
- \rowcolor{gray!25} Quintiles C1 & 48,703 (20.0\%) & 41 & 0.18 & CMA (46.5\%) & Ontario (20.9\%) & Low (96.2\%) & 0.008 & 0 - 0.0152 \\
- \rowcolor{gray!25} Quintiles C2 & 48,757 (20.0\%) & 55 & 0.13 & CMA (60.8\%) & Ontario (29.4\%) & Low (91.3\%) & 0.024 & 0.0152 - 0.0348 \\
-\rowcolor{gray!25}  Quintiles C3 & 48,909 (20.0\%) & 66 & 0.11 & CMA (71.5\%) & Ontario (28.3\%) & Low (84.4\%) & 0.048 & 0.0348 - 0.0636 \\
- \rowcolor{gray!25} Quintiles C4 & 48,776 (20.0\%) & 69 & 0.11 & CMA (77.0\%) & Ontario (23.8\%) & Low (78.4\%) & 0.085 & 0.0636 - 0.1167 \\
-\rowcolor{gray!25}  Quintiles C5 & 48,819 (20.0\%) & 80 & 0.08 & CMA (85.7\%) & Quebec (35.3\%) & Low (63.4\%) & 0.175 & 0.1167 - 1 \\
-  Min/Max C1 & 26,274 (10.8\%) & 40 & 0.19 & CMA (43.6\%) & Ontario (18.9\%) & Low (96.9\%) & 0.006 & 0 - 0.0084 \\
-  Min/Max C2 & 18,663 (7.6\%) & 43 & 0.16 & CMA (49.7\%) & Ontario (23.2\%) & Low (95.4\%) & 0.011 & 0.0084 - 0.0139 \\
-  Min/Max C3 & 199,027 (81.6\%) & 67 & 0.11 & CMA (73.3\%) & Ontario (24.6\%) & Low (79.7\%) & 0.062 & 0.0139 - 1 \\
- \rowcolor{gray!25} HDBSCAN C1 & 27,765 (11.4\%) & 40 & 0.19 & CMA (43.5\%) & Ontario (18.9\%) & Low (96.9\%) & 0.006 & 0 - 0.0090 \\
-\rowcolor{gray!25}  HDBSCAN C2 & 216,199 (88.6\%) & 65 & 0.11 & CMA (71.5\%) & Ontario (24.5\%) & Low (80.9\%) & 0.056 & 0.0090 - 1 \\
-  MixAll C1 & 100,768 (41.3\%) & 49 & 0.15 & CMA (54.1\%) & Ontario (25.3\%) & Low (93.5\%) & 0.016 & 0 - 0.0363 \\
-  MixAll C2 & 143,196 (58.7\%) & 71 & 0.11 & CMA (78.3\%) & Ontario (22.9\%) & Low (75.2\%) & 0.086 & 0.0363 - 1 \\
-\rowcolor{gray!25}  MCLUST C1 & 172 (0.1\%) & 231 & 0.29 & None (66.9\%) & Quebec (8.7\%) & Low (100.0\%) & 0.001 & 0 - 0.0019 \\
-\rowcolor{gray!25}  MCLUST C2 & 150,501 (61.7\%) & 55 & 0.14 & CMA (60.1\%) & Ontario (26.2\%) & Low (90.3\%) & 0.025 & 0.0019 - 0.0669 \\
- \rowcolor{gray!25} MCLUST C3 & 93,291 (38.2\%) & 74 & 0.10 & CMA (81.6\%) & Quebec (22.7\%) & Low (70.5\%) & 0.120 & 0.0669 - 1 \\
-  PAM k-means C1 & 100,954 (41.4\%) & 49 & 0.15 & CMA (54.1\%) & Ontario (25.3\%) & Low (93.5\%) & 0.016 & 0 - 0.0364 \\
-  PAM k-means C2 & 143,010 (58.6\%) & 71 & 0.11 & CMA (78.3\%) & Ontario (22.8\%) & Low (75.1\%) & 0.086 & 0.0364 - 1 \\
-   \hline
-\end{tabular}
-}
-\end{table}
-
-
-
-
-
-
-
-
-
-
-\begin{table}[H]
-\centering
-\caption[Health care cluster profiles]{Summary statistics for each cluster found by all approaches for the health care amenity. DB Population, IoR and proximity value show the median, while CMA Type, Province and Amenity Dense show the mode.}\label{healthcareprofiles}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{|r|llllllll|}
-  \hline
- & \# of DBs & DB Population & Median IoR & CMA Type & Province & Amenity Dense & Healthcare & Range \\
-  \hline
-Entire Population & 300,465 (100.0\%) & 55 & 0.13 & CMA (62.2\%) & Ontario (22.8\%) & Low (86.0\%) & 0.005 & 0 - 1 \\
-\rowcolor{gray!25}  Quintiles C1 & 56,525 (18.8\%) & 26 & 0.20 & None (48.0\%) & Ontario (12.1\%) & Low (99.7\%) & 0.000 & 0 - 7e-04 \\
-\rowcolor{gray!25}  Quintiles C2 & 61,910 (20.6\%) & 48 & 0.15 & CMA (50.9\%) & Ontario (15.4\%) & Low (97.1\%) & 0.002 & 7e-04 - 0.0032 \\
- \rowcolor{gray!25} Quintiles C3 & 61,500 (20.5\%) & 66 & 0.11 & CMA (69.5\%) & Ontario (25.6\%) & Low (91.7\%) & 0.005 & 0.0032 - 0.0074 \\
- \rowcolor{gray!25} Quintiles C4 & 60,378 (20.1\%) & 65 & 0.11 & CMA (71.4\%) & Ontario (28.7\%) & Low (83.4\%) & 0.011 & 0.0074 - 0.0184 \\
- \rowcolor{gray!25} Quintiles C5 & 60,152 (20.0\%) & 71 & 0.10 & CMA (85.2\%) & Ontario (31.7\%) & Low (58.5\%) & 0.034 & 0.0184 - 1 \\
-  Min/Max C1 & 14,556 (4.8\%) & 23 & 0.19 & None (56.5\%) & Ontario (14.7\%) & Low (99.8\%) & 0.000 & 0 - 0.0000 \\
-  Min/Max C2 & 14,259 (4.7\%) & 26 & 0.20 & None (48.7\%) & Ontario (12.6\%) & Low (99.8\%) & 0.000 & 0.0000 - 2e-04 \\
-  Min/Max C3 & 8,086 (2.7\%) & 26 & 0.20 & None (44.4\%) & Ontario (11.4\%) & Low (99.6\%) & 0.000 & 2e-04 - 3e-04 \\
-  Min/Max C4 & 263,564 (87.7\%) & 60 & 0.12 & CMA (66.6\%) & Ontario (24.2\%) & Low (84.1\%) & 0.006 & 3e-04 - 1 \\
- \rowcolor{gray!25} HDBSCAN C1 & 295,804 (98.4\%) & 54 & 0.13 & CMA (61.7\%) & Ontario (22.6\%) & Low (87.0\%) & 0.005 & 0 - 0.1052 \\
-\rowcolor{gray!25}  HDBSCAN C2 & 4,661 (1.6\%) & 102 & 0.03 & CMA (95.4\%) & Ontario (38.3\%) & Med (43.5\%) & 0.142 & 0.1052 - 1 \\
-  MixAll C1 & 106,196 (35.3\%) & 35 & 0.19 & None (40.2\%) & Ontario (13.2\%) & Low (98.7\%) & 0.001 & 0 - 0.0025 \\
-  MixAll C2 & 194,269 (64.7\%) & 67 & 0.11 & CMA (74.4\%) & Ontario (28.1\%) & Low (79.0\%) & 0.010 & 0.0025 - 1 \\
-\rowcolor{gray!25}  MCLUST C1 & 36,901 (12.3\%) & 25 & 0.20 & None (50.8\%) & Ontario (13.2\%) & Low (99.7\%) & 0.000 & 0 - 2e-04 \\
-\rowcolor{gray!25}  MCLUST C2 & 87,182 (29.0\%) & 44 & 0.16 & CMA (48.3\%) & Ontario (14.6\%) & Low (97.4\%) & 0.001 & 2e-04 - 0.0034 \\
- \rowcolor{gray!25} MCLUST C3 & 74,409 (24.8\%) & 67 & 0.11 & CMA (70.5\%) & Ontario (26.7\%) & Low (90.2\%) & 0.006 & 0.0034 - 0.0093 \\
- \rowcolor{gray!25} MCLUST C4 & 101,973 (33.9\%) & 68 & 0.10 & CMA (79.4\%) & Ontario (30.5\%) & Low (68.1\%) & 0.022 & 0.0093 - 1 \\
-  PAM k-means C1 & 99,871 (33.2\%) & 34 & 0.19 & None (41.2\%) & Ontario (12.9\%) & Low (98.9\%) & 0.000 & 0 - 0.0022 \\
-  PAM k-means C2 & 200,594 (66.8\%) & 66 & 0.11 & CMA (73.8\%) & Ontario (27.8\%) & Low (79.6\%) & 0.010 & 0.0022 - 1 \\
-   \hline
-\end{tabular}
-}
-\end{table}
-
-
-
-
-
-
-
-
-
-
-\begin{table}[H]
-\centering
-\caption[Grocery cluster profiles]{Summary statistics for each cluster found by all approaches for the grocery amenity. DB Population, IoR and proximity value show the median, while CMA Type, Province and Amenity Dense show the mode.}\label{groceryprofiles}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{|r|llllllll|}
-  \hline
- & \# of DBs & DB Population & Median IoR & CMA Type & Province & Amenity Dense & Grocery & Range \\
-  \hline
-Entire Population & 141,063 (100.0\%) & 61 & 0.11 & CMA (69.3\%) & Ontario (25.1\%) & Low (70.1\%) & 0.043 & 0 - 1 \\
- \rowcolor{gray!25} Quintiles C1 & 27,762 (19.7\%) & 65 & 0.11 & CMA (71.9\%) & Ontario (28.1\%) & Low (81.9\%) & 0.014 & 0 - 0.0221 \\
- \rowcolor{gray!25} Quintiles C2 & 28,569 (20.3\%) & 56 & 0.13 & CMA (61.3\%) & Ontario (23.2\%) & Low (80.6\%) & 0.029 & 0.0221 - 0.0348 \\
- \rowcolor{gray!25} Quintiles C3 & 28,266 (20.0\%) & 58 & 0.12 & CMA (64.6\%) & Ontario (25.1\%) & Low (74.7\%) & 0.043 & 0.0348 - 0.0555 \\
- \rowcolor{gray!25} Quintiles C4 & 28,248 (20.0\%) & 58 & 0.11 & CMA (68.5\%) & Ontario (24.9\%) & Low (67.3\%) & 0.072 & 0.0555 - 0.0985 \\
- \rowcolor{gray!25} Quintiles C5 & 28,218 (20.0\%) & 74 & 0.08 & CMA (80.3\%) & Ontario (24.5\%) & Low (46.2\%) & 0.154 & 0.0985 - 1 \\
-  Min/Max C1 & 11,600 (8.2\%) & 67 & 0.11 & CMA (73.5\%) & Ontario (28.6\%) & Low (82.5\%) & 0.009 & 0 - 0.0121 \\
-  Min/Max C2 & 10,766 (7.6\%) & 66 & 0.11 & CMA (72.7\%) & Ontario (28.9\%) & Low (81.6\%) & 0.016 & 0.0121 - 0.0185 \\
-  Min/Max C3 & 118,697 (84.1\%) & 60 & 0.11 & CMA (68.6\%) & Ontario (24.5\%) & Low (67.9\%) & 0.053 & 0.0185 - 1 \\
-\rowcolor{gray!25}  HDBSCAN C1 & 11,799 (8.4\%) & 67 & 0.11 & CMA (73.4\%) & Ontario (28.5\%) & Low (82.6\%) & 0.009 & 0 - 0.0124 \\
- \rowcolor{gray!25} HDBSCAN C2 & 89,898 (63.7\%) & 58 & 0.12 & CMA (65.2\%) & Ontario (25.0\%) & Low (76.8\%) & 0.035 & 0.0124 - 0.0763 \\
-\rowcolor{gray!25}  HDBSCAN C3 & 39,366 (27.9\%) & 69 & 0.10 & CMA (77.4\%) & Ontario (24.5\%) & Low (51.2\%) & 0.126 & 0.0763 - 1 \\
-  MixAll C1 & 77,110 (54.7\%) & 60 & 0.12 & CMA (66.0\%) & Ontario (25.4\%) & Low (79.9\%) & 0.027 & 0 - 0.0484 \\
-  MixAll C2 & 63,953 (45.3\%) & 64 & 0.11 & CMA (73.3\%) & Ontario (24.8\%) & Low (58.4\%) & 0.090 & 0.0484 - 1 \\
-\rowcolor{gray!25}  MCLUST C1 & 1,615 (1.1\%) & 77 & 0.11 & CMA (66.8\%) & Ontario (27.1\%) & Low (85.8\%) & 0.007 & 0 - 0.0072 \\
-\rowcolor{gray!25}  MCLUST C2 & 9,542 (6.8\%) & 66 & 0.11 & CMA (74.8\%) & Ontario (28.9\%) & Low (81.9\%) & 0.009 & 0.0072 - 0.0117 \\
- \rowcolor{gray!25} MCLUST C3 & 129,906 (92.1\%) & 61 & 0.11 & CMA (68.9\%) & Ontario (24.9\%) & Low (69.1\%) & 0.048 & 0.0117 - 1 \\
-  PAM k-means C1 & 10,674 (7.6\%) & 68 & 0.11 & CMA (73.8\%) & Ontario (28.6\%) & Low (82.6\%) & 0.008 & 0 - 0.0113 \\
-  PAM k-means C2 & 12,384 (8.8\%) & 66 & 0.11 & CMA (72.6\%) & Ontario (28.8\%) & Low (81.5\%) & 0.016 & 0.0113 - 0.0189 \\
-  PAM k-means C3 & 15,758 (11.2\%) & 55 & 0.14 & CMA (60.9\%) & Ontario (23.2\%) & Low (81.8\%) & 0.023 & 0.0189 - 0.0275 \\
-  PAM k-means C4 & 25,218 (17.9\%) & 57 & 0.13 & CMA (63.1\%) & Ontario (24.0\%) & Low (79.0\%) & 0.033 & 0.0275 - 0.0389 \\
-  PAM k-means C5 & 22,468 (15.9\%) & 58 & 0.12 & CMA (65.2\%) & Ontario (25.2\%) & Low (73.4\%) & 0.047 & 0.0389 - 0.0574 \\
-  PAM k-means C6 & 23,558 (16.7\%) & 58 & 0.11 & CMA (68.2\%) & Ontario (24.8\%) & Low (67.8\%) & 0.071 & 0.0574 - 0.0919 \\
-  PAM k-means C7 & 18,749 (13.3\%) & 67 & 0.10 & CMA (75.1\%) & Ontario (25.7\%) & Low (56.1\%) & 0.119 & 0.0919 - 0.1674 \\
-  PAM k-means C8 & 12,254 (8.7\%) & 85 & 0.06 & CMA (86.1\%) & Quebec (31.8\%) & Med (40.8\%) & 0.232 & 0.1674 - 1 \\
-   \hline
-\end{tabular}
-}
-\end{table}
-
-
-
-
-
-
-
-
-
-
-\begin{table}[H]
-\centering
-\caption[Secondary education cluster profiles]{Summary statistics for each cluster found by all approaches for the secondary education amenity. DB Population, IoR and proximity value show the median, while CMA Type, Province and Amenity Dense show the mode.}\label{seceducprofiles}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{|r|llllllll|}
-  \hline
- & \# of DBs & DB Population & Median IoR & CMA Type & Province & Amenity Dense & Sec. Educ. & Range \\
-  \hline
-Entire Population & 141,213 (100.0\%) & 58 & 0.14 & CMA (62.5\%) & Ontario (18.2\%) & Low (77.2\%) & 0.074 & 0 - 1 \\
- \rowcolor{gray!25} Quintiles C1 & 28,202 (20.0\%) & 58 & 0.13 & CMA (63.4\%) & Ontario (25.6\%) & Low (82.8\%) & 0.037 & 0 - 0.0421 \\
-\rowcolor{gray!25}  Quintiles C2 & 28,226 (20.0\%) & 55 & 0.14 & CMA (60.1\%) & Ontario (23.5\%) & Low (82.7\%) & 0.048 & 0.0421 - 0.0586 \\
-\rowcolor{gray!25}  Quintiles C3 & 28,260 (20.0\%) & 53 & 0.15 & CMA (58.4\%) & Ontario (18.6\%) & Low (80.7\%) & 0.074 & 0.0586 - 0.0910 \\
-\rowcolor{gray!25}  Quintiles C4 & 28,273 (20.0\%) & 58 & 0.14 & CMA (62.7\%) & Ontario (14.2\%) & Low (74.0\%) & 0.114 & 0.0910 - 0.1492 \\
-\rowcolor{gray!25}  Quintiles C5 & 28,252 (20.0\%) & 67 & 0.11 & CMA (67.6\%) & BritishColumbia (23.8\%) & Low (66.0\%) & 0.213 & 0.1492 - 1 \\
-  Min/Max C1 & 63,449 (44.9\%) & 56 & 0.14 & CMA (61.0\%) & Ontario (24.2\%) & Low (82.9\%) & 0.043 & 0 - 0.0661 \\
-  Min/Max C2 & 77,764 (55.1\%) & 60 & 0.14 & CMA (63.7\%) & BritishColumbia (15.5\%) & Low (72.6\%) & 0.122 & 0.0661 - 1 \\
- \rowcolor{gray!25} HDBSCAN C1 & 55,741 (39.5\%) & 57 & 0.13 & CMA (61.8\%) & Ontario (24.6\%) & Low (82.8\%) & 0.042 & 0 - 0.0576 \\
- \rowcolor{gray!25} HDBSCAN C2 & 25,135 (17.8\%) & 53 & 0.15 & CMA (58.0\%) & Ontario (19.1\%) & Low (81.3\%) & 0.072 & 0.0576 - 0.0863 \\
- \rowcolor{gray!25} HDBSCAN C3 & 60,337 (42.7\%) & 62 & 0.14 & CMA (64.9\%) & BritishColumbia (17.8\%) & Low (70.4\%) & 0.143 & 0.0863 - 1 \\
-  MixAll C1 & 61,440 (43.5\%) & 56 & 0.13 & CMA (61.2\%) & Ontario (24.3\%) & Low (82.9\%) & 0.043 & 0 - 0.0632 \\
-  MixAll C2 & 48,748 (34.5\%) & 56 & 0.14 & CMA (60.8\%) & Ontario (16.2\%) & Low (77.0\%) & 0.092 & 0.0632 - 0.1409 \\
-  MixAll C3 & 31,025 (22.0\%) & 66 & 0.11 & CMA (67.4\%) & BritishColumbia (23.2\%) & Low (66.5\%) & 0.204 & 0.1409 - 1 \\
-\rowcolor{gray!25}  MCLUST C1 & 3,273 (2.3\%) & 62 & 0.14 & CMA (61.3\%) & Ontario (24.4\%) & Low (84.8\%) & 0.034 & 0 - 0.0346 \\
- \rowcolor{gray!25} MCLUST C2 & 996 (0.7\%) & 62 & 0.12 & CMA (65.4\%) & Ontario (28.7\%) & Low (80.9\%) & 0.035 & 0.0346 - 0.0347 \\
-\rowcolor{gray!25}  MCLUST C3 & 28,454 (20.1\%) & 57 & 0.13 & CMA (63.4\%) & Ontario (25.5\%) & Low (82.5\%) & 0.039 & 0.0347 - 0.0438 \\
- \rowcolor{gray!25} MCLUST C4 & 27,303 (19.3\%) & 54 & 0.14 & CMA (59.1\%) & Ontario (23.0\%) & Low (83.0\%) & 0.051 & 0.0438 - 0.0618 \\
- \rowcolor{gray!25} MCLUST C5 & 20,457 (14.5\%) & 53 & 0.15 & CMA (58.3\%) & Ontario (18.6\%) & Low (81.0\%) & 0.074 & 0.0618 - 0.0855 \\
- \rowcolor{gray!25} MCLUST C6 & 11,341 (8.0\%) & 56 & 0.15 & CMA (61.1\%) & Ontario (16.3\%) & Low (76.5\%) & 0.093 & 0.0855 - 0.1011 \\
-\rowcolor{gray!25}  MCLUST C7 & 19,329 (13.7\%) & 59 & 0.14 & CMA (63.1\%) & Ontario (13.7\%) & Low (73.3\%) & 0.120 & 0.1011 - 0.1434 \\
-\rowcolor{gray!25}  MCLUST C8 & 30,060 (21.3\%) & 67 & 0.11 & CMA (67.5\%) & BritishColumbia (23.4\%) & Low (66.3\%) & 0.207 & 0.1434 - 1 \\
-  PAM k-means C1 & 53,475 (37.9\%) & 57 & 0.13 & CMA (62.0\%) & Ontario (24.8\%) & Low (82.7\%) & 0.041 & 0 - 0.0557 \\
-  PAM k-means C2 & 37,062 (26.2\%) & 54 & 0.15 & CMA (58.7\%) & Ontario (18.5\%) & Low (80.3\%) & 0.076 & 0.0557 - 0.0990 \\
-  PAM k-means C3 & 30,221 (21.4\%) & 59 & 0.14 & CMA (63.5\%) & BritishColumbia (15.4\%) & Low (72.5\%) & 0.129 & 0.0990 - 0.1783 \\
-  PAM k-means C4 & 20,455 (14.5\%) & 69 & 0.11 & CMA (68.9\%) & BritishColumbia (25.2\%) & Low (64.3\%) & 0.243 & 0.1783 - 1 \\
-   \hline
-\end{tabular}
-}
-\end{table}
-
-
-
-
-
-
-
-
-
-
-\begin{table}[H]
-\centering
-\caption[Library cluster profiles]{Summary statistics for each cluster found by all approaches for the library amenity. DB Population, IoR and proximity value show the median, while CMA Type, Province and Amenity Dense show the mode.}\label{libraryprofiles}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{|r|llllllll|}
-  \hline
- & \# of DBs & DB Population & Median IoR & CMA Type & Province & Amenity Dense & Library & Range \\
-  \hline
-Entire Population & 112,655 (100.0\%) & 48 & 0.14 & CMA (54.4\%) & Ontario (21.4\%) & Low (62.6\%) & 0.081 & 0 - 1 \\
-\rowcolor{gray!25}  Quintiles C1 & 21,995 (19.5\%) & 61 & 0.12 & CMA (63.2\%) & Ontario (24.0\%) & Low (64.7\%) & 0.050 & 0 - 0.0558 \\
-\rowcolor{gray!25}  Quintiles C2 & 22,988 (20.4\%) & 56 & 0.13 & CMA (59.6\%) & Ontario (23.3\%) & Low (63.8\%) & 0.062 & 0.0558 - 0.0707 \\
- \rowcolor{gray!25} Quintiles C3 & 21,932 (19.5\%) & 48 & 0.15 & CMA (52.1\%) & Ontario (20.6\%) & Low (63.2\%) & 0.080 & 0.0707 - 0.0960 \\
- \rowcolor{gray!25} Quintiles C4 & 23,117 (20.5\%) & 44 & 0.15 & CMA (51.1\%) & Ontario (20.4\%) & Low (60.1\%) & 0.116 & 0.0960 - 0.1488 \\
- \rowcolor{gray!25} Quintiles C5 & 22,623 (20.1\%) & 33 & 0.17 & CMA (45.8\%) & Ontario (18.8\%) & Low (61.3\%) & 0.211 & 0.1488 - 1 \\
-  Min/Max C1 & 111,546 (99.0\%) & 48 & 0.14 & CMA (54.6\%) & Ontario (21.5\%) & Low (62.5\%) & 0.080 & 0 - 0.6149 \\
-  Min/Max C2 & 1,109 (1.0\%) & 19 & 0.22 & None (49.4\%) & Ontario (14.1\%) & Low (71.2\%) & 0.719 & 0.6149 - 1 \\
-\rowcolor{gray!25}  HDBSCAN C1 & 20,209 (17.9\%) & 62 & 0.12 & CMA (63.3\%) & Ontario (24.1\%) & Low (64.7\%) & 0.050 & 0 - 0.0546 \\
-\rowcolor{gray!25}  HDBSCAN C2 & 18,620 (16.5\%) & 56 & 0.13 & CMA (60.3\%) & Ontario (23.5\%) & Low (63.9\%) & 0.060 & 0.0546 - 0.0658 \\
-\rowcolor{gray!25}  HDBSCAN C3 & 4,331 (3.8\%) & 55 & 0.13 & CMA (58.9\%) & Ontario (22.7\%) & Low (63.9\%) & 0.067 & 0.0658 - 0.0691 \\
- \rowcolor{gray!25} HDBSCAN C4 & 69,495 (61.7\%) & 42 & 0.15 & CMA (49.9\%) & Ontario (20.0\%) & Low (61.6\%) & 0.115 & 0.0691 - 1 \\
-  MixAll C1 & 69,474 (61.7\%) & 55 & 0.14 & CMA (58.0\%) & Ontario (22.5\%) & Low (63.8\%) & 0.063 & 0 - 0.0993 \\
-  MixAll C2 & 43,181 (38.3\%) & 38 & 0.15 & CMA (48.4\%) & Ontario (19.6\%) & Low (60.6\%) & 0.152 & 0.0993 - 1 \\
-\rowcolor{gray!25}  MCLUST C1 & 268 (0.2\%) & 114 & 0.30 & None (83.6\%) & NovaScotia (3.4\%) & Low (100.0\%) & 0.029 & 0 - 0.0417 \\
-\rowcolor{gray!25}  MCLUST C2 & 6,381 (5.7\%) & 63 & 0.11 & CMA (65.7\%) & Ontario (25.2\%) & Low (64.4\%) & 0.048 & 0.0417 - 0.0488 \\
-\rowcolor{gray!25}  MCLUST C3 & 11,854 (10.5\%) & 60 & 0.12 & CMA (63.3\%) & Ontario (23.9\%) & Low (64.1\%) & 0.051 & 0.0488 - 0.0538 \\
- \rowcolor{gray!25} MCLUST C4 & 23,791 (21.1\%) & 56 & 0.13 & CMA (60.2\%) & Ontario (23.5\%) & Low (63.9\%) & 0.060 & 0.0538 - 0.0682 \\
- \rowcolor{gray!25} MCLUST C5 & 22,881 (20.3\%) & 49 & 0.14 & CMA (53.2\%) & Ontario (20.9\%) & Low (63.1\%) & 0.079 & 0.0682 - 0.0927 \\
-\rowcolor{gray!25}  MCLUST C6 & 13,289 (11.8\%) & 45 & 0.15 & CMA (50.7\%) & Ontario (19.9\%) & Low (61.5\%) & 0.103 & 0.0927 - 0.1163 \\
-\rowcolor{gray!25}  MCLUST C7 & 34,191 (30.4\%) & 36 & 0.16 & CMA (47.6\%) & Ontario (19.4\%) & Low (60.6\%) & 0.170 & 0.1163 - 1 \\
-  PAM k-means C1 & 66,047 (58.6\%) & 55 & 0.13 & CMA (58.5\%) & Ontario (22.7\%) & Low (63.9\%) & 0.062 & 0 - 0.0943 \\
-  PAM k-means C2 & 46,608 (41.4\%) & 38 & 0.15 & CMA (48.5\%) & Ontario (19.6\%) & Low (60.8\%) & 0.146 & 0.0943 - 1 \\
-   \hline
-\end{tabular}
-}
-\end{table}
-
-
-
-
-
-
-
-
-
-
-\begin{table}[H]
-\centering
-\caption[Parks cluster profiles]{Summary statistics for each cluster found by all approaches for the parks amenity. DB Population, IoR and proximity value show the median, while CMA Type, Province and Amenity Dense show the mode.}\label{parksprofiles}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{|r|llllllll|}
-  \hline
- & \# of DBs & DB Population & Median IoR & CMA Type & Province & Amenity Dense & Parks & Range \\
-  \hline
-Entire Population & 234,068 (100.0\%) & 62 & 0.11 & CMA (68.4\%) & Ontario (25.3\%) & Low (82.3\%) & 0.048 & 0 - 1 \\
-\rowcolor{gray!25}  Quintiles C1 & 46,782 (20.0\%) & 45 & 0.16 & CMA (47.2\%) & Ontario (16.1\%) & Low (95.7\%) & 0.013 & 0 - 0.0203 \\
-\rowcolor{gray!25}  Quintiles C2 & 46,761 (20.0\%) & 55 & 0.13 & CMA (61.0\%) & Ontario (22.4\%) & Low (90.1\%) & 0.028 & 0.0203 - 0.0372 \\
-\rowcolor{gray!25}  Quintiles C3 & 46,859 (20.0\%) & 65 & 0.11 & CMA (70.1\%) & Ontario (28.0\%) & Low (83.7\%) & 0.048 & 0.0372 - 0.0614 \\
-\rowcolor{gray!25}  Quintiles C4 & 46,808 (20.0\%) & 71 & 0.11 & CMA (77.3\%) & Ontario (30.3\%) & Low (77.3\%) & 0.079 & 0.0614 - 0.1050 \\
- \rowcolor{gray!25} Quintiles C5 & 46,858 (20.0\%) & 72 & 0.11 & CMA (86.1\%) & Ontario (29.4\%) & Low (65.1\%) & 0.149 & 0.1050 - 1 \\
-  Min/Max C1 & 42,995 (18.4\%) & 45 & 0.16 & CMA (47.1\%) & Ontario (16.0\%) & Low (95.7\%) & 0.012 & 0 - 0.0183 \\
-  Min/Max C2 & 31,335 (13.4\%) & 52 & 0.14 & CMA (58.4\%) & Ontario (21.0\%) & Low (91.7\%) & 0.024 & 0.0183 - 0.0294 \\
-  Min/Max C3 & 159,738 (68.2\%) & 68 & 0.11 & CMA (76.0\%) & Ontario (28.6\%) & Low (76.9\%) & 0.071 & 0.0294 - 1 \\
-\rowcolor{gray!25}  HDBSCAN C1 & 45,949 (19.6\%) & 45 & 0.16 & CMA (47.1\%) & Ontario (16.1\%) & Low (95.7\%) & 0.013 & 0 - 0.0200 \\
-\rowcolor{gray!25}  HDBSCAN C2 & 188,119 (80.4\%) & 66 & 0.11 & CMA (73.5\%) & Ontario (27.5\%) & Low (79.1\%) & 0.061 & 0.0200 - 1 \\
-  MixAll C1 & 110,198 (47.1\%) & 52 & 0.14 & CMA (56.1\%) & Ontario (20.3\%) & Low (91.8\%) & 0.023 & 0 - 0.0447 \\
-  MixAll C2 & 123,870 (52.9\%) & 70 & 0.11 & CMA (79.3\%) & Ontario (29.6\%) & Low (74.0\%) & 0.087 & 0.0447 - 1 \\
-\rowcolor{gray!25}  MCLUST C1 & 36,926 (15.8\%) & 45 & 0.16 & CMA (46.9\%) & Ontario (15.9\%) & Low (95.7\%) & 0.012 & 0 - 0.0159 \\
- \rowcolor{gray!25} MCLUST C2 & 44,867 (19.2\%) & 52 & 0.14 & CMA (57.4\%) & Ontario (20.7\%) & Low (91.9\%) & 0.024 & 0.0159 - 0.0324 \\
-\rowcolor{gray!25}  MCLUST C3 & 31,713 (13.5\%) & 62 & 0.11 & CMA (66.4\%) & Ontario (25.9\%) & Low (86.1\%) & 0.039 & 0.0324 - 0.0463 \\
- \rowcolor{gray!25} MCLUST C4 & 28,343 (12.1\%) & 67 & 0.11 & CMA (72.0\%) & Ontario (28.9\%) & Low (82.3\%) & 0.054 & 0.0463 - 0.0624 \\
- \rowcolor{gray!25} MCLUST C5 & 25,512 (10.9\%) & 71 & 0.11 & CMA (76.6\%) & Ontario (30.8\%) & Low (78.6\%) & 0.072 & 0.0624 - 0.0825 \\
- \rowcolor{gray!25} MCLUST C6 & 1,974 (0.8\%) & 71 & 0.10 & CMA (79.2\%) & Ontario (31.0\%) & Low (74.7\%) & 0.084 & 0.0825 - 0.0845 \\
- \rowcolor{gray!25} MCLUST C7 & 28,802 (12.3\%) & 72 & 0.11 & CMA (79.3\%) & Ontario (29.6\%) & Low (74.2\%) & 0.100 & 0.0845 - 0.1219 \\
-\rowcolor{gray!25}  MCLUST C8 & 35,931 (15.4\%) & 72 & 0.11 & CMA (87.8\%) & Ontario (29.3\%) & Low (62.9\%) & 0.168 & 0.1219 - 1 \\
-  PAM k-means C1 & 110,802 (47.3\%) & 52 & 0.14 & CMA (56.2\%) & Ontario (20.4\%) & Low (91.7\%) & 0.023 & 0 - 0.0450 \\
-  PAM k-means C2 & 123,266 (52.7\%) & 70 & 0.11 & CMA (79.3\%) & Ontario (29.6\%) & Low (73.9\%) & 0.088 & 0.0450 - 1 \\
-   \hline
-\end{tabular}
-}
-\end{table}
-
-
-
-
-
-
-
-
-
-
-\begin{table}[H]
-\centering
-\caption[Transit cluster profiles]{Summary statistics for each cluster found by all approaches for the transit amenity. DB Population, IoR and proximity value show the median, while CMA Type, Province and Amenity Dense show the mode.}\label{transitprofiles}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{|r|llllllll|}
-  \hline
- & \# of DBs & DB Population & Median IoR & CMA Type & Province & Amenity Dense & Transit & Range \\
-  \hline
-Entire Population & 181,305 (100.0\%) & 73 & 0.10 & CMA (89.8\%) & Ontario (31.9\%) & Low (76.9\%) & 0.009 & 0 - 1 \\
- \rowcolor{gray!25} Quintiles C1 & 35,411 (19.5\%) & 58 & 0.11 & CMA (73.7\%) & Ontario (31.6\%) & Low (94.3\%) & 0.001 & 0 - 0.0026 \\
-\rowcolor{gray!25}  Quintiles C2 & 36,983 (20.4\%) & 75 & 0.10 & CMA (86.6\%) & Ontario (33.3\%) & Low (91.7\%) & 0.004 & 0.0026 - 0.0067 \\
-\rowcolor{gray!25}  Quintiles C3 & 36,255 (20.0\%) & 74 & 0.11 & CMA (92.0\%) & Ontario (30.5\%) & Low (85.8\%) & 0.009 & 0.0067 - 0.0131 \\
-\rowcolor{gray!25}  Quintiles C4 & 36,300 (20.0\%) & 73 & 0.10 & CMA (96.8\%) & Ontario (30.2\%) & Low (72.3\%) & 0.018 & 0.0131 - 0.0272 \\
- \rowcolor{gray!25} Quintiles C5 & 36,356 (20.1\%) & 85 & 0.06 & CMA (99.4\%) & Ontario (34.1\%) & Med (46.7\%) & 0.044 & 0.0272 - 1 \\
-  Min/Max C1 & 1,014 (0.6\%) & 37 & 0.15 & CMA (48.3\%) & Ontario (29.7\%) & Low (95.6\%) & 0.000 & 0 - 0.0000 \\
-  Min/Max C2 & 2,474 (1.4\%) & 38 & 0.13 & CMA (56.8\%) & Ontario (26.6\%) & Low (93.9\%) & 0.000 & 0.0000 - 1e-04 \\
-  Min/Max C3 & 2,082 (1.1\%) & 36 & 0.13 & CMA (59.5\%) & Ontario (27.2\%) & Low (92.5\%) & 0.000 & 1e-04 - 3e-04 \\
-  Min/Max C4 & 1,923 (1.1\%) & 43 & 0.13 & CMA (66.8\%) & Ontario (30.8\%) & Low (95.3\%) & 0.000 & 3e-04 - 4e-04 \\
-  Min/Max C5 & 173,812 (95.9\%) & 74 & 0.10 & CMA (91.1\%) & Ontario (32.1\%) & Low (76.2\%) & 0.010 & 4e-04 - 1 \\
-\rowcolor{gray!25}  HDBSCAN C1 & 158,674 (87.5\%) & 71 & 0.10 & CMA (88.4\%) & Ontario (31.4\%) & Low (83.2\%) & 0.008 & 0 - 0.0388 \\
-\rowcolor{gray!25}  HDBSCAN C2 & 22,631 (12.5\%) & 90 & 0.06 & CMA (99.8\%) & Ontario (35.8\%) & Med (49.3\%) & 0.056 & 0.0388 - 1 \\
-  MixAll C1 & 71,659 (39.5\%) & 67 & 0.11 & CMA (80.2\%) & Ontario (32.5\%) & Low (93.0\%) & 0.003 & 0 - 0.0065 \\
-  MixAll C2 & 109,646 (60.5\%) & 76 & 0.09 & CMA (96.1\%) & Ontario (31.6\%) & Low (66.4\%) & 0.018 & 0.0065 - 1 \\
-\rowcolor{gray!25}  MCLUST C1 & 17,469 (9.6\%) & 47 & 0.13 & CMA (66.9\%) & Ontario (30.6\%) & Low (94.8\%) & 0.000 & 0 - 0.0010 \\
-\rowcolor{gray!25}  MCLUST C2 & 84,840 (46.8\%) & 73 & 0.10 & CMA (87.0\%) & Ontario (32.1\%) & Low (90.5\%) & 0.005 & 0.0010 - 0.0116 \\
-\rowcolor{gray!25}  MCLUST C3 & 78,996 (43.6\%) & 78 & 0.07 & CMA (97.8\%) & Ontario (32.0\%) & Low (58.5\%) & 0.025 & 0.0116 - 1 \\
-  PAM k-means C1 & 79,536 (43.9\%) & 68 & 0.11 & CMA (81.2\%) & Ontario (32.3\%) & Low (92.7\%) & 0.003 & 0 - 0.0076 \\
-  PAM k-means C2 & 101,769 (56.1\%) & 76 & 0.09 & CMA (96.5\%) & Ontario (31.7\%) & Low (64.6\%) & 0.020 & 0.0076 - 1 \\
-   \hline
-\end{tabular}
-}
-\end{table}
-
-
-
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%
-\pagebreak
-
-
-\centering
-\begin{longtable}[h]{|r|llll|}
-\caption[Employment validation metrics]{The validation metric values for each clustering approach for the employment amenity.}\label{employmentvalid}
-\endfirsthead
-\endhead
-  \hline
- & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
-  \hline
-Quintiles & 0.35 & 0.00000 &  3545 & 0.95 \\
-   \hline
-MixAll & 0.62 & 0.00492 & 35404 & 0.60 \\
-   \hline
-HDBSCAN & \cellcolor{gray!25} 0.69 & 0.00338 &  3656 & \cellcolor{gray!25} 0.40 \\
-   \hline
-PAM k-means & 0.63 & \cellcolor{gray!25} 0.00498 & 36372 & 0.59 \\
-   \hline
-MCLUST & 0.59 & 0.00126 & \cellcolor{gray!25} 98539 & 0.56 \\
-   \hline
-Min/Max & 0.60 & 0.00014 &   256 & 1.01 \\
-   \hline
-\end{longtable}
-
-
-
-
-
-
-
-
-
-
-
-\centering
-\begin{longtable}[h]{|r|llll|}
-\caption[Pharmacy validation metrics]{The validation metric values for each clustering approach for the pharmacy amenity.}\label{pharmacyvalid}
-\endfirsthead
-\endhead
-  \hline
- & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
-  \hline
-Quintiles & 0.43 & 0.00000 &  1409 &  1.01 \\
-   \hline
-MixAll & \cellcolor{gray!25} 0.59 & \cellcolor{gray!25} 0.00105 & \cellcolor{gray!25}12007 & \cellcolor{gray!25} 0.66 \\
-   \hline
-HDBSCAN & 0.44 & 0.00000 &  4571 &  0.80 \\
-   \hline
-PAM k-means & \cellcolor{gray!25} 0.59 & 0.00084 & 11854 &  0.67 \\
-   \hline
-MCLUST & 0.48 & 0.00020 &  4928 & 25.17 \\
-   \hline
-Min/Max & 0.38 & 0.00010 &   639 &  0.80 \\
-   \hline
-\end{longtable}
-
-
-
-
-
-
-
-
-
-\centering
-\begin{longtable}[h]{|r|llll|}
-\caption[Child care validation metrics]{The validation metric values for each clustering approach for the child care amenity.}\label{childcarevalid}
-\endfirsthead
-\endhead
- \hline
- & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
-  \hline
-Quintiles & 0.44 & 0.00000 &  3696 & 0.79 \\
-   \hline
-MixAll & 0.58 & 0.00067 & \cellcolor{gray!25} 15949 & 0.67 \\
-   \hline
-HDBSCAN & 0.44 & 0.00000 &  3854 & 1.77 \\
-   \hline
-PAM k-means & 0.57 & \cellcolor{gray!25} 0.00072 & 15190 & 0.69 \\
-   \hline
-MCLUST & \cellcolor{gray!25} 0.60 & 0.00032 &  9951 & \cellcolor{gray!25} 0.64 \\
-   \hline
-Min/Max & 0.40 & 0.00011 &   543 & 0.76 \\
-   \hline
-\end{longtable}
-
-
-
-
-
-
-
-
-
-\centering
-\begin{longtable}[h]{|r|llll|}
-\caption[Health care validation metrics]{The validation metric values for each clustering approach for the health care amenity.}\label{healthcarevalid}
-\endfirsthead
-\endhead
-  \hline
- & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
-  \hline
-Quintiles & 0.39 & 0.00000 &  1724 & 1.13 \\
-   \hline
-MixAll & 0.58 & 0.00707 & 18546 & 0.68 \\
-   \hline
-HDBSCAN & \cellcolor{gray!25} 0.73 & \cellcolor{gray!25} 0.00291 &  2260 & \cellcolor{gray!25} 0.35 \\
-   \hline
-PAM k-means & 0.59 & 0.00779 & 18858 & 0.66 \\
-   \hline
-MCLUST & 0.52 & 0.00234 & \cellcolor{gray!25} 23477 & 0.64 \\
-   \hline
-Min/Max & 0.64 & 0.00015 &   103 & 1.01 \\
-   \hline
-\end{longtable}
-
-
-
-
-
-
-
-
-
-\centering
-\begin{longtable}[h]{|r|llll|}
-\caption[Grocery validation metrics]{The validation metric values for each clustering approach for the grocery amenity.}\label{groceryvalid}
-\endfirsthead
-\endhead
-  \hline
- & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
-  \hline
-Quintiles & 0.40 & 0.00000 &  1787 & 0.83 \\
-   \hline
-MixAll & 0.55 & 0.00071 &  7461 & 0.76 \\
-   \hline
-HDBSCAN & 0.49 & 0.00000 &  1953 & 1.16 \\
-   \hline
-PAM k-means & 0.56 & 0.00070 & \cellcolor{gray!25} 19255 & \cellcolor{gray!25} 0.58 \\
-   \hline
-MCLUST & \cellcolor{gray!25} 0.59 & \cellcolor{gray!25} 0.00115 &  1960 & 0.69 \\
-   \hline
-Min/Max & 0.38 & 0.00013 &   220 & 0.82 \\
-   \hline
-\end{longtable}
-
-
-
-
-
-
-
-
-
-\centering
-\begin{longtable}[h]{|r|llll|}
-\caption[Secondary education validation metrics]{The validation metric values for each clustering approach for the secondary education amenity.}\label{seceducvalid}
-\endfirsthead
-\endhead
-  \hline
- & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
-  \hline
-Quintiles & 0.44 & 0.00000 &  2686 & 0.75 \\
-   \hline
-MixAll & \cellcolor{gray!25} 0.58 & 0.00028 & 13920 & 0.63 \\
-   \hline
-HDBSCAN & 0.41 & 0.00018 &  2710 & 1.37 \\
-   \hline
-PAM k-means & 0.56 & \cellcolor{gray!25} 0.00178 & \cellcolor{gray!25} 16406 & 0.62 \\
-   \hline
-MCLUST & 0.48 & 0.00040 &  7936 & \cellcolor{gray!25} 0.59 \\
-   \hline
-Min/Max & 0.44 & 0.00052 &  2306 & 0.71 \\
-   \hline
-\end{longtable}
-
-
-
-
-
-
-
-
-
-\centering
-\begin{longtable}[h]{|r|llll|}
-\caption[Library validation metrics]{The validation metric values for each clustering approach for the library amenity.}\label{libraryvalid}
-\endfirsthead
-\endhead
- \hline
- & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
-  \hline
-Quintiles & 0.43 & 0.00000 & 1386 & 0.84 \\
-   \hline
-MixAll & 0.58 & 0.00243 & \cellcolor{gray!25} 7174 & 0.70 \\
-   \hline
-HDBSCAN & 0.47 & 0.00028 & 1395 & 0.69 \\
-   \hline
-PAM k-means & 0.57 & 0.00320 & 6138 & 0.73 \\
-   \hline
-MCLUST & 0.49 & 0.00167 & 4323 & 0.68 \\
-   \hline
-Min/Max & \cellcolor{gray!25} 0.88 & \cellcolor{gray!25} 0.01046 & 1546 & \cellcolor{gray!25} 0.16 \\
-   \hline
-\end{longtable}
-
-
-
-
-
-
-
-
-
-\centering
-\begin{longtable}[h]{|r|llll|}
-\caption[Parks validation metrics]{The validation metric values for each clustering approach for the parks amenity.}\label{parksvalid}
-\endfirsthead
-\endhead
-  \hline
- & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
-  \hline
-Quintiles & 0.48 & 0.00000 &  4676 & 0.74 \\
-   \hline
-MixAll & 0.57 & \cellcolor{gray!25} 0.00052 & 14414 & 0.70 \\
-   \hline
-HDBSCAN & 0.36 & 0.00000 &  4008 & 4.06 \\
-   \hline
-PAM k-means & \cellcolor{gray!25} 0.58 & 0.00044 & 14512 & \cellcolor{gray!25} 0.69 \\
-   \hline
-MCLUST & 0.46 & 0.00011 & \cellcolor{gray!25} 17244 & 0.96 \\
-   \hline
-Min/Max & 0.43 & 0.00013 &  1342 & 0.70 \\
-   \hline
-\end{longtable}
-
-
-
-
-
-
-
-
-
-\centering
-\begin{longtable}[h]{|r|llll|}
-\caption[Transit validation metrics]{The validation metric values for each clustering approach for the transit amenity.}\label{transitvalid}
-\endfirsthead
-\endhead
-  \hline
- & Silhouette & Dunn & Calinski Harabasz & Davies Bouldin \\
-  \hline
-Quintiles & 0.42 & 0.00000 &  1519 & 1.00 \\
-   \hline
-MixAll & 0.55 & \cellcolor{gray!25} 0.00355 &  9466 & 0.76 \\
-   \hline
-HDBSCAN & 0.27 & 0.00000 &   958 & 2.46 \\
-   \hline
-PAM k-means & 0.54 & 0.00297 &  8940 & 0.78 \\
-   \hline
-MCLUST & 0.58 & 0.00249 & \cellcolor{gray!25} 11502 & \cellcolor{gray!25} 0.64 \\
-   \hline
-Min/Max & \cellcolor{gray!25} 0.74 & 0.00017 &    26 & 0.87 \\
-   \hline
-\end{longtable}
-
-
-
-
-
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%
 
 
 \end{document}

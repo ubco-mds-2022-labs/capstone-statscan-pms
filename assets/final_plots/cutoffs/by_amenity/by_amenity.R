@@ -94,7 +94,7 @@ cmanual = list(
   PMS_prox_idx_transit = c(0.0000390986, 0.0001481958, 0.0002512994, 0.0003514904)
 )
 all_cutoffs = list(cquintiles, cmanual, chdbscan, cmixall, cmclust, cpamkmeans)
-anames = c('Quintiles', 'Min/Max', 'HDBSCAN', 'MixAll', 'MCLUST', 'PAM k-means')
+anames = c('Quintiles', 'Minima', 'HDBSCAN', 'MixAll', 'MCLUST', 'PAM k-means')
 #max_n = max(unlist(lapply(cmanual, length)))
 
 

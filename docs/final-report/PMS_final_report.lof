@@ -1,40 +1,43 @@
-\contentsline {figure}{\numberline {1}{\ignorespaces Proximity Measures Data Viewer}}{2}{figure.caption.4}%
-\contentsline {figure}{\numberline {2}{\ignorespaces Number of cluster selection}}{7}{figure.caption.6}%
-\contentsline {figure}{\numberline {3}{\ignorespaces Comparison of distributions}}{11}{figure.caption.9}%
-\contentsline {figure}{\numberline {4}{\ignorespaces Primary education VAT plot}}{12}{figure.caption.11}%
-\contentsline {figure}{\numberline {5}{\ignorespaces Primary education sort plot}}{13}{figure.caption.12}%
-\contentsline {figure}{\numberline {6}{\ignorespaces Primary education cutoffs}}{14}{figure.caption.13}%
-\contentsline {figure}{\numberline {7}{\ignorespaces Primary education profile barplot}}{16}{figure.caption.16}%
-\contentsline {figure}{\numberline {8}{\ignorespaces Boxplots of outliers}}{38}{figure.caption.19}%
-\contentsline {figure}{\numberline {9}{\ignorespaces Boxplots of log outliers}}{38}{figure.caption.20}%
-\contentsline {figure}{\numberline {10}{\ignorespaces Density distributions}}{39}{figure.caption.21}%
-\contentsline {figure}{\numberline {11}{\ignorespaces Log density distributions}}{39}{figure.caption.22}%
-\contentsline {figure}{\numberline {12}{\ignorespaces Sort plots}}{40}{figure.caption.23}%
-\contentsline {figure}{\numberline {13}{\ignorespaces Log sort plots}}{40}{figure.caption.24}%
-\contentsline {figure}{\numberline {14}{\ignorespaces Employment VAT plot}}{41}{figure.caption.25}%
-\contentsline {figure}{\numberline {15}{\ignorespaces Pharmacy VAT plot}}{41}{figure.caption.26}%
-\contentsline {figure}{\numberline {16}{\ignorespaces Child care VAT plot}}{42}{figure.caption.27}%
-\contentsline {figure}{\numberline {17}{\ignorespaces Health care VAT plot}}{42}{figure.caption.28}%
-\contentsline {figure}{\numberline {18}{\ignorespaces Grocery VAT plot}}{43}{figure.caption.29}%
-\contentsline {figure}{\numberline {19}{\ignorespaces Secondary education VAT plot}}{43}{figure.caption.30}%
-\contentsline {figure}{\numberline {20}{\ignorespaces Library VAT plot}}{44}{figure.caption.31}%
-\contentsline {figure}{\numberline {21}{\ignorespaces Parks VAT plot}}{44}{figure.caption.32}%
-\contentsline {figure}{\numberline {22}{\ignorespaces Transit VAT plot}}{45}{figure.caption.33}%
-\contentsline {figure}{\numberline {23}{\ignorespaces Employment cutoffs}}{45}{figure.caption.34}%
-\contentsline {figure}{\numberline {24}{\ignorespaces Pharmacy cutoffs}}{46}{figure.caption.35}%
-\contentsline {figure}{\numberline {25}{\ignorespaces Child care cutoffs}}{46}{figure.caption.36}%
-\contentsline {figure}{\numberline {26}{\ignorespaces Health care cutoffs}}{47}{figure.caption.37}%
-\contentsline {figure}{\numberline {27}{\ignorespaces Grocery cutoffs}}{47}{figure.caption.38}%
-\contentsline {figure}{\numberline {28}{\ignorespaces Secondary education cutoffs}}{48}{figure.caption.39}%
-\contentsline {figure}{\numberline {29}{\ignorespaces Library cutoffs}}{48}{figure.caption.40}%
-\contentsline {figure}{\numberline {30}{\ignorespaces Parks cutoffs}}{49}{figure.caption.41}%
-\contentsline {figure}{\numberline {31}{\ignorespaces Transit cutoffs}}{49}{figure.caption.42}%
-\contentsline {figure}{\numberline {32}{\ignorespaces Employment profile barplot}}{50}{figure.caption.43}%
-\contentsline {figure}{\numberline {33}{\ignorespaces Pharmacy profile barplot}}{50}{figure.caption.44}%
-\contentsline {figure}{\numberline {34}{\ignorespaces Child care profile barplot}}{51}{figure.caption.45}%
-\contentsline {figure}{\numberline {35}{\ignorespaces Health care profile barplot}}{51}{figure.caption.46}%
-\contentsline {figure}{\numberline {36}{\ignorespaces Grocery profile barplot}}{52}{figure.caption.47}%
-\contentsline {figure}{\numberline {37}{\ignorespaces Secondary education profile barplot}}{52}{figure.caption.48}%
-\contentsline {figure}{\numberline {38}{\ignorespaces Library profile barplot}}{53}{figure.caption.49}%
-\contentsline {figure}{\numberline {39}{\ignorespaces Parks profile barplot}}{53}{figure.caption.50}%
-\contentsline {figure}{\numberline {40}{\ignorespaces Transit profile barplot}}{54}{figure.caption.51}%
+\contentsline {figure}{\numberline {1}{\ignorespaces Proximity Measures Data Viewer}}{3}{figure.caption.5}%
+\contentsline {figure}{\numberline {2}{\ignorespaces IoR Distribution}}{5}{figure.caption.6}%
+\contentsline {figure}{\numberline {3}{\ignorespaces IoR Cost-Distance Model}}{5}{figure.caption.7}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Number of cluster selection}}{9}{figure.caption.9}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Comparison of distributions}}{13}{figure.caption.13}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Log-transform}}{13}{figure.caption.14}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Primary education VAT plot}}{15}{figure.caption.16}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Primary education sort plot}}{15}{figure.caption.17}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Primary education cutoffs}}{17}{figure.caption.18}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Primary education profile barplot}}{18}{figure.caption.22}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Employment profile barplot}}{21}{figure.caption.23}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Pharmacy profile barplot}}{23}{figure.caption.26}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Child care profile barplot}}{25}{figure.caption.29}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Health care profile barplot}}{27}{figure.caption.32}%
+\contentsline {figure}{\numberline {15}{\ignorespaces Grocery profile barplot}}{29}{figure.caption.35}%
+\contentsline {figure}{\numberline {16}{\ignorespaces Secondary education profile barplot}}{32}{figure.caption.38}%
+\contentsline {figure}{\numberline {17}{\ignorespaces Library profile barplot}}{34}{figure.caption.41}%
+\contentsline {figure}{\numberline {18}{\ignorespaces Parks profile barplot}}{36}{figure.caption.44}%
+\contentsline {figure}{\numberline {19}{\ignorespaces Transit profile barplot}}{38}{figure.caption.47}%
+\contentsline {figure}{\numberline {20}{\ignorespaces Boxplots of outliers}}{55}{figure.caption.54}%
+\contentsline {figure}{\numberline {21}{\ignorespaces Boxplots of log outliers}}{55}{figure.caption.55}%
+\contentsline {figure}{\numberline {22}{\ignorespaces Density distributions}}{56}{figure.caption.56}%
+\contentsline {figure}{\numberline {23}{\ignorespaces Log density distributions}}{56}{figure.caption.57}%
+\contentsline {figure}{\numberline {24}{\ignorespaces Sort plots}}{57}{figure.caption.58}%
+\contentsline {figure}{\numberline {25}{\ignorespaces Log sort plots}}{57}{figure.caption.59}%
+\contentsline {figure}{\numberline {26}{\ignorespaces Employment VAT plot}}{58}{figure.caption.60}%
+\contentsline {figure}{\numberline {27}{\ignorespaces Pharmacy VAT plot}}{58}{figure.caption.61}%
+\contentsline {figure}{\numberline {28}{\ignorespaces Child care VAT plot}}{59}{figure.caption.62}%
+\contentsline {figure}{\numberline {29}{\ignorespaces Health care VAT plot}}{59}{figure.caption.63}%
+\contentsline {figure}{\numberline {30}{\ignorespaces Grocery VAT plot}}{60}{figure.caption.64}%
+\contentsline {figure}{\numberline {31}{\ignorespaces Secondary education VAT plot}}{60}{figure.caption.65}%
+\contentsline {figure}{\numberline {32}{\ignorespaces Library VAT plot}}{61}{figure.caption.66}%
+\contentsline {figure}{\numberline {33}{\ignorespaces Parks VAT plot}}{61}{figure.caption.67}%
+\contentsline {figure}{\numberline {34}{\ignorespaces Transit VAT plot}}{62}{figure.caption.68}%
+\contentsline {figure}{\numberline {35}{\ignorespaces Employment cutoffs}}{62}{figure.caption.69}%
+\contentsline {figure}{\numberline {36}{\ignorespaces Pharmacy cutoffs}}{63}{figure.caption.70}%
+\contentsline {figure}{\numberline {37}{\ignorespaces Child care cutoffs}}{63}{figure.caption.71}%
+\contentsline {figure}{\numberline {38}{\ignorespaces Health care cutoffs}}{64}{figure.caption.72}%
+\contentsline {figure}{\numberline {39}{\ignorespaces Grocery cutoffs}}{64}{figure.caption.73}%
+\contentsline {figure}{\numberline {40}{\ignorespaces Secondary education cutoffs}}{65}{figure.caption.74}%
+\contentsline {figure}{\numberline {41}{\ignorespaces Library cutoffs}}{65}{figure.caption.75}%
+\contentsline {figure}{\numberline {42}{\ignorespaces Parks cutoffs}}{66}{figure.caption.76}%
+\contentsline {figure}{\numberline {43}{\ignorespaces Transit cutoffs}}{66}{figure.caption.77}%

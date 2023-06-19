@@ -1,53 +1,52 @@
-\contentsline {section}{\numberline {1}Introduction}{1}{section.1}%
-\contentsline {section}{\numberline {2}Background}{2}{section.2}%
-\contentsline {section}{\numberline {3}Data}{4}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Primary Dataset}{4}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Missing Values}{4}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Other Data}{5}{subsection.3.3}%
-\contentsline {section}{\numberline {4}Methods}{6}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Data Exploration}{6}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Clustering Tendency}{6}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Quintiles}{6}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Minima Identification}{6}{subsection.4.4}%
-\contentsline {subsection}{\numberline {4.5}Clustering}{6}{subsection.4.5}%
-\contentsline {subsubsection}{\numberline {4.5.1}Number of Clusters}{7}{subsubsection.4.5.1}%
-\contentsline {subsubsection}{\numberline {4.5.2}Comparison of Algorithms}{8}{subsubsection.4.5.2}%
-\contentsline {subsubsection}{\numberline {4.5.3}Cluster Profiles}{8}{subsubsection.4.5.3}%
-\contentsline {section}{\numberline {5}Results}{9}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Data Exploration}{9}{subsection.5.1}%
-\contentsline {subsubsection}{\numberline {5.1.1}Summary Statistics}{9}{subsubsection.5.1.1}%
-\contentsline {subsubsection}{\numberline {5.1.2}Distributions}{10}{subsubsection.5.1.2}%
-\contentsline {subsection}{\numberline {5.2}Clustering Tendency}{12}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3}Quintiles}{13}{subsection.5.3}%
-\contentsline {subsection}{\numberline {5.4}Minima Identification}{13}{subsection.5.4}%
-\contentsline {subsection}{\numberline {5.5}Clustering}{14}{subsection.5.5}%
-\contentsline {subsubsection}{\numberline {5.5.1}Comparison of Algorithms}{14}{subsubsection.5.5.1}%
-\contentsline {subsubsection}{\numberline {5.5.2}Cluster Profiles}{15}{subsubsection.5.5.2}%
-\contentsline {section}{\numberline {6}Analysis}{17}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Comparison of Approaches}{17}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Interpretation of Cluster Profiles}{17}{subsection.6.2}%
-\contentsline {section}{\numberline {7}Discussion}{18}{section.7}%
-\contentsline {section}{\numberline {8}Conclusion}{19}{section.8}%
-\contentsline {section}{\numberline {9}References}{20}{section.9}%
-\contentsline {section}{\numberline {A}Appendix}{22}{appendix.A}%
-\contentsline {subsection}{\numberline {A.1}Analysis of Amenities}{22}{subsection.A.1}%
-\contentsline {subsubsection}{\numberline {A.1.1}Employment}{22}{subsubsection.A.1.1}%
-\contentsline {subsubsection}{\numberline {A.1.2}Pharmacy}{23}{subsubsection.A.1.2}%
-\contentsline {subsubsection}{\numberline {A.1.3}Child care}{23}{subsubsection.A.1.3}%
-\contentsline {subsubsection}{\numberline {A.1.4}Health care}{24}{subsubsection.A.1.4}%
-\contentsline {subsubsection}{\numberline {A.1.5}Grocery}{24}{subsubsection.A.1.5}%
-\contentsline {subsubsection}{\numberline {A.1.6}Secondary Education}{25}{subsubsection.A.1.6}%
-\contentsline {subsubsection}{\numberline {A.1.7}Library}{25}{subsubsection.A.1.7}%
-\contentsline {subsubsection}{\numberline {A.1.8}Parks}{25}{subsubsection.A.1.8}%
-\contentsline {subsubsection}{\numberline {A.1.9}Transit}{26}{subsubsection.A.1.9}%
-\contentsline {subsection}{\numberline {A.2}Successful Methods}{27}{subsection.A.2}%
-\contentsline {subsubsection}{\numberline {A.2.1}K-means (Partitioning Around Medoids - PAM)}{27}{subsubsection.A.2.1}%
-\contentsline {subsubsection}{\numberline {A.2.2}Gaussian Mixture Models (MCLUST)}{27}{subsubsection.A.2.2}%
-\contentsline {subsubsection}{\numberline {A.2.3}MixAll}{28}{subsubsection.A.2.3}%
-\contentsline {subsubsection}{\numberline {A.2.4}Hierarchical Denisity-Based Spatial Clustering of Applications with Noise (HDBSCAN)}{29}{subsubsection.A.2.4}%
-\contentsline {subsubsection}{\numberline {A.2.5}Multivariate - ClustImpute}{29}{subsubsection.A.2.5}%
-\contentsline {subsubsection}{\numberline {A.2.6}Multivariate - VarSelLCM}{30}{subsubsection.A.2.6}%
-\contentsline {subsection}{\numberline {A.3}Unsuccessful Methods}{32}{subsection.A.3}%
-\contentsline {subsubsection}{\numberline {A.3.1}OPTICS}{32}{subsubsection.A.3.1}%
-\contentsline {subsubsection}{\numberline {A.3.2}Jenks Natural Break Classification}{33}{subsubsection.A.3.2}%
-\contentsline {subsection}{\numberline {A.4}Extra Plots and Tables}{36}{subsection.A.4}%
+\contentsline {section}{\numberline {1}Executive Summary}{1}{section.1}%
+\contentsline {section}{\numberline {2}Introduction}{2}{section.2}%
+\contentsline {section}{\numberline {3}Background}{3}{section.3}%
+\contentsline {section}{\numberline {4}Data}{6}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Primary Dataset}{6}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Missing Values}{6}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Other Data}{7}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Methods}{8}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Data Exploration}{8}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Clustering Tendency}{8}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Quintiles}{8}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Minima Identification}{8}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Clustering}{8}{subsection.5.5}%
+\contentsline {subsubsection}{\numberline {5.5.1}Number of Clusters}{9}{subsubsection.5.5.1}%
+\contentsline {subsubsection}{\numberline {5.5.2}Comparison of Algorithms}{10}{subsubsection.5.5.2}%
+\contentsline {subsubsection}{\numberline {5.5.3}Cluster Profiles}{10}{subsubsection.5.5.3}%
+\contentsline {section}{\numberline {6}Results}{11}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Data Exploration}{11}{subsection.6.1}%
+\contentsline {subsubsection}{\numberline {6.1.1}Summary Statistics}{11}{subsubsection.6.1.1}%
+\contentsline {subsubsection}{\numberline {6.1.2}Distributions}{12}{subsubsection.6.1.2}%
+\contentsline {subsection}{\numberline {6.2}Clustering Tendency}{14}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Quintiles}{16}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Minima Identification}{16}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}Clustering}{16}{subsection.6.5}%
+\contentsline {subsubsection}{\numberline {6.5.1}Comparison of Algorithms}{16}{subsubsection.6.5.1}%
+\contentsline {subsubsection}{\numberline {6.5.2}Cluster Profiles}{17}{subsubsection.6.5.2}%
+\contentsline {section}{\numberline {7}Analysis}{19}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Employment}{20}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Pharmacy}{23}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Child care}{25}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Health care}{27}{subsection.7.4}%
+\contentsline {subsection}{\numberline {7.5}Grocery}{29}{subsection.7.5}%
+\contentsline {subsection}{\numberline {7.6}Primary Education}{31}{subsection.7.6}%
+\contentsline {subsection}{\numberline {7.7}Secondary Education}{32}{subsection.7.7}%
+\contentsline {subsection}{\numberline {7.8}Library}{34}{subsection.7.8}%
+\contentsline {subsection}{\numberline {7.9}Parks}{36}{subsection.7.9}%
+\contentsline {subsection}{\numberline {7.10}Transit}{38}{subsection.7.10}%
+\contentsline {section}{\numberline {8}Discussion}{40}{section.8}%
+\contentsline {section}{\numberline {9}Conclusion}{41}{section.9}%
+\contentsline {section}{\numberline {10}References}{42}{section.10}%
+\contentsline {section}{\numberline {A}Appendix}{44}{appendix.A}%
+\contentsline {subsection}{\numberline {A.1}Successful Methods}{44}{subsection.A.1}%
+\contentsline {subsubsection}{\numberline {A.1.1}K-means (Partitioning Around Medoids - PAM)}{44}{subsubsection.A.1.1}%
+\contentsline {subsubsection}{\numberline {A.1.2}Gaussian Mixture Models (MCLUST)}{44}{subsubsection.A.1.2}%
+\contentsline {subsubsection}{\numberline {A.1.3}MixAll}{45}{subsubsection.A.1.3}%
+\contentsline {subsubsection}{\numberline {A.1.4}Hierarchical Denisity-Based Spatial Clustering of Applications with Noise (HDBSCAN)}{46}{subsubsection.A.1.4}%
+\contentsline {subsubsection}{\numberline {A.1.5}Multivariate - ClustImpute}{46}{subsubsection.A.1.5}%
+\contentsline {subsubsection}{\numberline {A.1.6}Multivariate - VarSelLCM}{47}{subsubsection.A.1.6}%
+\contentsline {subsection}{\numberline {A.2}Unsuccessful Methods}{49}{subsection.A.2}%
+\contentsline {subsubsection}{\numberline {A.2.1}OPTICS}{49}{subsubsection.A.2.1}%
+\contentsline {subsubsection}{\numberline {A.2.2}Jenks Natural Break Classification}{50}{subsubsection.A.2.2}%
+\contentsline {subsection}{\numberline {A.3}Extra Plots and Tables}{53}{subsection.A.3}%
