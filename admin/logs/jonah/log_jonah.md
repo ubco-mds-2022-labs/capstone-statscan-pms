@@ -304,6 +304,44 @@ to send to our client.
 
 No, not right now. Full steam ahead.
 
+## Week 7
+
+Add individual contributions here (be sure to call the **tidyverse** and
+**knitr** package first)
+
+| week | day        | hours | description                                                                                 | comments        |
+|---:|:------|----:|:-----------------------------------------------|:---------|
+|    7 | 2023-06-12 |  6.25 | meeting, instructor meeting, writing analysis and discussion sections, cleaning up TeX file | 10-415          |
+|    7 | 2023-06-13 |  7.00 | typsetting                                                                                  | 10-4, 1045-1145 |
+|    7 | 2023-06-14 |  6.25 | slides, plots                                                                               | 10-415          |
+|    7 | 2023-06-15 |  6.00 | slides, plots                                                                               | 10-4            |
+|    7 | 2023-06-16 |  4.00 | slides, plots, client meeting                                                               | 10-2            |
+
+My total weekly hours are: 29.5
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week?
+
+My most significant individual contribution this week was typesetting
+the full, final version of the TeX file, which we re-submitted to our
+client on Tuesday night.
+
+1.  What was your most significant **team contribution** to the project
+    this week?
+
+My most significant team contribution this week was working with my team
+mates on making the slide deck for the final presentation.
+
+1.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project?
+
+No, not right now.
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use
@@ -317,3 +355,4 @@ the following (requires the **dplyr** package)
 |    4 |              25.25 |
 |    5 |              30.25 |
 |    6 |              37.50 |
+|    7 |              29.50 |
