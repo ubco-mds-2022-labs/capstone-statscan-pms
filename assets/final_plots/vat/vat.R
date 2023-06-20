@@ -33,7 +33,7 @@ library(factoextra)
 counter = 1
 for (i in amenities){
 	# visual assessment of cluster tendency (VAT)
-	plt = fviz_dist(dist(as.matrix(na.omit(master[, amenities[i]]))), show_labels = FALSE) +
+	plt = fviz_dist(dist(as.matrix(na.omit(master[, i]))), show_labels = FALSE) +
   labs(title = labs[counter])
   
   #export 
@@ -54,7 +54,7 @@ for (i in amenities){
 counter = 1
 for (i in amenities){
 	# visual assessment of cluster tendency (VAT)
-	plt = fviz_dist(dist(as.matrix(na.omit(master[, amenities[i]]))), show_labels = FALSE) +
+	plt = fviz_dist(dist(as.matrix(na.omit(master[, i]))), show_labels = FALSE) +
   labs(title = labs[counter])
   
   #export 
