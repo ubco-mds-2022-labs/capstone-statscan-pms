@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.21)  19 JUN 2023 15:20
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.21)  20 JUN 2023 16:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -593,13 +593,13 @@ Package hyperref Info: Link coloring ON on input line 46.
 \openout3 = `PMS_final_report.out'.
 
 \c@lstlisting=\count334
-<../../assets/final_plots///logos/statscan.png, id=156, 513.92pt x 57.21375pt>
+<../../assets/final_plots///logos/statscan.png, id=144, 513.92pt x 57.21375pt>
 File: ../../assets/final_plots///logos/statscan.png Graphic file (type png)
 <use ../../assets/final_plots///logos/statscan.png>
 Package pdftex.def Info: ../../assets/final_plots///logos/statscan.png  used on
  input line 108.
 (pdftex.def)             Requested size: 113.81102pt x 12.66998pt.
-<../../assets/final_plots///logos/ubco.png, id=158, 445.665pt x 93.34875pt>
+<../../assets/final_plots///logos/ubco.png, id=146, 445.665pt x 93.34875pt>
 File: ../../assets/final_plots///logos/ubco.png Graphic file (type png)
 <use ../../assets/final_plots///logos/ubco.png>
 Package pdftex.def Info: ../../assets/final_plots///logos/ubco.png  used on inp
@@ -645,7 +645,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.184 \section
+l.186 \section
               {Introduction} [1]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -662,13 +662,13 @@ been already used, duplicate ignored
                    \relax 
 l.210 \section
               {Background} [2]
-<../../assets/final_plots//./PMD_viewer/PMD_viewer2.png, id=408, 342.078pt x 34
+<../../assets/final_plots//./PMD_viewer/PMD_viewer2.png, id=373, 342.078pt x 34
 2.078pt>
 File: ../../assets/final_plots//./PMD_viewer/PMD_viewer2.png Graphic file (type
  png)
 <use ../../assets/final_plots//./PMD_viewer/PMD_viewer2.png>
 Package pdftex.def Info: ../../assets/final_plots//./PMD_viewer/PMD_viewer2.png
-  used on input line 219.
+  used on input line 220.
 (pdftex.def)             Requested size: 452.9679pt x 452.98497pt.
 
 
@@ -684,14 +684,14 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.3}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.225 \par
+l.226 \par
            [3 <../../assets/final_plots//./PMD_viewer/pmd_viewer2.png>]
-<../../assets/final_plots//./IoR/ior_spatial.png, id=414, 484.05844pt x 329.731
+<../../assets/final_plots//./IoR/ior_spatial.png, id=380, 484.05844pt x 329.731
 87pt>
 File: ../../assets/final_plots//./IoR/ior_spatial.png Graphic file (type png)
 <use ../../assets/final_plots//./IoR/ior_spatial.png>
 Package pdftex.def Info: ../../assets/final_plots//./IoR/ior_spatial.png  used 
-on input line 232.
+on input line 234.
 (pdftex.def)             Requested size: 452.9679pt x 308.56941pt.
 
 
@@ -707,16 +707,8 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.235 
-       [4]
-<../../assets/final_plots//./IoR/air_cost.png, id=418, 665.48625pt x 256.70906p
-t>
-File: ../../assets/final_plots//./IoR/air_cost.png Graphic file (type png)
-<use ../../assets/final_plots//./IoR/air_cost.png>
-Package pdftex.def Info: ../../assets/final_plots//./IoR/air_cost.png  used on 
-input line 239.
-(pdftex.def)             Requested size: 452.9679pt x 174.7322pt.
-
+l.255 \section
+              {Data} [4 <../../assets/final_plots//./IoR/ior_spatial.png>]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -730,9 +722,17 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.5}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.252 \section
-              {Data} [5 <../../assets/final_plots//./IoR/ior_spatial.png> <../.
-./assets/final_plots//./IoR/air_cost.png>]
+l.329 \section
+              {Methods} [5]
+<../../assets/final_plots//./distributions/logtransform.png, id=392, 513.92pt x
+ 220.825pt>
+File: ../../assets/final_plots//./distributions/logtransform.png Graphic file (
+type png)
+<use ../../assets/final_plots//./distributions/logtransform.png>
+Package pdftex.def Info: ../../assets/final_plots//./distributions/logtransform
+.png  used on input line 354.
+(pdftex.def)             Requested size: 271.7835pt x 116.78397pt.
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -750,15 +750,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[7]
-<../../assets/final_plots//./distributions/logtransform.png, id=434, 513.92pt x
- 220.825pt>
-File: ../../assets/final_plots//./distributions/logtransform.png Graphic file (
-type png)
-<use ../../assets/final_plots//./distributions/logtransform.png>
-Package pdftex.def Info: ../../assets/final_plots//./distributions/logtransform
-.png  used on input line 362.
-(pdftex.def)             Requested size: 271.7835pt x 116.78397pt.
+[7 <../../assets/final_plots//./distributions/logtransform.png>]
+<../../assets/final_plots//./coefs_demo/coefs_demo.png, id=405, 1117.17375pt x 
+645.41125pt>
+File: ../../assets/final_plots//./coefs_demo/coefs_demo.png Graphic file (type 
+png)
+<use ../../assets/final_plots//./coefs_demo/coefs_demo.png>
+Package pdftex.def Info: ../../assets/final_plots//./coefs_demo/coefs_demo.png 
+ used on input line 410.
+(pdftex.def)             Requested size: 452.9679pt x 261.68558pt.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -768,16 +768,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[8 <../../assets/final_plots//./distributions/logtransform.png>]
-<../../assets/final_plots//./coefs_demo/coefs_demo.png, id=443, 1117.17375pt x 
-645.41125pt>
-File: ../../assets/final_plots//./coefs_demo/coefs_demo.png Graphic file (type 
-png)
-<use ../../assets/final_plots//./coefs_demo/coefs_demo.png>
-Package pdftex.def Info: ../../assets/final_plots//./coefs_demo/coefs_demo.png 
- used on input line 429.
-(pdftex.def)             Requested size: 452.9679pt x 261.68558pt.
-
+[8 <../../assets/final_plots//./coefs_demo/coefs_demo.png>]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -795,7 +786,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[10 <../../assets/final_plots//./coefs_demo/coefs_demo.png>]
+[10]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -805,26 +796,32 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [11]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[12]
-<../../assets/final_plots//./distributions/compare_distributions.png, id=477, 5
+<../../assets/final_plots//./distributions/compare_distributions.png, id=436, 5
 78.16pt x 216.81pt>
 File: ../../assets/final_plots//./distributions/compare_distributions.png Graph
 ic file (type png)
 <use ../../assets/final_plots//./distributions/compare_distributions.png>
 Package pdftex.def Info: ../../assets/final_plots//./distributions/compare_dist
-ributions.png  used on input line 626.
+ributions.png  used on input line 587.
 (pdftex.def)             Requested size: 452.9679pt x 169.86208pt.
 
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[12 <../../assets/final_plots//./distributions/compare_distributions.png>]
+<../../assets/final_plots//./vat/vat_collage_labels.png, id=448, 469.755pt x 42
+7.8384pt>
+File: ../../assets/final_plots//./vat/vat_collage_labels.png Graphic file (type
+ png)
+<use ../../assets/final_plots//./vat/vat_collage_labels.png>
+Package pdftex.def Info: ../../assets/final_plots//./vat/vat_collage_labels.png
+  used on input line 654.
+(pdftex.def)             Requested size: 452.9679pt x 412.5481pt.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -834,34 +831,25 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[13 <../../assets/final_plots//./distributions/compare_distributions.png>]
-<../../assets/final_plots//./vat/primaryeducation_vat_log.png, id=491, 578.16pt
- x 361.35pt>
-File: ../../assets/final_plots//./vat/primaryeducation_vat_log.png Graphic file
- (type png)
-<use ../../assets/final_plots//./vat/primaryeducation_vat_log.png>
-Package pdftex.def Info: ../../assets/final_plots//./vat/primaryeducation_vat_l
-og.png  used on input line 688.
-(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[14 <../../assets/final_plots//./vat/primaryeducation_vat_log.png>]
-<../../assets/final_plots//./sort_plot/sort_comparison.png, id=498, 578.16pt x 
+[13]
+<../../assets/final_plots//./sort_plot/sort_comparison.png, id=454, 578.16pt x 
 216.81pt>
 File: ../../assets/final_plots//./sort_plot/sort_comparison.png Graphic file (t
 ype png)
 <use ../../assets/final_plots//./sort_plot/sort_comparison.png>
 Package pdftex.def Info: ../../assets/final_plots//./sort_plot/sort_comparison.
-png  used on input line 704.
+png  used on input line 670.
 (pdftex.def)             Requested size: 452.9679pt x 169.86208pt.
 
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[14 <../../assets/final_plots//./vat/vat_collage_labels.png>]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -872,13 +860,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [15 <../../assets/final_plots//./sort_plot/sort_comparison.png>]
 <../../assets/final_plots//./cutoffs/by_amenity/Primary Education_cutoffs.png, 
-id=508, 578.16pt x 361.35pt>
+id=471, 578.16pt x 361.35pt>
 File: ../../assets/final_plots//./cutoffs/by_amenity/Primary Education_cutoffs.
 png Graphic file (type png)
 <use ../../assets/final_plots//./cutoffs/by_amenity/Primary Education_cutoffs.p
 ng>
 Package pdftex.def Info: ../../assets/final_plots//./cutoffs/by_amenity/Primary
- Education_cutoffs.png  used on input line 752.
+ Education_cutoffs.png  used on input line 721.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
 
 
@@ -892,13 +880,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [16 <../../assets/final_plots//./cutoffs/by_amenity/Primary Education_cutoffs.p
 ng>]
 <../../assets/final_plots//./barplot_comparison/Primary Education_barplot.png, 
-id=516, 578.16pt x 361.35pt>
+id=480, 578.16pt x 361.35pt>
 File: ../../assets/final_plots//./barplot_comparison/Primary Education_barplot.
 png Graphic file (type png)
 <use ../../assets/final_plots//./barplot_comparison/Primary Education_barplot.p
 ng>
 Package pdftex.def Info: ../../assets/final_plots//./barplot_comparison/Primary
- Education_barplot.png  used on input line 882.
+ Education_barplot.png  used on input line 852.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
 
 
@@ -910,13 +898,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [17]
-<../../assets/final_plots//./cutoff_ticks/Primary Education_ticks.png, id=522, 
+<../../assets/final_plots//./cutoff_ticks/Primary Education_ticks.png, id=486, 
 578.16pt x 289.08pt>
 File: ../../assets/final_plots//./cutoff_ticks/Primary Education_ticks.png Grap
 hic file (type png)
 <use ../../assets/final_plots//./cutoff_ticks/Primary Education_ticks.png>
 Package pdftex.def Info: ../../assets/final_plots//./cutoff_ticks/Primary Educa
-tion_ticks.png  used on input line 890.
+tion_ticks.png  used on input line 860.
 (pdftex.def)             Requested size: 452.9679pt x 226.48277pt.
 
 
@@ -938,13 +926,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [19]
-<../../assets/final_plots//./barplot_comparison/Employment_barplot.png, id=536,
+<../../assets/final_plots//./barplot_comparison/Employment_barplot.png, id=500,
  578.16pt x 361.35pt>
 File: ../../assets/final_plots//./barplot_comparison/Employment_barplot.png Gra
 phic file (type png)
 <use ../../assets/final_plots//./barplot_comparison/Employment_barplot.png>
 Package pdftex.def Info: ../../assets/final_plots//./barplot_comparison/Employm
-ent_barplot.png  used on input line 939.
+ent_barplot.png  used on input line 917.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
 
 
@@ -965,21 +953,21 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [21 <../../assets/final_plots//./barplot_comparison/Employment_barplot.png>]
-<../../assets/final_plots//./cutoffs/by_amenity/Employment_cutoffs.png, id=546,
+<../../assets/final_plots//./cutoffs/by_amenity/Employment_cutoffs.png, id=510,
  578.16pt x 361.35pt>
 File: ../../assets/final_plots//./cutoffs/by_amenity/Employment_cutoffs.png Gra
 phic file (type png)
 <use ../../assets/final_plots//./cutoffs/by_amenity/Employment_cutoffs.png>
 Package pdftex.def Info: ../../assets/final_plots//./cutoffs/by_amenity/Employm
-ent_cutoffs.png  used on input line 1019.
+ent_cutoffs.png  used on input line 997.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
-<../../assets/final_plots//./cutoff_ticks/Employment_ticks.png, id=547, 578.16p
+<../../assets/final_plots//./cutoff_ticks/Employment_ticks.png, id=511, 578.16p
 t x 289.08pt>
 File: ../../assets/final_plots//./cutoff_ticks/Employment_ticks.png Graphic fil
 e (type png)
 <use ../../assets/final_plots//./cutoff_ticks/Employment_ticks.png>
 Package pdftex.def Info: ../../assets/final_plots//./cutoff_ticks/Employment_ti
-cks.png  used on input line 1027.
+cks.png  used on input line 1005.
 (pdftex.def)             Requested size: 452.9679pt x 226.48277pt.
 
 
@@ -1000,13 +988,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [23 <../../assets/final_plots//./cutoff_ticks/Employment_ticks.png>]
-<../../assets/final_plots//./barplot_comparison/Pharmacy_barplot.png, id=561, 5
+<../../assets/final_plots//./barplot_comparison/Pharmacy_barplot.png, id=525, 5
 78.16pt x 361.35pt>
 File: ../../assets/final_plots//./barplot_comparison/Pharmacy_barplot.png Graph
 ic file (type png)
 <use ../../assets/final_plots//./barplot_comparison/Pharmacy_barplot.png>
 Package pdftex.def Info: ../../assets/final_plots//./barplot_comparison/Pharmac
-y_barplot.png  used on input line 1057.
+y_barplot.png  used on input line 1035.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
 
 
@@ -1018,21 +1006,21 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [24 <../../assets/final_plots//./barplot_comparison/Pharmacy_barplot.png>]
-<../../assets/final_plots//./cutoffs/by_amenity/Pharmacy_cutoffs.png, id=566, 5
+<../../assets/final_plots//./cutoffs/by_amenity/Pharmacy_cutoffs.png, id=530, 5
 78.16pt x 361.35pt>
 File: ../../assets/final_plots//./cutoffs/by_amenity/Pharmacy_cutoffs.png Graph
 ic file (type png)
 <use ../../assets/final_plots//./cutoffs/by_amenity/Pharmacy_cutoffs.png>
 Package pdftex.def Info: ../../assets/final_plots//./cutoffs/by_amenity/Pharmac
-y_cutoffs.png  used on input line 1135.
+y_cutoffs.png  used on input line 1113.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
-<../../assets/final_plots//./cutoff_ticks/Pharmacy_ticks.png, id=567, 578.16pt 
+<../../assets/final_plots//./cutoff_ticks/Pharmacy_ticks.png, id=531, 578.16pt 
 x 289.08pt>
 File: ../../assets/final_plots//./cutoff_ticks/Pharmacy_ticks.png Graphic file 
 (type png)
 <use ../../assets/final_plots//./cutoff_ticks/Pharmacy_ticks.png>
 Package pdftex.def Info: ../../assets/final_plots//./cutoff_ticks/Pharmacy_tick
-s.png  used on input line 1144.
+s.png  used on input line 1122.
 (pdftex.def)             Requested size: 452.9679pt x 226.48277pt.
 
 
@@ -1053,13 +1041,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [26 <../../assets/final_plots//./cutoff_ticks/Pharmacy_ticks.png>]
-<../../assets/final_plots//./barplot_comparison/Child care_barplot.png, id=580,
+<../../assets/final_plots//./barplot_comparison/Child care_barplot.png, id=544,
  578.16pt x 361.35pt>
 File: ../../assets/final_plots//./barplot_comparison/Child care_barplot.png Gra
 phic file (type png)
 <use ../../assets/final_plots//./barplot_comparison/Child care_barplot.png>
 Package pdftex.def Info: ../../assets/final_plots//./barplot_comparison/Child c
-are_barplot.png  used on input line 1173.
+are_barplot.png  used on input line 1153.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
 
 
@@ -1071,21 +1059,21 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [27 <../../assets/final_plots//./barplot_comparison/Child care_barplot.png>]
-<../../assets/final_plots//./cutoffs/by_amenity/Child care_cutoffs.png, id=586,
+<../../assets/final_plots//./cutoffs/by_amenity/Child care_cutoffs.png, id=549,
  578.16pt x 361.35pt>
 File: ../../assets/final_plots//./cutoffs/by_amenity/Child care_cutoffs.png Gra
 phic file (type png)
 <use ../../assets/final_plots//./cutoffs/by_amenity/Child care_cutoffs.png>
 Package pdftex.def Info: ../../assets/final_plots//./cutoffs/by_amenity/Child c
-are_cutoffs.png  used on input line 1245.
+are_cutoffs.png  used on input line 1225.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
-<../../assets/final_plots//./cutoff_ticks/Child care_ticks.png, id=587, 578.16p
+<../../assets/final_plots//./cutoff_ticks/Child care_ticks.png, id=550, 578.16p
 t x 289.08pt>
 File: ../../assets/final_plots//./cutoff_ticks/Child care_ticks.png Graphic fil
 e (type png)
 <use ../../assets/final_plots//./cutoff_ticks/Child care_ticks.png>
 Package pdftex.def Info: ../../assets/final_plots//./cutoff_ticks/Child care_ti
-cks.png  used on input line 1253.
+cks.png  used on input line 1233.
 (pdftex.def)             Requested size: 452.9679pt x 226.48277pt.
 
 
@@ -1106,13 +1094,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [29 <../../assets/final_plots//./cutoff_ticks/Child care_ticks.png>]
-<../../assets/final_plots//./barplot_comparison/Health care_barplot.png, id=600
+<../../assets/final_plots//./barplot_comparison/Health care_barplot.png, id=563
 , 578.16pt x 361.35pt>
 File: ../../assets/final_plots//./barplot_comparison/Health care_barplot.png Gr
 aphic file (type png)
 <use ../../assets/final_plots//./barplot_comparison/Health care_barplot.png>
 Package pdftex.def Info: ../../assets/final_plots//./barplot_comparison/Health 
-care_barplot.png  used on input line 1278.
+care_barplot.png  used on input line 1261.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
 
 
@@ -1124,21 +1112,21 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [30 <../../assets/final_plots//./barplot_comparison/Health care_barplot.png>]
-<../../assets/final_plots//./cutoffs/by_amenity/Health care_cutoffs.png, id=605
+<../../assets/final_plots//./cutoffs/by_amenity/Health care_cutoffs.png, id=568
 , 578.16pt x 361.35pt>
 File: ../../assets/final_plots//./cutoffs/by_amenity/Health care_cutoffs.png Gr
 aphic file (type png)
 <use ../../assets/final_plots//./cutoffs/by_amenity/Health care_cutoffs.png>
 Package pdftex.def Info: ../../assets/final_plots//./cutoffs/by_amenity/Health 
-care_cutoffs.png  used on input line 1353.
+care_cutoffs.png  used on input line 1336.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
-<../../assets/final_plots//./cutoff_ticks/Health care_ticks.png, id=606, 578.16
+<../../assets/final_plots//./cutoff_ticks/Health care_ticks.png, id=569, 578.16
 pt x 289.08pt>
 File: ../../assets/final_plots//./cutoff_ticks/Health care_ticks.png Graphic fi
 le (type png)
 <use ../../assets/final_plots//./cutoff_ticks/Health care_ticks.png>
 Package pdftex.def Info: ../../assets/final_plots//./cutoff_ticks/Health care_t
-icks.png  used on input line 1362.
+icks.png  used on input line 1345.
 (pdftex.def)             Requested size: 452.9679pt x 226.48277pt.
 
 
@@ -1159,13 +1147,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [32 <../../assets/final_plots//./cutoff_ticks/Health care_ticks.png>]
-<../../assets/final_plots//./barplot_comparison/Grocery_barplot.png, id=619, 57
+<../../assets/final_plots//./barplot_comparison/Grocery_barplot.png, id=583, 57
 8.16pt x 361.35pt>
 File: ../../assets/final_plots//./barplot_comparison/Grocery_barplot.png Graphi
 c file (type png)
 <use ../../assets/final_plots//./barplot_comparison/Grocery_barplot.png>
 Package pdftex.def Info: ../../assets/final_plots//./barplot_comparison/Grocery
-_barplot.png  used on input line 1391.
+_barplot.png  used on input line 1379.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
 
 
@@ -1177,13 +1165,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [33 <../../assets/final_plots//./barplot_comparison/Grocery_barplot.png>]
-<../../assets/final_plots//./cutoffs/by_amenity/Grocery_cutoffs.png, id=624, 57
+<../../assets/final_plots//./cutoffs/by_amenity/Grocery_cutoffs.png, id=588, 57
 8.16pt x 361.35pt>
 File: ../../assets/final_plots//./cutoffs/by_amenity/Grocery_cutoffs.png Graphi
 c file (type png)
 <use ../../assets/final_plots//./cutoffs/by_amenity/Grocery_cutoffs.png>
 Package pdftex.def Info: ../../assets/final_plots//./cutoffs/by_amenity/Grocery
-_cutoffs.png  used on input line 1470.
+_cutoffs.png  used on input line 1458.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
 
 
@@ -1195,13 +1183,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [34]
-<../../assets/final_plots//./cutoff_ticks/Grocery_ticks.png, id=629, 578.16pt x
+<../../assets/final_plots//./cutoff_ticks/Grocery_ticks.png, id=593, 578.16pt x
  289.08pt>
 File: ../../assets/final_plots//./cutoff_ticks/Grocery_ticks.png Graphic file (
 type png)
 <use ../../assets/final_plots//./cutoff_ticks/Grocery_ticks.png>
 Package pdftex.def Info: ../../assets/final_plots//./cutoff_ticks/Grocery_ticks
-.png  used on input line 1479.
+.png  used on input line 1467.
 (pdftex.def)             Requested size: 452.9679pt x 226.48277pt.
 
 
@@ -1224,13 +1212,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [36]
 <../../assets/final_plots//./barplot_comparison/Secondary Education_barplot.png
-, id=644, 578.16pt x 361.35pt>
+, id=608, 578.16pt x 361.35pt>
 File: ../../assets/final_plots//./barplot_comparison/Secondary Education_barplo
 t.png Graphic file (type png)
 <use ../../assets/final_plots//./barplot_comparison/Secondary Education_barplot
 .png>
 Package pdftex.def Info: ../../assets/final_plots//./barplot_comparison/Seconda
-ry Education_barplot.png  used on input line 1522.
+ry Education_barplot.png  used on input line 1510.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
 
 
@@ -1244,21 +1232,21 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [37 <../../assets/final_plots//./barplot_comparison/Secondary Education_barplot
 .png>]
 <../../assets/final_plots//./cutoffs/by_amenity/Secondary Education_cutoffs.png
-, id=649, 578.16pt x 361.35pt>
+, id=613, 578.16pt x 361.35pt>
 File: ../../assets/final_plots//./cutoffs/by_amenity/Secondary Education_cutoff
 s.png Graphic file (type png)
 <use ../../assets/final_plots//./cutoffs/by_amenity/Secondary Education_cutoffs
 .png>
 Package pdftex.def Info: ../../assets/final_plots//./cutoffs/by_amenity/Seconda
-ry Education_cutoffs.png  used on input line 1603.
+ry Education_cutoffs.png  used on input line 1591.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
-<../../assets/final_plots//./cutoff_ticks/Secondary Education_ticks.png, id=650
+<../../assets/final_plots//./cutoff_ticks/Secondary Education_ticks.png, id=614
 , 578.16pt x 289.08pt>
 File: ../../assets/final_plots//./cutoff_ticks/Secondary Education_ticks.png Gr
 aphic file (type png)
 <use ../../assets/final_plots//./cutoff_ticks/Secondary Education_ticks.png>
 Package pdftex.def Info: ../../assets/final_plots//./cutoff_ticks/Secondary Edu
-cation_ticks.png  used on input line 1613.
+cation_ticks.png  used on input line 1601.
 (pdftex.def)             Requested size: 452.9679pt x 226.48277pt.
 
 
@@ -1280,13 +1268,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [39 <../../assets/final_plots//./cutoff_ticks/Secondary Education_ticks.png>]
-<../../assets/final_plots//./barplot_comparison/Library_barplot.png, id=662, 57
+<../../assets/final_plots//./barplot_comparison/Library_barplot.png, id=626, 57
 8.16pt x 361.35pt>
 File: ../../assets/final_plots//./barplot_comparison/Library_barplot.png Graphi
 c file (type png)
 <use ../../assets/final_plots//./barplot_comparison/Library_barplot.png>
 Package pdftex.def Info: ../../assets/final_plots//./barplot_comparison/Library
-_barplot.png  used on input line 1639.
+_barplot.png  used on input line 1627.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
 
 
@@ -1298,13 +1286,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [40 <../../assets/final_plots//./barplot_comparison/Library_barplot.png>]
-<../../assets/final_plots//./cutoffs/by_amenity/Library_cutoffs.png, id=667, 57
+<../../assets/final_plots//./cutoffs/by_amenity/Library_cutoffs.png, id=631, 57
 8.16pt x 361.35pt>
 File: ../../assets/final_plots//./cutoffs/by_amenity/Library_cutoffs.png Graphi
 c file (type png)
 <use ../../assets/final_plots//./cutoffs/by_amenity/Library_cutoffs.png>
 Package pdftex.def Info: ../../assets/final_plots//./cutoffs/by_amenity/Library
-_cutoffs.png  used on input line 1718.
+_cutoffs.png  used on input line 1706.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
 
 
@@ -1316,13 +1304,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [41]
-<../../assets/final_plots//./cutoff_ticks/Library_ticks.png, id=672, 578.16pt x
+<../../assets/final_plots//./cutoff_ticks/Library_ticks.png, id=636, 578.16pt x
  289.08pt>
 File: ../../assets/final_plots//./cutoff_ticks/Library_ticks.png Graphic file (
 type png)
 <use ../../assets/final_plots//./cutoff_ticks/Library_ticks.png>
 Package pdftex.def Info: ../../assets/final_plots//./cutoff_ticks/Library_ticks
-.png  used on input line 1726.
+.png  used on input line 1714.
 (pdftex.def)             Requested size: 452.9679pt x 226.48277pt.
 
 
@@ -1335,13 +1323,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [42 <../../assets/final_plots//./cutoffs/by_amenity/Library_cutoffs.png> <../..
 /assets/final_plots//./cutoff_ticks/Library_ticks.png>]
-<../../assets/final_plots//./barplot_comparison/Parks_barplot.png, id=680, 578.
+<../../assets/final_plots//./barplot_comparison/Parks_barplot.png, id=644, 578.
 16pt x 361.35pt>
 File: ../../assets/final_plots//./barplot_comparison/Parks_barplot.png Graphic 
 file (type png)
 <use ../../assets/final_plots//./barplot_comparison/Parks_barplot.png>
 Package pdftex.def Info: ../../assets/final_plots//./barplot_comparison/Parks_b
-arplot.png  used on input line 1754.
+arplot.png  used on input line 1742.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
 
 
@@ -1353,13 +1341,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [43 <../../assets/final_plots//./barplot_comparison/Parks_barplot.png>]
-<../../assets/final_plots//./cutoffs/by_amenity/Parks_cutoffs.png, id=685, 578.
+<../../assets/final_plots//./cutoffs/by_amenity/Parks_cutoffs.png, id=649, 578.
 16pt x 361.35pt>
 File: ../../assets/final_plots//./cutoffs/by_amenity/Parks_cutoffs.png Graphic 
 file (type png)
 <use ../../assets/final_plots//./cutoffs/by_amenity/Parks_cutoffs.png>
 Package pdftex.def Info: ../../assets/final_plots//./cutoffs/by_amenity/Parks_c
-utoffs.png  used on input line 1832.
+utoffs.png  used on input line 1820.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
 
 
@@ -1371,13 +1359,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [44]
-<../../assets/final_plots//./cutoff_ticks/Parks_ticks.png, id=692, 578.16pt x 2
+<../../assets/final_plots//./cutoff_ticks/Parks_ticks.png, id=655, 578.16pt x 2
 89.08pt>
 File: ../../assets/final_plots//./cutoff_ticks/Parks_ticks.png Graphic file (ty
 pe png)
 <use ../../assets/final_plots//./cutoff_ticks/Parks_ticks.png>
 Package pdftex.def Info: ../../assets/final_plots//./cutoff_ticks/Parks_ticks.p
-ng  used on input line 1841.
+ng  used on input line 1829.
 (pdftex.def)             Requested size: 452.9679pt x 226.48277pt.
 
 
@@ -1390,13 +1378,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [45 <../../assets/final_plots//./cutoffs/by_amenity/Parks_cutoffs.png> <../../a
 ssets/final_plots//./cutoff_ticks/Parks_ticks.png>]
-<../../assets/final_plots//./barplot_comparison/Transit_barplot.png, id=700, 57
+<../../assets/final_plots//./barplot_comparison/Transit_barplot.png, id=663, 57
 8.16pt x 361.35pt>
 File: ../../assets/final_plots//./barplot_comparison/Transit_barplot.png Graphi
 c file (type png)
 <use ../../assets/final_plots//./barplot_comparison/Transit_barplot.png>
 Package pdftex.def Info: ../../assets/final_plots//./barplot_comparison/Transit
-_barplot.png  used on input line 1868.
+_barplot.png  used on input line 1856.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
 
 
@@ -1408,21 +1396,21 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [46 <../../assets/final_plots//./barplot_comparison/Transit_barplot.png>]
-<../../assets/final_plots//./cutoffs/by_amenity/Transit_cutoffs.png, id=705, 57
+<../../assets/final_plots//./cutoffs/by_amenity/Transit_cutoffs.png, id=668, 57
 8.16pt x 361.35pt>
 File: ../../assets/final_plots//./cutoffs/by_amenity/Transit_cutoffs.png Graphi
 c file (type png)
 <use ../../assets/final_plots//./cutoffs/by_amenity/Transit_cutoffs.png>
 Package pdftex.def Info: ../../assets/final_plots//./cutoffs/by_amenity/Transit
-_cutoffs.png  used on input line 1942.
+_cutoffs.png  used on input line 1930.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
-<../../assets/final_plots//./cutoff_ticks/Transit_ticks.png, id=706, 578.16pt x
+<../../assets/final_plots//./cutoff_ticks/Transit_ticks.png, id=669, 578.16pt x
  289.08pt>
 File: ../../assets/final_plots//./cutoff_ticks/Transit_ticks.png Graphic file (
 type png)
 <use ../../assets/final_plots//./cutoff_ticks/Transit_ticks.png>
 Package pdftex.def Info: ../../assets/final_plots//./cutoff_ticks/Transit_ticks
-.png  used on input line 1951.
+.png  used on input line 1939.
 (pdftex.def)             Requested size: 452.9679pt x 226.48277pt.
 
 
@@ -1452,7 +1440,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [49]
-Overfull \hbox (6.98933pt too wide) in paragraph at lines 2003--2004
+Overfull \hbox (6.98933pt too wide) in paragraph at lines 1988--1989
 []\OT1/cmr/m/n/10.95 The re-sults showed that the PMD had a low clus-ter-ing te
 n-dency, even af-ter log-transformation.
  []
@@ -1466,57 +1454,154 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [50]
-Underfull \hbox (badness 10000) in paragraph at lines 2030--2031
+Underfull \hbox (badness 10000) in paragraph at lines 2009--2010
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2032--2033
+Underfull \hbox (badness 10000) in paragraph at lines 2011--2012
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2034--2035
+Underfull \hbox (badness 1715) in paragraph at lines 2015--2016
+\OT1/cmr/bx/n/10.95 3 \OT1/cmr/m/n/10.95 Bernard, D. (2018). Clus-ter-ing In-di
+ces. [][]$\OT1/cmtt/m/n/10.95 https : / / cran . r-[]hub . io / web / packages 
+/
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2015--2016
 
  []
 
 
-Underfull \hbox (badness 2951) in paragraph at lines 2036--2038
-\OT1/cmr/bx/n/10.95 4 \OT1/cmr/m/n/10.95 de Smith, M. J., Good-child, M. F., Lo
+Underfull \hbox (badness 10000) in paragraph at lines 2017--2018
+
+ []
+
+
+Underfull \hbox (badness 2951) in paragraph at lines 2019--2020
+\OT1/cmr/bx/n/10.95 5 \OT1/cmr/m/n/10.95 de Smith, M. J., Good-child, M. F., Lo
 n-g-ley, P. A., & Col-leagues. (2021).
  []
 
 
-Underfull \hbox (badness 4608) in paragraph at lines 2036--2038
+Underfull \hbox (badness 4608) in paragraph at lines 2019--2020
 \OT1/cmr/m/it/10.95 Geospa-tial Anal-y-sis \OT1/cmr/m/n/10.95 6th Edi-tion, 202
 1 up-date. Re-trieved June 12, 2023, from
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2036--2038
+Underfull \hbox (badness 10000) in paragraph at lines 2019--2020
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2039--2040
+Underfull \hbox (badness 2173) in paragraph at lines 2021--2022
+\OT1/cmr/bx/n/10.95 6 \OT1/cmr/m/n/10.95 Davies, D.L. & Bouldin, D.W. (1979). \
+OT1/cmr/m/it/10.95 A Clus-ter Sep-a-ra-tion Mea-sure\OT1/cmr/m/n/10.95 . IEEE
+ []
+
+
+Underfull \hbox (badness 1810) in paragraph at lines 2021--2022
+\OT1/cmr/m/n/10.95 Trans-ac-tions on Pat-tern Anal-y-sis and Ma-chine In-tel-li
+-gence. PAMI-1 (2): 224{227.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2021--2022
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2023--2024
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2025--2026
 \OT1/cmtt/m/n/10.95 com / data-[]science-[]interview-[]questions-[]for-[]it-[]i
 ndustry-[]part-[]4-[]unsupervised-[]ml /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2039--2040
+Underfull \hbox (badness 10000) in paragraph at lines 2025--2026
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2041--2042
+Underfull \hbox (badness 10000) in paragraph at lines 2027--2028
 
  []
 
 
-Underfull \hbox (badness 4013) in paragraph at lines 2043--2044
+Underfull \hbox (badness 4013) in paragraph at lines 2029--2030
 \OT1/cmr/m/n/10.95 Re-trieved June 12, 2023, from [][]$\OT1/cmtt/m/n/10.95 http
 s : / / cran . r-[]project . org / web / packages / MixAll /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2029--2030
+
+ []
+
+
+Underfull \hbox (badness 6252) in paragraph at lines 2031--2032
+\OT1/cmr/m/n/10.95 June 12, 2023, from [][]$\OT1/cmtt/m/n/10.95 http : / / wiki
+ . gis . com / wiki / index . php / Jenks _ Natural _ Breaks _
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2031--2032
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2033--2034
+
+ []
+
+
+Underfull \hbox (badness 6220) in paragraph at lines 2035--2036
+\OT1/cmr/bx/n/10.95 13 \OT1/cmr/m/n/10.95 Kas-sam-bara, A. (2018). \OT1/cmr/m/i
+t/10.95 K-Medoids in R: Al-go-rithm and Prac-ti-cal Ex-am-
+ []
+
+
+Underfull \hbox (badness 7888) in paragraph at lines 2035--2036
+\OT1/cmr/m/it/10.95 ples\OT1/cmr/m/n/10.95 . Re-trieved June 12, 2023, from [][
+]$\OT1/cmtt/m/n/10.95 https : / / www . datanovia . com / en / lessons /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2035--2036
+
+ []
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[51]
+Underfull \hbox (badness 10000) in paragraph at lines 2037--2038
+
+ []
+
+
+Underfull \hbox (badness 1460) in paragraph at lines 2039--2040
+\OT1/cmr/bx/n/10.95 15 \OT1/cmr/m/n/10.95 Ken-ton, W. (2023). \OT1/cmr/m/it/10.
+95 Kur-to-sis Def-i-ni-tion, Types, and Im-por-tance\OT1/cmr/m/n/10.95 . In-ves
+to-pe-dia.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2039--2040
+
  []
 
 
@@ -1525,35 +1610,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 2043--2044
  []
 
 
-Underfull \hbox (badness 6252) in paragraph at lines 2045--2046
-\OT1/cmr/m/n/10.95 June 12, 2023, from [][]$\OT1/cmtt/m/n/10.95 http : / / wiki
- . gis . com / wiki / index . php / Jenks _ Natural _ Breaks _
+Underfull \hbox (badness 2460) in paragraph at lines 2047--2048
+\OT1/cmr/bx/n/10.95 17 \OT1/cmr/m/n/10.95 OECD, Statis-tics Canada. (2018). \OT
+1/cmr/m/it/10.95 Work-shop on Mod-ernising Sta-tis-ti-cal Sys-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2045--2046
-
+Underfull \hbox (badness 1097) in paragraph at lines 2047--2048
+\OT1/cmr/m/it/10.95 tems for Bet-ter Data on Re-gions and Cities\OT1/cmr/m/n/10
+.95 . Re-trieved May 4, 2023, from [][]$\OT1/cmtt/m/n/10.95 https :
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 2047--2048
-
- []
-
-
-Underfull \hbox (badness 6220) in paragraph at lines 2049--2050
-\OT1/cmr/bx/n/10.95 10 \OT1/cmr/m/n/10.95 Kas-sam-bara, A. (2018). \OT1/cmr/m/i
-t/10.95 K-Medoids in R: Al-go-rithm and Prac-ti-cal Ex-am-
- []
-
-
-Underfull \hbox (badness 7888) in paragraph at lines 2049--2050
-\OT1/cmr/m/it/10.95 ples\OT1/cmr/m/n/10.95 . Re-trieved June 12, 2023, from [][
-]$\OT1/cmtt/m/n/10.95 https : / / www . datanovia . com / en / lessons /
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2049--2050
 
  []
 
@@ -1568,35 +1637,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 2053--2054
  []
 
 
-Underfull \hbox (badness 1067) in paragraph at lines 2055--2056
-\OT1/cmr/m/it/10.95 im-ity mea-sures\OT1/cmr/m/n/10.95 . Ar-tif In-tell Rev 53,
- 5995{6023 (2020). [][]$\OT1/cmtt/m/n/10.95 https : / / doi . org / 10 . 1007 /
-
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 2055--2056
 
  []
 
 
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[51]
-Underfull \hbox (badness 2460) in paragraph at lines 2057--2058
-\OT1/cmr/bx/n/10.95 14 \OT1/cmr/m/n/10.95 OECD, Statis-tics Canada. (2018). \OT
-1/cmr/m/it/10.95 Work-shop on Mod-ernising Sta-tis-ti-cal Sys-
- []
-
-
-Underfull \hbox (badness 1097) in paragraph at lines 2057--2058
-\OT1/cmr/m/it/10.95 tems for Bet-ter Data on Re-gions and Cities\OT1/cmr/m/n/10
-.95 . Re-trieved May 4, 2023, from [][]$\OT1/cmtt/m/n/10.95 https :
+Underfull \hbox (badness 10000) in paragraph at lines 2057--2058
+\OT1/cmr/bx/n/10.95 21 \OT1/cmr/m/n/10.95 Statis-tics Canada (2020b). \OT1/cmr/
+m/it/10.95 Prox-im-ity Mea-sures Database { Early re-lease\OT1/cmr/m/n/10.95 .
  []
 
 
@@ -1605,29 +1653,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 2057--2058
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2059--2060
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2061--2062
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2063--2065
+Underfull \hbox (badness 10000) in paragraph at lines 2063--2064
 \OT1/cmr/m/it/10.95 block (DB)\OT1/cmr/m/n/10.95 . [][]$\OT1/cmtt/m/n/10.95 htt
 ps : / / www12 . statcan . gc . ca / census-[]recensement / 2021 / ref / dict /
  az /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2063--2065
+Underfull \hbox (badness 10000) in paragraph at lines 2063--2064
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2066--2067
+Underfull \hbox (badness 10000) in paragraph at lines 2065--2066
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2067--2068
 
  []
 
@@ -1694,15 +1737,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [58]
-LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 2
-284.
- (/usr/local/texlive/2022/texmf-dist/tex/latex/base/omscmr.fd
-File: omscmr.fd 2022/07/10 v2.5l Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 2284.
-
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -1712,6 +1746,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [59]
+LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 2
+311.
+ (/usr/local/texlive/2022/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2022/07/10 v2.5l Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 2311.
+
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -1721,15 +1764,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [60]
-Overfull \hbox (3.60959pt too wide) in paragraph at lines 2336--2336
-[]|\OT1/cmr/m/it/10.95 Employment| 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2336--2336
-[]|\OT1/cmr/m/it/10.95 Amenity
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -1739,8 +1773,14 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [61]
-Overfull \vbox (42.26967pt too high) has occurred while \output is active []
+Overfull \hbox (3.60959pt too wide) in paragraph at lines 2362--2362
+[]|\OT1/cmr/m/it/10.95 Employment| 
+ []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 2362--2362
+[]|\OT1/cmr/m/it/10.95 Amenity
+ []
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1760,28 +1800,28 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [63]
-<../../assets/final_plots//./outliers/boxplot.png, id=847, 578.16pt x 361.35pt>
+<../../assets/final_plots//./outliers/boxplot.png, id=820, 578.16pt x 361.35pt>
 
 File: ../../assets/final_plots//./outliers/boxplot.png Graphic file (type png)
 <use ../../assets/final_plots//./outliers/boxplot.png>
 Package pdftex.def Info: ../../assets/final_plots//./outliers/boxplot.png  used
- on input line 2442.
+ on input line 2468.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
-<../../assets/final_plots//./outliers/logged_boxplot.png, id=848, 578.16pt x 36
+<../../assets/final_plots//./outliers/logged_boxplot.png, id=821, 578.16pt x 36
 1.35pt>
 File: ../../assets/final_plots//./outliers/logged_boxplot.png Graphic file (typ
 e png)
 <use ../../assets/final_plots//./outliers/logged_boxplot.png>
 Package pdftex.def Info: ../../assets/final_plots//./outliers/logged_boxplot.pn
-g  used on input line 2454.
+g  used on input line 2480.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
-<../../assets/final_plots//./distributions/distributions.png, id=849, 578.16pt 
+<../../assets/final_plots//./distributions/distributions.png, id=822, 578.16pt 
 x 361.35pt>
 File: ../../assets/final_plots//./distributions/distributions.png Graphic file 
 (type png)
 <use ../../assets/final_plots//./distributions/distributions.png>
 Package pdftex.def Info: ../../assets/final_plots//./distributions/distribution
-s.png  used on input line 2466.
+s.png  used on input line 2492.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
 
 
@@ -1794,21 +1834,21 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [64 <../../assets/final_plots//./outliers/boxplot.png> <../../assets/final_plot
 s//./outliers/logged_boxplot.png>]
-<../../assets/final_plots//./distributions/log_distributions.png, id=854, 578.1
+<../../assets/final_plots//./distributions/log_distributions.png, id=827, 578.1
 6pt x 361.35pt>
 File: ../../assets/final_plots//./distributions/log_distributions.png Graphic f
 ile (type png)
 <use ../../assets/final_plots//./distributions/log_distributions.png>
 Package pdftex.def Info: ../../assets/final_plots//./distributions/log_distribu
-tions.png  used on input line 2478.
+tions.png  used on input line 2504.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
-<../../assets/final_plots//./sort_plot/sort_plot.png, id=855, 578.16pt x 361.35
+<../../assets/final_plots//./sort_plot/sort_plot.png, id=828, 578.16pt x 361.35
 pt>
 File: ../../assets/final_plots//./sort_plot/sort_plot.png Graphic file (type pn
 g)
 <use ../../assets/final_plots//./sort_plot/sort_plot.png>
 Package pdftex.def Info: ../../assets/final_plots//./sort_plot/sort_plot.png  u
-sed on input line 2490.
+sed on input line 2516.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
 
 
@@ -1821,19 +1861,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [65 <../../assets/final_plots//./distributions/distributions.png> <../../assets
 /final_plots//./distributions/log_distributions.png>]
-<../../assets/final_plots//./sort_plot/log_sort_plot.png, id=860, 578.16pt x 36
+<../../assets/final_plots//./sort_plot/log_sort_plot.png, id=833, 578.16pt x 36
 1.35pt>
 File: ../../assets/final_plots//./sort_plot/log_sort_plot.png Graphic file (typ
 e png)
 <use ../../assets/final_plots//./sort_plot/log_sort_plot.png>
 Package pdftex.def Info: ../../assets/final_plots//./sort_plot/log_sort_plot.pn
-g  used on input line 2502.
-(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
-<../../assets/final_plots//./vat/emp_vat_log.png, id=861, 578.16pt x 361.35pt>
-File: ../../assets/final_plots//./vat/emp_vat_log.png Graphic file (type png)
-<use ../../assets/final_plots//./vat/emp_vat_log.png>
-Package pdftex.def Info: ../../assets/final_plots//./vat/emp_vat_log.png  used 
-on input line 2515.
+g  used on input line 2528.
 (pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
 
 
@@ -1845,136 +1879,18 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [66 <../../assets/final_plots//./sort_plot/sort_plot.png> <../../assets/final_p
-lots//./sort_plot/log_sort_plot.png>]
-<../../assets/final_plots//./vat/pharma_vat_log.png, id=866, 578.16pt x 361.35p
-t>
-File: ../../assets/final_plots//./vat/pharma_vat_log.png Graphic file (type png
-)
-<use ../../assets/final_plots//./vat/pharma_vat_log.png>
-Package pdftex.def Info: ../../assets/final_plots//./vat/pharma_vat_log.png  us
-ed on input line 2528.
-(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
-<../../assets/final_plots//./vat/childcare_vat_log.png, id=867, 578.16pt x 361.
-35pt>
-File: ../../assets/final_plots//./vat/childcare_vat_log.png Graphic file (type 
-png)
-<use ../../assets/final_plots//./vat/childcare_vat_log.png>
-Package pdftex.def Info: ../../assets/final_plots//./vat/childcare_vat_log.png 
- used on input line 2539.
-(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[67 <../../assets/final_plots//./vat/emp_vat_log.png> <../../assets/final_plots
-//./vat/pharma_vat_log.png>]
-<../../assets/final_plots//./vat/healthcare_vat_log.png, id=872, 578.16pt x 361
-.35pt>
-File: ../../assets/final_plots//./vat/healthcare_vat_log.png Graphic file (type
- png)
-<use ../../assets/final_plots//./vat/healthcare_vat_log.png>
-Package pdftex.def Info: ../../assets/final_plots//./vat/healthcare_vat_log.png
-  used on input line 2552.
-(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
-<../../assets/final_plots//./vat/grocery_vat_log.png, id=873, 578.16pt x 361.35
-pt>
-File: ../../assets/final_plots//./vat/grocery_vat_log.png Graphic file (type pn
-g)
-<use ../../assets/final_plots//./vat/grocery_vat_log.png>
-Package pdftex.def Info: ../../assets/final_plots//./vat/grocery_vat_log.png  u
-sed on input line 2564.
-(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[68 <../../assets/final_plots//./vat/childcare_vat_log.png> <../../assets/final
-_plots//./vat/healthcare_vat_log.png>]
-<../../assets/final_plots//./vat/secondaryeducation_vat_log.png, id=879, 578.16
-pt x 361.35pt>
-File: ../../assets/final_plots//./vat/secondaryeducation_vat_log.png Graphic fi
-le (type png)
-<use ../../assets/final_plots//./vat/secondaryeducation_vat_log.png>
-Package pdftex.def Info: ../../assets/final_plots//./vat/secondaryeducation_vat
-_log.png  used on input line 2577.
-(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
-<../../assets/final_plots//./vat/library_vat_log.png, id=880, 578.16pt x 361.35
-pt>
-File: ../../assets/final_plots//./vat/library_vat_log.png Graphic file (type pn
-g)
-<use ../../assets/final_plots//./vat/library_vat_log.png>
-Package pdftex.def Info: ../../assets/final_plots//./vat/library_vat_log.png  u
-sed on input line 2590.
-(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[69 <../../assets/final_plots//./vat/grocery_vat_log.png> <../../assets/final_p
-lots//./vat/secondaryeducation_vat_log.png>]
-<../../assets/final_plots//./vat/parks_vat_log.png, id=885, 578.16pt x 361.35pt
->
-File: ../../assets/final_plots//./vat/parks_vat_log.png Graphic file (type png)
-
-<use ../../assets/final_plots//./vat/parks_vat_log.png>
-Package pdftex.def Info: ../../assets/final_plots//./vat/parks_vat_log.png  use
-d on input line 2603.
-(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
-<../../assets/final_plots//./vat/transit_vat_log.png, id=886, 578.16pt x 361.35
-pt>
-File: ../../assets/final_plots//./vat/transit_vat_log.png Graphic file (type pn
-g)
-<use ../../assets/final_plots//./vat/transit_vat_log.png>
-Package pdftex.def Info: ../../assets/final_plots//./vat/transit_vat_log.png  u
-sed on input line 2618.
-(pdftex.def)             Requested size: 452.9679pt x 283.10349pt.
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[70 <../../assets/final_plots//./vat/library_vat_log.png> <../../assets/final_p
-lots//./vat/parks_vat_log.png>]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[71 <../../assets/final_plots//./vat/transit_vat_log.png>]
-(./PMS_final_report.aux)
+lots//./sort_plot/log_sort_plot.png>] (./PMS_final_report.aux)
 Package rerunfilecheck Info: File `PMS_final_report.out' has not changed.
-(rerunfilecheck)             Checksum: 1C5B75CDB10D734A32F0A439A58FB2AA;4462.
+(rerunfilecheck)             Checksum: D31E63B1EB1C7D0B5CF5B8753FA3EC1E;4373.
  ) 
 Here is how much of TeX's memory you used:
- 14841 strings out of 476029
- 255680 string characters out of 5790172
+ 14721 strings out of 476029
+ 251004 string characters out of 5790172
  1892346 words of memory out of 5000000
- 34784 multiletter control sequences out of 15000+600000
+ 34695 multiletter control sequences out of 15000+600000
  519729 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,15n,76p,1629b,525s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,15n,76p,2420b,525s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 }</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb>
 </usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
@@ -1990,10 +1906,10 @@ ive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texliv
 e/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive
 /2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/
 2022/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on PMS_final_report.pdf (76 pages, 33583284 bytes).
+Output written on PMS_final_report.pdf (71 pages, 10165744 bytes).
 PDF statistics:
- 1013 PDF objects out of 1200 (max. 8388607)
- 837 compressed objects within 9 object streams
- 244 named destinations out of 1000 (max. 500000)
- 580 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 951 PDF objects out of 1000 (max. 8388607)
+ 791 compressed objects within 8 object streams
+ 223 named destinations out of 1000 (max. 500000)
+ 506 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -103,7 +103,7 @@ cmanual = list(
 all_cutoffs = list(cquintiles, cmanual, chdbscan, cmixall, cmclust, cpamkmeans)
 all_cutoffs = lapply(all_cutoffs, function(x) lapply(x,sort))
 
-approaches = c('Quintiles', 'Minima', 'HDBSCAN', 'MixAll', 'MCLUST', 'PAM k-means')
+approaches = c('Quintiles', 'Minima', 'HDBSCAN', 'MixAll', 'MCLUST', 'PAM')
 
 
 

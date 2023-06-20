@@ -82,7 +82,7 @@ cmanual = list(
 # put all in same list
 cutoff_list <- list(cquintiles, cmanual, chdbscan, cmixall, cmclust, cpamkmeans )
 
-names(cutoff_list) <- c("Quintiles", "Minima", "HDBSCAN", "MixAll", "MCLUST", "PAM k-means" )
+names(cutoff_list) <- c("Quintiles", "Minima", "HDBSCAN", "MixAll", "MCLUST", "PAM" )
 
 
 amenities = c("PMS_prox_idx_emp", "PMS_prox_idx_pharma", "PMS_prox_idx_childcare", "PMS_prox_idx_health", "PMS_prox_idx_grocery", "PMS_prox_idx_educpri", "PMS_prox_idx_educsec", "PMS_prox_idx_lib", "PMS_prox_idx_parks", "PMS_prox_idx_transit")
@@ -124,7 +124,7 @@ for (k in 1:length(amenities)){
 		panel.grid.major.y = element_blank(),
 		axis.ticks.y = element_blank()
 	  ) + 
-	  scale_y_discrete(labels = rev(c("Quintiles", "Minima", "HDBSCAN", "MixAll", "MCLUST", "PAM k-means")))  +
+	  scale_y_discrete(labels = rev(c("Quintiles", "Minima", "HDBSCAN", "MixAll", "MCLUST", "PAM")))  +
 	  scale_x_continuous(breaks=log(c(0.0002, 0.002, 0.02, seq(0.05,0.15,0.05), 0.25, 0.5)+0.0001), labels=c(0.0002, 0.002, 0.02, seq(0.05,0.15,0.05), 0.25, 0.5), lim=c(min(as.numeric(as.character(df_cutof$cutoff))), max(as.numeric(as.character(df_cutof$cutoff)))))
 	  #xlim(-5, 0)
 	  
