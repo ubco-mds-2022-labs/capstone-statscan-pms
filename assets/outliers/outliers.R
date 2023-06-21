@@ -12,13 +12,12 @@ df_log <- df
 df_log$value <- log(df_log$value+0.0001)
 
 ggplot(df, aes(y = value)) +
-  geom_boxplot(width = 0.1) +
-  theme(panel.background = element_blank(),
+  geom_boxplot(width = 2) +
+  theme(panel.background = element_rect(fill = "transparent"),
     axis.title = element_blank(),
         axis.text = element_blank(),
         axis.ticks.x = element_blank(),
-        axis.ticks.y = element_blank()) +
-  xlim(-0.025,0.025)
+        axis.ticks.y = element_blank())
 
 ggplot(df_log, aes(y = value)) +
   geom_boxplot() +
