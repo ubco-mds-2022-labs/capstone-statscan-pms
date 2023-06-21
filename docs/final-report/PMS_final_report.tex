@@ -88,7 +88,7 @@ Jonah Edmundson, The University of British Columbia
 Report delivered to \par
 Jerome Blanchet, Ms.S and \par
 Bjenk Ellefsen, Ph.D – \par
-Statistics Canada, Center for Special Business Projects, Data Exploration and Integration Lab, and \par
+Statistics Canada, Center for Special Business Projects, Data Exploration and Integration Lab, \par and 
 Firas Moosvi, Ph.D – The University of British Columbia
 \end{footnotesize}
 
@@ -141,7 +141,7 @@ Firas Moosvi, Ph.D – The University of British Columbia
 \thispagestyle{empty}
 \section*{Acknowledgements}
 
-We want to express our gratitude to Jerome Blanchet, who served as our industry advisor from Statistics Canada. We are also thankful to Professor Dr. Firas Moosvi and Irene Vrbik, who guided us as our capstone project advisors. Additionally, we appreciate the support and feedback provided by our Teaching Assistant, Jesse Ghashti. Their consistent guidance helped us to successfully complete our Master's of Data Science Capstone project within a tight two-month timeframe.
+We want to express our gratitude to Jerome Blanchet, who served as our industry advisor from Statistics Canada. We are also thankful to Dr. Firas Moosvi and Dr. Irene Vrbik, who guided us as our capstone project advisors. Additionally, we appreciate the support and feedback provided by our Teaching Assistant, Jesse Ghashti. Their consistent guidance helped us to successfully complete our Master's of Data Science Capstone project within a tight two-month timeframe.
 
 
 
@@ -186,9 +186,9 @@ The Proximity Measure Database (PMD) developed by the Data Exploration and Integ
 \section{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \par
-Each individual lives somewhere and inhabits physical space. Unless one lives completely removed from others, amenities such as schools, places of employment, and healthcare facilities are usually present in the built environment. As Alasia et al. (2021) outline, ``having physical access to basic services and amenities is a key determinant of social inclusion, their capacity to meet basic needs, and their ability to fully participate in social and economic development.'' These amenities play a vital role in improving residents' quality of life, with their distribution being a product of meticulous policy and planning by governing bodies. In the context of urban development, accurately predicting population movement relies on the accessibility of land for the population. By utilizing accessibility measures at the `dissemination block' (DB) level, it becomes possible to enhance the accuracy of population movement predictions and make urban planning more precise. Like people, amenities inhabit physical space, and not everybody is equidistant from them. Therefore, it is imperative for these governing bodies to make deliberate, well-informed decisions as to the location of new amenities and services.
+Every individual lives somewhere and inhabits physical space. Unless one lives completely removed from others, amenities such as schools, places of employment, and healthcare facilities are usually present in the built environment. As Alasia et al. (2021) outline, ``having physical access to basic services and amenities is a key determinant of social inclusion, their capacity to meet basic needs, and their ability to fully participate in social and economic development.'' These amenities play a vital role in improving residents' quality of life, with their distribution being a product of meticulous policy and planning by governing bodies. In the context of urban development, accurately predicting population movement relies on the accessibility of land for the population. By utilizing accessibility measures at the `dissemination block' (DB) level, it becomes possible to enhance the accuracy of population movement predictions and make urban planning more precise. Like people, amenities inhabit physical space, and not everybody is equidistant from them. Therefore, it is imperative for governing bodies to make deliberate, well-informed decisions as to the location of new amenities and services.
 \par
-The Proximity Measure Database (PMD) developed by the Data Exploration and Integration Lab (DEIL) at Statistics Canada serves to provide a granular measure of proximity to services and amenities to inform planning and policy questions (Alasia et al., 2021). The PMD contains continuous measures for 10 amenities at a DB level, the most granular area defined by Statistics Canada (2021). In an urban area, a DB corresponds to a city block, whereas in rural regions they are areas ``bounded by roads or other natural features'' (Alasia et al., 2021). Thus, DBs differ broadly in their size as well as in their proximity to these amenities.
+The Proximity Measure Database (PMD) developed by the Data Exploration and Integration Lab (DEIL) at Statistics Canada serves to provide a granular measure of proximity to services and amenities across Canada to inform planning and policy questions (Alasia et al., 2021). The PMD contains continuous measures for 10 amenities at a DB level, the most granular area defined by Statistics Canada (2021). In an urban area, a DB corresponds to a city block, whereas in rural regions they are areas ``bounded by roads or other natural features'' (Alasia et al., 2021). Thus, DBs differ broadly in their size as well as in their proximity to these amenities.
 \par
 The aim of this project is to group the continuous proximity measures in the Statistics Canada's PMD into distinct categories using different clustering techniques. By doing so, we can create a more straightforward and easier-to-understand measure. Categorizing the data means putting similar values together in one group and dissimilar values in other groups. This segmentation research helps to preprocess and clean the dataset for use in future research, as a highly detailed continuous variable may sometimes offer too much information. Transforming it into a categorical variable makes it easier to analyze with descriptive statistics or regression models. Using categorical variables in regression allows for better interpretation of coefficients and other statistical results. This research aims to simplify the work of researchers who may not have the time to preprocess their datasets. Similar efforts have been made by Statistics Canada in the past to transform continuous metrics into categorical ones (Subedi et al., 2020). Improving the understanding and use cases of the PMD will enable policymakers and urban planners to prioritize efforts effectively to enhance accessibility and promote social and economic sustainability within communities. In this report, we outline the methodologies used to explore segmentation of the continuous proximity measures, the robustness of the group boundaries, and the characteristics of the groups.
 The two specific research questions we aimed to addressed in the project are:
@@ -211,7 +211,7 @@ The two specific research questions we aimed to addressed in the project are:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-The methodology used to generate the PMD is presented in Measuring proximity to services and amenities, by Alasia et al. with Statistics Canada (2021). Accompanying this report is the Proximity Measures Data Viewer, an online mapping application that allows users to view proximity measures by DB for a selected amenity (Statistics Canada, 2020a). The continuous measure is segmented by quintiles and assigned a colour, as shown in Figure~\ref{pmdviewer}, giving a user a rough idea of proximity differences between DBs. For this reason, we used the `quintile method' as our base model in this project.
+The methodology used to generate the PMD is presented in \textit{Measuring proximity to services and amenities}, by Alasia et al. with Statistics Canada (2021). Accompanying this report is the Proximity Measures Data Viewer, an online mapping application that allows users to view proximity measures by DB for a selected amenity (Statistics Canada, 2020a). The continuous measure is segmented by quintiles and assigned a colour, as shown in Figure~\ref{pmdviewer}, giving a user a rough idea of proximity differences between DBs. For this reason, we used the `quintile method' as our base model in this project.
 
 
 
@@ -222,9 +222,9 @@ The methodology used to generate the PMD is presented in Measuring proximity to 
 \end{figure}
 
 
-A `sister' measure to the PMD is the Index of Remoteness, presented in \textit{Measuring remoteness and accessibility} by Alasia et al. (2017). They outline how a  key  factor  affecting  socioeconomic  and  health outcomes is geographic proximity to population and service centers. As a result, remoteness is relevant when analyzing and implementing policies and programmes. The distance to all the population centers as well as their population size are taken into account when calculating the index for each census subdivision (CSD). Figure~\ref{iorspatial} from the original publication summarizes their results. This index was generated as a continuous measure, which was then partitioned into categories as outlined in \textit{Developing Meaningful Categories for Distinguishing Levels of Remoteness in Canada} by Subedi et al. (2020).  The authors present five approaches to categorize the continuous measure, which included methods like Jenks natural breaks, k-means, and quintile classification. They aimed to examine various ways to group the continuous remoteness index values of CSDs into meaningful categories (Subedi et.  al 2020). This is similar to our goal of categorizing the continuous proximity measures of amenities in the PMD.
+A `sister' measure to the PMD is the Index of Remoteness (IoR), presented in \textit{Measuring remoteness and accessibility} by Alasia et al. (2017). They outline how a  key  factor  affecting  socioeconomic  and  health outcomes is geographic proximity to population and service centers. As a result, remoteness is relevant when analyzing and implementing policies and programmes. The distance to all the population centers as well as their population size are taken into account when calculating the index for each census subdivision (CSD). Figure~\ref{iorspatial} from the 2023 update of the publication summarizes their results. This index was generated as a continuous measure, which was then partitioned into categories as outlined in \textit{Developing Meaningful Categories for Distinguishing Levels of Remoteness in Canada} by Subedi et al. (2020).  The authors present five approaches to categorize the continuous measure, which included methods like Jenks natural breaks, k-means, and quintile classification. They aimed to examine various ways to group the continuous remoteness index values of CSDs into meaningful categories (Subedi et.  al 2020). This is similar to our goal of categorizing the continuous proximity measures of amenities in the PMD.
 \par
-The Jenks natural breaks classification and k-means classification techniques are examples of distribution and centroid based techniques, respectively. Another type of clustering technique that may be appropriate for our project are density based methods (De Smith et al., 2021). As Kassambara, a Bioinformatics R\&D Scientist at Veracytes, outlines in his self-published book, the selection of an appropriate clustering technique depends on the nature of the data under investigation. He explains how before applying clustering techniques, it is important to assess the clustering tendency to ensure meaningful results, as clustering algorithms may identify clusters even in cases where no clear clusters exist in the data. Additionally, determining the optimal number of clusters is a necessary step in the process.  Kassambara outlines how once clustering techniques have been applied, it is important to evaluate their performance using cluster validation statistics such as the Silhouette Coefficient (Rousseeuw, 1987), Dunn index (Dunn, 1974), and Davies Bouldin index (Davies \& Bouldin, 1979). These metrics assist in identifying the most suitable clustering technique for the given data. By considering these factors, researchers can make informed decisions and select the appropriate clustering methodology for specific analysis (Kassambara, 2017b).
+The Jenks natural breaks classification and k-means classification techniques are examples of distribution and centroid based techniques, respectively. Another type of clustering technique that may be appropriate for our project are density based methods (De Smith et al., 2021). As Kassambara, a Bioinformatics R\&D Scientist at Veracytes, outlines in his self-published book, the selection of an appropriate clustering technique depends on the nature of the data under investigation. He explains how before applying clustering techniques, it is important to assess the clustering tendency to ensure meaningful results, as clustering algorithms may identify clusters even in cases where no clear clusters exist in the data. Additionally, determining the optimal number of clusters is a necessary step in the process.  Kassambara outlines how once clustering techniques have been applied, it is important to evaluate their performance using cluster validation statistics such as the Silhouette Coefficient (Rousseeuw, 1987), Dunn index (Dunn, 1974), and Davies Bouldin index (Davies \& Bouldin, 1979). These metrics assist in identifying the most suitable clustering technique for the given data. By considering these factors, researchers can make informed decisions and select the appropriate clustering methodology for specific analysis (Kassambara, 2017).
 
 
 
@@ -232,7 +232,7 @@ The Jenks natural breaks classification and k-means classification techniques ar
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{./IoR/ior_spatial.png}
-\caption[IoR Distribution]{The spatial distribution of the 2021 Index of Remoteness over census subdivisions in Canada.}\label{iorspatial}
+\caption[IoR Distribution]{The spatial distribution of the 2021 Index of Remoteness over census subdivisions in Canada. Source: DEIL 2023}\label{iorspatial}
 \end{figure}
 
 
@@ -273,7 +273,7 @@ The proximity measures are based on a gravity model that accounts for the distan
 \subsection{Data Limitations}
 
 
-Statistics Canada uses a specific convention for representing different types of missing values. Table~\ref{missingvalues} shows the standard symbols that are used by Statistics Canada. The symbols present in the PMD are `..' and `F'.
+Statistics Canada uses a specific convention for representing different types of `missing' values. Table~\ref{missingvalues} shows the standard symbols that are used by Statistics Canada. The symbols present in the PMD are `..' and `F'.
 
 
 
@@ -314,7 +314,7 @@ In summary, data points may be unavailable either because the supporting databas
 \subsection{Other Data}
 
 
-We linked the IoR dataset to the PMD to add to the cluster profile analysis. This dataset includes a continuous numeric remoteness score for each CSD in Canada. The IoR is equal  to zero for the least remote CSD and equal to one for the most remote CSD.
+We linked the IoR dataset to the PMD to add to the cluster profile analysis. This dataset includes a continuous numeric remoteness score for each CSD in Canada. The IoR is equal to zero for the least remote CSD and equal to one for the most remote CSD. Details about the IoR were outlined in section 3: Background of this report.
 
 
 
@@ -329,7 +329,7 @@ We linked the IoR dataset to the PMD to add to the cluster profile analysis. Thi
 \section{Methods}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The study begins with an exploratory data analysis to gain familiarity with the dataset and understand its characteristics. R and the \texttt{tidyverse} package (Wickham et al., 2019) are used for data handling and analysis. In parallel, clustering algorithms and validation metrics are researched. The clustering tendencies of each amenity are evaluated to assess the natural grouping potential of the data. Different clustering algorithms and intuitive categorization methods, such as quintiles and identifying minima, are applied to each amenity. Computational constraints require clustering analyses to be performed on a single 3\% subsample of the dataset for feasibility. The \texttt{ClusterCrit} package (Bernard, 2018) is used for cluster validation. Profiling the resulting clusters for each technique provides insights into their robustness and characteristics. The findings lead to conclusions and recommendations for future work.
+The study began with an exploratory data analysis to gain familiarity with the dataset and understand its characteristics. R and the \texttt{tidyverse} package (Wickham et al., 2019) were used for data handling and analysis. In parallel, clustering algorithms and validation metrics were researched. The clustering tendencies of each amenity were evaluated to assess the natural grouping potential of the data. Different clustering algorithms and intuitive categorization methods, such as quintiles and identifying minima, were applied to each amenity. Computational constraints required clustering analyses to be performed on a single 3\% subsample of the dataset for feasibility. The \texttt{ClusterCrit} package (Bernard, 2018) was used for cluster validation. Profiling the resulting clusters for each technique provided insights into their robustness and characteristics. The findings led to conclusions and recommendations for future work.
 
 
 
@@ -367,7 +367,8 @@ Logarithmic transforms are a common way to normalize skewed data, as well as to 
 We evaluated the clustering tendency of each amenity via Visual Assessment of Tendency (VAT) as well as sort plots. VAT works by plotting the distance matrix between all observations in the dataset. Sort plots highlight natural breaks in a continuous vector by sorting the values and then plotting them by index. We used the \texttt{fviz\_dist} function from the \texttt{factoextra} package (Kassambara et al., 2020) to produce the VAT plots.
 \par
 The quintile method is chosen to reflect the current segmentation in the Proximity Data Viewer (Statistics Canada, 2020a). In this method, data are sorted, and then split into 5 groups, each with the same number of observations.  This approach is  therefore ``blind'' to the data, since the actual values are not used in the creation of clusters. We considered this approach as the ``base model'' to which comparisons will be made.
-
+\par
+As an intuitive method, we applied a ‘minima identification’ segmentation technique, which functions by cutting the distribution at select minima of the density distribution. Each minima in the density curves that are flanked by maxima of higher density represent a density sparse region, which may be a ‘natural’ break in the continuous measures. We conducted this non-parametric approach mathematically on the logged transformed data where minima are perceptible.
 
 
 
@@ -479,7 +480,7 @@ Employment & 423,602 & 86.5 \\
 
 
 
-Table~\ref{summary} shows the summary statistics for the numerical variables in the PMD, while Table~\ref{categorical} shows the counts for each type of the categorical variables. We see that the 90th percentile of the proximity measures for all amenities are values that are much nearer the smaller end of the domain; the largest value is in Primary Education, at 0.233.  %This is not the only indicator that this measure is unbalanced: the skew and kurtosis values are all relatively high.
+Table~\ref{summary} shows the summary statistics for the numerical variables in the PMD, while Table~\ref{categorical} shows the counts for each type of the categorical variables. We see that the 90th percentile of the proximity measures for all amenities are values that are much nearer the smaller end of the domain; the largest value is in Primary Education, at 0.233.  This is not the only indicator that this measure is unbalanced: the skew and kurtosis values are all relatively high.
 
 
 
@@ -577,7 +578,7 @@ Moments & Employment & Pharmacy & Childcare & Healthcare & Grocery & Pri. Educ. 
 
 
 
-The distributions of the proximity scores for all amenities are heavily right-skewed, with the majority of the values being grouped near zero, as seen in Figure 3 (left). These distributions then appear to decay smoothly. The strong right-skew results from a relatively small number of high access outliers, which influences the distribution when the measures are normalized. The presence of these outliers is further demonstrated through the Interquartile Range (IQR), with values lying beyond 1.5 times the IQR above the third quartile or below the first quartile classified as outliers. However, in this paper, the outliers are considered valid since they are not the result of measurement errors. Figure~\ref{comparedist} shows the comparison of the density distributions before and after log-transformation. Figures~\ref{dendist} and \ref{logdendist} in section \ref{extra} of the Appendix show these same distributions for all ten amenities. We can already see that the log-transformed distributions are better because the distribution of the proximity values are more normally distributed, and density sparse regions are now visible. Box-Cox and Arcsine transformations were also attempted, but did not yield distributions that were as consistently normally-distributed as those that were log-transformed. It is important to note that log-transforming the proximity measures does not change the structure of the data. In other words, a particular DB `A' in the non-log-transformed data with less proximity than another DB `B' will still have less proximity in the log-transformed data. Statistical summary tablee~\ref{summary} for the log-transformed data can be found in section~\ref{extra} of the Appendix as table~\ref{logsummary}. In contrast, the skew and kurtosis values for the logged data are much smaller, which proves that the log-transformation was successful in reducing the extreme right skew of these proximity values. Kurtosis is a statistical measure that quantifies the shape of a distribution, specifically focusing on the presence and extent of outliers or extreme values. Distributions with a large kurtosis have more tail data than normally distributed data, which appears to bring the tails in toward the mean. Distributions with low kurtosis have fewer tail data, which appears to push the tails of the bell curve away from the mean (Kenton, 2023).
+The distributions of the proximity scores for all amenities are heavily right-skewed, with the majority of the values being grouped near zero, as seen in Figure 3 (left). These distributions then appear to decay smoothly. The strong right-skew results from a relatively small number of high access outliers, which influences the distribution when the measures are normalized. The presence of these outliers is further demonstrated through the Interquartile Range (IQR), with values lying beyond 1.5 times the IQR above the third quartile or below the first quartile classified as outliers. However, in this paper, the outliers are considered valid since they are not the result of measurement errors. Figure~\ref{comparedist} shows the comparison of the density distributions before and after log-transformation. Figures~\ref{dendist} and \ref{logdendist} in section \ref{extra} of the Appendix show these same distributions for all ten amenities. We can already see that the log-transformed distributions are better because the distribution of the proximity values are more normally distributed, and density sparse regions are now visible. Box-Cox and Arcsine transformations were also attempted, but did not yield distributions that were as consistently normally-distributed as those that were log-transformed. It is important to note that log-transforming the proximity measures does not change the structure of the data. In other words, a particular DB `A' in the non-log-transformed data with less proximity than another DB `B' will still have less proximity in the log-transformed data. Statistical summary Table~\ref{summary} for the log-transformed data can be found in section~\ref{extra} of the Appendix as Table~\ref{logsummary}. In contrast, the skew and kurtosis values for the logged data are much smaller, which proves that the log-transformation was successful in reducing the extreme right skew of these proximity values. Kurtosis is a statistical measure that quantifies the shape of a distribution, specifically focusing on the presence and extent of outliers or extreme values. Distributions with a large kurtosis have more tail data than normally distributed data, which appears to bring the tails in toward the mean. Distributions with low kurtosis have fewer tail data, which appears to push the tails of the bell curve away from the mean (Kenton, 2023).
 
 
 
@@ -591,9 +592,9 @@ The distributions of the proximity scores for all amenities are heavily right-sk
 
 
 
-In this paper, log-transforming the data is critically important to clustering because of skewness of the data, and helps reveal the underlying structure. Data points near zero in the non-transformed data are ``clumped'' around particular values, as opposed to being smoothly distributed. This preference for particular values is what creates the miniature peaks that can be seen on the left hand side of the log-transformed density distribution in the employment amenity in Figure~\ref{logdendist} of Appendix section~\ref{extra}. These miniature peaks represent real clusters in the data, and are not simply an artifact of the transformation itself.
+In this paper, log-transforming the data is important to clustering because of skewness of the data, and helps reveal the underlying structure. Data points near zero in the non-transformed data are ``clumped'' around particular values, as opposed to being smoothly distributed. This preference for particular values is what creates the miniature peaks that can be seen on the left hand side of the log-transformed density distribution in the employment amenity in Figure~\ref{logdendist} of Appendix section~\ref{extra}. These miniature peaks represent real clusters in the data, and are not simply an artifact of the transformation itself.
 \par
-Before log-transforming the data, the outliers present had a significant effect on the skew of the data. Many clustering algorithms form clusters based on the distance measure they employ. For instance, algorithms like k-means utilize a squared Euclidean distance, leading to the formation of circular, spherical, or hyperspherical clusters. Outliers can significantly distort the centroids of these clusters, thereby exerting a substantial influence on the overall shape of the clusters. The number of outliers was significantly reduced by log-transforming the data, as this reduced the relative distance between points. The reduction in the number of outliers after log-transformation can clearly be seen in table~\ref{outliercounts} (boxplots for visualizing outliers can be found as figures \ref{boxoutliers} and \ref{logboxoutliers} in Appendix section \ref{extra}). In addition to log-transforming the proximity measures to reduce the number of outliers, statistical modeling techniques that are robust to outliers were chosen for clustering. In the future, we can include outliers (values that are much larger than the normal ones) in a single cluster to see what happens when they are treated separately. This will allow us to examine how clustering techniques perform when outliers are not present in the data.
+Before log-transforming the data, the outliers present had a significant effect on the skew of the data. Many clustering algorithms form clusters based on the distance measure they employ. For instance, algorithms like k-means utilize a squared Euclidean distance, leading to the formation of circular, spherical, or hyperspherical clusters (MacQueen, 1967). Outliers can significantly distort the centroids of these clusters, thereby exerting a substantial influence on the overall shape of the clusters. The number of outliers was significantly reduced by log-transforming the data, as this reduced the relative distance between points. The reduction in the number of outliers after log-transformation can clearly be seen in Table~\ref{outliercounts} (boxplots for visualizing outliers can be found as figures \ref{boxoutliers} and \ref{logboxoutliers} in Appendix section \ref{extra}). In addition to log-transforming the proximity measures to reduce the number of outliers, statistical modeling techniques that are robust to outliers were chosen for clustering. In the future, we can include outliers (values that are much larger than the normal ones) in a single cluster to see what happens when they are treated separately. This will allow us to examine how clustering techniques perform when outliers are not present in the data.
 \par
 Due to the reduction in the number of outliers as well as the improvement in distribution shape (high right skew to quasi-normal), the following clustering analyses were performed on the individual log-transformed measures as opposed to the original measures. For clarity, it is also pertinent to mention that the proximity measures were clustered individually as opposed to being clustered in concert with other variables. This approach was chosen for its simplicity, but other multivariate clustering approaches should be attempted in the future.
 
@@ -658,7 +659,7 @@ The first of the two assessments of clustering tendency was the VAT. In this tes
 
 
 
-The second of the two assessments of clustering tendency was sort plots. If a unidimen- sional dataset is highly clusterable, then the sort plots will show obvious discontinuous points and changes in slope which separate the clusters. However, this is not observed, as is shown in Figure~\ref{sortplotcompare}. The non-transformed and log-transformed sort plots for the primary education amenity are shown here for an example. Instead of showing obvious breaks, the lines are smooth. This indicates that there are not any obvious clusters in either the non-transformed or log-transformed data. This has implications for the interpretability of our results, as the cutoff points identified between clusters may be sensitive to changes in the data.
+The second of the two assessments of clustering tendency are sort plots. If a unidimen- sional dataset is highly clusterable, then the sort plots will show obvious discontinuous points and changes in slope which separate the clusters. However, this is not observed, as is shown in Figure~\ref{sortplotcompare}. The non-transformed and log-transformed sort plots for the primary education amenity are shown here for an example. Instead of showing obvious breaks, the lines are smooth. This indicates that there are not any obvious clusters in either the non-transformed or log-transformed data. This has implications for the interpretability of our results, as the cutoff points identified between clusters may be sensitive to changes in the data.
 
 
 
@@ -695,7 +696,7 @@ This method is the most intuitive: the minima of the kernel density curves repre
 \par
 We used the \texttt{density} function in the \texttt{stats} package with the default bandwidth and the default gaussian kernels to create the density curves. Changing the bandwidth of the kernel density has an effect on the results: smaller bandwidths result in more density sparse regions and more minima, whereas greater bandwidths result in `flatter' curves and less minima. Future work should investigate how the size of the bandwidth affects the resulting clusters.
 \par
-There were many unexpected mathematical minima in the density curves in areas where the density was very small and flat. To retain only the minima that represent density sparse regions amongst regions with higher density, a limiting threshold of 0.001 was set for the difference between neighbouring maxima and minima. Intuitively, if the difference between a local maximum and a local minimum was very small, then the minimum is not representative of a good segmentation point.
+There were many unexpected local minima in the density curves in areas where the density was very small and flat. To retain only the minima that represent density sparse regions amongst regions with higher density, a limiting threshold of 0.001 was set for the difference between neighbouring maxima and minima. Intuitively, if the difference between a local maximum and a local minimum was very small, then the minimum is not representative of a good segmentation point.
 \par
 Given that the cutoff points selected in this method directly represent density sparse regions, which we intuitively think of as `gaps' between groups, we expect the validation metrics to be better than those for the `quintiles' method. We see in Table~\ref{prieducmetrics} that, for example, in the case of the Primary Education amenity, only some of the metrics are better, like the silhouette coefficient and the Dunn index, whilst the Davies-Bouldin and the Calinski-Harabasz actually perform worse. This incongruity is a result of what each of these metrics calculates and represents.
 
@@ -884,7 +885,7 @@ However, it's important to note that this pattern may not hold true for every cl
 \par
 Overall, while the general trend of increasing median DB population with higher proximity measures holds across multiple amenities and clustering techniques, there may be variations and exceptions in specific cases, particularly when the clustering results include small clusters with limited population.
 \par
-Moreover, upon examining table~\ref{employmentprofiles} to table~\ref{transitprofiles}, it becomes evident that all amenities demonstrate a low mode of amenity density for the entire population of Canada. This observation holds true not only for the overall population but also for the majority of individual clusters. This aligns with the findings from the EDA, which indicated that approximately 90\% of the DBs in Canada exhibit a low level of amenity density.
+Moreover, upon examining Table~\ref{employmentprofiles} to Table~\ref{transitprofiles}, it becomes evident that all amenities demonstrate a low mode of amenity density for the entire population of Canada. This observation holds true not only for the overall population but also for the majority of individual clusters. This aligns with the findings from the EDA, which indicated that approximately 90\% of the DBs in Canada exhibit a low level of amenity density.
 
 
 
@@ -1241,7 +1242,7 @@ Entire Population & 243,964 (100.0\%) & 62 & 0.11 & CMA (68.3\%) & Ontario (23.9
 
 \pagebreak
 \justifying
-\subsection{Health care}
+\subsection{Healthcare}
 
 
 
@@ -1480,7 +1481,7 @@ Entire Population & 141,063 (100.0\%) & 61 & 0.11 & CMA (69.3\%) & Ontario (25.1
 \justifying
 \subsection{Primary Education}
 
-The number of clusters identified for the primary education amenity varies considerably between algorithms. While MixAll and PAM find only two clusters, MCLUST finds seven. While the majority of the cutoff values also vary between algorithms, there is some consistency. For example, the Minima identification method and HDBSCAN seem to agree as to the cutoff value between clusters 1 and 2. Additionally, Minima identification, MixAll and PAM are all able to find the density sparse region around 0.082 (figure~\ref{prieduccutoffs}). Despite the overall variation in cutoff values between approaches, there is not one algorithm that clearly outcompetes the others. This can be seen by comparing the different approaches using common clustering validation metrics (table~\ref{prieducmetrics}). MixAll and PAM maximize the silhouette coefficient, whereas MCLUST maximizes the Dunn and Calinski Harabasz indices. Finally, the Minima identification method minimizes the Davies Bouldin index. Therefore, it is unclear which algorithm produces the `best' cutoff values.
+The number of clusters identified for the primary education amenity varies considerably between algorithms. While MixAll and PAM find only two clusters, MCLUST finds seven. While the majority of the cutoff values also vary between algorithms, there is some consistency. For example, the Minima identification method and HDBSCAN seem to agree as to the cutoff value between clusters 1 and 2. Additionally, Minima identification, MixAll and PAM are all able to find the density sparse region around 0.082 (figure~\ref{prieduccutoffs}). Despite the overall variation in cutoff values between approaches, there is not one algorithm that clearly outcompetes the others. This can be seen by comparing the different approaches using common clustering validation metrics (Table~\ref{prieducmetrics}). MixAll and PAM maximize the silhouette coefficient, whereas MCLUST maximizes the Dunn and Calinski Harabasz indices. Finally, the Minima identification method minimizes the Davies Bouldin index. Therefore, it is unclear which algorithm produces the `best' cutoff values.
 \par
 Table~\ref{prieducprofile} shows that proximity to primary education is highest in densely populated cities. This is supported by the fact that clusters with higher proximity to primary education also have: a higher percentage of DBs in CMAs, a lower percentage of low amenity dense DBs, and a lower median IoR. Another interesting trend is that clusters with increased proximity to primary education also have more DBs in Ontario. This is likely because Ontario has a higher percentage of DBs in CMAs. Indeed, Ottawa and Toronto are found in Ontario.
 \par
@@ -1966,7 +1967,7 @@ Not only were results inconsistent between approaches for the same amenity, but 
 \par
 The current investigation is an informative first glance into the clusterability of the early release of the PMD. We were able to attempt many different clustering algorithms, which reinforces our finding that PMD segments are not robust and reproducible, but are instead sensitive to a variety of factors. This broad scope of approaches will help to guide and refine the endeavors of future researchers. While we did take extensive care to ensure the validity and reproducibility of our results, we were constrained in some aspects of our methodology. The most major concern is that of computational constraints. Due to the complexity of several of the algorithms we implemented, subsampling was required in order to avoid running out memory. 3\% subsampling was most commonly used. In the future, researchers not subjected to similar computational restraints should seek to run their algorithms on the entire dataset, rather than a subsample. Additionally, it is worth noting that since the PMD was only recently released as ``experimental statistics'', it is possible that better,  more comprehensive ways of calculating the proximity index using additional/different data sources may be developed in the future, which may render our methodology obsolete.
 \par
-There are many other potential avenues for future research in the clustering of the PMD. These include: guiding the number of clusters to be the same between all algorithms, trying different combinations of variables in multidimensional clustering (as opposed to clustering only on the proximity measure in question), trying additional clustering algorithms, clustering on different data transformations, attempting sub-clustering (ie. some way of dealing with outliers aside from selective models), as well as soft assignments (i.e., using overlapping ranges where the cut-off is not a single point but, ideally, a narrow continuous interval).
+There are many other potential avenues for future research in the clustering of the PMD. These include: setting the number of clusters to be the same between all algorithms, trying different combinations of variables in multidimensional clustering (as opposed to clustering only on the proximity measure in question), trying additional clustering algorithms, clustering on different data transformations, attempting sub-clustering (ie. some way of dealing with outliers aside from selective models), as well as soft assignments (i.e., using overlapping ranges where the cut-off is not a single point but, ideally, a narrow continuous interval).
 
 
 
@@ -1987,7 +1988,7 @@ The project employed various clustering methods, including minima identification
 \par
 The results showed that the PMD had a low clustering tendency, even after log-transformation. Clustering techniques produced diverse outcomes, and there was no single algorithm that consistently outperformed others. The overall lack of consistency serves to demonstrate the lack of obvious clusters within the proximity measures of the PMD.
 \par
-Although there was some overlap between algorithms, cluster profiling revealed that the clusters identified by different algorithms were mostly distinct. One common trend that held true for the majority of clusters was that as amenity proximity increases, median IoR decreases, population increases, percentage of CMA DBs increases, and the percentage of low amenity dense DBs decreases. The Pharmacy amenity was the only one that did not follow this trend: all of the clusters, as proximity measures increased, had near constant summary statistics.
+Although there was some overlap between algorithms, cluster profiling revealed that the clusters identified by different algorithms were mostly distinct. One common trend that held true for the majority of clusters was that as amenity proximity increases, median IoR decreases, population increases, percentage of CMA DBs increases, and the percentage of low amenity dense DBs decreases.
 \par
 Overall, this project explored a variety of clustering methods in segmenting continuous proximity measures and generating meaningful categorical measures. In light of our original research goal to find the optimal cut-off values and cluster boundaries, these findings were not conclusive. The overall lack of clustering consistency and distinct characteristics of clusters identified by different algorithms within this limited data underscore the need for further refinement and exploration. We theorize that an ``exhaustive'' PMD which is not limited by travel radii will have more identifiable groups, and so the methods outlined in this report will be useful to determine the clusters. Future research can build upon these findings to refine the clustering techniques and explore additional factors that contribute to the definition of clusters in the PMD.
 
@@ -2016,55 +2017,57 @@ Overall, this project explored a variety of clustering methods in segmenting con
 
 \noindent\textbf{4} Caliński, T., \& Harabasz, J. (1974). \textit{A Dendrite Method for Cluster Analysis}. Communications in Statistics-theory and Methods 3: 1-27. doi:\sloppy\url{10.1080/03610927408827101}. \\
 
-\noindent\textbf{5} de Smith, M. J., Goodchild, M. F., Longley, P. A., \& Colleagues. (2021). \textit{Geospatial Analysis} 6th Edition, 2021 update. Retrieved June 12, 2023, from \sloppy\url{https://www.spatialanalysisonline.com/HTML/index.html}. \\
+\noindent\textbf{5} De Smith, M. J., Goodchild, M. F., Longley, P. A., \& Colleagues. (2021). \textit{Geospatial Analysis} 6th Edition, 2021 update. Retrieved June 12, 2023, from \sloppy\url{https://www.spatialanalysisonline.com/HTML/index.html}. \\
 
-\noindent\textbf{6} Davies, D.L. \& Bouldin, D.W. (1979). \textit{A Cluster Separation Measure}. IEEE Transactions on Pattern Analysis and Machine Intelligence. PAMI-1 (2): 224–227. doi:\sloppy\url{10.1109/TPAMI.1979.4766909}. \\
+\noindent\textbf{6} Data Exploration and Integration Lab (DEIL), Statistics Canada (2023). \textit{Index of Remoteness 2021: Update with 2021 census geographies and populations}. \sloppy\url{https://www150.statcan.gc.ca/n1/pub/17-26-0001/2020001/meta-doc-eng.htm}.\\
 
-\noindent\textbf{7} Dunn, J. C. (1974). ``Well-Separated Clusters and Optimal Fuzzy Partitions''. Journal of Cybernetics. 4 (1): 95–104. doi:\sloppy\url{10.1080/01969727408546059}. \\
+\noindent\textbf{7} Davies, D.L. \& Bouldin, D.W. (1979). \textit{A Cluster Separation Measure}. IEEE Transactions on Pattern Analysis and Machine Intelligence. PAMI-1 (2): 224–227. doi:\sloppy\url{10.1109/TPAMI.1979.4766909}. \\
 
-\noindent\textbf{8} Hashmi, F. (2021, November 27). \textit{Data Science Interview Questions for IT Industry Part-4: Unsupervised ML - Thinking 	Neuron}. Thinking Neuron. \sloppy\url{https://thinkingneuron.com/data-science-interview-questions-for-it-industry-part-4-unsupervised-ml/\#DBSCAN}. \\
+\noindent\textbf{8} Dunn, J. C. (1974). ``Well-Separated Clusters and Optimal Fuzzy Partitions''. Journal of Cybernetics. 4 (1): 95–104. doi:\sloppy\url{10.1080/01969727408546059}. \\
 
-\noindent\textbf{9} Hahsler, M., Piekenbrock, M., \& Doran, D. (2019). \textit{dbscan: Fast Density-Based Clustering with R}. Journal of Statistical Software, 91(1), \sloppy\url{https://doi.org/10.18637/jss.v091.i01}. \\
+\noindent\textbf{9} Hashmi, F. (2021, November 27). \textit{Data Science Interview Questions for IT Industry Part-4: Unsupervised ML - Thinking 	Neuron}. Thinking Neuron. \sloppy\url{https://thinkingneuron.com/data-science-interview-questions-for-it-industry-part-4-unsupervised-ml/\#DBSCAN}. \\
 
-\noindent\textbf{10} Iovleff, S. (2019, September 12). \textit{MixAll: Clustering Mixed data with Missing Values}. Retrieved June 12, 2023, from \sloppy\url{https://cran.r-project.org/web/packages/MixAll/vignettes/Introduction-Mixtures.pdf}. \\
+\noindent\textbf{10} Hahsler, M., Piekenbrock, M., \& Doran, D. (2019). \textit{dbscan: Fast Density-Based Clustering with R}. Journal of Statistical Software, 91(1), \sloppy\url{https://doi.org/10.18637/jss.v091.i01}. \\
 
-\noindent\textbf{11} \textit{Jenks Natural Breaks Classification} - GIS Wiki | The GIS Encyclopedia (2018). Retrieved June 12, 2023, from \sloppy\url{http://wiki.gis.com/wiki/index.php/Jenks_Natural_Breaks_Classification}. \\
+\noindent\textbf{11} Iovleff, S. (2019, September 12). \textit{MixAll: Clustering Mixed data with Missing Values}. Retrieved June 12, 2023, from \sloppy\url{https://cran.r-project.org/web/packages/MixAll/vignettes/Introduction-Mixtures.pdf}. \\
 
-\noindent\textbf{12} Kassambara, A. (2017). \textit{Practical Guide to Cluster Analysis in R: Unsupervised Machine Learning}. STHDA. \\
+\noindent\textbf{12} \textit{Jenks Natural Breaks Classification} - GIS Wiki | The GIS Encyclopedia (2018). Retrieved June 12, 2023, from \sloppy\url{http://wiki.gis.com/wiki/index.php/Jenks_Natural_Breaks_Classification}. \\
 
-\noindent\textbf{13} Kassambara, A. (2018). \textit{K-Medoids in R: Algorithm and Practical Examples}. Retrieved June 12, 2023, from \sloppy\url{https://www.datanovia.com/en/lessons/k-medoids-in-r-algorithm-and-practical-examples/}. \\
+\noindent\textbf{13} Kassambara, A. (2017). \textit{Practical Guide to Cluster Analysis in R: Unsupervised Machine Learning}. STHDA. \\
 
-\noindent\textbf{14} Kassambara A, Mundt F (2020). factoextra: Extract and Visualize the Results of Multivariate Data Analyses. R package version 1.0.7, \sloppy\url{https://CRAN.R-project.org/package=factoextra}. \\
+\noindent\textbf{14} Kassambara, A. (2018). \textit{K-Medoids in R: Algorithm and Practical Examples}. Retrieved June 12, 2023, from \sloppy\url{https://www.datanovia.com/en/lessons/k-medoids-in-r-algorithm-and-practical-examples/}. \\
 
-\noindent\textbf{15} Kenton, W. (2023). \textit{Kurtosis Definition, Types, and Importance}. Investopedia. \sloppy\url{https://www.investopedia.com/terms/k/kurtosis.asp}. \\
+\noindent\textbf{15} Kassambara A, Mundt F (2020). factoextra: Extract and Visualize the Results of Multivariate Data Analyses. R package version 1.0.7, \sloppy\url{https://CRAN.R-project.org/package=factoextra}. \\
 
-%\noindent\textbf{11} MacQueen, J. B. (1967). \textit{Some Methods for classification and Analysis of Multivariate Observations}. Proceedings of 5th Berkeley Symposium on Mathematical Statistics and Probability. Vol. 1. University of California Press. pp. 281–297. \\
+\noindent\textbf{16} Kenton, W. (2023). \textit{Kurtosis Definition, Types, and Importance}. Investopedia. \sloppy\url{https://www.investopedia.com/terms/k/kurtosis.asp}. \\
 
-\noindent\textbf{16} Marbac, M. M., \& Sedki, M. S. (2017). \textit{Variable Selection for Model-Based Clustering of Continuous, Count, Categorical or Mixed-Type Data Set with Missing Values} [Software]. In CRAN (2.0.1). \sloppy\url{ http://cran.nexr.com/web/packages/VarSelLCM/}. \\
+\noindent\textbf{17} MacQueen, J. B. (1967). \textit{Some Methods for classification and Analysis of Multivariate Observations}. Proceedings of 5th Berkeley Symposium on Mathematical Statistics and Probability. Vol. 1. University of California Press. pp. 281–297. \\
+
+\noindent\textbf{18} Marbac, M. M., \& Sedki, M. S. (2017). \textit{Variable Selection for Model-Based Clustering of Continuous, Count, Categorical or Mixed-Type Data Set with Missing Values} [Software]. In CRAN (2.0.1). \sloppy\url{ http://cran.nexr.com/web/packages/VarSelLCM/}. \\
 
 %\noindent\textbf{13} Mehta, V., Bawa, S. \& Singh, J. \textit{Analytical review of clustering techniques and proximity measures}. Artif Intell Rev 53, 5995–6023 (2020). \sloppy\url{https://doi.org/10.1007/s10462-020-09840-7}. \\
 
-\noindent\textbf{17} OECD, Statistics Canada. (2018). \textit{Workshop on Modernising Statistical Systems for Better Data on Regions and Cities}.  Retrieved May 4, 2023, from \sloppy\url{https://www.oecd.org/cfe/regionaldevelopment/modernising-statistical-systems.htm}. \\
+\noindent\textbf{19} OECD, Statistics Canada. (2018). \textit{Workshop on Modernising Statistical Systems for Better Data on Regions and Cities}.  Retrieved May 4, 2023, from \sloppy\url{https://www.oecd.org/cfe/regionaldevelopment/modernising-statistical-systems.htm}. \\
 
 %\noindent\textbf{15} Rigolon, A., \& Németh, J. (2021). \textit{What shapes uneven access to urban amenities? Thick injustice and the legacy of racial discrimination in Denver’s parks.} Journal of Planning Education and Research, 41(3), 312-325. \\
 
-\noindent\textbf{18} Rousseeuw, P.J. (1987) \textit{Silhouettes: A graphical aid to the interpretation and validation of cluster analysis}. Journal of Computational and Applied Mathematics, Volume 20, Pages 53-65,ISSN 0377-0427. \sloppy\url{https://doi.org/10.1016/0377-0427(87)90125-7}. \\
+\noindent\textbf{20} Rousseeuw, P.J. (1987) \textit{Silhouettes: A graphical aid to the interpretation and validation of cluster analysis}. Journal of Computational and Applied Mathematics, Volume 20, Pages 53-65,ISSN 0377-0427. \sloppy\url{https://doi.org/10.1016/0377-0427(87)90125-7}. \\
 
-\noindent\textbf{19} Scrucca, L., Fop, M., Murphy, T. B., \& Raftery, A. E. (2016). \textit{MCLUST 5: clustering, classification, and density estimation using Gaussian finite mixture models}. The R Journal, 8(1), 289-317.  \sloppy\url{https://doi.org/10.32614/RJ-2016-021}. \\
+\noindent\textbf{21} Scrucca, L., Fop, M., Murphy, T. B., \& Raftery, A. E. (2016). \textit{MCLUST 5: clustering, classification, and density estimation using Gaussian finite mixture models}. The R Journal, 8(1), 289-317.  \sloppy\url{https://doi.org/10.32614/RJ-2016-021}. \\
 
-\noindent\textbf{20} Statistics Canada (2020a). \textit{Proximity Measures Data Viewer}. \sloppy\url{https://www150.statcan.gc.ca/n1/pub/71-607-x/71-607-x2020011-eng.htm}. \\
+\noindent\textbf{22} Statistics Canada (2020a). \textit{Proximity Measures Data Viewer}. \sloppy\url{https://www150.statcan.gc.ca/n1/pub/71-607-x/71-607-x2020011-eng.htm}. \\
 
-\noindent\textbf{21} Statistics Canada (2020b). \textit{Proximity Measures Database – Early release}. \sloppy\url{https://www150.statcan.gc.ca/n1/pub/17-26-0002/172600022020001-eng.htm}. \\
+\noindent\textbf{23} Statistics Canada (2020b). \textit{Proximity Measures Database – Early release}. \sloppy\url{https://www150.statcan.gc.ca/n1/pub/17-26-0002/172600022020001-eng.htm}. \\
 
 %\noindent\textbf{17} Statistics Canada. (2021). \textit{Dictionary, Census of Population, 2021 Dissemination block (DB)}. \sloppy\url{https://www12.statcan.gc.ca/census-recensement/2021/ref/dict/az/definition-eng.cfm}. \\
 
 %\noindent\textbf{18} Statistics Canada. (2021). \textit{Index of Remoteness 2021: Update with 2021 census geographies and populations}. \sloppy\url{https://www150.statcan.gc.ca/n1/pub/17-26-0001/2020001/meta-doc-eng.htm}. \\
 
-\noindent\textbf{22} Statistics Canada. (2021). \textit{Dictionary, Census of Population, 2021  Dissemination block (DB)}. \sloppy\url{https://www12.statcan.gc.ca/census-recensement/2021/ref/dict/az/definition-eng.cfm}. \\
+\noindent\textbf{24} Statistics Canada. (2021). \textit{Dictionary, Census of Population, 2021  Dissemination block (DB)}. \sloppy\url{https://www12.statcan.gc.ca/census-recensement/2021/ref/dict/az/definition-eng.cfm}. \\
 
-\noindent\textbf{23} Subedi,R., Roshanafshar, S., \& Greenberg, T.L. (2020). \textit{Developing Meaningful Categories for Distinguishing Levels of Remoteness in Canada}. Analytical Studies: Methods and References, Statistics Canada. \sloppy\url{https://www150.statcan.gc.ca/n1/pub/11-633-x/11-633-x2020002-eng.htm}. \\
+\noindent\textbf{25} Subedi,R., Roshanafshar, S., \& Greenberg, T.L. (2020). \textit{Developing Meaningful Categories for Distinguishing Levels of Remoteness in Canada}. Analytical Studies: Methods and References, Statistics Canada. \sloppy\url{https://www150.statcan.gc.ca/n1/pub/11-633-x/11-633-x2020002-eng.htm}. \\
 
-\noindent\textbf{24} Wickham, H., Averick, M., Bryan, J., Chang, W. W., McGowan, L. D., François, R., Grolemund, G., Hayes, A. G., Henry, L., Hester, J., Kuhn, M., Pedersen, T. G., Miller, E. W., Bache, S. M., Müller, K., Ooms, J., Robinson, D., Seidel, D. P., Spinu, V., ... Yutani, H. (2019). Welcome to the Tidyverse. Journal of Open Source Software, 4(43), 1686. \sloppy\url{https://doi.org/10.21105/joss.01686}. \\
+\noindent\textbf{26} Wickham, H., Averick, M., Bryan, J., Chang, W. W., McGowan, L. D., François, R., Grolemund, G., Hayes, A. G., Henry, L., Hester, J., Kuhn, M., Pedersen, T. G., Miller, E. W., Bache, S. M., Müller, K., Ooms, J., Robinson, D., Seidel, D. P., Spinu, V., ... Yutani, H. (2019). Welcome to the Tidyverse. Journal of Open Source Software, 4(43), 1686. \sloppy\url{https://doi.org/10.21105/joss.01686}. \\
 
 
 
@@ -2579,7 +2582,7 @@ Moments & Employment & Pharmacy & Childcare & Healthcare & Grocery & Pri. Educ. 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{./vat/healthcare_vat_log.png}
-\caption[Health care VAT plot]{VAT plot for the log-transformed health care amenity.}\label{healthcarevat}
+\caption[Health care VAT plot]{VAT plot for the log-transformed healthcare amenity.}\label{healthcarevat}
 \end{figure}
 
 
