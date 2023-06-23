@@ -342,6 +342,43 @@ mates on making the slide deck for the final presentation.
 
 No, not right now.
 
+## Week 8
+
+Add individual contributions here (be sure to call the **tidyverse** and
+**knitr** package first)
+
+| week | day        | hours | description                                                 | comments      |
+|----:|:--------|-----:|:------------------------------------------|:----------|
+|    8 | 2023-06-19 |  7.75 | slides, typsetting, final report writing, executive summary | 8-930, 10-415 |
+|    8 | 2023-06-20 |  6.75 | practice presentation, team report work, typesetting        | 930-415       |
+|    8 | 2023-06-21 |  5.50 | changing slides, presentation practice                      | 945-315       |
+|    8 | 2023-06-22 |  5.00 | presentations                                               | 10-3          |
+
+My total weekly hours are: 25
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week?
+
+My most significant individual contribution this week was typesetting
+the full, final version of the TeX file, which we submitted to our
+client on Tuesday.
+
+1.  What was your most significant **team contribution** to the project
+    this week?
+
+My most significant team contribution this week was working with my team
+mates on making the slide deck for the final presentation.
+
+1.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project?
+
+Done!
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use
@@ -356,3 +393,4 @@ the following (requires the **dplyr** package)
 |    5 |              30.25 |
 |    6 |              37.50 |
 |    7 |              29.50 |
+|    8 |              25.00 |

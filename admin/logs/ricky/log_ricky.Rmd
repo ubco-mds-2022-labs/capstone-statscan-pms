@@ -656,6 +656,61 @@ kable(filter(mylog, week == current.week))
 ### Weekly Reflection
 My most significant individual contribution is my attention to detail in editing and my search for an appropriate presentation design. Our most significant team contribution is wrapping up the discussion and conclusion of the final report as well as the draft for our presentation. We do not have any roadblocks.
 
+## Week 8
+```{r}
+current.week = current.week + 1
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-19"), 
+                       hours=.75,
+                       description="Meetings",
+                       comments="prep + daily")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-19"), 
+                       hours=5,
+                       description="Final report",
+                       comments="review client feedback, edit report")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-19"), 
+                       hours=3,
+                       description="Presentation",
+                       comments="NA")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-20"), 
+                       hours=2,
+                       description="Presentation",
+                       comments="Firas&Jesse practice, feedback, edits")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-20"), 
+                       hours=6.75,
+                       description="Final report",
+                       comments="NA")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-21"), 
+                       hours=5.5,
+                       description="Presentation",
+                       comments="final slides, rehearsals")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-22"), 
+                       hours=5,
+                       description="Presentations",
+                       comments="NA")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-23"), 
+                       hours=1,
+                       description="Client meeting",
+                       comments="NA")
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-23"), 
+                       hours=.5,
+                       description="Misc",
+                       comments="logs, emails, etc")
+
+
+kable(filter(mylog, week == current.week))
+```
+
+### Weekly Reflection
+My most significant individual contribution is my attention to detail in editing our final report as well as in our slides. Our most significant team contribution is wrapping up our final report and presenting our final presentation. No roadblocks!
 
 ## Summary Table
 

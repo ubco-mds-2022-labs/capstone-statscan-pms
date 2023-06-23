@@ -272,6 +272,27 @@ significant team contribution is wrapping up the discussion and
 conclusion of the final report as well as the draft for our
 presentation. We do not have any roadblocks.
 
+## Week 8
+
+| week | day        | hours | description    | comments                              |
+|-----:|:----------|------:|:--------------|:----------------------------------|
+|    8 | 2023-06-19 |  0.75 | Meetings       | prep + daily                          |
+|    8 | 2023-06-19 |  5.00 | Final report   | review client feedback, edit report   |
+|    8 | 2023-06-19 |  3.00 | Presentation   | NA                                    |
+|    8 | 2023-06-20 |  2.00 | Presentation   | Firas&Jesse practice, feedback, edits |
+|    8 | 2023-06-20 |  6.75 | Final report   | NA                                    |
+|    8 | 2023-06-21 |  5.50 | Presentation   | final slides, rehearsals              |
+|    8 | 2023-06-22 |  5.00 | Presentations  | NA                                    |
+|    8 | 2023-06-23 |  1.00 | Client meeting | NA                                    |
+|    8 | 2023-06-23 |  0.50 | Misc           | logs, emails, etc                     |
+
+### Weekly Reflection
+
+My most significant individual contribution is my attention to detail in
+editing our final report as well as in our slides. Our most significant
+team contribution is wrapping up our final report and presenting our
+final presentation. No roadblocks!
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use
@@ -286,3 +307,4 @@ the following (requires the **dplyr** package)
 |    5 |              31.00 |
 |    6 |              33.50 |
 |    7 |              32.75 |
+|    8 |              29.50 |
