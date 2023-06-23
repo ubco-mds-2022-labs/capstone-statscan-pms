@@ -100,14 +100,14 @@ mylog <- mylog %>% add_row(week = current.week,
                        day=as.Date("2023-05-01"), 
                        hours=2,
                        description="Project Inception",
-                       comments="Read & Understand Project Details"
+                       comments="Read & Understood Project Details"
                        )
 
 mylog <- mylog %>% add_row(week = current.week,
                        day=as.Date("2023-05-01"), 
                        hours=2,
                        description="Project Management",
-                       comments="Create Notion for organizing all project work and timeline in one place"
+                       comments="Created Notion for organizing all project work and timeline in one place"
                        )
 
 mylog <- mylog %>% add_row(week = current.week,
@@ -121,7 +121,7 @@ mylog <- mylog %>% add_row(week = current.week,
                        day=as.Date("2023-05-02"), 
                        hours=1.5,
                        description="Team Meeting",
-                       comments="Discuss workflow"
+                       comments="Discussed workflow"
                        )
 
 mylog <- mylog %>% add_row(week = current.week,
@@ -150,7 +150,7 @@ mylog <- mylog %>% add_row(week = current.week,
                        day=as.Date("2023-05-03"), 
                        hours=1,
                        description="Proposal Writing",
-                       comments="Write a draft of the introduction"
+                       comments="Wrote a draft of the introduction"
                        )
 
 mylog <- mylog %>% add_row(week = current.week,
@@ -171,14 +171,14 @@ mylog <- mylog %>% add_row(week = current.week,
                        day=as.Date("2023-05-05"), 
                        hours=1.5,
                        description="Team Meeting",
-                       comments="Finalize proposal and prepare slide decks for weekly meeting"
+                       comments="Finalized proposal and prepared slide decks for weekly meeting"
                        )
 
 mylog <- mylog %>% add_row(week = current.week,
                        day=as.Date("2023-05-05"), 
                        hours=1,
                        description="Miscellaneous",
-                       comments="Review Pull Requests, Store Logs, Organizing Notion etc."
+                       comments="Reviewed Pull Requests, Store Logs, Organized Notion etc."
                        )
 
 # I don't have any comments to me
@@ -200,43 +200,648 @@ My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
 <!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
 - There were no major blockers or roadblocks preventing me/us from proceeding on our project.
 
-<!--
+
 ## Week 2
 
-Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first)
-```{r eval=FALSE}
+<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first) -->
+```{r}
+#
 current.week = current.week + 1
 mylog <- mylog %>% add_row(week = current.week,
-                       day=Sys.Date(), # for today's date
-                       hours=0.5,
-                       description="learning this personal log rmd file",
-                       comments="Rmd is cool")
+                       day=as.Date("2023-05-08"),
+                       hours=2,
+                       description="EDA",
+                       comments="Explored PMS dataset"
+                       )
 
 mylog <- mylog %>% add_row(week = current.week,
-                       day=as.Date("2023-05-01"), 
+                       day=as.Date("2023-05-08"), 
+                       hours=1,
+                       description="EDA Vizualization",
+                       comments="Explored boundary dataset"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-09"), 
                        hours=1.5,
-                       description="Editing kickoff slide decks with Firas",
-                       comments="Firas will push the changes to repo"
+                       description="EDA Vizualization",
+                       comments="Faced Issues to convert as owin"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-08"), 
+                       hours=3.5,
+                       description="EDA Vizualization",
+                       comments="Explored packages to link datasets and visualize PMS!"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-09"), 
+                       hours=3.9,
+                       description="EDA",
+                       comments="Explored NA values, pms outliers and outliers tests."
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-09"), 
+                       hours=1,
+                       description="Meetings",
+                       comments="Instructor & TA meetings"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-10"), 
+                       hours=1.5,
+                       description="EDA Vizualization",
+                       comments="Some visualizations took a long time to run on my local machine and didn't produce any output, so I attempted to run them on Jupyter Notebook, but it still didn't work."
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-10"), 
+                       hours=3,
+                       description="EDA",
+                       comments="Different Distributions, correlation plot, boxplots etc."
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-10"), 
+                       hours=3,
+                       description="Modeling",
+                       comments="Read and applied VarSelLCM cluster to PMS data (included running time)."
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-11"), 
+                       hours=1.25,
+                       description="EDA Vizualization",
+                       comments="Checked packages for map visualization"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-11"), 
+                       hours=2.5,
+                       description="Team Meeting",
+                       comments="Discussed about EDA & Modeling"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-11"), 
+                       hours=2,
+                       description="GitHub Issues",
+                       comments="Solved github push issues."
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-11"), 
+                       hours=5,
+                       description="EDA Vizualization",
+                       comments="Plot maps with PMS and NA values province wise (included running time)."
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-12"), 
+                       hours=4.5,
+                       description="Team Meeting & Redo Proposal",
+                       comments="Redo proposal together based on instructor feedback."
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-12"), 
+                       hours=1,
+                       description="Miscellaneous",
+                       comments="Reviewed Pull Requests, Stored Logs."
                        )
 
 kable(filter(mylog, week == current.week))
 ```
-My total weekly hours are: `r # sum(mylog[which(mylog$week==current.week), 3])`
+My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
 
 ### Weekly Reflection
 
-In this section, please write 5-7 sentences (in total) answering the following questions:
+<!-- In this section, please write 5-7 sentences (in total) answering the following questions: -->
 
-1. What was your most significant **individual contribution** to the project this week?
+<!-- 1. What was your most significant **individual contribution** to the project this week? -->
+- My most significant individual contribution to the project this week was in exploratory data analysis and visualization. I found out that even though the proximity measures are normalized there are huge amount of outliers across all proximity measures indices and had done different tests such as Rosners Outlier Test to validate those. Also, got some useful insights from the map visualizations.
 
-1. What was your most significant **team contribution** to the project this week?
+<!-- 2. What was your most significant **team contribution** to the project this week? -->
+- My most significant team contribution was discovering outliers and telling the team that we need to be careful when choosing models for clustering as our model has to be robust against outliers which I also confirmed with Jesse (TA).
 
-1. Are there any major blockers or roadblocks preventing you from proceeding on your project?
+<!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
+- This week, I encountered some significant challenges, including running out of memory when allocating vectors and dealing with excessively long running times. As a result, I had to search for alternative approaches to address running out of memory issue. However, as the dataset is large it took long time to run models on the entire dataset.
+
+
+## Week 3
+
+<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first) -->
+```{r}
+current.week = current.week + 1
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-15"), 
+                       hours=1,
+                       description="Made Slides",
+                       comments="Instructor meeting")
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-15"), 
+                       hours=3.5,
+                       description="Meetings",
+                       comments="Team, Instructor & Client meetings"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-15"), 
+                       hours=0.5,
+                       description="Miscellaneous",
+                       comments="Worked on Proposal final edit/upload, short meeting"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-15"), 
+                       hours=2.5,
+                       description="Modeling",
+                       comments="Applied VarselLCM using diff techniques"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-16"), 
+                       hours=1.25,
+                       description="Reading",
+                       comments="Articles/Papers on clustering"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-16"), 
+                       hours=2.0,
+                       description="Meetings",
+                       comments="StatCan & TA meetings"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-16"), 
+                       hours=0.5,
+                       description="Issues",
+                       comments="Fixed GitHub Issues"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-16"), 
+                       hours=3.5,
+                       description="EDA Merge",
+                       comments="Merged mine and ricky's EDA, modified visuals & codes"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-17"), 
+                       hours=1.2,
+                       description="EDA Merge",
+                       comments="Fixed compiling issues"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-17"), 
+                       hours=1.5,
+                       description="Meeting",
+                       comments="Team Meeting"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-17"), 
+                       hours=3.75,
+                       description="Modeling",
+                       comments="Clustering Tendency, validation"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-18"), 
+                       hours=1.5,
+                       description="Modeling",
+                       comments="Applied VarselLCM using template, explore diff combinations of validation & data"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-18"), 
+                       hours=0.5,
+                       description="Meeting",
+                       comments="Team Meeting"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-18"), 
+                       hours=8,
+                       description="EDA Draft",
+                       comments="Updated EDA based on all team members feedback, handled compiling issues."
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-19"), 
+                       hours=0.67,
+                       description="Meeting",
+                       comments="Team Meeting"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-17"), 
+                       hours=4.5,
+                       description="Modeling",
+                       comments="Read Cluster Analysis articles, tried different validation metrics, tried on single pms"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-17"), 
+                       hours=1.2,
+                       description="Miscellaneous",
+                       comments="Reviewed Pull Requests, Stored Logs"
+                       )
+
+kable(filter(mylog, week == current.week))
+```
+My total weekly hours are: `r  sum(mylog[which(mylog$week==current.week), 3])`
+
+### Weekly Reflection
+
+<!-- In this section, please write 5-7 sentences (in total) answering the following questions: -->
+
+<!-- 1. What was your most significant **individual contribution** to the project this week? -->
+- My most significant individual contribution to the project this week was merging the EDA first then update it based on all team members feedback. Also found that 
+we need to check clustering tendency before applying clustering techniques.
+
+<!-- 2. What was your most significant **team contribution** to the project this week? -->
+- My most significant team contribution was discussing questions about project data with the DEIL team.
+
+<!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
+- This week, I didn't face any major roadblocks, aside from running duration and interpretation.
+
+
+## Week 4
+
+<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first) -->
+```{r}
+current.week = current.week + 1
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-23"), 
+                       hours=3,
+                       description="Meetings",
+                       comments="Team, TA & Client Meeting")
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-23"), 
+                       hours=2,
+                       description="Modeling",
+                       comments="Tried to fix Log Transformed VarselLCM"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-23"), 
+                       hours=1.5,
+                       description="Modeling",
+                       comments="Quartiles"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-23"), 
+                       hours=1.5,
+                       description="Presentation Slide",
+                       comments="EDA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-24"), 
+                       hours=7,
+                       description="Presentation Prep",
+                       comments="Team Meetings, Slide Prep, Presentation Practise"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-25"), 
+                       hours=4.5,
+                       description="Mid Term Presentation",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-25"), 
+                       hours=2,
+                       description="Team Meeting",
+                       comments="Presentation Reflection, Agendas"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-26"), 
+                       hours=2,
+                       description="Meetings",
+                       comments="TA & Client Meeting"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-26"), 
+                       hours=2,
+                       description="Modeling",
+                       comments="Quintile & Plotted models on other transformation"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-26"), 
+                       hours=0.5,
+                       description="Miscellaneous",
+                       comments="Reviewed Pull Requests, Stored Logs"
+                       )
+
+kable(filter(mylog, week == current.week))
+```
+My total weekly hours are: `r  sum(mylog[which(mylog$week==current.week), 3])`
+
+### Weekly Reflection
+
+<!-- In this section, please write 5-7 sentences (in total) answering the following questions: -->
+
+<!-- 1. What was your most significant **individual contribution** to the project this week? -->
+- My most significant individual contribution to the project this week was identifying that VarcelLCM is not suitable for Log-Transformed data.
+
+<!-- 2. What was your most significant **team contribution** to the project this week? -->
+- My most significant team contribution was working on the presentation.
+
+<!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
+- This week, I didn't face any major roadblocks.
+
+
+## Week 5
+
+<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first) -->
+```{r}
+current.week = current.week + 1
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-29"), 
+                       hours=1.5,
+                       description="Meetings",
+                       comments="Team & Instructor Meeting, Slide Prep")
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-29"), 
+                       hours=1.5,
+                       description="Validation Metrics",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-29"), 
+                       hours=3,
+                       description="Study & Implement OPTICS",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-30"), 
+                       hours=4.67,
+                       description="OPTICS",
+                       comments="Explore results and parameters tuning"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-30"), 
+                       hours=1,
+                       description="Meetings",
+                       comments="Team & TA Meetings"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-31"), 
+                       hours=5,
+                       description="Jensk",
+                       comments="Study, apply, validation, plot"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-05-31"), 
+                       hours=1,
+                       description="Team Meeting",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-01"), 
+                       hours=2.5,
+                       description="Quintile",
+                       comments="Tried to match with existing one"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-01"), 
+                       hours=2.25,
+                       description="Meeting",
+                       comments="Team meeting"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-01"), 
+                       hours=0.33,
+                       description="Miscellaneous",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-02"), 
+                       hours=0.67,
+                       description="Final Report",
+                       comments="Method didn't work"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-02"), 
+                       hours=1,
+                       description="Meeting",
+                       comments="Client Meeting"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-02"), 
+                       hours=1,
+                       description="Quintile",
+                       comments="EMail + Tried "
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-02"), 
+                       hours=1,
+                       description="Miscellaneous",
+                       comments="Reviewed Pull Requests, Stored Logs, etc."
+                       )
+
+kable(filter(mylog, week == current.week))
+```
+My total weekly hours are: `r  sum(mylog[which(mylog$week==current.week), 3])`
+
+### Weekly Reflection
+
+<!-- In this section, please write 5-7 sentences (in total) answering the following questions: -->
+
+<!-- 1. What was your most significant **individual contribution** to the project this week? -->
+- My most significant individual contribution to the project this week was applying OPTICS and Jensk natural breaks clustering techniques.
+
+<!-- 2. What was your most significant **team contribution** to the project this week? -->
+- My most significant team contribution was discussing about the team dynamics.
+
+<!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
+- This week, I didn't face any major roadblocks. As a team we're facing issues with choosing the right clustering technique based on validation metrics. Because different clustering techniques suggesting different number of clusters but we need to pick one for profiling.
+
+
+## Week 6
+
+<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first) -->
+```{r}
+current.week = current.week + 1
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-05"), 
+                       hours=2,
+                       description="Meetings",
+                       comments="Made slides & agendas, Instructor & Team meeting")
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-05"), 
+                       hours=4.67,
+                       description="Profiling",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-06"), 
+                       hours=0.5,
+                       description="Meeting",
+                       comments="Team meeting"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-06"), 
+                       hours=4.33,
+                       description="Report writing & Cutoffs",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-07"), 
+                       hours=6,
+                       description="Report writing & Team meeting",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-08"), 
+                       hours=6.5,
+                       description="Meet & Greet, Team dynamics, Jeff Meeting, Report check",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-09"), 
+                       hours=5,
+                       description="Team & Client Meeting, Report editing",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-10"), 
+                       hours=5,
+                       description="QGIS, Report editing",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-10"), 
+                       hours=1,
+                       description="Miscellaneous",
+                       comments="Reviewed Pull Requests, Stored Logs, etc."
+                       )
+
+kable(filter(mylog, week == current.week))
+```
+My total weekly hours are: `r  sum(mylog[which(mylog$week==current.week), 3])`
+
+### Weekly Reflection
+
+<!-- In this section, please write 5-7 sentences (in total) answering the following questions: -->
+
+<!-- 1. What was your most significant **individual contribution** to the project this week? -->
+- My most significant individual contribution to the project this week was writing first draft for some sections.
+
+<!-- 2. What was your most significant **team contribution** to the project this week? -->
+- My most significant team contribution was working on the final report.
+
+<!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
+- This week, I didn't face any major roadblocks.
+
+## Week 7
+
+<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first) -->
+```{r}
+current.week = current.week + 1
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-12"), 
+                       hours=6,
+                       description="Meetings & Report Writing",
+                       comments="Instructor & Team meeting")
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-13"), 
+                       hours=4.58,
+                       description="Report Writing",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-13"), 
+                       hours=1,
+                       description="Visualization",
+                       comments="QGIS"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-14"), 
+                       hours=6,
+                       description="Slides, Team Meeting & Visualization",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-15"), 
+                       hours=6.5,
+                       description="Slides & Visualization",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-16"), 
+                       hours=6,
+                       description="Client meeting and Slides editing with team",
+                       comments="NA"
+                       )
+
+mylog <- mylog %>% add_row(week = current.week,
+                       day=as.Date("2023-06-10"), 
+                       hours=0.5,
+                       description="Miscellaneous",
+                       comments="Reviewed Pull Requests, Stored Logs, etc."
+                       )
+
+kable(filter(mylog, week == current.week))
+```
+My total weekly hours are: `r  sum(mylog[which(mylog$week==current.week), 3])`
+
+### Weekly Reflection
+
+<!-- In this section, please write 5-7 sentences (in total) answering the following questions: -->
+
+<!-- 1. What was your most significant **individual contribution** to the project this week? -->
+- My most significant individual contribution to the project this week was making QGIS cluster visualizations on map.
+
+<!-- 2. What was your most significant **team contribution** to the project this week? -->
+- My most significant team contribution was working on the final slide deck.
+
+<!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
+- This week, I didn't face any major roadblocks.
 
 ## Summary Table
 
-To get the total for all the weekly hourly summary over each week use the following (requires the **dplyr** package)
--->
+<!-- To get the total for all the weekly hourly summary over each week use the following (requires the **dplyr** package) -->
+
 ```{r}
 mylog %>% 
   group_by(week) %>% 

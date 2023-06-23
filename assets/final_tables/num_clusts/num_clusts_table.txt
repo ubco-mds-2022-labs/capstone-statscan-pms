@@ -1,0 +1,17 @@
+% latex table generated in R 3.6.3 by xtable 1.8-4 package
+% Fri Jun  9 12:05:37 2023
+\begin{table}[ht]
+\centering
+\begin{tabular}{rllllllllll}
+  \hline
+ & Emp. & Pharm. & Child. & Health. & Groc. & Pri. Educ. & Sec. Educ. & Lib. & Parks & Transit \\ 
+  \hline
+Quintiles & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 \\ 
+  Min/Max & 5 & 3 & 3 & 4 & 3 & 3 & 2 & 2 & 3 & 4 \\ 
+  HDBSCAN & 2 & 3 & 2 & 2 & 3 & 4 & 3 & 4 & 2 & 2 \\ 
+  MixAll & 2 & 2 & 2 & 2 & 2 & 2 & 3 & 2 & 2 & 2 \\ 
+  MCLUST & 9 & 7 & 3 & 4 & 3 & 7 & 8 & 7 & 8 & 3 \\ 
+  PAM k-means & 2 & 2 & 2 & 2 & 8 & 2 & 4 & 2 & 2 & 2 \\ 
+   \hline
+\end{tabular}
+\end{table}

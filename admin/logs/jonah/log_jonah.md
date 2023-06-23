@@ -90,12 +90,15 @@ No, not at the moment.
 Add individual contributions here (be sure to call the **tidyverse** and
 **knitr** package first)
 
-| week | day        | hours | description                            | comments                            |
-|----:|:--------|-----:|:---------------------------|:-------------------------|
-|    2 | 2023-05-07 |   0.5 | learning this personal log rmd file    | Rmd is cool                         |
-|    2 | 2023-05-01 |   1.5 | Editing kickoff slide decks with Firas | Firas will push the changes to repo |
+| week | day        | hours | description                                                       | comments                        |
+|---:|:-------|----:|:-------------------------------------|:------------------|
+|    2 | 2023-05-08 |   6.5 | making master dataset, team meeting, instructor meeting           | 10-430                          |
+|    2 | 2023-05-09 |   6.5 | drafting clustering template, TA meeting                          | 930-5 minus lunch               |
+|    2 | 2023-05-10 |   7.0 | started clustimpute document, fixing master dataset, team meeting | 10-5                            |
+|    2 | 2023-05-11 |   6.5 | finished clustimpute document, team meeting                       | 10-430                          |
+|    2 | 2023-05-12 |   5.0 | fixing proposal in team meeting, addressing feedback              | 10-230 + typesetting in evening |
 
-My total weekly hours are: 2
+My total weekly hours are: 31.5
 
 ### Weekly Reflection
 
@@ -105,11 +108,239 @@ following questions:
 1.  What was your most significant **individual contribution** to the
     project this week?
 
-2.  What was your most significant **team contribution** to the project
+The most significant individual contribution was the ClustImpute
+document, which is an application and analysis of the PMD using the
+ClustImpute package. Part of this was creating reproducible code that we
+will be able to use again in applying other algorithms.
+
+1.  What was your most significant **team contribution** to the project
     this week?
 
-3.  Are there any major blockers or roadblocks preventing you from
+The most significant team contribution was definitely fixing the
+proposal. We met for almost 5 hours straight and ironed out all the
+errors.
+
+1.  Are there any major blockers or roadblocks preventing you from
     proceeding on your project?
+
+There are two roadblocks:
+
+-   git - we are having issues with large file storage
+-   memory - due to the size of the dataset and the algorithmic
+    approaches being used, many of the group members’ computers run out
+    of memory and crash, mine included. There are some workarounds, but
+    it is wasting time and preventing us from doing some things, such as
+    certain algorithms and making plots with shapefiles.
+
+## Week 3
+
+Add individual contributions here (be sure to call the **tidyverse** and
+**knitr** package first)
+
+| week | day        | hours | description                                              | comments  |
+|----:|:---------|-----:|:-------------------------------------------|:--------|
+|    3 | 2023-05-15 |   1.0 | making instructor meeting slides                         | 730-830AM |
+|    3 | 2023-05-15 |   3.5 | meetings                                                 | 10-130    |
+|    3 | 2023-05-15 |   1.0 | update clustering template                               | 830-930PM |
+|    3 | 2023-05-16 |   7.0 | statscan meeting, TA meeting, update clustering template | 930-430   |
+|    3 | 2023-05-16 |   4.0 | coding new clustering template                           | 9PM-1AM   |
+|    3 | 2023-05-17 |   6.5 | updating clustimpute doc w scaled data                   | 10-430    |
+|    3 | 2023-05-18 |   7.0 | making hdbscan doc                                       | 930-430   |
+|    3 | 2023-05-18 |   1.0 | cleaning docs to send to jerome                          | 8-9PM     |
+
+My total weekly hours are: 31
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week?
+
+The most significant individual contribution was coding the new
+clustering template with new information from the DEIL meeting, as well
+as using this template to attempt the HDBSCAN approach.
+
+1.  What was your most significant **team contribution** to the project
+    this week?
+
+The most significant team contribution was meeting with the DEIL team to
+discuss some very important project-guiding questions that changed the
+trajectory of where we are headed with the project. This meeting was
+very important.
+
+1.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project?
+
+At this point, I do not think there are any large roadblocks, aside from
+the stuff mentioned last week. However, I am noticing that 2 months is a
+very short timeframe for a project like this, and that our project could
+easily be extended to be a year long.
+
+## Week 4
+
+Add individual contributions here (be sure to call the **tidyverse** and
+**knitr** package first)
+
+| week | day        | hours | description                                            | comments |
+|----:|:---------|-----:|:-------------------------------------------|:-------|
+|    4 | 2023-05-23 |  9.00 | meetings, making presentation ready plots              | 945-545  |
+|    4 | 2023-05-24 |  7.00 | meetings, making slides, practicing presentation       | 10-5     |
+|    4 | 2023-05-25 |  6.25 | presentations, team meeting                            | 10-415   |
+|    4 | 2023-05-26 |  3.00 | meetings, logs, new transforms, final report structure | 9-12     |
+
+My total weekly hours are: 25.25
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week?
+
+My most significant individual contribution this week was preparing the
+summary plots (density/cutoffs & silhouette) for the presentation. These
+took me all day Tuesday to figure out.
+
+1.  What was your most significant **team contribution** to the project
+    this week?
+
+My most significant team contribution this week was working on the
+presentation. We spent a lot of time perfecting and practicing it, and I
+think it went well.
+
+1.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project?
+
+No, not this week. We revised our schedule with the time we have left,
+so things are looking good.
+
+## Week 5
+
+Add individual contributions here (be sure to call the **tidyverse** and
+**knitr** package first)
+
+| week | day        | hours | description                                                                      | comments |
+|---:|:-------|----:|:------------------------------------------------|:------|
+|    5 | 2023-05-29 |  6.00 | updating plots, meeting slides, instructor meeting, team meeting, report writing | 10-4     |
+|    5 | 2023-05-30 |  7.50 | team meeting, TA meeting, tables and figures for report, some report writing     | 9-430    |
+|    5 | 2023-05-31 |  7.00 | team meeting, report writing, making plots for report                            | 930-430  |
+|    5 | 2023-06-01 |  7.00 | team meeting, team dynamics meeting, plots, report writing                       | 930-430  |
+|    5 | 2023-06-02 |  2.75 | client meeting, false cluster investigation, logs                                | 1030-115 |
+
+My total weekly hours are: 30.25
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week?
+
+My most significant individual contribution this week was getting the
+first draft of the final report off the ground. I spent a fair amount of
+time doing this, and have the majority of the methods and results done,
+along with their accompanying plots and tables.
+
+1.  What was your most significant **team contribution** to the project
+    this week?
+
+My most significant team contribution this week was participating in the
+team dynamics discussion. Everyone was able to say their bit, and from
+my perspective, things are resolved now.
+
+1.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project?
+
+We need to decide on a criterion/metric for comparing our modeling
+approaches. This should ideally be done before cluster profiling and
+report writing. However, we are having difficulty deciding this, and
+have booked a meeting with Jeff so that he can help us. Issue is, it’s
+scheduled for the 8th, a few days later than we would like. We may end
+up just choosing something, and then going back and fixing it once we
+get some ideas from Jeff.
+
+## Week 6
+
+Add individual contributions here (be sure to call the **tidyverse** and
+**knitr** package first)
+
+| week | day        | hours | description                                                                                     | comments               |
+|---:|:------|---:|:---------------------------------------------|:-----------|
+|    6 | 2023-06-05 |  6.00 | creating cluster profiling tables, team meeting, instructor meeting                             | 10-4                   |
+|    6 | 2023-06-06 |  7.00 | creating profiling tables, creating appendix methods tables, creating barplots                  | 10-5                   |
+|    6 | 2023-06-07 |  5.50 | tweaking barplots, updating cutoff plots for report                                             | 10-330                 |
+|    6 | 2023-06-08 |  7.75 | meet and greet, jeff meeting, coding tables                                                     | 930-515                |
+|    6 | 2023-06-09 |  4.75 | client meeting, coding tables and figures for final report, TeX typesetting                     | 10-215, 930PM-10       |
+|    6 | 2023-06-10 |  2.75 | latex stuff, fixing summary table                                                               | 8-845, 345-545         |
+|    6 | 2023-06-11 |  3.75 | proofreading/editing final report doc, typesetting report doc and send to jerome, fill out logs | 830-930AM, 945PM-12:30 |
+
+My total weekly hours are: 37.5
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week?
+
+My most significant individual contribution this week was coding the
+latex tables using `xtable`, as well as typesetting the final report doc
+in LaTeX.
+
+1.  What was your most significant **team contribution** to the project
+    this week?
+
+My most significant team contribution this week was helping to draft and
+edit the final report so that we were able to complete the first draft
+to send to our client.
+
+1.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project?
+
+No, not right now. Full steam ahead.
+
+## Week 7
+
+Add individual contributions here (be sure to call the **tidyverse** and
+**knitr** package first)
+
+| week | day        | hours | description                                                                                 | comments        |
+|---:|:------|----:|:-----------------------------------------------|:---------|
+|    7 | 2023-06-12 |  6.25 | meeting, instructor meeting, writing analysis and discussion sections, cleaning up TeX file | 10-415          |
+|    7 | 2023-06-13 |  7.00 | typsetting                                                                                  | 10-4, 1045-1145 |
+|    7 | 2023-06-14 |  6.25 | slides, plots                                                                               | 10-415          |
+|    7 | 2023-06-15 |  6.00 | slides, plots                                                                               | 10-4            |
+|    7 | 2023-06-16 |  4.00 | slides, plots, client meeting                                                               | 10-2            |
+
+My total weekly hours are: 29.5
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week?
+
+My most significant individual contribution this week was typesetting
+the full, final version of the TeX file, which we re-submitted to our
+client on Tuesday night.
+
+1.  What was your most significant **team contribution** to the project
+    this week?
+
+My most significant team contribution this week was working with my team
+mates on making the slide deck for the final presentation.
+
+1.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project?
+
+No, not right now.
 
 ## Summary Table
 
@@ -118,5 +349,10 @@ the following (requires the **dplyr** package)
 
 | week | total_weekly_hours |
 |-----:|-------------------:|
-|    1 |               23.5 |
-|    2 |                2.0 |
+|    1 |              23.50 |
+|    2 |              31.50 |
+|    3 |              31.00 |
+|    4 |              25.25 |
+|    5 |              30.25 |
+|    6 |              37.50 |
+|    7 |              29.50 |

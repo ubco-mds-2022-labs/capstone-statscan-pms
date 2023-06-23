@@ -1,0 +1,22 @@
+% latex table generated in R 3.6.3 by xtable 1.8-4 package
+% Tue May 30 13:11:59 2023
+\begin{table}[ht]
+\centering
+\begin{tabular}{rll}
+  \hline
+ & DBs with Data Available & Percentage \\ 
+  \hline
+Employment & 423,602 & 86.5 \\ 
+  Pharmacy & 178,521 & 36.5 \\ 
+  Childcare & 243,964 & 49.8 \\ 
+  Healthcare & 300,465 & 61.4 \\ 
+  Grocery & 141,063 & 28.8 \\ 
+  Pri. Educ. & 225,359 & 46.0 \\ 
+  Sec. Educ. & 141,213 & 28.8 \\ 
+  Library & 112,655 & 23.0 \\ 
+  Parks & 234,068 & 47.8 \\ 
+  Transit & 181,305 & 37.0 \\ 
+  DB Pop. & 487,526 & 99.6 \\ 
+   \hline
+\end{tabular}
+\end{table}
