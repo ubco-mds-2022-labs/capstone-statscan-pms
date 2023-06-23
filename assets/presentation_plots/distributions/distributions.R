@@ -114,6 +114,9 @@ compare = do.call(grid.arrange,list(grobs=t, layout_matrix=layout_mat))
 
 
 
+distr2 = cowplot::ggdraw(distr2) + theme(plot.background = element_rect(fill="#c0c0c000", color = NA))
+
+
 #export 
 ggsave("distributions.png", distr, dpi = 400, width=8, height=5)
 ggsave("log_distributions.png", distr2, dpi = 400, width=8, height=5)

@@ -75,7 +75,7 @@ for(i in amenities){
   	index = 1:length(srt),
   	value = srt
   )	
-  plt = ggplot(df, aes(x=index, y=value)) + geom_line(aes(col=TRUE), linewidth=4, col="#B10026") +
+  plt = ggplot(df, aes(x=index, y=value)) + geom_line(aes(col=TRUE), linewidth=1.5, col="#B10026") +
   #scale_fill_manual(values="#B10026") +  
     ylab('') + guides(fill = 'none') + 
     theme(
@@ -115,7 +115,7 @@ compare = do.call(grid.arrange,list(grobs=t, layout_matrix=layout_mat))
 
 
 
-
+sort2 = cowplot::ggdraw(sort2) + theme(plot.background = element_rect(fill="#c0c0c000", color = NA))
 
 #export 
 ggsave("sort_plot.png", sort1, dpi = 400, width=8, height=5)
