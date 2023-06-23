@@ -46,10 +46,11 @@ for(i in amenities){
     ylab('') + guides(fill = 'none') + 
     theme(
       #axis.text.x = element_text(angle = 45, vjust = 0.8, hjust=1, size=8), 
+      plot.title = element_text(size = 14, face = "bold"),
       panel.grid.major = element_blank(), 
       panel.grid.minor = element_blank(),
       plot.margin=unit(c(0.1,0.1,0.1,0),"cm"),
-      plot.title = element_text(size = 10),
+      #plot.title = element_text(size = 10),
       axis.ticks.y = element_blank(),
       axis.text.y = element_blank(),
       axis.text.x = element_blank(), #removes x axis labels
@@ -85,22 +86,23 @@ temp = na.omit(master[,amenities[6]])
   df <- data.frame(x=dens$x, y=dens$y)
   plt = ggplot(df, aes(x,y)) + geom_line() + geom_ribbon(aes(ymin=0, ymax=y, fill=TRUE)) + 
   scale_fill_manual(values="#B10026") + 
-    #scale_x_continuous(breaks=round(logged, 2)) + 
+    scale_x_continuous(labels=c("Min", " ", " ", " ", "Max"), breaks=c(-4: 0), lim=c(-4, 0)) + 
     ylab('') + guides(fill = 'none') + 
     theme(
-      #axis.text.x = element_text(angle = 45, vjust = 0.8, hjust=1, size=8), 
+      axis.text.x = element_text(size=12), 
+      plot.title = element_text(size = 14, face = "bold"), 
       panel.grid.major = element_blank(), 
       panel.grid.minor = element_blank(),
       plot.margin=unit(c(0.1,0.1,0.1,0),"cm"),
-      plot.title = element_text(size = 10),
+      #plot.title = element_text(size = 10),
       axis.ticks.y = element_blank(),
       axis.text.y = element_blank(),
-      axis.text.x = element_blank(), #removes x axis labels
-      axis.ticks.x = element_blank(), #removes x axis ticks
+      #axis.text.x = element_blank(), #removes x axis labels
+      #axis.ticks.x = element_blank(), #removes x axis ticks
       plot.background = element_rect(fill = "#f3f5f600", colour = "#f3f5f600"),
       panel.background = element_rect(fill = "#c0c0c000", colour = "#c0c0c000"),
       ) +
-     xlab('') + xlim(-4, 0)
+     xlab('Proximity Measure') #+ xlim(-4, 0)
 
 t[[2]] = plt + ggtitle('Primary Education 3% Subsample')
 
@@ -113,7 +115,7 @@ layout_mat = rbind(c(1),
 					c(2))
 compare = do.call(grid.arrange,list(grobs=t, layout_matrix=layout_mat))
 
-
+compare = cowplot::ggdraw(compare) + theme(plot.background = element_rect(fill="#c0c0c000", color = NA))
 
 
 #export 
