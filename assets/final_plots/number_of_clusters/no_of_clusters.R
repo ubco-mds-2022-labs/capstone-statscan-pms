@@ -1,5 +1,5 @@
 
-results_df <- read.csv("src/notebooks/MixModel/MixAll_updated/res_df.csv")
+results_df <- read.csv("assets/final_plots/number_of_clusters/res_df.csv")
 
 library(tidyr)
 results_df_2 <- results_df[2:8, ]
@@ -31,7 +31,13 @@ p <- ggplot(results_df_long, aes(x = num_clusters, y = Value, color = Coefficien
   theme_minimal() +
   guides(color = FALSE) +
   theme(axis.title = element_text(size = 8),
-        axis.text = element_text(size = 6),
+        axis.text.x = element_text(size = 6),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_line(color="black", size = 0.5),
+        axis.line.x = element_line(color="black", size = 0.5, linetype = "solid"),
+        axis.ticks.x = element_line(color="black", size = 0.5),
+        
+        
     panel.grid = element_blank())
   
-ggsave('assets/noc.png', p, bg='transparent')
+ggsave('assets/noc_update.png', p, bg='transparent')
