@@ -1,0 +1,324 @@
+---
+title: "k-means with Imputation"
+subtitle: "`ClustImpute` package"
+author: "PMS"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document: default
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width=8, fig.height=6, fig.align = 'center')
+```
+
+
+* * *
+
+# Preliminary 
+
+## Loading \& Cleaning Data
+
+```{r}
+set.seed(2023)
+library(cluster)
+library(ClustImpute)
+library(ggplot2)
+library(factoextra)
+library(clusterCrit)
+load('../../../../../local_data/codes/create_master/master_pms_df.Rdata')
+
+#removing rows with NA for all indices, as well as for population = 0
+master$PMS_DBPOP = as.numeric(as.character(master$PMS_DBPOP))
+master = master[master$PMS_DBPOP != 0,]
+master = master[!is.na(master$PMS_DBPOP),]
+idx = c("PMS_prox_idx_emp", "PMS_prox_idx_pharma", "PMS_prox_idx_childcare", "PMS_prox_idx_health", "PMS_prox_idx_grocery", "PMS_prox_idx_educpri", "PMS_prox_idx_educsec", "PMS_prox_idx_lib", "PMS_prox_idx_parks", "PMS_prox_idx_transit")
+master = master[(rowSums(is.na(master[,idx])) < 10),]
+nrow(master)
+```
+
+
+
+## Assumptions of the Alogrithm
+
+[This algorithm](https://www.r-bloggers.com/2019/06/intoducing-clustimpute-a-new-approach-for-k-means-clustering-with-build-in-missing-data-imputation/amp/) "draws the missing values iteratively based on the current cluster assignment so that correlations are considered on this level". Also, "penalizing weights are imposed on imputed values and successively decreased (to zero) as the missing data imputation gets better". The idea is that the missing value is imputed by those other observations that are more similar to it (ie. in the same cluster). 
+
+
+Algorithm steps:
+
+
+1. It replaces all NAs by random imputation, i.e., for each variable with missings, it draws from the marginal distribution of this variable not taking into account any correlations with other variables
+2. Weights $<1$ are used to adjust the scale of an observation that was generated in step 1. The weights are calculated by a (linear) weight function that starts near zero and converges to 1 at n_end.
+3. A k-means clustering is performed with a number of c_steps steps starting with a random initialization.
+4. The values from step 2 are replaced by new draws conditionally on the assigned cluster from step 3.
+5. Steps 2-4 are repeated nr_iter times in total. The k-means clustering in step 3 uses the previous cluster centroids for initialization.
+6. After the last draws a final k-means clustering is performed.
+
+
+
+
+
+*** 
+
+*** 
+
+\pagebreak
+# All Metrics Together 
+
+## Implementation 
+
+(with 5\% subsampling)
+
+```{r, cache=TRUE}
+#cluster data
+subsample = nrow(master)/20 #subsampling 
+subsam = master[sample(nrow(master), subsample), idx]
+sum(is.na(subsam))
+
+#algorithm
+sil_coefs = c()
+counter = 1
+num_clusts = 2:8
+for (i in num_clusts){
+  nr_iter = 10 # iterations of procedure
+  n_end = 10 # step until convergence of weight function to 1
+  #nr_cluster = 3 # number of clusters
+  c_steps = 50 # number of cluster steps per iteration
+  res = ClustImpute(subsam,nr_cluster=i, nr_iter=nr_iter, c_steps=c_steps, n_end=n_end) 
+  sil_coefs[counter] = intCriteria(as.matrix(res$complete_data),res$clusters, 'Silhouette')$silhouette
+  counter = counter + 1
+}
+
+#plot silhouette coefficients
+plot(sil_coefs~num_clusts, type = 'l')
+
+#re-run algorithm with highest sil
+res = ClustImpute(subsam,nr_cluster=num_clusts[which(sil_coefs == max(sil_coefs))], nr_iter=nr_iter, c_steps=c_steps, n_end=n_end) 
+
+#plot 
+# ggplot(res$complete_data,aes(prox_idx_emp,prox_idx_pharma,color=factor(res$clusters))) + geom_point()
+pass = list(data = res$complete_data, cluster = res$clusters)
+fviz_cluster(pass, ellipse.type = "norm") + theme_minimal()
+```
+
+
+
+## Cut-off Values
+
+```{r, message=FALSE, eval=FALSE, include=FALSE, echo=FALSE}
+#https://stats.stackexchange.com/questions/586937/identify-the-point-of-intersection-from-two-distributions
+
+cutoff = function(x, y){
+  # Find global minimum and maximum
+  xymin <- min(x,y)
+  xymax <- max(x,y)
+# Estimate densities
+  dx <- density(x, n=512, from=xymin, to=xymax)
+  dy <- density(y, n=512, from=xymin, to=xymax)
+
+# Plot results
+  #plot(dx, xlim=c(xymin, xymax), type="l", lwd=3, xlab="X", ylab="Density", main="")
+  #lines(dy, col="red", lwd=3)
+
+# Differences in densities
+  dx$diff <- dx$y - dy$y
+  ex <- NULL  # Store the intersection points
+  ey <- NULL
+  k = 0
+  for (i in 2:length(dx$x)) {
+      # Look for a change in sign of the difference in densities
+      if (sign(dx$diff[i-1]) != sign(dx$diff[i])) {
+         k = k + 1
+         # Linearly interpolate
+         ex[k] <- dx$x[i-1] + (dx$x[i]-dx$x[i-1])*(0-dx$diff[i-1])/(dx$diff[i]-dx$diff[i-1])
+         ey[k] <- dx$y[i-1] + (dx$y[i]-dx$y[i-1])*(ex[k]-dx$x[i-1])/(dx$x[i]-dx$x[i-1])
+         #lines(c(ex[k],ex[k]), c(0,ey[k])) #more plotting
+         #points(ex[k], ey[k], pch=16, col="green" )
+    }
+  }
+  exf = ex[ey > 0.01]
+  eyf = ey[ey > 0.01]
+  
+  if (length(exf) > 1){
+    stop('More than one intersection above 0.01 detected! Change y-axis threshold.')
+  }
+  
+  return(c(exf, eyf))
+}
+
+cutoffs = list()
+plot(density(res$complete_data[res$clusters == 1,'PMS_prox_idx_emp']), xlim=c(0, 1), lwd=2, xlab="X", ylab="Density", main="")
+for (j in 1:(length(unique(res$clusters))-1)){
+    cutoffs[[j]] = cutoff(res$complete_data[res$clusters == j,'PMS_prox_idx_emp'], res$complete_data[res$clusters == j+1,'PMS_prox_idx_emp'])
+    
+    lines(density(res$complete_data[res$clusters == j+1,'PMS_prox_idx_emp']), col=(j+1), lwd=2)
+    points(cutoffs[[j]][1], cutoffs[[j]][2], pch=16, col="green" )
+}
+cutoffs
+```
+
+
+
+```{r}
+######
+# OLD METHOD
+######
+
+cutoffs = list()
+for (k in idx){
+  clus_medians = c()
+  counter = 1
+  for (i in unique(res$clusters)){
+    clus_medians[counter] = median(res$complete_data[res$clusters == i,k])
+    counter = counter + 1
+  }
+  cutoff = c()
+  clus_medians = sort(clus_medians)
+  for (j in 1:(length(clus_medians)-1)){
+    cutoff[j] = (clus_medians[j] + clus_medians[j+1])/2
+  }
+  cutoffs[[k]] = cutoff
+  print(k)
+  print(round(cutoff, 5))
+}
+
+#plot em 
+library(ggplot2)
+library(tidyverse)
+library(stringr)
+labs = str_sub(idx, 14) #labels
+hline = pivot_longer(as.data.frame(cutoffs), all_of(idx)) #cutoff lines
+df_long = pivot_longer(master[,idx], all_of(idx))
+ggplot(df_long, aes(x=value, y=name)) + geom_violin() + scale_y_discrete(labels=labs) + scale_x_continuous(limits = c(0, 0.15)) + ylab('Ammenity Type') + xlab('Proximity Index') + geom_point(data=hline, aes(value, name), shape=124, size=10, col='red')
+```
+
+## Silhouette Plot
+
+
+```{r}
+# plt = cluster::silhouette(res$clusters, dist(res$complete_data))
+# plot(plt, col = 1:4)
+# abline(v=mean(plt[,3]), col="red", lty=2)
+
+sil = silhouette(res$clusters, dist(res$complete_data))
+fviz_silhouette(sil)
+```
+
+```{r, eval=FALSE, echo=FALSE}
+#https://rpkgs.datanovia.com/factoextra/reference/fviz_silhouette.html
+# Identify observation with negative silhouette
+neg_sil_index <- which(sil[, "sil_width"] < 0)
+sil[neg_sil_index, , drop = FALSE]
+#>      cluster neighbor   sil_width
+#> [1,]       2        3 -0.01058434
+#> [2,]       2        3 -0.02489394
+if (FALSE) {
+# PAM clustering
+# ++++++++++++++++++++
+require(cluster)
+pam.res <- pam(iris.scaled, 3)
+# Visualize pam clustering
+fviz_cluster(pam.res, ellipse.type = "norm")+
+theme_minimal()
+# Visualize silhouhette information
+fviz_silhouette(pam.res)
+
+# Hierarchical clustering
+# ++++++++++++++++++++++++
+# Use hcut() which compute hclust and cut the tree
+hc.cut <- hcut(iris.scaled, k = 3, hc_method = "complete")
+# Visualize dendrogram
+fviz_dend(hc.cut, show_labels = FALSE, rect = TRUE)
+# Visualize silhouhette information
+fviz_silhouette(hc.cut)
+}
+```
+
+
+
+## Cluster Profiles
+
+```{r}
+for (k in sort(unique(res$clusters))){
+  temp = master[res$clusters == k,]
+  print(paste('Cluster #', k))
+  print(paste('Num of DBs in cluster: ', as.character(nrow(temp))))
+  print('CSD Type:')
+  print(table(temp$CSDTYPE)) #replace with grouped type later
+  cat('\n DB Population: \n')
+  print(summary(temp$PMS_DBPOP))
+  cat('\n Index of Remoteness: \n')
+  print(summary(temp$IOR_Index_of_remoteness))
+  cat('\n Provinces: \n')
+  print(table(temp$PROVINCE))
+  cat('\n Amenity dense: \n')
+  print(table(temp$PMS_amenity_dense))
+  cat('\n\n\n ')
+}
+```
+
+```{r, eval=FALSE, echo=FALSE}
+print_list_item = function(x, cl){
+  cat(paste('Cluster', cl, '\t\t'), '\n')
+  cat(paste0(x, '\t\t\t\t'))
+}
+print_list_table = function(x, cl, rows){
+  cat('\t\t', paste('Cluster', cl, '\t'), '\n')
+  for (i in 1:rows){
+    cat(names(x[[1]])[i], '\t')
+    for (j in cl){
+      cat(paste0(x[[j]][i], '\t\t'))
+    } 
+    cat('\n\n')
+  }
+}
+```
+
+
+## Conclusion
+
+text
+
+
+***
+
+***
+
+\pagebreak
+# Linked with Index of Remoteness
+
+
+## Implementation 
+
+```{r, cache=TRUE}
+#
+```
+
+
+## Cut-off Values
+
+```{r}
+#
+```
+
+## Silhouette Plot
+
+```{r}
+#
+```
+
+
+## Cluster Profiles
+
+```{r}
+#
+```
+
+## Conclusion
+
+text
+
+
+
+
+

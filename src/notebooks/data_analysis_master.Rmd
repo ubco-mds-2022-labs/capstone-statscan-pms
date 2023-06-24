@@ -1,0 +1,86 @@
+---
+title: "EDA Master draft"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    number_sections: true
+    fig_caption: true
+    toc: true
+    theme: readable
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, 
+                      cache = T, 
+                      message = F, 
+                      warning = F, 
+                      fig.align="center", fig.width=8, fig.height=6)
+library(dplyr)
+# library(factoextra)
+library(ggplot2)
+# library(tidyverse)
+# library(gridExtra)
+library(knitr)
+```
+
+### Import data
+
+```{r}
+load("../../../local_data/master_pms_df.Rdata")
+```
+
+```{r}
+dim(master)
+```
+
+```{r}
+str(master)
+```
+
+### Checking missing value of Province Name
+
+```{r}
+unique(master$PRNAME)
+```
+
+```{r}
+pr_na <- master[is.na(master$PRNAME), ]
+```
+
+```{r}
+head(pr_na)
+```
+```{r}
+# percentage of missing values in each column in dataset
+p <- function(x) {sum(is.na(x))/length(x)*100}
+sort(apply(pr_na, 2, p), decreasing = TRUE)
+```
+
+```{r}
+nrow(pr_na)
+```
+
+So, there are 81632 dissemination block that has no info of proximity measures and remoteness index.
+
+### Checking missing values of grocery proximity measures
+
+```{r}
+prox_idx_grocery_na <- master[is.na(master$prox_idx_grocery), ]
+```
+
+```{r}
+head(prox_idx_grocery_na)
+```
+
+```{r}
+tail(prox_idx_grocery_na)
+```
+
+
+
+
+
+
+
+
+
