@@ -336,12 +336,12 @@ My total weekly hours are: 30.58
 |    8 | 2023-06-19 |  8.00 | Report Writing & Presentation Slides  | NA                                        |
 |    8 | 2023-06-20 |  6.50 | Presentation Practice, Report Writing | NA                                        |
 |    8 | 2023-06-21 |  5.50 | Presentation Practice & Modify sildes | NA                                        |
-|    8 | 2023-06-22 |  5.00 | Presentations                         | NA                                        |
+|    8 | 2023-06-22 |  5.50 | Presentations                         | NA                                        |
 |    8 | 2023-06-23 |  1.00 | Client meeting                        | NA                                        |
 |    8 | 2023-06-23 |  1.00 | Merge Branches & Clean Repo           | NA                                        |
 |    8 | 2023-06-23 |  0.50 | Miscellaneous                         | Reviewed Pull Requests, Stored Logs, etc. |
 
-My total weekly hours are: 28.25
+My total weekly hours are: 28.75
 
 ### Weekly Reflection
 
@@ -373,4 +373,4 @@ My total weekly hours are: 28.25
 |    5 |              26.42 |
 |    6 |              35.00 |
 |    7 |              30.58 |
-|    8 |              28.25 |
+|    8 |              28.75 |
