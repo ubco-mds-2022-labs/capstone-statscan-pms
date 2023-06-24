@@ -681,6 +681,75 @@ Working with our team to get finish final presentation slides drafted along with
 3. Are there any major blockers or roadblocks preventing you from proceeding on your project?
 No roadblocks as we move into our final week. 
 
+```{r}
+current.week = current.week + 1
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-06-19"),
+                    hours = 7,
+                    description = "Team meeting + Final report edits",
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-06-20"),
+                    hours = 2,
+                    description = "Presentation practice/feedback",
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-06-20"),
+                    hours = 6,
+                    description = "Final report edits for submission",
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-06-21"),
+                    hours = 6,
+                    description = "Finalizing slides, practice live presentation on campus",
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-06-22"),
+                    hours = 6.5,
+                    description = "presentation script practice + Final presentation day",
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-06-23"),
+                    hours = 1,
+                    description = "Client meeting",
+                    comments = NA
+                    )
+
+mylog <- mylog %>% add_row(week = current.week, 
+                    day = as.Date("2023-06-23"),
+                    hours = 0.5,
+                    description = "Misc.",
+                    comments = "logs, git, random"
+                    )
+
+kable(filter(mylog, week == current.week))
+```
+My total weekly hours are: `r sum(mylog[which(mylog$week==current.week), 3])`
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the following questions:
+
+1. What was your most significant **individual contribution** to the project this week?
+Working on some client edits for the report.
+
+2. What was your most significant **team contribution** to the project this week?
+Finishing up and preparing for our presentation.
+
+3. Are there any major blockers or roadblocks preventing you from proceeding on your project?
+We are at the finish line!
+
 
 ## Summary Table
 

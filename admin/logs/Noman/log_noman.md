@@ -259,6 +259,32 @@ following questions:
     proceeding on your project? No roadblocks as we move into our final
     week.
 
+| week | day        | hours | description                                             | comments          |
+|----:|:--------|-----:|:---------------------------------------|:-------------|
+|    8 | 2023-06-19 |   7.0 | Team meeting + Final report edits                       | NA                |
+|    8 | 2023-06-20 |   2.0 | Presentation practice/feedback                          | NA                |
+|    8 | 2023-06-20 |   6.0 | Final report edits for submission                       | NA                |
+|    8 | 2023-06-21 |   6.0 | Finalizing slides, practice live presentation on campus | NA                |
+|    8 | 2023-06-22 |   6.5 | presentation script practice + Final presentation day   | NA                |
+|    8 | 2023-06-23 |   1.0 | Client meeting                                          | NA                |
+|    8 | 2023-06-23 |   0.5 | Misc.                                                   | logs, git, random |
+
+My total weekly hours are: 29
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week? Working on some client edits for the report.
+
+2.  What was your most significant **team contribution** to the project
+    this week? Finishing up and preparing for our presentation.
+
+3.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project? We are at the finish line!
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use
@@ -273,3 +299,4 @@ the following (requires the **dplyr** package)
 |    5 |              28.50 |
 |    6 |              32.50 |
 |    7 |              29.00 |
+|    8 |              29.00 |
