@@ -326,6 +326,40 @@ My total weekly hours are: 30.58
 
 -   This week, I didn’t face any major roadblocks.
 
+## Week 8
+
+<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first) -->
+
+| week | day        | hours | description                           | comments                                  |
+|----:|:--------|----:|:-------------------------|:----------------------------|
+|    8 | 2023-06-19 |  0.75 | Meetings                              | Team meeting                              |
+|    8 | 2023-06-19 |  8.00 | Report Writing & Presentation Slides  | NA                                        |
+|    8 | 2023-06-20 |  6.50 | Presentation Practice, Report Writing | NA                                        |
+|    8 | 2023-06-21 |  5.50 | Presentation Practice & Modify sildes | NA                                        |
+|    8 | 2023-06-22 |  5.50 | Presentations                         | NA                                        |
+|    8 | 2023-06-23 |  1.00 | Client meeting                        | NA                                        |
+|    8 | 2023-06-23 |  1.00 | Merge Branches & Clean Repo           | NA                                        |
+|    8 | 2023-06-23 |  0.50 | Miscellaneous                         | Reviewed Pull Requests, Stored Logs, etc. |
+
+My total weekly hours are: 28.75
+
+### Weekly Reflection
+
+<!-- In this section, please write 5-7 sentences (in total) answering the following questions: -->
+<!-- 1. What was your most significant **individual contribution** to the project this week? -->
+
+-   My most significant individual contribution to the project this week
+    was edit report based on feedback.
+
+<!-- 2. What was your most significant **team contribution** to the project this week? -->
+
+-   My most significant team contribution was working on the final slide
+    deck, edit report based on feedback and Final Presentation.
+
+<!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
+
+-   This week, I didn’t face any major roadblocks.
+
 ## Summary Table
 
 <!-- To get the total for all the weekly hourly summary over each week use the following (requires the **dplyr** package) -->
@@ -339,3 +373,4 @@ My total weekly hours are: 30.58
 |    5 |              26.42 |
 |    6 |              35.00 |
 |    7 |              30.58 |
+|    8 |              28.75 |
