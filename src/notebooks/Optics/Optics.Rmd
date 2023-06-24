@@ -1,0 +1,375 @@
+---
+title: "Optics"
+author: "Avishek"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, 
+                      cache=TRUE, 
+                      fig.align="center", 
+                      fig.width=8, 
+                      fig.height=6)
+```
+
+
+* * *
+
+## Introduction
+
+OPTICS stands for Ordering Points To Identify Clustering Structure.  
+This algorithm can be seen as a generalization of DBSCAN. A major issue with DBSCAN is that it fails to find clusters of varying density due to fixed eps.  
+This is solved in OPTICS by using an approach of finding reachability of each point from the core points and then deciding the clusters based on reachability plot.  
+
+
+Relevant terminologies for OPTICS
+
+- $\epsilon$, epsilon (eps): is known as the Maximum allowed distance from one point to the other point for both of them to be considered in one group/cluster
+- MinPts: is the minimum number of points which should be present close to each other at a distance of epsilon ($\epsilon$) so that they all can be form a group/cluster
+Core Point: That point which has at least MinPts number of points near to it, within the distance of $\epsilon$(eps)
+- Border Point/Non-Core Point: That point in data which has less than the minimum number of points(MinPts) within its reach (a distance of eps)
+- Noise: That point which has no point near to it within a distance of eps
+- Core Distance: The minimum distance required by a point to become a core point. It means it is possible to find the MinPts number of points within this distance. Core distance can be less than the pre-decided value of $\epsilon$, epsilon (eps), which is the maximum allowed distance to find MinPts.
+- Reachability distance: This is the distance to reach a point from the cluster. Now if the point lies within the Core Distance, then Reachability Distance=Core Distance. And, if the point lies outside the Core Distance, then Reachability Distance is the minimum distance from the extreme point of the cluster.
+
+## Alogrithm Steps
+1. For the given values of MinPts and eps($\epsilon$). Find out if a point is close to MinPts number of points within a distance less than or equal to eps. Tag it as a Core Point. Update the reachability distance = core distance for all the points within the cluster.
+2. If it is not a core point then find out its density connected distance from the nearest cluster. Update the reachability distance.
+3. Arrange the data in increasing order of reachability distance for each cluster. The smallest distances come first and represent the dense sections of data and the largest distances come next representing the noise section. This is a special type of dendrogram
+4. Find out the places where a sharp decline is happening in the reachability distance plot.
+5. “Cut” the plot in the y-axis by a suitable distance to get the clusters.
+
+
+## Loading \& Cleaning Data
+
+```{r}
+set.seed(2023)
+library(dplyr)
+library(cluster)
+library(ggplot2)
+library(factoextra)
+library(clusterCrit)
+library(clustertend)
+load('../../../data/master_pms_df.Rdata')
+
+# Convert selected columns to numeric
+master <- master %>%
+  mutate(PMS_DBPOP = as.numeric(gsub(",", "", PMS_DBPOP)), # Dissemination block population
+         PMS_DAPOP = as.numeric(gsub(",", "", PMS_DAPOP)), # Dissemination area population
+         PMS_CSDPOP = as.numeric(gsub(",", "", PMS_CSDPOP)), # Census subdivision population
+         PMS_CMAPOP = as.numeric(gsub(",", "", PMS_CMAPOP)), # Census metropolitan area population
+         PMS_PRPOP = as.numeric(gsub(",", "", PMS_PRPOP)), # Province or territory population
+         # in_db_emp = as.numeric(in_db_emp),
+         # in_db_pharma = as.numeric(in_db_pharma),
+         # in_db_childcare = as.numeric(in_db_childcare),
+         # in_db_health = as.numeric(in_db_health),
+         # in_db_grocery = as.numeric(in_db_grocery),
+         # in_db_educpri = as.numeric(in_db_educpri),
+         # in_db_educsec = as.numeric(in_db_educsec),
+         # in_db_lib = as.numeric(in_db_lib),
+         # in_db_parks = as.numeric(in_db_parks),
+         # in_db_transit = as.numeric(in_db_transit),
+         PMS_prox_idx_emp = as.numeric(PMS_prox_idx_emp),
+         PMS_prox_idx_pharma = as.numeric(PMS_prox_idx_pharma),
+         PMS_prox_idx_childcare = as.numeric(PMS_prox_idx_childcare),
+         PMS_prox_idx_health = as.numeric(PMS_prox_idx_health),
+         PMS_prox_idx_grocery = as.numeric(PMS_prox_idx_grocery),
+         PMS_prox_idx_educpri = as.numeric(PMS_prox_idx_educpri),
+         PMS_prox_idx_educsec = as.numeric(PMS_prox_idx_educsec),
+         PMS_prox_idx_lib = as.numeric(PMS_prox_idx_lib),
+         PMS_prox_idx_parks = as.numeric(PMS_prox_idx_parks),
+         PMS_prox_idx_transit = as.numeric(PMS_prox_idx_transit),
+         DBUID = as.character(DBUID),
+         PMS_DAUID = as.character(PMS_DAUID),
+         PMS_CSDUID = as.character(PMS_CSDUID),
+         PMS_CMAUID = as.character(PMS_CMAUID),
+         PMS_CMAPUID = as.character(PMS_CMAPUID),
+         PMS_PRUID = as.character(PMS_PRUID),
+         PMS_suppressed = as.character(PMS_suppressed),
+         PMS_transit_na = as.character(PMS_suppressed))
+
+
+# Subset columns that start with "prox_idx"
+amenities <- colnames(master)[grepl("^PMS_prox_idx", colnames(master))]
+# master dataset - contains only proximity columns
+master_amenities <- master[, amenities]
+# variables to cluster with
+clust_vars = c('CSD_AREA', 'PMS_CSDPOP', 'PMS_DBPOP', 'IOR_Index_of_remoteness') #, 'PMS_CMATYPE')
+
+# subsampling data 
+perc = 3 #percentage of data to subsample
+subsample = (nrow(master)/100)*perc 
+master_sample = master[sample(nrow(master), subsample),]
+
+master_sample_log <- master_sample
+
+# log transform PMs
+for (i in amenities){
+  master_sample_log[,i] = log(master_sample[,i] + 0.0001)
+}
+```
+
+```{r}
+library(dbscan)
+# Creating Clusters using OPTICS algorithm
+Data <- as.matrix(na.omit(master_sample_log$PMS_prox_idx_emp))
+OPTICSclusters=optics(Data, eps = 9, minPts = round(0.05 * length(Data)))
+OPTICSclusters
+```
+
+```{r}
+# Extract the Rechability Distances by cutting the reachability plot at eps_cl
+# extractDBSCAN() extracts a clustering from an OPTICS ordering that is similar to what
+# DBSCAN would produce with a single global ϵ set to eps_cl.
+RechabilityDistances=extractDBSCAN(OPTICSclusters, eps_cl = 0.05)
+# Plotting the reachability distances to see cluster formation
+# Black lines are noise
+plot(RechabilityDistances)
+```
+
+```{r}
+unique(RechabilityDistances$cluster)
+```
+
+
+```{r}
+# ordered datapoint
+head(OPTICSclusters$order, n =15)
+```
+
+
+```{r}
+plot(Data, col = "grey")
+polygon(Data[OPTICSclusters$order,], )
+```
+
+
+```{r}
+# it wont work in univariate case
+# This function produces a two-dimensional scatter plot with added convex hulls for clusters.
+hullplot(Data, OPTICSclusters)
+```
+
+extractXi() extracts clusters hierarchically based on the steepness of the reachability plot. minimum controls whether only the minimal (non-overlapping) cluster are extracted. correctPredecessor corrects a common artifact known of the original ξ method presented in Ankerst et al. (1999) by pruning the steep up area for points that have predecessors not in the cluster (see Technical Note in Appendix A for details).
+extractXi(object, xi, minimum = FALSE, correctPredecessor = TRUE)
+
+```{r}
+# extract Clusters of varying density using the Xi method
+XiClusters=extractXi(OPTICSclusters, xi = 0.03)
+XiClusters
+```
+
+```{r}
+XiClusters$clusters_xi
+```
+
+```{r}
+exp(Data[11706]) - 0.0001
+exp(Data[12630]) - 0.0001
+```
+```{r}
+exp(max(Data)) - 0.0001
+```
+```{r}
+exp(min(Data)) - 0.0001
+```
+
+
+```{r}
+dend <- as.dendrogram(XiClusters)
+dend
+```
+
+```{r}
+plot(dend, ylab = "Reachability dist.", leaflab = "none")
+```
+
+
+```{r}
+ClusterData <- as.data.frame(Data)
+# Assigning cluster id for each row
+ClusterData$ClusterID=XiClusters$cluster
+colnames(ClusterData) <- c("Data", "Cluster")
+head(ClusterData)
+```
+
+```{r}
+length(ClusterData[ClusterData$Cluster==5, "Cluster"])
+```
+
+```{r}
+ClusterData[ClusterData$Data == -3.750755, "Cluster"]
+```
+```{r}
+# Count the number of rows with data value -3.750755
+numRows <- sum(ClusterData$Data == -6.725434)
+
+# Print the result
+print(numRows)
+
+```
+
+
+```{r}
+cutoffs <- tapply(ClusterData$Data, ClusterData$Cluster, quantile, probs = c(0, 1))
+```
+
+```{r}
+cutoffs
+```
+
+
+```{r}
+# cut-off viz
+# data frame with the cutoff values and group information
+cutoff_data <- data.frame(Group = rownames(cutoffs))
+cutoff_data$Start <- sapply(cutoffs, function(x) x["0%"])
+cutoff_data$End <- sapply(cutoffs, function(x) x["100%"])
+
+# vector of colors for each group
+# cluster_colors <- c("1" = "red", "2" = "blue", "3" = "green", "4" = "purple", "5" = "orange")
+
+
+plot(ggplot(cutoff_data) +
+  geom_rect(aes(xmin = Start, xmax = End, ymin = 0, ymax = 0.1, fill = Group, alpha = 0.5)) +
+  # scale_fill_manual(values = cluster_colors) +
+  labs(x = "Emp", y = NULL,
+       title = "Cutoff Values by Quartile") +
+  theme_minimal() +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank()) +
+  coord_cartesian(xlim = range(cutoff_data$Start, cutoff_data$End)))
+```
+
+
+```{r}
+sill_coef <- intCriteria(as.matrix(ClusterData), 
+                           as.integer(XiClusters$cluster), 
+                                     'Silhouette')$silhouette
+sill_coef
+```
+
+```{r}
+# bounded between 0 and 1. Lower is better.
+library(clusterSim)
+davies_bouldin <- index.DB(ClusterData, XiClusters$cluster)$DB
+davies_bouldin
+```
+
+## Grocery
+
+```{r}
+# Creating Clusters using OPTICS algorithm
+Data_gro <- as.matrix(na.omit(master_sample_log$PMS_prox_idx_grocery))
+OPTICSclusters_gro=optics(Data_gro, eps = 9, minPts = round(0.05 * length(Data_gro)))
+OPTICSclusters_gro
+```
+
+```{r}
+# extract Clusters of varying density using the Xi method
+XiClusters_gro=extractXi(OPTICSclusters_gro, xi = 0.025)
+XiClusters_gro
+```
+
+```{r}
+ClusterData_gro <- as.data.frame(Data_gro)
+# Assigning cluster id for each row
+ClusterData_gro$ClusterID=XiClusters_gro$cluster
+colnames(ClusterData_gro) <- c("Data", "Cluster")
+head(ClusterData_gro)
+```
+
+```{r}
+cutoffs_gro <- tapply(ClusterData_gro$Data, ClusterData_gro$Cluster, quantile, probs = c(0, 1))
+```
+
+```{r}
+cutoffs_gro
+```
+
+```{r}
+sill_coef_gro <- intCriteria(as.matrix(ClusterData_gro), 
+                           as.integer(XiClusters_gro$cluster), 
+                                     'Silhouette')$silhouette
+sill_coef_gro
+```
+
+
+```{r}
+davies_bouldin_gro <- index.DB(ClusterData_gro, XiClusters_gro$cluster)$DB
+davies_bouldin_gro
+```
+
+
+```{r}
+# Creating Clusters using OPTICS algorithm
+Data_h <- as.matrix(na.omit(master_sample_log$PMS_prox_idx_health))
+OPTICSclusters_h=optics(Data_h, eps = 9, minPts = round(0.05 * length(Data_h)))
+OPTICSclusters_h
+```
+
+```{r}
+# extract Clusters of varying density using the Xi method
+XiClusters_h=extractXi(OPTICSclusters_h, xi = 0.03)
+XiClusters_h
+```
+
+```{r}
+ClusterData_h <- as.data.frame(Data_h)
+# Assigning cluster id for each row
+ClusterData_h$ClusterID=XiClusters_h$cluster
+colnames(ClusterData_h) <- c("Data", "Cluster")
+head(ClusterData_h)
+```
+
+```{r}
+cutoffs_h <- tapply(ClusterData_h$Data, ClusterData_h$Cluster, quantile, probs = c(0, 1))
+```
+
+```{r}
+cutoffs_h
+```
+
+```{r}
+sill_coef_h <- intCriteria(as.matrix(ClusterData_h), 
+                           as.integer(XiClusters_h$cluster), 
+                                     'Silhouette')$silhouette
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

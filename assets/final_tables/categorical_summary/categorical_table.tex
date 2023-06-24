@@ -1,0 +1,72 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.3in]{geometry} %Sets proper 1-inch margins.
+\usepackage{amsmath} %Only load this if you are using math/equations.
+\usepackage{graphicx} %Only need to call this if inserting images.
+\usepackage{caption} %Only need to call this if inserting captions.
+\usepackage{float} %Allows the use of the [H] specifier.
+\graphicspath{{C:/Users/jonah/Pictures/meme/}} %Sets the working directory for images.
+\usepackage[colorlinks,citecolor=blue,linkcolor=blue,urlcolor=blue]{hyperref} %Allows for the embedding of urls.
+\usepackage{setspace}
+\usepackage{blindtext}
+
+\pagenumbering{arabic}
+
+\usepackage{tabularx}
+\usepackage{longtable}
+
+\newcommand{\comment}[1]{}
+
+\begin{document}
+\pagestyle{empty}
+
+
+
+
+\begin{longtable}{|l|c|}
+\hline
+\textbf{Variable}  & \textbf{Counts}  \\
+\hline
+{DBs Per Province} &  \\
+\indent\indent \textit{Alberta} & 66,749 \\
+\indent\indent \textit{British Columbia} & 52,850 \\
+\indent\indent \textit{Manitoba} & 30,669 \\
+\indent\indent \textit{New Brunswick} & 14,345 \\
+\indent\indent \textit{Newfoundland and Labrador} & 8,756 \\
+\indent\indent \textit{Northwest Territories} & 1,495 \\
+\indent\indent \textit{Nova Scotia} & 15,279 \\
+\indent\indent \textit{Nunavut} & 792 \\
+\indent\indent \textit{Ontario} & 133,214 \\
+\indent\indent \textit{Prince Edward Island} & 3,639 \\
+\indent\indent \textit{Quebec} &  106,251 \\
+\indent\indent \textit{Saskatchewan} & 54,118 \\
+\indent\indent \textit{Yukon} & 1,519 \\
+\hline
+
+{CMA Type} &  \\
+\indent\indent \textit{CMA (B)} & 206,709 \\
+\indent\indent \textit{Untracted CA (D)} & 53,061 \\
+\indent\indent \textit{Tracted CA (K)} & 16,992 \\
+\indent\indent \textit{Not a CMA or CA} & 212,914 \\
+\hline
+
+{Amenity Dense} &  \\
+\indent\indent \textit{Low Density (0)} & 442,179 \\
+\indent\indent \textit{Medium Density (1)} & 37,303 \\
+\indent\indent \textit{High Density (2)} & 4,827 \\
+\indent\indent \textit{Too unreliable to publish (F)} & 5,367 \\
+\hline
+
+{Suppressed} &  \\
+\indent\indent \textit{Not suppressed (0)} & 484,309 \\
+\indent\indent \textit{Info. Suppressed (1)} & 5,367 \\
+\hline
+
+\hline
+\end{longtable}
+
+
+
+
+
+\end{document}

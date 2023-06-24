@@ -1,0 +1,51 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry} %Sets proper 1-inch margins. 
+\usepackage{amsmath} %Only load this if you are using math/equations.
+\usepackage{graphicx} %Only need to call this if inserting images.
+\usepackage{caption} %Only need to call this if inserting captions.
+\usepackage{float} %Allows the use of the [H] specifier. 
+\graphicspath{{C:/Users/jonah/Pictures/meme/}} %Sets the working directory for images.
+\usepackage[colorlinks,citecolor=blue,linkcolor=blue,urlcolor=blue]{hyperref} %Allows for the embedding of urls. 
+\usepackage{setspace}
+\usepackage{blindtext}
+
+\pagenumbering{arabic}
+
+%\usepackage{fontspec} %%in order for this font stuff to work, you must compile using xelatex+makeindex+bibtex (or at minimum xelatex)
+%\setmainfont[Mapping=tex-text-ms]{Essays1743}
+
+%\usepackage{fancyhdr}
+
+%\pagestyle{fancy}
+%\fancyhf{}
+%\rhead{Jonah Edmundson \\ DATE 20XX}
+%\lhead{\thepage}
+
+\newcommand{\comment}[1]{}
+
+\begin{document}
+
+
+\begin{table}[H]
+\centering
+%\caption{caption goes here}\label{table1}
+\begin{tabular}{|l|l|} 
+\hline
+\textbf{Symbol} & \textbf{Meaning} \\
+\hline
+. & not available for any reference period \\ 
+\hline 
+.. & not available for a specific reference period \\ 
+\hline 
+... & not applicable \\ 
+\hline 
+F & too unreliable to be published \\ 
+\hline 
+\end{tabular}
+\end{table}
+
+
+
+
+\end{document}

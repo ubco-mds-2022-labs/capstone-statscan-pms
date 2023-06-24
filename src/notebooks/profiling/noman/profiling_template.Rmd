@@ -1,0 +1,153 @@
+---
+title: "Cluster Profiling Template"
+author: "PMS"
+date: "2023-06-05"
+output:
+  pdf_document:
+    dev: png
+urlcolor: blue
+---
+
+```{r global_options, include=FALSE}
+## Set some options for knitr to apply globally
+knitr::opts_chunk$set(cache=TRUE,
+                      echo=FALSE,
+                      autodep=TRUE,
+                      message=FALSE,
+                      warning=FALSE,
+                      out.width="80%",
+                      fig.asp=0.75,
+                      fig.align='center',
+                      fig.pos = "H", 
+                      out.extra = "")
+```
+
+### Loading the data set
+```{r}
+load('../../../data/master_pms_df.Rdata')
+# head(master, 5)
+
+master$PMS_DBPOP = as.numeric(gsub("[^0-9.-]", "", as.character(master$PMS_DBPOP)))
+master$PMS_CSDPOP = as.numeric(gsub("[^0-9.-]", "", as.character(master$PMS_CSDPOP)))
+```
+
+```{r}
+profile_clusters <- function(master, cutoffs) {
+  
+  profiling_df <- data.frame()
+  
+  for (amenity in names(cutoffs)) {
+    
+    # subset the master data to be whole masterdataset but NA's removed for current ammenity (so labels match)
+    amenity_data <- na.omit(master[, amenity])
+    
+    #intialize with defualt value and then change according to the condition...
+    labels <- rep(length(cutoffs[[amenity]]) + 1, length(amenity_data))
+    
+    # assign labels based off cutoffs
+    for (i in 1:length(amenity_data)) {
+      for (j in 1:length(cutoffs[[amenity]])) {
+        if (amenity_data[i] < cutoffs[[amenity]][j]) {  
+          # changed above from <= to < cuz i found cutoffs with median so 
+          labels[i] <- j
+          break
+        }
+      }
+    }
+    
+    # remove NA's for the master data set for that ammenity and add labels
+    amenity_data <- master[!is.na(master[, amenity]), ]
+    amenity_data$cluster <- labels
+  
+columns_to_profile <- c("PMS_DBPOP", "PRNAME", "CMATYPE")
+
+print("-------------------------------------------------")
+print(paste("Current ammenity:", amenity))
+
+#some clusters are out of order so need to sort them...
+clusters <- sort(unique(amenity_data$cluster))
+
+  # 1.) DB COUNT
+total_db <- nrow(amenity_data)
+print(paste("number of DB's:",total_db))
+
+    for (cluster in clusters) {
+      cluster_data <- amenity_data[amenity_data$cluster == cluster, ] 
+      print(paste("number of DB's cluster", cluster, ":", nrow(cluster_data), "(", round((nrow(cluster_data)/total_db)*100, 2), "%)"))
+    }
+
+for (column in columns_to_profile) {
+  
+  # 2.) DB POPULATION
+  if (column == "PMS_DBPOP") {
+    total_median_db_pop <- median(amenity_data[, column], na.rm = TRUE) 
+    print(paste("Median DB population total:", round(total_median_db_pop, 2)))
+
+    for (cluster in clusters) {
+      cluster_data <- amenity_data[amenity_data$cluster == cluster, ] 
+      cluster_median_db_pop <- median(cluster_data[, column], na.rm = TRUE) 
+      print(paste("Median DB population cluster", cluster, ":", round(cluster_median_db_pop, 2)))
+    }
+  }
+    
+    # 3.) DB PROVINCE
+if (column == "PRNAME") {
+  # get most common province in dataset for that ammenity
+  province_freq_total <- table(amenity_data[, column])
+  most_occurring_province_total <- names(province_freq_total)[which.max(province_freq_total)]
+  proportion_total <- province_freq_total[most_occurring_province_total] / nrow(amenity_data) * 100
+
+  print(paste("Most occurring province in the total dataset:", most_occurring_province_total), )
+  print(paste("proportion in the total dataset:", round(proportion_total, 2), "%"))
+
+  for (cluster in clusters) {
+    cluster_data <- amenity_data[amenity_data$cluster == cluster, ]
+    province_freq_cluster <- table(cluster_data[, column])
+    most_occurring_province_cluster <- names(province_freq_cluster)[which.max(province_freq_cluster)]
+    proportion_cluster <- province_freq_cluster[most_occurring_province_cluster] / nrow(cluster_data) * 100
+
+    print(paste("most occurdring province in cluster", cluster, ":", most_occurring_province_cluster))
+    print(paste("Proportion in cluster", cluster, ":", round(proportion_cluster, 2), "%"))
+  }
+}
+  
+  # 4.) CMATYPE
+if (column == "CMATYPE") {
+   # get most common CMA type in dataset for that ammenity
+  cmatype_freq_total <- table(amenity_data[, column])
+  most_occurring_cmatype_total <- names(cmatype_freq_total)[which.max(cmatype_freq_total)]
+  proportion_total <- cmatype_freq_total[most_occurring_cmatype_total] / nrow(amenity_data) * 100
+
+  print(paste("Most occurring CMATYPE in the total dataset:", most_occurring_cmatype_total))
+  print(paste("proportion in the total dataset:", round(proportion_total, 2), "%"))
+
+  for (cluster in clusters) {
+    cluster_data <- amenity_data[amenity_data$cluster == cluster, ]
+    cmatype_freq_cluster <- table(cluster_data[, column])
+    most_occurring_cmatype_cluster <- names(cmatype_freq_cluster)[which.max(cmatype_freq_cluster)]
+    proportion_cluster <- cmatype_freq_cluster[most_occurring_cmatype_cluster] / nrow(cluster_data) * 100
+
+    print(paste("most occurdring CMATYPE in cluster", cluster, ":", most_occurring_cmatype_cluster))
+    print(paste("Proportion in cluster", cluster, ":", round(proportion_cluster, 2), "%"))
+  }
+}
+    }
+  }
+  print("-------------------------------------------------")
+  
+  # Return the profiling dataframe.. can change to rerturn something else aswell thooo
+  return(amenity_data)
+}
+```
+
+  
+```{r}
+cut_offs_test <- list(
+  PMS_prox_idx_emp = c(0.0001423603, 0.0002573125, 0.0003743458, 0.0006010775),
+  PMS_prox_idx_pharma = c(0.01152592, 0.01958168),
+  PMS_prox_idx_childcare = c(0.008507409, 0.013950871)
+  )
+
+profiling_df <- profile_clusters(master, cut_offs_test)
+```
+
