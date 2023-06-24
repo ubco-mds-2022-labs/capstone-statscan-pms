@@ -1,0 +1,21 @@
+% latex table generated in R 3.6.3 by xtable 1.8-4 package
+% Wed May 31 09:55:20 2023
+\begin{table}[ht]
+\centering
+\begin{tabular}{rllll}
+  \hline
+ & Counts & Percentages & Log Transformed Counts & Log Transformed Percentages \\ 
+  \hline
+Employment & 45,390 & 9.27 & 0 & 0.00 \\ 
+  Pharmacy & 13,416 & 2.74 & 478 & 0.10 \\ 
+  Childcare & 15,397 & 3.14 & 140 & 0.03 \\ 
+  Healthcare & 31,007 & 6.33 & 50 & 0.01 \\ 
+  Grocery & 11,904 & 2.43 & 794 & 0.16 \\ 
+  Pri. Educ. & 10,205 & 2.08 & 98 & 0.02 \\ 
+  Sec. Educ. & 8,683 & 1.77 & 215 & 0.04 \\ 
+  Library & 8,867 & 1.81 & 2,295 & 0.47 \\ 
+  Parks & 12,703 & 2.59 & 910 & 0.19 \\ 
+  Transit & 14,165 & 2.89 & 3,596 & 0.73 \\ 
+   \hline
+\end{tabular}
+\end{table}

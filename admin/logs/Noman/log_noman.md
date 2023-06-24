@@ -95,6 +95,170 @@ following questions:
     NA’s for tasks such as PCA etc. Also running into memory issues and
     execution times…
 
+| week | day        | hours | description                                                                | comments                                                                                                     |
+|--:|:----|--:|:-------------------------|:-----------------------------------|
+|    3 | 2023-05-15 |   1.0 | Weekly team meeting slides + practice                                      | NA                                                                                                           |
+|    3 | 2023-05-15 |   3.5 | Team + Dr.Moosvi + Client meeting                                          | NA                                                                                                           |
+|    3 | 2023-05-16 |   3.5 | Team + statscan (DEIL) + TA meetings                                       | The statscan meeting was super helpful as all the gaps in our understanding about the data set were answered |
+|    3 | 2023-05-16 |   0.5 | Fixing git issue                                                           | NA                                                                                                           |
+|    3 | 2023-05-16 |   1.0 | Reading suggested reading after meeting                                    | NA                                                                                                           |
+|    3 | 2023-05-17 |   1.0 | Team meeting                                                               | NA                                                                                                           |
+|    3 | 2023-05-17 |   2.5 | EDA review/edits                                                           | NA                                                                                                           |
+|    3 | 2023-05-18 |   0.5 | Team meeting                                                               | NA                                                                                                           |
+|    3 | 2023-05-18 |   4.0 | Applying mixall method to template Jonah made                              | leaving computer run over night due to runtime                                                               |
+|    3 | 2023-05-19 |   3.0 | Updated Mixall results with log transorms and various model disitributions | very long running time….                                                                                     |
+|    3 | 2023-05-19 |   2.0 | reading papers ricky suggested while running algorithms                    | NA                                                                                                           |
+
+My total weekly hours are: 22.5
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week? Running MixALL algo for clustering
+
+2.  What was your most significant **team contribution** to the project
+    this week? Meeting with the DEIL lab
+
+3.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project? Just running times, but we are utilizing
+    subsampling which is helping.
+
+| week | day        | hours | description                                                                                          | comments                                                                                         |
+|--:|:----|--:|:-------------------------------|:------------------------------|
+|    4 | 2023-05-23 |   3.0 | Meeting with Team + Client + TA                                                                      | NA                                                                                               |
+|    4 | 2023-05-23 |   3.0 | Computing cutoff values                                                                              | getting data rdy for plots for final prez                                                        |
+|    4 | 2023-05-23 |   1.0 | Brainstorming slides                                                                                 | thinking of slide structure for prez for modeling section                                        |
+|    4 | 2023-05-24 |   7.0 | team meeting + slides + presentation practice                                                        | trying to debug/fix cutoff values for MixAll as they didnt seem right after looking at visuals.. |
+|    4 | 2023-05-25 |   4.5 | Midterm presentation                                                                                 | 10 - 2:30                                                                                        |
+|    4 | 2023-05-25 |   2.0 | Team meeting + reflection                                                                            | reflection on our presentation and next steps for coming weeks                                   |
+|    4 | 2023-05-26 |   1.0 | Meeting with TA                                                                                      | Q and A session with TA                                                                          |
+|    4 | 2023-05-26 |   1.0 | Meeting with client                                                                                  | Re did our presentation with TA and talked about next steps                                      |
+|    4 | 2023-05-26 |   2.5 | Trying MixAll with different transformation and trying to debug what is happening with MixAll method |                                                                                                  |
+|    4 | 2023-05-26 |   1.0 | random thing throughout week                                                                         | reviewing logs/having to fix stashed changes.                                                    |
+
+My total weekly hours are: 26
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week? Finding cutoff values for the MixAll method.
+
+2.  What was your most significant **team contribution** to the project
+    this week? Contributing to our mideterm presentation.
+
+3.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project? not really this week.
+
+| week | day        | hours | description                                                                                                                                                                  | comments                                                                                                                                                  |
+|-:|:---|--:|:---------------------------------|:------------------------------|
+|    5 | 2023-05-29 |   1.5 | Team + Mentor meeting/ making slides                                                                                                                                         | NA                                                                                                                                                        |
+|    5 | 2023-05-29 |   3.0 | added new metrics + Method for ranking number of clusters                                                                                                                    | NA                                                                                                                                                        |
+|    5 | 2023-05-29 |   1.0 | Re running algos with new added metrics                                                                                                                                      | NA                                                                                                                                                        |
+|    5 | 2023-05-29 |   1.0 | Research                                                                                                                                                                     | methods robust to outliers… these are mostly all denisty based methods that can handle noise but for distance based, kmeans mediods (PAM) seems promising |
+|    5 | 2023-05-30 |   1.5 | Team meeting + TA                                                                                                                                                            | NA                                                                                                                                                        |
+|    5 | 2023-05-30 |   6.0 | Rewrote cutoff function to test if working properly, Changed way for finding optimal cluster function with Jesse’s suggestion, Mclust, k means with PAM (robust to outliers) | NA                                                                                                                                                        |
+|    5 | 2023-05-31 |   1.0 | Team meeting                                                                                                                                                                 | NA                                                                                                                                                        |
+|    5 | 2023-05-31 |   4.0 | DENCLUE model (density based)                                                                                                                                                | found denclue 2.0 paper. Implementation exists in R? through some paid course online. Attempted to fit to Python implementation. fail…                    |
+|    5 | 2023-06-01 |   2.5 | Team meeting/dynamics discussion                                                                                                                                             | NA                                                                                                                                                        |
+|    5 | 2023-06-01 |   3.0 | algorithm assumptions and how they work for previosuly fitted models                                                                                                         | final report                                                                                                                                              |
+|    5 | 2023-06-02 |   1.0 | client meeting                                                                                                                                                               | NA                                                                                                                                                        |
+|    5 | 2023-06-02 |   2.0 | cluster profiling                                                                                                                                                            | NA                                                                                                                                                        |
+|    5 | 2023-06-02 |   1.0 | random                                                                                                                                                                       | logs/emailing Jeff/ git                                                                                                                                   |
+
+My total weekly hours are: 28.5
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week? Fitting Mclust model and also a k-means model
+    called k-mediod, which is an algorithm that is robust to outliers.
+    The reason being was to see whether we get better metrics scores if
+    we directly handle these outliers. Surprisingly, the cutoff values
+    were very similiar to MixAll for some ammenities.
+
+2.  What was your most significant **team contribution** to the project
+    this week? Participating in our team dynamics meeting. I felt it was
+    super valuable to gauge how everyone in our group was feeling
+    mentally. We had a great group discussion and ironed out any
+    concerns thus far.
+
+3.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project? I think its important that we can find
+    an agreed upon way to find a best clustering algorithm with the
+    results we have thus far so we can highlight the group profiles.
+
+| week | day        | hours | description                                           | comments                                                 |
+|---:|:------|---:|:---------------------------|:-----------------------------|
+|    6 | 2023-06-05 |   2.0 | Meetings - team/mentor + slides                       | NA                                                       |
+|    6 | 2023-06-05 |   6.0 | Coding profiling algo/template                        | NA                                                       |
+|    6 | 2023-06-06 |   1.0 | Meeting                                               | Moderating team meeting/ discussing profiling approaches |
+|    6 | 2023-06-06 |   3.0 | final draft                                           | Writing on algos                                         |
+|    6 | 2023-06-07 |   2.5 | getting metrics for manual + metrics template algo    | NA                                                       |
+|    6 | 2023-06-07 |   2.0 | explanation on clustering algos - final draft         | NA                                                       |
+|    6 | 2023-06-08 |   7.0 | team dynamics/MDS social + Jeff meeting + final draft | NA                                                       |
+|    6 | 2023-06-09 |   4.5 | meeting team/client + final draft                     | taking minutes in client meeting                         |
+|    6 | 2023-06-10 |   2.5 | final draft review                                    | NA                                                       |
+|    6 | 2023-06-11 |   1.0 | final draft edit algo                                 | edit algo part annex                                     |
+|    6 | 2023-06-11 |   1.0 | logs + git + random                                   | NA                                                       |
+
+My total weekly hours are: 32.5
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week? Writing algorithm sections in the annex for
+    implemented algos.
+
+2.  What was your most significant **team contribution** to the project
+    this week? Jeff meeting and overall draft fro report.
+
+3.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project? No, everything seems to be in place in
+    terms of progress.
+
+| week | day        | hours | description                                                                    | comments             |
+|---:|:------|----:|:-------------------------------------------|:------------|
+|    7 | 2023-06-12 |   6.0 | Mentor slides + Team Meeting + Mentor Meeting + Final Report                   | NA                   |
+|    7 | 2023-06-13 |   5.0 | Team Meeting + Final Report                                                    | NA                   |
+|    7 | 2023-06-14 |   6.0 | Team Meeting + final presentationn slides prototype                            | NA                   |
+|    7 | 2023-06-15 |   5.0 | Team meeting + Final pres slides + TA meeting + client agenda                  | NA                   |
+|    7 | 2023-06-16 |   4.5 | Team meetings + final presentation + brainstorming final section + merge edits | NA                   |
+|    7 | 2023-06-18 |   2.0 | Final pres                                                                     | Brainstorming script |
+|    7 | 2023-06-18 |   0.5 | logs + git + random                                                            | NA                   |
+
+My total weekly hours are: 29
+
+### Weekly Reflection
+
+In this section, please write 5-7 sentences (in total) answering the
+following questions:
+
+1.  What was your most significant **individual contribution** to the
+    project this week? Merging Jesse’s suggested edits with our clients
+    edits into one document and working on last section of presentation
+    prototype.
+
+2.  What was your most significant **team contribution** to the project
+    this week? Working with our team to get finish final presentation
+    slides drafted along with final edits for the report to get to our
+    client for review.
+
+3.  Are there any major blockers or roadblocks preventing you from
+    proceeding on your project? No roadblocks as we move into our final
+    week.
+
 ## Summary Table
 
 To get the total for all the weekly hourly summary over each week use
@@ -104,3 +268,8 @@ the following (requires the **dplyr** package)
 |-----:|-------------------:|
 |    1 |              23.45 |
 |    2 |              26.00 |
+|    3 |              22.50 |
+|    4 |              26.00 |
+|    5 |              28.50 |
+|    6 |              32.50 |
+|    7 |              29.00 |
