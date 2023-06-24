@@ -99,7 +99,7 @@ My total weekly hours are: 28
 |    2 | 2023-05-11 |  2.00 | GitHub Issues                | Solved github push issues.                                                                                                                                               |
 |    2 | 2023-05-11 |  5.00 | EDA Vizualization            | Plot maps with PMS and NA values province wise (included running time).                                                                                                  |
 |    2 | 2023-05-12 |  4.50 | Team Meeting & Redo Proposal | Redo proposal together based on instructor feedback.                                                                                                                     |
-|    2 | 2023-05-12 |  1.00 | Miscellaneous                | Reviewed Pull Requests, Store Logs.                                                                                                                                      |
+|    2 | 2023-05-12 |  1.00 | Miscellaneous                | Reviewed Pull Requests, Stored Logs.                                                                                                                                     |
 
 My total weekly hours are: 36.65
 
@@ -131,23 +131,200 @@ My total weekly hours are: 36.65
     However, as the dataset is large it took long time to run models on
     the entire dataset.
 
-<!--
 ## Week 3
 
-<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first)
+<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first) -->
 
-My total weekly hours are: 
+| week | day        | hours | description   | comments                                                                                |
+|---:|:------|----:|:--------|:-----------------------------------------------|
+|    3 | 2023-05-15 |  1.00 | Made Slides   | Instructor meeting                                                                      |
+|    3 | 2023-05-15 |  3.50 | Meetings      | Team, Instructor & Client meetings                                                      |
+|    3 | 2023-05-15 |  0.50 | Miscellaneous | Worked on Proposal final edit/upload, short meeting                                     |
+|    3 | 2023-05-15 |  2.50 | Modeling      | Applied VarselLCM using diff techniques                                                 |
+|    3 | 2023-05-16 |  1.25 | Reading       | Articles/Papers on clustering                                                           |
+|    3 | 2023-05-16 |  2.00 | Meetings      | StatCan & TA meetings                                                                   |
+|    3 | 2023-05-16 |  0.50 | Issues        | Fixed GitHub Issues                                                                     |
+|    3 | 2023-05-16 |  3.50 | EDA Merge     | Merged mine and ricky’s EDA, modified visuals & codes                                   |
+|    3 | 2023-05-17 |  1.20 | EDA Merge     | Fixed compiling issues                                                                  |
+|    3 | 2023-05-17 |  1.50 | Meeting       | Team Meeting                                                                            |
+|    3 | 2023-05-17 |  3.75 | Modeling      | Clustering Tendency, validation                                                         |
+|    3 | 2023-05-18 |  1.50 | Modeling      | Applied VarselLCM using template, explore diff combinations of validation & data        |
+|    3 | 2023-05-18 |  0.50 | Meeting       | Team Meeting                                                                            |
+|    3 | 2023-05-18 |  8.00 | EDA Draft     | Updated EDA based on all team members feedback, handled compiling issues.               |
+|    3 | 2023-05-19 |  0.67 | Meeting       | Team Meeting                                                                            |
+|    3 | 2023-05-17 |  4.50 | Modeling      | Read Cluster Analysis articles, tried different validation metrics, tried on single pms |
+|    3 | 2023-05-17 |  1.20 | Miscellaneous | Reviewed Pull Requests, Stored Logs                                                     |
+
+My total weekly hours are: 37.57
 
 ### Weekly Reflection
 
-In this section, please write 5-7 sentences (in total) answering the following questions:
+<!-- In this section, please write 5-7 sentences (in total) answering the following questions: -->
+<!-- 1. What was your most significant **individual contribution** to the project this week? -->
 
-1. What was your most significant **individual contribution** to the project this week?
+-   My most significant individual contribution to the project this week
+    was merging the EDA first then update it based on all team members
+    feedback. Also found that we need to check clustering tendency
+    before applying clustering techniques.
 
-1. What was your most significant **team contribution** to the project this week?
+<!-- 2. What was your most significant **team contribution** to the project this week? -->
 
-1. Are there any major blockers or roadblocks preventing you from proceeding on your project?
--->
+-   My most significant team contribution was discussing questions about
+    project data with the DEIL team.
+
+<!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
+
+-   This week, I didn’t face any major roadblocks, aside from running
+    duration and interpretation.
+
+## Week 4
+
+<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first) -->
+
+| week | day        | hours | description           | comments                                          |
+|----:|:--------|-----:|:----------------|:------------------------------------|
+|    4 | 2023-05-23 |   3.0 | Meetings              | Team, TA & Client Meeting                         |
+|    4 | 2023-05-23 |   2.0 | Modeling              | Tried to fix Log Transformed VarselLCM            |
+|    4 | 2023-05-23 |   1.5 | Modeling              | Quartiles                                         |
+|    4 | 2023-05-23 |   1.5 | Presentation Slide    | EDA                                               |
+|    4 | 2023-05-24 |   7.0 | Presentation Prep     | Team Meetings, Slide Prep, Presentation Practise  |
+|    4 | 2023-05-25 |   4.5 | Mid Term Presentation | NA                                                |
+|    4 | 2023-05-25 |   2.0 | Team Meeting          | Presentation Reflection, Agendas                  |
+|    4 | 2023-05-26 |   2.0 | Meetings              | TA & Client Meeting                               |
+|    4 | 2023-05-26 |   2.0 | Modeling              | Quintile & Plotted models on other transformation |
+|    4 | 2023-05-26 |   0.5 | Miscellaneous         | Reviewed Pull Requests, Stored Logs               |
+
+My total weekly hours are: 26
+
+### Weekly Reflection
+
+<!-- In this section, please write 5-7 sentences (in total) answering the following questions: -->
+<!-- 1. What was your most significant **individual contribution** to the project this week? -->
+
+-   My most significant individual contribution to the project this week
+    was identifying that VarcelLCM is not suitable for Log-Transformed
+    data.
+
+<!-- 2. What was your most significant **team contribution** to the project this week? -->
+
+-   My most significant team contribution was working on the
+    presentation.
+
+<!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
+
+-   This week, I didn’t face any major roadblocks.
+
+## Week 5
+
+<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first) -->
+
+| week | day        | hours | description              | comments                                  |
+|----:|:---------|-----:|:-------------------|:--------------------------------|
+|    5 | 2023-05-29 |  1.50 | Meetings                 | Team & Instructor Meeting, Slide Prep     |
+|    5 | 2023-05-29 |  1.50 | Validation Metrics       | NA                                        |
+|    5 | 2023-05-29 |  3.00 | Study & Implement OPTICS | NA                                        |
+|    5 | 2023-05-30 |  4.67 | OPTICS                   | Explore results and parameters tuning     |
+|    5 | 2023-05-30 |  1.00 | Meetings                 | Team & TA Meetings                        |
+|    5 | 2023-05-31 |  5.00 | Jensk                    | Study, apply, validation, plot            |
+|    5 | 2023-05-31 |  1.00 | Team Meeting             | NA                                        |
+|    5 | 2023-06-01 |  2.50 | Quintile                 | Tried to match with existing one          |
+|    5 | 2023-06-01 |  2.25 | Meeting                  | Team meeting                              |
+|    5 | 2023-06-01 |  0.33 | Miscellaneous            | NA                                        |
+|    5 | 2023-06-02 |  0.67 | Final Report             | Method didn’t work                        |
+|    5 | 2023-06-02 |  1.00 | Meeting                  | Client Meeting                            |
+|    5 | 2023-06-02 |  1.00 | Quintile                 | EMail + Tried                             |
+|    5 | 2023-06-02 |  1.00 | Miscellaneous            | Reviewed Pull Requests, Stored Logs, etc. |
+
+My total weekly hours are: 26.42
+
+### Weekly Reflection
+
+<!-- In this section, please write 5-7 sentences (in total) answering the following questions: -->
+<!-- 1. What was your most significant **individual contribution** to the project this week? -->
+
+-   My most significant individual contribution to the project this week
+    was applying OPTICS and Jensk natural breaks clustering techniques.
+
+<!-- 2. What was your most significant **team contribution** to the project this week? -->
+
+-   My most significant team contribution was discussing about the team
+    dynamics.
+
+<!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
+
+-   This week, I didn’t face any major roadblocks. As a team we’re
+    facing issues with choosing the right clustering technique based on
+    validation metrics. Because different clustering techniques
+    suggesting different number of clusters but we need to pick one for
+    profiling.
+
+## Week 6
+
+<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first) -->
+
+| week | day        | hours | description                                             | comments                                         |
+|---:|:------|----:|:------------------------------|:--------------------------|
+|    6 | 2023-06-05 |  2.00 | Meetings                                                | Made slides & agendas, Instructor & Team meeting |
+|    6 | 2023-06-05 |  4.67 | Profiling                                               | NA                                               |
+|    6 | 2023-06-06 |  0.50 | Meeting                                                 | Team meeting                                     |
+|    6 | 2023-06-06 |  4.33 | Report writing & Cutoffs                                | NA                                               |
+|    6 | 2023-06-07 |  6.00 | Report writing & Team meeting                           | NA                                               |
+|    6 | 2023-06-08 |  6.50 | Meet & Greet, Team dynamics, Jeff Meeting, Report check | NA                                               |
+|    6 | 2023-06-09 |  5.00 | Team & Client Meeting, Report editing                   | NA                                               |
+|    6 | 2023-06-10 |  5.00 | QGIS, Report editing                                    | NA                                               |
+|    6 | 2023-06-10 |  1.00 | Miscellaneous                                           | Reviewed Pull Requests, Stored Logs, etc.        |
+
+My total weekly hours are: 35
+
+### Weekly Reflection
+
+<!-- In this section, please write 5-7 sentences (in total) answering the following questions: -->
+<!-- 1. What was your most significant **individual contribution** to the project this week? -->
+
+-   My most significant individual contribution to the project this week
+    was writing first draft for some sections.
+
+<!-- 2. What was your most significant **team contribution** to the project this week? -->
+
+-   My most significant team contribution was working on the final
+    report.
+
+<!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
+
+-   This week, I didn’t face any major roadblocks.
+
+## Week 7
+
+<!-- Add individual contributions here (be sure to call the **tidyverse** and **knitr** package first) -->
+
+| week | day        | hours | description                                 | comments                                  |
+|----:|:-------|----:|:---------------------------|:--------------------------|
+|    7 | 2023-06-12 |  6.00 | Meetings & Report Writing                   | Instructor & Team meeting                 |
+|    7 | 2023-06-13 |  4.58 | Report Writing                              | NA                                        |
+|    7 | 2023-06-13 |  1.00 | Visualization                               | QGIS                                      |
+|    7 | 2023-06-14 |  6.00 | Slides, Team Meeting & Visualization        | NA                                        |
+|    7 | 2023-06-15 |  6.50 | Slides & Visualization                      | NA                                        |
+|    7 | 2023-06-16 |  6.00 | Client meeting and Slides editing with team | NA                                        |
+|    7 | 2023-06-10 |  0.50 | Miscellaneous                               | Reviewed Pull Requests, Stored Logs, etc. |
+
+My total weekly hours are: 30.58
+
+### Weekly Reflection
+
+<!-- In this section, please write 5-7 sentences (in total) answering the following questions: -->
+<!-- 1. What was your most significant **individual contribution** to the project this week? -->
+
+-   My most significant individual contribution to the project this week
+    was making QGIS cluster visualizations on map.
+
+<!-- 2. What was your most significant **team contribution** to the project this week? -->
+
+-   My most significant team contribution was working on the final slide
+    deck.
+
+<!-- 3. Are there any major blockers or roadblocks preventing you from proceeding on your project? -->
+
+-   This week, I didn’t face any major roadblocks.
 
 ## Summary Table
 
@@ -157,3 +334,8 @@ In this section, please write 5-7 sentences (in total) answering the following q
 |-----:|-------------------:|
 |    1 |              28.00 |
 |    2 |              36.65 |
+|    3 |              37.57 |
+|    4 |              26.00 |
+|    5 |              26.42 |
+|    6 |              35.00 |
+|    7 |              30.58 |
