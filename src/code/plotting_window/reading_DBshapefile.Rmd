@@ -1,0 +1,44 @@
+---
+title: "Reading in DB Shapefile"
+author: "Jonah Edmundson"
+date: "`r format(Sys.time(), '%d %B, %Y %H:%M:%OS')`"
+output:
+  pdf_document: default
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Downloaded from [here](https://www12.statcan.gc.ca/census-recensement/2021/geo/sip-pis/boundary-limites/index2021-eng.cfm?year=21). 
+
+* * *
+
+```{r}
+library(terra)
+window = vect("../../../data/DB_shapefile/ldb_000b21a_e.shp")
+plot(window)
+```
+
+```{r}
+#Methods that didnt work:
+
+#library(sf)
+#canadaDBs = read_sf(dsn = "../../data/DB_shapefile")
+#load('./canadaDBs.Rdata')
+# library(spatstat)
+# library(maptools)
+# window = as.owin(canadaDBs)
+#######
+# library(fastshp)
+# library(ggplot2)
+# shp = read.shp("../../data/DB_shapefile/ldb_000b21a_e.shp", format="polygon")
+# shp.list <- sapply(shp, FUN = function(x) do.call(cbind, x[c("id","x","y")]))
+# shp.df <- as.data.frame(do.call(rbind, shp.list))
+# rm(shp, shp.list)
+# shp.gg <- ggplot(shp.df, aes(x = x, y=y, group = id))+geom_polygon()
+# shp.gg
+```
+
+
